@@ -1,0 +1,155 @@
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container">
+                <div class="add_acceess_head">
+                    <h2 class="text-primary">User Access Controll Informations</h2>
+                </div>
+                <div class="modal_closer">
+                    <button type="button" class="btn bg-danger text-white closerBtn"
+                        data-bs-dismiss="modal">X</button>
+                </div>
+                <!--  -->
+                <section style="margin-top: 0.3rem; margin-bottom: 0.15rem;">
+                    <div class="user-info">
+                        <table class="table access-table" style="width:98%; margin-bottom: 0rem;">
+                            <tbody style="display:flex; height: 28px; justify-content: space-between;">
+                                <tr class="user-infobody" style="width: 32%;">
+                                    <td style="display: flex; align-items: center;">
+                                        <i class='bx bx-objects-horizontal-center userInfo-icon'></i>
+                                        <!--  -->
+                                        <input type="hidden" class="form-control " value="{{access.user_id}}"
+                                            id="user_id" name="user_id">
+                                        <span style="margin-left: 10px; font-size: 0.7rem;">
+                                            {% if access.user_id %}{{access.user_id}}{% endif %}</span>
+                                    </td>
+                                </tr>
+                                <tr class="user-infobody" style="width: 32%;">
+                                    <td style="display: flex; align-items: center;">
+                                        <i class='bx bx-user userInfo-icon'></i>
+                                        <span style="margin-left: 10px; font-size: 0.7rem;">
+                                            {% if access.first_name %}{{access.first_name}}{% endif %}
+                                            {% if access.last_name %}{{access.last_name}}{% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="user-infobody" style="width: 32%;">
+                                    <td style="display: flex; align-items: center;">
+                                        <i class='bx bx-square-rounded userInfo-icon'></i>
+                                        <span style="margin-left: 10px; font-size: 0.7rem;">
+                                            {% if access.designation %}{{access.designation}}{% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- main body -->
+                <section style="margin-top: 0.3rem; margin-bottom: 0.3rem;">
+                    <div class="container-fluid">
+                        <!-- sub header -->
+                        <div class="row">
+                            <div class="col col-md-4 col-md-6 access-head">
+                                <div class="d-sm-flex align-items-center mb-2">
+                                    <i class='bx bxs-cog text-success access-dtl-icon'></i>
+                                    <h1 class="h3 text-success access-dtl-name">Access Controll</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--  -->
+                <section>
+                    <div class="user-AccessInfo">
+                        <div class="user-AccessDetails">
+                            <div class="card" style="width: 100%; margin-bottom: 0.5rem;">
+                                <div class="card-body">
+                                    <!--  -->
+                                    <ul class="nav nav-tabs tab-head" id="myTab" role="tablist">
+                                        <!--  -->
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" id="access-cont-tab" data-bs-toggle="tab"
+                                                href="#accessCon" type="button" role="tab"
+                                                style="font-size: 0.8rem; background: #68a382d4; color: #fff; border-top: #83bb9b;"
+                                                aria-controls="access-cont" aria-selected="true">
+                                                Access Modules & Features
+                                            </a>
+                                        </li>
+                                        <!-- second tab -->
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="access-store-tab" data-bs-toggle="tab"
+                                                href="#accessStore" type="button" role="tab"
+                                                style="font-size: 0.8rem; background: #68a382d4; color: #fff; border-top: #83bb9b;"
+                                                aria-controls="access-store" aria-selected="false">
+                                                Store Access
+                                            </a>
+                                        </li>
+                                        <!--  -->
+                                        <!-- all checkbox open all -->
+                                        <div class="all_open_checkbox">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="openAll"
+                                                    value="option1">
+                                                <label class="form-check-label allcheck_fontSize" for="openAll">Open
+                                                    All</label>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                    <!--  -->
+                                    <div class="tab-content" id="myTabContent">
+                                        <!-- 1st tab -->
+                                        <div class="tab-pane fade show active" id="accessCon" role="tabpanel"
+                                            aria-labelledby="access-cont-tab" tabindex="0">
+                                            <!--  -->
+                                            {% include 'user_list/feature_access_list.html' %}
+                                        </div>
+                                        <!-- 2nd tab -->
+                                        <div class="tab-pane fade" id="accessStore" role="tabpanel"
+                                            aria-labelledby="access-store-tab" tabindex="0">
+                                            <!--  -->
+                                            {% include 'user_list/store_access_list.html' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //
+    $(document).ready(function () {
+        // Get all checkboxes with class "form-check-input" (Checkbox 2)
+        const checkboxes2 = document.querySelectorAll('.form-check-input');
+
+        checkboxes2.forEach(checkbox2 => {
+            // Add an event listener to each Checkbox 2
+            checkbox2.addEventListener("change", function () {
+                // Find the corresponding Checkbox 1
+                const checkbox1 = document.getElementById("feature_" + this.id);
+
+                // Set the state of Checkbox 1 to match Checkbox 2
+                if (checkbox1) {
+                    checkbox1.checked = this.checked;
+                }
+            });
+        });
+        //
+        //==================================== nav-link active ====================================
+        // Set the initial background color for the active tab
+        $('.nav-link.active').css('background', '#518969');
+
+        // Handle click event on nav-links
+        $('.nav-link').on('click', function () {
+            // Remove 'active' class and reset background color from all tabs
+            $('.nav-link').removeClass('active').css('background', '#68a382d4');
+
+            // Add 'active' class and change the background color to red for the clicked tab
+            $(this).addClass('active').css('background', '#518969');
+        });
+    });
+</script>

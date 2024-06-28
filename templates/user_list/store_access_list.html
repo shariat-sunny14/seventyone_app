@@ -1,0 +1,355 @@
+<main>
+    <form id="save_store_access" action="" method="">
+        <input type="hidden" name="user_id" value="{% if access.pk %}{{access.pk}}{% endif %}">
+        <input type="hidden" name="org_id" value="{% if access.pk %}{{access.org_id}}{% endif %}">
+        <!--  -->
+        <section>
+            <div class="row row_item_setup" style="margin-top: 0.5rem;">
+                <div class="col-sm-6">
+                    <div class="card main-card">
+                        <div class="card-body card-body_item_setup">
+                            <div class="itemfilter_container">
+                                <div class="filter_head">
+                                    <h2 class="text-success">List of Org</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup" style="height: 300px;">
+                                                <!--  -->
+                                                <div class="org_searching_input"
+                                                    style="border-bottom: 1px solid rgb(211, 211, 211);">
+                                                    <input type="search" id="searchOrgdata"
+                                                        class="form-control search_control item_inputbox"
+                                                        style="margin-bottom: 0.3rem; background:#fffab6;"
+                                                        placeholder="Searching ..." autocomplete="off">
+                                                </div>
+                                                <!--  -->
+                                                <div>
+                                                    <table class="table table-striped"
+                                                        style="margin-top: 0.2rem; width: 100%; cursor: pointer;">
+                                                        <tbody id="orgTableBody"
+                                                            style="font-size: 0.75rem; background: #00683e;">
+                                                            <tr style="border-bottom: 1px solid #fff; color: #fff;">
+                                                                <td style="text-align: left;">
+                                                                    <!--  -->
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item set up main entry form -->
+                <div class="col-sm-6">
+                    <div class="card main-card">
+                        <div class="card-body card-body_item_setup">
+                            <div class="itemsetup_container">
+                                <div class="store_info_head">
+                                    <h2 class="text-primary">Org/Branch Store Info</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row row_item_setup">
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup" style="height: 300px;">
+                                                <div id="orgStoreList"></div>
+                                                <div id="branchStoreList"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- submit button -->
+        <div class="submit_button">
+            <button type="button" class="btn btn-danger modulesubmitBtn btn-sm" data-bs-dismiss="modal"
+                style="margin-right: 10px;">Close</button>
+            <button type="submit" class="btn btn-success modulesubmitBtn btn-sm"
+                style="margin-right: 10px;">Save</button>
+        </div>
+    </form>
+</main>
+<script>
+    //
+    $(function () {
+        $('#save_store_access').submit(function (e) {
+            e.preventDefault();
+    
+            // Clone the form data to include hidden inputs
+            var formData = new FormData($(this)[0]);
+    
+            // Iterate over all radio buttons and add hidden input for unchecked ones
+            $('input[name="is_default[]"]').each(function () {
+                if (!$(this).is(':checked')) {
+                    formData.append($(this).attr('name'), '0');
+                }
+            });
+    
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save_update_store_access' %}",
+                data: formData,
+                method: 'POST',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (resp) {
+                    if (resp.success) {
+                        toastr.success(resp.msg);
+                        location.reload();
+                    } else {
+                        toastr.error(resp.error_message);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+    //
+    $(document).ready(function () {
+        // Event listener for the search input field
+        $('#searchOrgdata').on('input', function () {
+            var searchTerm = $(this).val();
+            getOrganizationData(searchTerm);
+        });
+
+        // Event delegation for click event on dynamic elements with class "org-span"
+        $('#orgTableBody').on('click', '.org-span', function () {
+            var orgId = $(this).data('org_id');
+            // Call your Ajax function here using the orgId
+            // For example, you can use jQuery's $.ajax function
+            $.ajax({
+                url: '/get_orgid_wise_store_value/' + orgId + '/',  // Include the org_id in the URL
+                method: 'GET',
+                success: function (data) {
+                    updateTemplateWithData(data);
+                    checkDefaultStores(data);
+                    // Process the data returned from the server
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        // Function to fetch organization data using Ajax
+        function getOrganizationData(searchTerm) {
+            $.ajax({
+                type: 'GET',
+                url: '/get_store_access_org_data/',
+                data: { search: searchTerm },
+                success: function (data) {
+                    if (data.org_Data) {
+                        updateTable(data.org_Data);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error fetching organization data:', error);
+                }
+            });
+        }
+
+        // Function to update the table with organization data
+        function updateTable(orgData) {
+            var tableBody = $('#orgTableBody');
+            tableBody.empty();
+
+            if (orgData.length > 0) {
+                $.each(orgData, function (index, org) {
+                    var row = '<tr style="border-bottom: 1px solid #fff; color: #fff;">' +
+                        '<td class="org-span" data-org_id="' + org.org_id + '" style="text-align: left;">' +
+                        '<span>' + org.org_name + '</span>' +
+                        '</td>' +
+                        '</tr>';
+                    tableBody.append(row);
+                });
+            } else {
+                // Handle case when no data is available
+                tableBody.append('<tr><td colspan="1">No data available</td></tr>');
+            }
+        }
+
+        // Function to update the template with the returned data
+        function updateTemplateWithData(data) {
+            // Clear previous data
+            $('#orgStoreList').empty();
+            $('#branchStoreList').empty();
+
+            // Update org store list
+            if (data.org_store_list.length > 0) {
+                // Assuming you want to append store data to '#orgStoreList'
+                $.each(data.org_store_list, function (index, orgStoreDetail) {
+                    // Create a new table for each organization
+                    var orgTable = $('<table class="table access-featuretable"></table>');
+
+                    // Create the table header
+                    var orgTableHead = $('<thead style="border: 1px solid #57a378;"><tr><th colspan="2" class="access-typeName" style="text-align: left; border-bottom: 0!important;">' + orgStoreDetail.org_id__org_name + '</th></tr></thead>');
+                    orgTable.append(orgTableHead);
+
+                    // Create the table body
+                    var orgTableBody = $('<tbody style="font-size: 0.75rem; border: 1px solid #57a378;"></tbody>');
+                    $.each(orgStoreDetail.org_storeDtl, function (i, store) {
+                        var row = '<tr style="display: flex;">' +
+                            '<td style="width: 70%; display: flex; text-align: left;">' +
+                            '<input type="checkbox" name="store_ids[]" value="' + store.store_id + '">' +
+                            '<span style="margin-left: 0.5rem;">' + store.store_name + '</span>' +
+                            '</td>' +
+                            '<td style="width: 30%; display: flex; text-align: right;">' +
+                            '<span style="margin-right: 0.5rem;">Is Default</span>' +
+                            '<input type="radio" name="is_default[]" value="1">' +
+                            '<input type="hidden" name="is_default[]" value="0">' +
+                            '</td>' +
+                            '</tr>';
+                        orgTableBody.append(row);
+                    });
+
+                    orgTable.append(orgTableBody);
+
+                    // Append the created table to '#orgStoreList'
+                    $('#orgStoreList').append(orgTable);
+                });
+            }
+
+            // Update branch store list
+            if (data.branch_store_list.length > 0) {
+                // Assuming you want to append store data to '#branchStoreList'
+                $.each(data.branch_store_list, function (index, branchStoreDetail) {
+                    // Create a new table for each branch
+                    var branchTable = $('<table class="table access-featuretable"></table>');
+
+                    // Create the table header
+                    var branchTableHead = $('<thead style="border: 1px solid #57a378;"><tr><th colspan="2" class="access-typeName" style="text-align: left; border-bottom: 0!important;">' + branchStoreDetail.branch_id__branch_name + '</th></tr></thead>');
+                    branchTable.append(branchTableHead);
+
+                    // Create the table body
+                    var branchTableBody = $('<tbody style="font-size: 0.75rem; border: 1px solid #57a378;"></tbody>');
+                    $.each(branchStoreDetail.branch_storeDtl, function (i, store) {
+                        var row = '<tr style="display: flex;">' +
+                            '<td style="width: 70%; display: flex; text-align: left;">' +
+                            '<input type="checkbox" name="store_ids[]" value="' + store.store_id + '">' +
+                            '<span style="margin-left: 0.5rem;">' + store.store_name + '</span>' +
+                            '</td>' +
+                            '<td style="width: 30%; display: flex; text-align: right;">' +
+                            '<span style="margin-right: 0.5rem;">Is Default</span>' +
+                            '<input type="radio" name="is_default[]" value="1">' +
+                            '<input type="hidden" name="is_default[]" value="0">' +
+                            '</td>' +
+                            '</tr>';
+                        branchTableBody.append(row);
+                    });
+
+                    branchTable.append(branchTableBody);
+
+                    // Append the created table to '#branchStoreList'
+                    $('#branchStoreList').append(branchTable);
+                });
+            }
+        }
+
+        function checkDefaultStores(data) {
+            // Check if select_store_access_data and storeacc_data are defined
+            if (data.select_store_access_data && data.select_store_access_data.storeacc_data) {
+                var storeacc_data = data.select_store_access_data.storeacc_data;
+        
+                // Loop through all checkboxes
+                $('input[name="store_ids[]"]').each(function() {
+                    var checkbox = $(this);
+                    var storeId = parseInt(checkbox.val()); // Convert to integer for comparison
+        
+                    // Check if store_id exists in storeacc_data
+                    var storeFound = storeacc_data.some(function(store) {
+                        return parseInt(store.store_id) === storeId;
+                    });
+        
+                    // Set checkbox status based on storeFound
+                    checkbox.prop('checked', storeFound);
+        
+                    // Check the radio button if is_default is true
+                    if (storeFound && storeacc_data.find(store => parseInt(store.store_id) === storeId).is_default) {
+                        checkbox.closest('tr').find('input[type="radio"]').prop('checked', true);
+                    }
+                });
+            } else {
+                console.error('storeacc_data is not defined or is not an array');
+            }
+        }
+
+        // Call the function to fetch and update organization data initially
+        getOrganizationData('');
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<!-- org wise store -->
+<!-- <table id="org_wise_store" class="table access-featuretable">
+                                                    <thead style="border: 1px solid #57a378;">
+                                                        <tr>
+                                                            <th colspan="2" class="access-typeName" style="text-align: left; border-bottom: 0!important;">
+                                                                org.org_id__org_name
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="font-size: 0.75rem; border: 1px solid #57a378;">
+                                                        <tr style="display: flex;">
+                                                            <td style="width: 70%; display: flex; text-align: left;">
+                                                                <input type="checkbox" value="org.store_id">
+                                                                <span style="margin-left: 0.5rem;">org.store_name</span>
+                                                            </td>
+                                                            <td style="width: 30%; display: flex; text-align: right;">
+                                                                <span style="margin-right: 0.5rem;">Is Default</span>
+                                                                <input type="radio" name="is_default" value="1">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table> -->
+<!-- Branch wise store -->
+<!-- <table id="branch_wise_store" class="table access-featuretable">
+                                                    <thead style="border: 1px solid #57a378;">
+                                                        <tr>
+                                                           
+                                                            <th colspan="2" class="access-typeName" style="text-align: left; border-bottom: 0!important;">
+                                                                branch.branch_id__branch_name
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="font-size: 0.75rem; border: 1px solid #57a378;">
+                                                        <tr style="display: flex;">
+                                                            <td style="width: 70%; display: flex; text-align: left;">
+                                                                <input type="checkbox" value="branch.store_id">
+                                                                <span style="margin-left: 0.5rem;">branch.store_name</span>
+                                                            </td>
+                                                            <td style="width: 30%; display: flex; text-align: right;">
+                                                                <span style="margin-right: 0.5rem;">Is Default</span>
+                                                                <input type="radio" name="is_default" value="1">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table> -->

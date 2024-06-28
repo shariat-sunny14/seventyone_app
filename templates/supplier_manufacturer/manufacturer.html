@@ -1,0 +1,787 @@
+<section>
+    <div class="container-fluid">
+        <!-- Main Heading -->
+        <div class="row">
+            <div class="col col-md-4 col-md-6 dashboar-head">
+                <div class="d-sm-flex align-items-center mb-2">
+                    <i class='bx bx-devices text-success req-head-icon'></i>
+                    <h1 class="h3 text-success req-head">Manufacturer Setup</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  -->
+<section>
+    <div class="row row_item_setup" style="color: #58555E;">
+        <div class="col-sm-5">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-warning">Filtering</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup"
+                                        style="display: flex; justify-content: center;">
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio2" type="radio" name="manuOption"
+                                                value="true" id="manuActive">
+                                            <label class="form-check-label" for="manuActive">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio3" type="radio" name="manuOption"
+                                                value="false" id="manuInactive">
+                                            <label class="form-check-label" for="manuInactive">Inactive</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio1" type="radio" name="manuOption"
+                                                value="1" id="manuAll">
+                                            <label class="form-check-label" for="manuAll">All</label>
+                                        </div>
+                                        <div class="form-check form-check-inline"
+                                            style="position: relative; z-index: 1;">
+                                            <a href="/supplier_manufacturer_setup"
+                                                class="btn btn-danger text-white btn-xs item_del_btn">
+                                                Clear
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="supp_list_head">
+                            <h2 class="text-success">List of Menufecturer</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <!--  -->
+                                        <div class="sup_menu_list">
+                                            <table id="" class="table table-striped table-hover" style="width: 100%;">
+                                                <thead class="text-center table-header_itemlist">
+                                                    <tr>
+                                                        <th style="text-align:center; width: 20%;">Manufac. No</th>
+                                                        <th style="text-align:center; width: 60%;">Manufac. Name</th>
+                                                        <th style="text-align:center; width: 15%;">Status</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="4"
+                                                            style="text-align:center; background: #fff !important;">
+                                                            <input type="text" id="menufecsearch"
+                                                                class="form-control search_control item_inputbox"
+                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                placeholder="Searching ..." autocomplete="off">
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="manu_filter_body" class="table-body-row"
+                                                    style="text-align:center; cursor: pointer;">
+                                        
+                                                </tbody>
+                                                <!-- loader start -->
+                                                <section class="loader-section">
+                                                    <div class="loader-body_menu">
+                                                        <div class="loader_menu">
+                                                            <div class="upper ball"></div>
+                                                            <div class="right ball"></div>
+                                                            <div class="lower ball"></div>
+                                                            <div class="left ball"></div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <!-- loader end -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- manufacturer setup main entry form -->
+        <div class="col-sm-7">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <form action="" method="" id="manu_form">
+                        <input type="hidden" id="id_manufac_id" name="manufac_id" value="">
+                        <div class="itemsetup_container">
+                            <div class="add_edit_head">
+                                <h2 class="text-primary">New/Update Manufacturer Information</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row row_item_setup">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <div class="col-sm-12" style="display: flex; justify-content: right; 
+                                                                margin-bottom: 10px; font-size: 14px;">
+                                                                    <!-- active filter checkbox -->
+                                                                    <div
+                                                                        class="form-check form-check-inline div_id_is_active">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="id_is_active_manu" value="1"
+                                                                            name="is_active">
+                                                                        <label class="form-check-label text-danger"
+                                                                            for="id_is_active_manu">Active?</label>
+                                                                    </div>
+                                                                    <div
+                                                                        class="form-check form-check-inline div_id_manufacturer_flag">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="id_manufacturer_flag_manu" value="1"
+                                                                            name="manufacturer_flag">
+                                                                        <label class="form-check-label"
+                                                                            for="id_manufacturer_flag_manu">Manufacturer
+                                                                            Flag</label>
+                                                                    </div>
+                                                                    <div
+                                                                        class="form-check form-check-inline div_id_foreign_flag">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="id_foreign_flag_manu" value="1"
+                                                                            name="foreign_flag">
+                                                                        <label class="form-check-label"
+                                                                            for="id_foreign_flag_manu">Foreign
+                                                                            Flag</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <!-- 1st row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-4">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufac_no">
+                                                                <label for="id_manufac_no"
+                                                                    class="col-sm-6 col-form-label font_size_filter required">Manufac.
+                                                                    No:</label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_manufac_no" name="manufac_no" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufac_name">
+                                                                <label for="id_manufac_name"
+                                                                    class="col-sm-4 col-form-label font_size_filter required">Manufac.
+                                                                    Name:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_manufac_name" name="manufac_name" autocomplete="off"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 2nd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_company_name">
+                                                                <label for="id_company_name"
+                                                                    class="col-sm-s1 col-form-label font_size_filter required">Comp.
+                                                                    Name:</label>
+                                                                <div class="col-sm-s10">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_company_name_menu" name="company_name" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 3rd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_description">
+                                                                <label for="id_description"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">Description:</label>
+                                                                <div class="col-sm-s10">
+                                                                    <textarea class="form-control item_inputbox"
+                                                                        id="id_description_menu" name="description"
+                                                                        style="height: 28px; margin-bottom: 5px;" autocomplete="off"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 4th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_address">
+                                                                <label for="id_address"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">Address:</label>
+                                                                <div class="col-sm-s10">
+                                                                    <textarea class="form-control item_inputbox"
+                                                                        id="id_address_menu" name="address"
+                                                                        style="height: 28px; margin-bottom: 5px;" autocomplete="off"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 5th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_phone">
+                                                                <label for="id_phone"
+                                                                    class="col-sm-s3 col-form-label font_size_filter required">Phone:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="number"
+                                                                        class="form-control item_inputbox" id="id_phone_menu"
+                                                                        name="phone" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_mobile">
+                                                                <label for="id_mobile"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Mobile:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number"
+                                                                        class="form-control item_inputbox" autocomplete="off"
+                                                                        id="id_mobile_menu" name="mobile">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 6th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufac_email">
+                                                                <label for="id_manufac_email"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Email:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="email"
+                                                                        class="form-control item_inputbox" autocomplete="off"
+                                                                        id="id_manufac_email" name="manufac_email">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufac_fax">
+                                                                <label for="id_manufac_fax"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Fax:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number"
+                                                                        class="form-control item_inputbox" id="id_manufac_fax" 
+                                                                        name="manufac_fax" autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 7th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufac_web">
+                                                                <label for="id_manufac_web"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Web:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox" id="id_manufac_web" 
+                                                                        name="manufac_web" autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_account_no">
+                                                                <label for="id_account_no"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Acc.
+                                                                    No:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number"
+                                                                        class="form-control item_inputbox" id="id_account_no_menu" 
+                                                                        name="account_no" autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 8th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufac_remarks">
+                                                                <label for="id_manufac_remarks"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">Remarks:</label>
+                                                                <div class="col-sm-s10">
+                                                                    <textarea class="form-control item_inputbox"
+                                                                        id="id_manufac_remarks" name="manufac_remarks"
+                                                                        style="height: 28px; margin-bottom: 5px;" autocomplete="off"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- supplier -->
+                            <div class="row row_item_setup">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <!-- supplier add in item wise -->
+                                            <div class="supplier_container">
+                                                <div class="supplier_head">
+                                                    <h2 class="text-info">Contact Person Info</h2>
+                                                </div>
+                                                <!--  -->
+                                                <div class="card-body card-body_item_setup">
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <!-- 1nd row -->
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_contact_person">
+                                                                                        <label for="id_contact_person"
+                                                                                            class="col-sm-sm2 col-form-label font_size_filter">
+                                                                                            Cont. Person:
+                                                                                        </label>
+                                                                                        <div class="col-sm-sm10">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_contact_person_menu"
+                                                                                                name="contact_person" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- 2nd row -->
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_job_title">
+                                                                                        <label for="id_job_title"
+                                                                                            class="col-sm-sm2 col-form-label font_size_filter">Job
+                                                                                            title:</label>
+                                                                                        <div class="col-sm-sm10">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_job_title_menu" name="job_title"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- 3rd row -->
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_con_per_Phone">
+                                                                                        <label for="id_con_per_Phone"
+                                                                                            class="col-sm-sm2 col-form-label font_size_filter">Phone:</label>
+                                                                                        <div class="col-sm-sm10">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_con_per_Phone_menu" name="con_per_Phone" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- submit button -->
+                                            <div class="submit_button">
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    style="margin-right: 10px;" onclick="$('#manu_form')[0].reset();">
+                                                    Clear
+                                                </button>
+                                                <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                                    style="margin-right: 10px;">
+                                                    Save & Update
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function menu_populateTable(data) {
+
+            // item history
+            for (var i = 0; i < data.menufec_Dtls.length; i++) {
+                var menufecture = data.menufec_Dtls[i];
+
+                var manufac_id = menufecture.manufac_id;
+                var manufac_no = menufecture.manufac_no;
+                var manufac_name = menufecture.manufac_name;
+                var company_name_menu = menufecture.company_name;
+                var description_menu = menufecture.description;
+                var address_menu = menufecture.address;
+                var phone_menu = menufecture.phone;
+                var mobile_menu = menufecture.mobile;
+                var manufac_email = menufecture.manufac_email;
+                var manufac_fax = menufecture.manufac_fax;
+                var manufac_web = menufecture.manufac_web;
+                var account_no_menu = menufecture.account_no;
+                var manufac_remarks = menufecture.manufac_remarks;
+                var contact_person_menu = menufecture.contact_person;
+                var job_title_menu = menufecture.job_title;
+                var con_per_Phone_menu = menufecture.con_per_Phone;
+                var is_active_menu = menufecture.is_active;
+                var manufacturer_flag_menu = menufecture.manufacturer_flag;
+                var foreign_flag_menu = menufecture.foreign_flag;
+
+                // Get the checkbox input element by its ID
+                var is_activeMenuCheckbox = document.getElementById("id_is_active_manu");
+                var is_manufacturer_flagMenuCheckbox = document.getElementById("id_manufacturer_flag_manu");
+                var is_foreign_flagMenuCheckbox = document.getElementById("id_foreign_flag_manu");
+
+                // Set the checked attribute based on the is_active value
+                is_activeMenuCheckbox.checked = is_active_menu;
+                is_manufacturer_flagMenuCheckbox.checked = manufacturer_flag_menu;
+                is_foreign_flagMenuCheckbox.checked = foreign_flag_menu;
+
+                $("#id_manufac_id").val(manufac_id);
+                $("#id_manufac_no").val(manufac_no);
+                $("#id_manufac_name").val(manufac_name);
+                $("#id_company_name_menu").val(company_name_menu);
+                $("#id_description_menu").val(description_menu);
+                $("#id_address_menu").val(address_menu);
+                $("#id_phone_menu").val(phone_menu);
+                $("#id_mobile_menu").val(mobile_menu);
+                $("#id_manufac_email").val(manufac_email);
+                $("#id_manufac_fax").val(manufac_fax);
+                $("#id_manufac_web").val(manufac_web);
+                $("#id_account_no_menu").val(account_no_menu);
+                $("#id_manufac_remarks").val(manufac_remarks);
+                $("#id_contact_person_menu").val(contact_person_menu);
+                $("#id_job_title_menu").val(job_title_menu);
+                $("#id_con_per_Phone_menu").val(con_per_Phone_menu);
+
+                console.log("menufecture_list:", menufecture);
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".menufec_editBtn", function () {
+            var menufecID = $(this).data("menufec-id"); // Get the item_id from the data attribute
+            
+            $.ajax({
+                type: "GET",
+                url: "/get_menufecture_lists/" + menufecID + "/",
+                dataType: "json",
+                success: function (data) {
+                    menu_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Manufecturer details");
+                }
+            });
+        });
+    });
+
+    //
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialMenuData();
+        handleMenuRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="manuOption"]').change(function () {
+            var option = $(this).val();
+
+            // Save the selected option to local storage
+            localStorage.setItem('menufectureOption', option);
+
+            // Load items
+            loadmenufecture();
+        });
+
+        // Load items based on the search query
+        loadsupplierFromSearch();
+
+        // Function to load items based on the search query
+        function loadsupplierFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedmenusearchQuery = localStorage.getItem("menusearchQuery");
+            var menufecsearch = $('#menufecsearch');
+
+            // Check if there's a saved search query
+            if (savedmenusearchQuery) {
+                // Set the search input value
+                menufecsearch.val(savedmenusearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            menufecsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("menusearchQuery", query);
+                loadmenufecture();
+            });
+
+            // Trigger the search on page load
+            loadmenufecture();
+        }
+
+        function loadInitialMenuData() {
+            // Retrieve the selected option from local storage
+            var menuinitialOption = localStorage.getItem('menufectureOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="manuOption"][value="' + menuinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadmenufecture();
+        }
+
+        function loadmenufecture() {
+            // Get the current search query and option from local storage
+            var menusearchQuery = localStorage.getItem("menusearchQuery") || '';
+            var manuOption = localStorage.getItem('menufectureOption') || 'true';
+
+            // Make Ajax request
+            $.ajax({
+                type: 'GET',
+                url: '/list_of_menufecturer/',
+                data: {
+                    'manuOption': manuOption,
+                    'menu_search_query': menusearchQuery
+                },
+                success: function (data) {
+                    // Update the table with filtered data
+                    updateMenuTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateMenuTable(data) {
+            var tablemenuBody = $('#manu_filter_body');
+            tablemenuBody.empty();
+
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+
+                if (data.data) {
+                    $.each(data.data, function (index, menufec) {
+                        var statusText = menufec.is_active ? 'Active' : 'Inactive';
+                        var statusClass = menufec.is_active ? 'active-status' : 'inactive-status';
+
+                        tablemenuBody.append(`<tr class="menufec_editBtn" data-menufec-id="${menufec.manufac_id}">
+                            <td style="text-align: left;"><span style="margin-left: 5px;">${menufec.manufac_no}</span></td>
+                            <td style="text-align: left;">${menufec.manufac_name}</td>
+                            <td class="status_act_inac ${statusClass}" style="text-align: center;">${statusText}</td>
+                        </tr>`);
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleMenuRowSelection();
+        }
+
+        $(function () {
+            $('#manu_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'menufecture_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadmenufecture();
+                            showLoader_menu();
+                            $('#manu_form')[0].reset();
+                            // Hide loader
+                            setTimeout(function () {
+                                hideLoader_menu();
+                            }, 1100);
+                            
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleMenuRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedManuID = localStorage.getItem("selectedManuID");
+        if (selectedManuID) {
+            $(".menufec_editBtn").removeClass("selected-row");
+            $(".menufec_editBtn[data-menufec-id='" + selectedManuID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".menufec_editBtn", function () {
+            var clickedManuID = $(this).data("menufec-id");
+            $(".menufec_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedManuID", clickedManuID);
+        });
+    }
+
+    //==========================================
+    //loader 
+    const loader_menu = document.querySelector(".loader_menu");
+    const loaderBody_menu = document.querySelector(".loader-body_menu");
+
+    // Function to show the loader
+    function showLoader_menu() {
+        loader_menu.style.display = "block";
+        loaderBody_menu.style.display = "block";
+        loader_menu.style.left = "50%"; // Set left position to center
+        loader_menu.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideLoader_menu() {
+        loader_menu.style.display = "none";
+        loaderBody_menu.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndShowLoader_menu() {
+        const loaderVisible_menu = localStorage.getItem("loaderVisible_menu");
+        if (loaderVisible_menu === "true") {
+            showLoader_menu();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="manuOption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showLoader_menu(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideLoader_menu(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndShowLoader_menu();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideLoader_menu();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+</script>

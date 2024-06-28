@@ -1,0 +1,834 @@
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row" style="display: flex; justify-content: center; text-align: center; align-items: center;">
+                    <div class="col col-md-12 col-md-12 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <div class="col-md-12" style="display: flex; align-items: center;">
+                                <div class="col-md-5" style="display: flex;">
+                                    <i class='bx bx-wallet-alt text-white req-head-icon'></i>
+                                    <h1 class="h3 text-white req-head">Refund Amounts</h1>
+                                </div>
+                                <!--  -->
+                                <div class="col-md-7" style="display: flex; justify-content: right;">
+                                    <!--  -->
+                                    <button type="button" onClick="location.href='/item_pos_billing'"
+                                        class="btn bg-warning bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
+                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem;">
+                                        Billing
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                <form action="" id="ref_amt_form">
+                    <section>
+                        <div class="card main_pos_card">
+                            <div class="row cash_point_row">
+                                <div class="col-sm-12">
+                                    <div class="card pos_card">
+                                        <div class="card-body pos_card_body">
+                                            <div class="row cash_point_row">
+                                                <div class="col-sm-4">
+                                                    <div class="card pos_card" style="margin-top: 18px;">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <label for="cash_point"
+                                                                    class="col-sm-2-mody col-form-label invLabel">
+                                                                    Invoice No
+                                                                </label>
+                                                                <div class="col-sm-7-mody">
+                                                                    <input type="number" value="" name="refAmt_searchID" id="refAmt_searchID"
+                                                                        class="form-control text-center pos_inputbox"
+                                                                        placeholder="Searching by Invoice ID" autocomplete="off"
+                                                                        required>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-3">
+                                                                    <button type="button"
+                                                                        class="btn bg-info text-white btn-xs due_invDBtn load-data"
+                                                                        id="refAmt_searchBtn">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-5">
+                                                    <div class="card pos_card">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <label for="cash_point" style="margin-top: 18px;"
+                                                                    class="col-sm-3-mody col-form-label invLabel">
+                                                                    Customer Info.
+                                                                </label>
+                                                                <div class="col-sm-9-mody">
+                                                                    <textarea style="height: 62px; color: #037c83;" type="text" class="form-control ref_amt_invDetails pos_inputbox" readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-4_mody">
+                                                    <div class="card pos_card">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <!--  -->
+                                                                <div class="invoice_status">
+                                                                    <h2 class="ref_amt_invoice_statusDtl"></h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--  -->
+                    <section>
+                        <div class="col-xl-12">
+                            <div class="table-body item_table_body">
+                                <div class="d-flex w-100" id="refundTB">
+                                    <table class="table table-striped" style="width: 100%;" id="mul_item_tbl">
+                                        <thead class="text-center table-header_itemlist">
+                                            <tr style="border-style: hidden!important;">
+                                                <th style="text-align:center; width: 3%;">Sl</th>
+                                                <th style="text-align:center;">Item No</th>
+                                                <th style="text-align:center; width: 20%;">Item Name</th>
+                                                <th style="text-align:center;">Type</th>
+                                                <th style="text-align:center;">Batch</th>
+                                                <th style="text-align:center;">S.Rate</th>
+                                                <th style="text-align:center;">S.Qty</th>
+                                                <th style="text-align:center;">Item Dis</th>
+                                                <th style="text-align:center;">Can Qty</th>
+                                                <th style="text-align:center; width: 8%;">Total Bill</th>
+                                                <th style="text-align:center; width: 15%;">Cancel Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="Refamt_tbody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--  -->
+                    <section style="margin-top: 2rem; margin-bottom: 10px;">
+                        <div class="row cash_point_row">
+                            <!--  -->
+                            <div class="col-sm-4">
+                                <div class="card main_pos_card">
+                                    <div class="status_head">
+                                        <h2>Bill Summary Status</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_bill_ref" class="col-sm-2 col-form-label">Total Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    name="total_bill_ref" value="0">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_total_bill_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_vat_tax_ref" class="col-sm-2 col-form-label">Total VAT TAX:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_vat_tax_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_total_vat_tax_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_gross_dis_ref" class="col-sm-2 col-form-label">Total Gross Dis:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_gross_dis_ref">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_total_gross_dis_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_ref_amt" class="col-sm-2 col-form-label">Carrying Cost:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="carrying_cost_ref_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_carrying_cost_ref_amt">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_ins_coll_amt_ref" class="col-sm-2 col-form-label">Instant Collection:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="ins_coll_amt_ref">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_ins_coll_amt_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_due_collection_ref" class="col-sm-2 col-form-label">Due Collection:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_due_collection_ref">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_total_due_collection_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card main_pos_card">
+                                    <div class="status_head">
+                                        <h2>Bill Cancel Status</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_cancel_bill_ref" class="col-sm-2 col-form-label">Cancel Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    name="total_cancel_bill_ref" value="0">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_total_cancel_bill_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_cancel_vat_tax_ref" class="col-sm-2 col-form-label">Cancel VAT TAX:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="cancel_vat_tax_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_cancel_vat_tax_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_cancel_gross_disc_ref" class="col-sm-2 col-form-label">Cancel Gross Dis:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_cancel_gross_disc_ref">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_total_cancel_gross_disc_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_refund_amt_ref" class="col-sm-2 col-form-label">Refund Amt.:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_refund_amt_ref">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_total_refund_amt_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <!--  -->
+                            <div class="col-sm-4">
+                                <div class="card main_pos_card">
+                                    <div class="status_head">
+                                        <h2>Overall Summary Status</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_tot_net_bills_ref" class="col-sm-2  col-form-label">Total Net Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="tot_net_bills_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_tot_net_bills_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_net_vat_tax_ref" class="col-sm-2  col-form-label">Net Vat Tax (+):</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="total_net_vat_tax_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_total_net_vat_tax_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_net_discount_ref" class="col-sm-2  col-form-label">Net Discount (-):</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="total_net_discount_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_total_net_discount_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_grand_total_net_bill_ref" class="col-sm-2  col-form-label">Grand Net Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="grand_total_net_bill_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_grand_total_net_bill_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_ref" class="col-sm-2  col-form-label">Carrying Cost (-):</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="carrying_cost_ref">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_grand_total_pay_amt_ref" class="col-sm-2 col-form-label">Total Pay Amt:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="grand_total_pay_amt_ref">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_grand_total_pay_amt_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_total_due_amount_ref" class="col-sm-2 text-danger col-form-label">
+                                                Due Amount:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="total_due_amount_ref" readonly>
+                                                <span class="form-control paymentDtl pos_inputbox text-danger" id="id_total_due_amount_ref">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collection status -->
+                            <div class="col-sm-12" style="margin-top: 2rem;">
+                                <div class="card main_pos_card">
+                                    <div class="coll_status">
+                                        <h2>Bill Collection Summary</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body">
+                                        <div class="col-xl-12">
+                                            <div class="table-body item_table_body">
+                                                <table id="" class="table  paymode_table" style="width: 100%;">
+                                                    <!--  -->
+                                                    <table id="" class="table  paymode_table" style="width: 100%;">
+                                                        <tbody>
+                                                            <tr style="display: flex; margin-right: 0px;">
+                                                                <td class="remarks-label"
+                                                                    style="border-style: hidden!important; width: 5%; margin-right: 10px;">
+                                                                    Remarks:
+                                                                </td>
+                                                                <td
+                                                                    style="text-align:center; width: 93.5%; border-style: hidden!important;">
+                                                                    <div class="col-sm-12">
+                                                                        <input type="text" style="margin-left: -3px;"
+                                                                            id="remarks_ref" name="remarks_ref"
+                                                                            class="form-control pos_inputbox">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <!--  -->
+                                                    <table id="" class="table paymode_table" style="width: 100%;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="text-align:center;width: 20%;">Pay Mode</td>
+                                                                <td style="text-align:center;width: 20%;">
+                                                                    Collection Mode
+                                                                </td>
+                                                                <td style="text-align:center; width: 20%;">Pay Amt</td>
+                                                                <td style="text-align:center;width: 20%;">Given Amt</td>
+                                                                <td style="text-align:center;width: 20%;">Change Amt</td>
+                                                                <td style="text-align:center;width: 20%;">Opt.</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody>
+                                                            <tr style="border-style: hidden!important;">
+                                                                <td style="text-align:center;width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
+                                                                        <select id="pay_mode_ref" name="pay_mode_ref"
+                                                                            class="form-select pos_inputbox"
+                                                                            aria-label="Default select example">
+                                                                            <option value="1">Cash</option>
+                                                                            <option value="2">Check</option>
+                                                                            <option value="2">Debit Card</option>
+                                                                            <option value="2">Credit Card</option>
+                                                                            <option value="3">Bkash</option>
+                                                                            <option value="3">Nagad</option>
+                                                                            <option value="3">Upay</option>
+                                                                            <option value="3">UCash</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center; width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
+                                                                        <select id="pay_Collection_mode_ref" name="pay_Collection_mode_ref"
+                                                                            class="form-select pos_inputbox"
+                                                                            aria-label="Default select example">
+                                                                            <option value="3" id="refundOption">Refund</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center; width: 20%;">
+                                                                    <div class="col-sm-12" id="payment_input" style="width: 95%; margin-left: 15px;">
+                                                                        <input type="number" class="form-control pos_inputbox" style="text-align:center"
+                                                                            id="total_payment_amt_ref" name="total_payment_amt_ref" value="0"
+                                                                            autocomplete="off" min="1" oninput="validity.valid||(value='');" step="0.01">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center;width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
+                                                                        <input type="number" class="form-control pos_inputbox"
+                                                                            id="given_amt_ref" name="given_amt_ref" value=""
+                                                                            style="text-align:center" autocomplete="off" min="1" oninput="validity.valid||(value='');">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center;width: 20%;">
+                                                                    <div class="col-sm-12 change_amt_status" style="width: 90%; margin-left: 15px;">
+                                                                        <input type="number" class="form-control pos_inputbox"
+                                                                            id="change_amt_ref" name="change_amt_ref" value=""
+                                                                            style="text-align:center" readonly
+                                                                            autocomplete="off" min="1" oninput="validity.valid||(value='');">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center;width: 10%;">
+                                                                    <button type="button" onclick="payRefcalcFun()"
+                                                                        class="btn btn-primary text-white btn-xs calcBtn">Calc</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <!--  -->
+                                                    </table>
+                                                    <!--  -->
+                                                    <table id="otherType" class="table paymode_table"
+                                                        style="width: 100%; display: none;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="text-align:center;width: 20%;">CQ/CC/DC/DD/MB/OP</td>
+                                                                <td style="text-align:center;width: 20%;">Mobile Number</td>
+                                                                <td style="text-align:center; width: 20%;">Reference</td>
+                                                                <td style="text-align:center;width: 20%;">Bank Name</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody>
+                                                            <tr style="border-style: hidden!important;">
+                                                                <td style="text-align:center; width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
+                                                                        <input type="text" class="form-control pos_inputbox" style="text-align: left;"
+                                                                            id="card_info_ref" name="card_info_ref"
+                                                                            style="text-align:center">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center; width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
+                                                                        <input type="number" class="form-control pos_inputbox" style="text-align: left;"
+                                                                            id="pay_mob_number_ref" name="pay_mob_number_ref"
+                                                                            style="text-align:center">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center; width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
+                                                                        <input type="text" class="form-control pos_inputbox" style="text-align: left;"
+                                                                            id="pay_reference_ref" name="pay_reference_ref"
+                                                                            style="text-align:center">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center; width: 20%;">
+                                                                    <div class="col-sm-12" style="width: 90%; margin-left: 15px;">
+                                                                        <input type="text" class="form-control pos_inputbox" style="text-align: left;"
+                                                                            id="bank_name_ref" name="bank_name_ref"
+                                                                            style="text-align:center">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <!--  -->
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                        </div>
+                    </section>
+                    <section>
+                        <div class="payment-submitBtn">
+                            <table id="" class="table paymode_table" style="width: 35%;">
+                                <tbody>
+                                    <tr style="border-style: hidden!important;">
+                                        <td style="text-align:right; width: 100%;">
+                                            <button type="button" style="text-align:center; width: 20%;" id="resetButton"
+                                                onClick="location.href='/due_refund_cancel_services'"
+                                                class="btn btn-danger col-sm-4 text-white btn-xs item_payment_btn">
+                                                Clear
+                                            </button>
+                                            <button type="submit" style="width: 32%; margin-right: 2rem; text-align:center;"
+                                                id="check_out"
+                                                class="btn btn-success col-sm-4 text-white btn-xs item_payment_btn">
+                                                Save & Print
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </form>
+            </section>
+        </section>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        var grand_total_bill = 0; // Initialize a variable to hold the cumulative total
+
+        // Intercept the Enter key press in the search input field
+        $("#refAmt_searchID").keypress(function (e) {
+            if (e.which === 13) {
+                e.preventDefault(); // Prevent the default form submission
+                // Add any additional actions you want to perform here
+
+                // For example, you can trigger the search button click
+                $("#refAmt_searchBtn").click();
+            }
+        });
+
+        // Define a function to populate the table with data
+        function refAmt_populateTable(data) {
+            var tableBody = $("#Refamt_tbody");
+            tableBody.empty();  // Clear the existing rows
+
+            var grand_total_bill = 0;
+            var grand_vat_tax = 0;
+            var grand_discount = 0;
+            var total_cancel_bill = 0;
+            var total_cancel_vat = 0;
+            var total_cancel_gross_dis = 0;
+            var grand_bill = 0;
+            var grand_net_vat_tax = 0;
+            var grand_net_disc = 0;
+            var net_grand_bill = 0;
+            var collection_amt = 0;
+            var due_collection_amt = 0;
+            var refund_amt = 0;
+            var grand_pay_amount = 0;
+            var grand_net_due_amt = 0;
+            var total_item_wise_ccost = 0;
+
+            // invoice history
+            for (var i = 0; i < data.invoice_items.length; i++) {
+                var invoice = data.invoice_items[i];
+
+                var invoiceData = "Invoice Date: " + invoice.invoice_date + "\n";
+                invoiceData += "Invoice ID: " + invoice.inv_id + "\n";
+                invoiceData += "Customer Name: " + invoice.customer_name + "\n";
+                invoiceData += "Gender: " + invoice.gender + "\n";
+                invoiceData += "Mobile Number: " + invoice.mobile_number;
+
+                $(".ref_amt_invDetails").val(invoiceData);
+
+                
+                console.log("invoice:", invoice);
+            }
+
+            // payment history
+            for (var i = 0; i < data.payments_amt.length; i++) {
+                var collections = data.payments_amt[i];
+                
+                collection_amt = collections.collection_amt_sum
+                due_collection_amt = collections.due_collection_amt_sum
+                refund_amt = collections.refund_amt_sum
+                totat_carrying_cost_amt = collections.carrying_cost
+                grand_pay_amount = (collection_amt + due_collection_amt - totat_carrying_cost_amt) - refund_amt
+                grand_net_due_amt = collections.net_due_amt
+
+                $('input[name="carrying_cost_ref"]').val(totat_carrying_cost_amt);
+                $('#id_carrying_cost_ref').text(totat_carrying_cost_amt.toFixed(0));
+
+                $('input[name="carrying_cost_ref_amt"]').val(totat_carrying_cost_amt);
+                $('#id_carrying_cost_ref_amt').text(totat_carrying_cost_amt.toFixed(0));
+
+                $('input[name="ins_coll_amt_ref"]').val(collection_amt);
+                $('#id_ins_coll_amt_ref').text(collection_amt.toFixed(0));
+
+                $('input[name="total_due_collection_ref"]').val(due_collection_amt);
+                $('#id_total_due_collection_ref').text(due_collection_amt.toFixed(0));
+
+                $('input[name="total_refund_amt_ref"]').val(refund_amt);
+                $('#id_total_refund_amt_ref').text(refund_amt.toFixed(0));
+
+                $('input[name="grand_total_pay_amt_ref"]').val(grand_pay_amount);
+                $('#id_grand_total_pay_amt_ref').text(grand_pay_amount.toFixed(0));
+
+                $('input[name="total_due_amount_ref"]').val(grand_net_due_amt);
+                $('#id_total_due_amount_ref').text(grand_net_due_amt.toFixed(0));
+
+                if (collections.net_due_amt === 0) {
+                    document.querySelector(".ref_amt_invoice_statusDtl").classList.add("no-due");
+                    document.querySelector(".ref_amt_invoice_statusDtl").textContent = "Invoice Has No Due";
+                } else if (collections.net_due_amt < 0) {
+                    document.querySelector(".ref_amt_invoice_statusDtl").classList.add("needs-refund");
+                    document.querySelector(".ref_amt_invoice_statusDtl").textContent = "The invoice needs to be Refunded";
+                } else {
+                    document.querySelector(".ref_amt_invoice_statusDtl").classList.add("has-due");
+                    document.querySelector(".ref_amt_invoice_statusDtl").textContent = "Invoice Has Due";
+                }
+                
+            }
+            
+
+            // invoicedtl history
+            for (var i = 0; i < data.invoicedtl_data.length; i++) {
+                var item = data.invoicedtl_data[i];
+
+                var cancel_item_w_dis = ((item.item_w_dis / item.qty) * item.canncelled_qty)
+                var totalAmount = (((item.sales_rate * item.qty) - item.item_w_dis) - ((item.sales_rate * item.canncelled_qty) - cancel_item_w_dis)).toFixed(0);
+
+                // Now you can use 'item' and 'invoice' as needed
+                console.log("Item:", item);
+
+                // actual bill calculation start
+                var total_bills = item.total_bill
+                var total_vat_tax = item.vat_tax
+                var total_disc = item.total_dis
+                var cancel_bill = item.cancel_bill
+                var cancel_vat = item.cancel_vat
+                var cancel_gross_dis = item.cancel_gross_dis
+                var item_wise_ccost = item.item_wise_ccost
+
+                grand_total_bill += parseFloat(total_bills);
+                grand_vat_tax += parseFloat(total_vat_tax);
+                grand_discount += parseFloat(total_disc);
+                total_cancel_bill += parseFloat(cancel_bill);
+                total_cancel_vat += parseFloat(cancel_vat);
+                total_cancel_gross_dis += parseFloat(cancel_gross_dis);
+                total_item_wise_ccost += parseFloat(item_wise_ccost);
+
+                grand_bill = grand_total_bill - total_cancel_bill
+
+                grand_net_vat_tax = grand_vat_tax - total_cancel_vat
+
+                grand_net_disc = grand_discount - total_cancel_gross_dis
+
+                net_grand_bill = grand_bill + grand_net_vat_tax - grand_net_disc
+
+                $('input[name="total_bill_ref"]').val(grand_total_bill);
+                $('#id_total_bill_ref').text(grand_total_bill.toFixed(0));
+
+                $('input[name="total_vat_tax_ref"]').val(grand_vat_tax);
+                $('#id_total_vat_tax_ref').text(grand_vat_tax.toFixed(0));
+
+                $('input[name="total_gross_dis_ref"]').val(grand_discount);
+                $('#id_total_gross_dis_ref').text(grand_discount.toFixed(0));
+                
+                $('input[name="total_cancel_bill_ref"]').val(total_cancel_bill);
+                $('#id_total_cancel_bill_ref').text(total_cancel_bill.toFixed(0));
+
+                $('input[name="cancel_vat_tax_ref"]').val(total_cancel_vat);
+                $('#id_cancel_vat_tax_ref').text(total_cancel_vat.toFixed(3));
+
+                $('input[name="total_cancel_gross_disc_ref"]').val(total_cancel_gross_dis);
+                $('#id_total_cancel_gross_disc_ref').text(total_cancel_gross_dis.toFixed(3));
+
+                $('input[name="tot_net_bills_ref"]').val(grand_bill);
+                $('#id_tot_net_bills_ref').text(grand_bill.toFixed(0));
+
+                $('input[name="total_net_vat_tax_ref"]').val(grand_net_vat_tax);
+                $('#id_total_net_vat_tax_ref').text(grand_net_vat_tax.toFixed(3));
+
+                $('input[name="total_net_discount_ref"]').val(grand_net_disc);
+                $('#id_total_net_discount_ref').text(grand_net_disc.toFixed(3));
+
+                $('input[name="grand_total_net_bill_ref"]').val(net_grand_bill);
+                $('#id_grand_total_net_bill_ref').text(net_grand_bill.toFixed(0));
+
+
+                var row = $("<tr style='border-style: hidden!important;'>");
+                row.append("<td style='text-align:center;'></td>");
+                row.append("<td style='text-align:center;'>" + item.item_no + "</td>");
+                row.append("<td style='text-align:left;'>" + item.item_name + "</td>");
+                row.append("<td style='text-align:center;'>" + item.item_type + "</td>");
+                row.append("<td style='text-align:center;'>" + item.batch + "</td>");
+                row.append("<td style='text-align:center;'>" + item.sales_rate + "</td>");
+                row.append("<td style='text-align:center;'>" + item.qty + "</td>");
+                row.append("<td style='text-align:center;'>" + item.item_w_dis + "</td>");
+                row.append("<td style='text-align:center;'>" + item.canncelled_qty + "</td>");
+                row.append("<td style='text-align:center;'>" + totalAmount + "</td>");
+                row.append("<td style='text-align:center;'>" + item.cancel_reason + "</td>");
+                
+
+                tableBody.append(row);  
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $("#refAmt_searchBtn").click(function () {
+            var invoiceID = $("#refAmt_searchID").val();
+
+            $.ajax({
+                type: "GET",
+                url: "/refund_amount_details_view/" + invoiceID + "/", // Replace with your actual URL
+                dataType: "json",
+                success: function (data) {
+                    refAmt_populateTable(data); // Call the function to populate the table
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch invoice details");
+                }
+            });
+        });
+
+        //<!-- save due refund ajax -->
+        $(function () {
+            $('#ref_amt_form').submit(function (e) {
+                e.preventDefault();
+                var invoiceID = $("#refAmt_searchID").val();
+                var form = $(this);
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'save_refund_amount' %}",
+                    data: new FormData(form[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.success) {
+                            toastr.success(resp.msg);
+                            
+                            uni_modal("Receipt", "{% url 'receipt_modal' %}?id=" + invoiceID)
+                            
+                            // Trigger the click event on the refAmt_searchBtn button
+                            $("#refAmt_searchBtn").click();
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    // input field hide && show based on selection
+    $('#pay_mode_ref').on('change', function () {
+        if ($(this).val() === "2") {
+            $("#otherType").show()
+        } else {
+            if ($(this).val() === "3") {
+                $("#otherType").show()
+            } else {
+                $("#otherType").hide()
+            }
+        }
+    });
+
+    // payment calc button
+    function payRefcalcFun() {
+        var calc_tot_bill = parseFloat($('[name="total_due_amount_ref"]').val());
+        
+        // Get the absolute (positive) value of calc_tot_bill
+        calc_tot_bill = Math.abs(calc_tot_bill);
+    
+        $('#total_payment_amt_ref').text(calc_tot_bill.toLocaleString('en-US'));
+        $('[name="total_payment_amt_ref"]').val(calc_tot_bill);
+
+        refundAmtMode();
+    }
+
+    $(function () {
+        $('#total_payment_amt_ref').on('input', function () {
+            refundAmtMode();
+        });
+    });
+
+    function refundAmtMode() {
+
+        //<!-- max value -->
+        var total_pay_max_value = parseFloat($('[name="total_due_amount_ref"]').val());
+
+        total_pay_max_value = Math.abs(total_pay_max_value);
+
+        // Set the 'max' attribute of the total_payment_amt_ref input field
+        $('#total_payment_amt_ref').attr('max', total_pay_max_value);
+    }
+
+    $(document).ready(function () {
+        //<!-- payment collection -->
+        $('#total_payment_amt_ref').on('focus', function () {
+            if ($(this).val() === '0') {
+                $(this).val('');
+            }
+        }).on('blur', function () {
+            if ($(this).val() === '') {
+                $(this).val('0');
+            }
+        });
+
+        //<!-- Given Amount -->
+        $('#given_amt_ref').on('focus', function () {
+            if ($(this).val() === '0') {
+                $(this).val('');
+            }
+        })
+    });
+
+    $(document).ready(function () {
+        // Cache the input elements
+        var totalPaymentInput = $('#total_payment_amt_ref');
+        var givenAmtInput = $('#given_amt_ref');
+        var changeAmtInput = $('[name="change_amt_ref"]');
+
+        // Add an input event listener to both totalPaymentInput and givenAmtInput
+        totalPaymentInput.add(givenAmtInput).on('input', function () {
+            var totalPayment = parseFloat(totalPaymentInput.val()) || 0;
+            var givenAmt = parseFloat(givenAmtInput.val()) || 0;
+
+            // Check if givenAmt is greater than 0
+            if (givenAmt > 0) {
+                // Calculate the change
+                var changeAmt = givenAmt - totalPayment;
+                // Update the changeAmt input
+                changeAmtInput.val(parseFloat(changeAmt).toFixed(0));
+            } else {
+                // If givenAmt is 0 or null, clear the changeAmt
+                changeAmtInput.val('');
+            }
+        });
+    });
+</script>

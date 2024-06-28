@@ -1,0 +1,461 @@
+{% load static %}
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container">
+                <form action="" method="" id="user_form" enctype="multipart/form-data">
+                    <div class="add_edit_head">
+                        <h2 class="text-primary">Add New User Information</h2>
+                    </div>
+                    <div class="modal_closer">
+                        <button type="button" class="btn bg-danger text-white closerBtn"
+                            data-bs-dismiss="modal">X</button>
+                    </div>
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="card add_user_card">
+                                <div class="card-body">
+                                    <div class="user_add_body">
+                                        <div class="sub_body_one">
+                                            <div class="row add_user_row">
+                                                <div class="row g-3 align-items-center" id="div_id_username">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_username"
+                                                            class="col-form-label font_size required">Username:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="text" class="form-control form_adduser_body"
+                                                            id="id_username" name="username" maxlength="150" required
+                                                            autocomplete="off">
+                                                    </div>
+                                                    <div class="col-auto form-text-col">
+                                                        <span id="hint_id_username" class="help-block">
+                                                            <li>Required. 150 characters or fewer. Letters, digits
+                                                                and @/./+/-/_ only.</li>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_org">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_org" class="col-form-label font_size required">
+                                                            Organization:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <select id="id_org" name="org"
+                                                            class="form-select form-control form_adduser_body"
+                                                            aria-label="Default select example" required>
+                                                            <option value="" selected disabled>Choose Organization ...
+                                                            </option>
+                                                            {% for org in org_list %}
+                                                            <option value="{{org.org_id}}">
+                                                                {{ org.org_name }}
+                                                            </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_branch_name">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_branch_name"
+                                                            class="col-form-label font_size required">
+                                                            Branch:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <select id="id_branch_name" name="branch_name"
+                                                            class="form-select form-control form_adduser_body"
+                                                            aria-label="Default select example" required>
+                                                            <!--  -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_first_name">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_first_name"
+                                                            class="col-form-label font_size required">First
+                                                            name:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="text" class="form-control form_adduser_body"
+                                                            id="id_first_name" name="first_name" required
+                                                            autocomplete="off">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_last_name">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_last_name"
+                                                            class="col-form-label font_size required">Last
+                                                            name:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="text" class="form-control form_adduser_body"
+                                                            id="id_last_name" name="last_name" required
+                                                            autocomplete="off">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_email">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_email"
+                                                            class="col-form-label font_size required">Email:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="email"
+                                                            class="form-control form_adduser_body emailinput"
+                                                            id="id_email" name="email" required autocomplete="off">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_is_active"
+                                                    style="margin-top: 5px;">
+                                                    <div class="col-auto form-check_m" style="margin-right: 1.9rem;">
+                                                        <label class="form-check-label font_size checkbox"
+                                                            for="id_is_active">
+                                                            Active User:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 form-check_m form-switch">
+                                                        <input type="checkbox" class="form-check-input checkboxinput"
+                                                            name="is_active" id="id_is_active" value="1"
+                                                            checked="checked">
+                                                    </div>
+                                                    <div class="col-auto form-text-col">
+                                                        <span id="hint_id_is_active" class="help-block">
+                                                            <li>Designates whether this user should be treated as
+                                                                active. Unselect this instead of deleting accounts.
+                                                            </li>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_password1">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_password1"
+                                                            class="col-form-label font_size required">
+                                                            Password:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col"
+                                                        style="display: flex; align-items: center;">
+                                                        <input type="password"
+                                                            class="form-control userpassword form_adduser_body textinput textInput"
+                                                            id="id_password1" name="password1"
+                                                            autocomplete="new-password" required autocomplete="off"
+                                                            minlength="8">
+                                                        <i class="bx bx-hide showHideUserPw username_icon"
+                                                            style="position: absolute; display: flex; color: blue; right: 7.5rem; cursor: pointer; font-size: 1.2rem; "></i>
+                                                    </div>
+                                                    <div class="col-auto form-text-col">
+                                                        <span id="hint_id_password1" class="help-block">
+                                                            <li>Your password can't be too similar to your other
+                                                                personal
+                                                                information.</li>
+                                                            <li>Your password must contain at least 8 characters.
+                                                            </li>
+                                                            <li>Your password can't be a commonly used password.
+                                                            </li>
+                                                            <li>Your password can't be entirely numeric.</li>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_password2">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_password2"
+                                                            class="col-form-label font_size required">
+                                                            Con. Pass:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col"
+                                                        style="display: flex; align-items: center;">
+                                                        <input type="password"
+                                                            class="form-control userpasswordCon form_adduser_body textinput textInput"
+                                                            id="id_password2" name="password2"
+                                                            autocomplete="new-password" required autocomplete="off"
+                                                            minlength="8">
+                                                        <i class="bx bx-hide showHideUserPwCon username_icon"
+                                                            style="position: absolute; display: flex; color: blue; right: 7.5rem; cursor: pointer; font-size: 1.2rem; "></i>
+                                                    </div>
+                                                    <div class="col-auto form-text-col">
+                                                        <span id="hint_id_password2" class="help-block">
+                                                            <li>Enter the same password as before, for verification.
+                                                            </li>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="col-sm-5">
+                            <div class="card add_user_card_other" style="border-left: 1px solid rgba(0, 0, 0, .125);">
+                                <div class="card-body">
+                                    <!-- image -->
+                                    <div class="profile-container px-4" id="div_id_profile_img">
+                                        <div class="row gx-5 user-profile">
+                                            <div class="col user-profile-img">
+                                                <div class="user-img">
+                                                    <div class="profile-pic">
+                                                        <div id="display_image">
+                                                            <img class="img-viewer" id="selected_image"
+                                                                src="{% static 'images/profile_img/user.png' %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row field-profile_img profile-icon">
+                                                        <div>
+                                                            <label for="id_profile_img">
+                                                                <i class="bx bxs-camera profile-upload-icon"></i>
+                                                            </label>
+                                                            <input type="file" name="profile_img" accept="image/*"
+                                                                id="id_profile_img" style="display:none;"
+                                                                onchange="displaySelectedImage(this);">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- image end -->
+                                    <div class="row g-3 align-items-center design_body" id="div_id_designation">
+                                        <div class="col-sm-4" style="display: flex; justify-content: right;">
+                                            <label for="id_designation"
+                                                class="col-form-label sec_prt_font_s required">Designation:
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-8 design_input">
+                                            <input type="text" class="form-control form_adduser_body"
+                                                id="id_designation" name="designation" required autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 align-items-center" id="div_id_phone_no">
+                                        <div class="col-sm-4" style="display: flex; justify-content: right;">
+                                            <label for="id_phone_no" class="col-form-label sec_prt_font_s required">
+                                                Phone No:
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-8 design_input">
+                                            <input type="number" class="form-control form_adduser_body" id="id_phone_no"
+                                                name="phone_no" autocomplete="off" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 align-items-center" id="div_id_expiry_date">
+                                        <div class="col-sm-4" style="display: flex; justify-content: right;">
+                                            <label for="id_expiry_date" class="col-form-label sec_prt_font_s required">
+                                                Expiry Date:
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-8 design_input">
+                                            <input type="text" class="form-control form_adduser_body datepicker"
+                                                id="id_expiry_date" name="expiry_date" autocomplete="off" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 align-items-center" id="div_id_expiry_status"
+                                        style="margin-top: 5px;">
+                                        <div class="col-sm-4" style="display: flex; justify-content: right;">
+                                            <label class="form-check-label checkbox sec_prt_font_s"
+                                                for="id_expiry_status">
+                                                Expiry Status:
+                                            </label>
+                                        </div>
+                                        <div class="col-xl-4 form-check_m form-switch design_input"
+                                            style="margin-left: 0.5rem;">
+                                            <input type="checkbox" class="form-check-input checkboxinput"
+                                                name="expiry_status" id="id_expiry_status" value="1" checked="checked">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="usersetup_modal-footer"
+                        style="display: flex; justify-content: right; align-items: center; text-align: center; margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="font-size: 0.85rem; padding: 0.5rem; margin-right: 1rem;">
+                            Close
+                        </button>
+                        <button id="addUserBtn" name="submit" type="submit" class="btn btn-success"
+                            style="font-size: 0.85rem; padding: 0.5rem; margin-right: 1rem;">
+                            Add User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //
+    $(document).ready(function () {
+        // Initial population of branch options based on the selected organization
+        updateBranchOptions();
+
+        // Add change event listener to the organization dropdown
+        $('#id_org').on('change', function () {
+            // Update branch options whenever the organization dropdown changes
+            updateBranchOptions();
+        });
+
+        function updateBranchOptions() {
+            // Get the selected organization ID
+            var selectedOrgId = $('#id_org').val();
+
+            // Make an AJAX request to get branch options based on the selected organization
+            $.ajax({
+                url: '/get_branch_options/',  // Replace with your actual URL for fetching branch options
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    // Clear existing options
+                    $('#id_branch_name').empty();
+
+                    // Add default option
+                    $('#id_branch_name').append('<option value="" selected disabled>Choose Branch ...</option>');
+
+                    // Add fetched branch options
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_branch_name').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+    });
+
+    // Date picker
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true
+        });
+    });
+
+    // save user
+    $(function () {
+        $('#user_form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'add_user_setup' %}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    console.log(resp);
+                    if (resp.success) {
+                        toastr.success(resp.msg);
+                        setTimeout(function () { location.reload() }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                    toastr.error("An error occurred while processing the request.");
+                }
+            });
+        });
+    });
+
+
+    $(document).ready(function () {
+        // password show hide scrpt
+        const pwShowHideUser = document.querySelectorAll(".showHideUserPw"),
+            pwFieldsUsers = document.querySelectorAll(".userpassword");
+
+        //   js code to show/hide password and change icon
+        pwShowHideUser.forEach(eyeIcon => {
+            eyeIcon.addEventListener("click", () => {
+                pwFieldsUsers.forEach(pwFieldsUser => {
+                    if (pwFieldsUser.type === "password") {
+                        pwFieldsUser.type = "text";
+
+                        pwShowHideUser.forEach(icon => {
+                            icon.classList.replace("bx-hide", "bx-show");
+                        })
+                    } else {
+                        pwFieldsUser.type = "password";
+
+                        pwShowHideUser.forEach(icon => {
+                            icon.classList.replace("bx-show", "bx-hide");
+                        })
+                    }
+                })
+            })
+        })
+
+        // password show hide scrpt
+        const pwShowHideUserCon = document.querySelectorAll(".showHideUserPwCon"),
+            pwFieldsUserCons = document.querySelectorAll(".userpasswordCon");
+
+        //   js code to show/hide password and change icon
+        pwShowHideUserCon.forEach(eyeIcon => {
+            eyeIcon.addEventListener("click", () => {
+                pwFieldsUserCons.forEach(pwFieldsUserCon => {
+                    if (pwFieldsUserCon.type === "password") {
+                        pwFieldsUserCon.type = "text";
+
+                        pwShowHideUserCon.forEach(icon => {
+                            icon.classList.replace("bx-hide", "bx-show");
+                        })
+                    } else {
+                        pwFieldsUserCon.type = "password";
+
+                        pwShowHideUserCon.forEach(icon => {
+                            icon.classList.replace("bx-show", "bx-hide");
+                        })
+                    }
+                })
+            })
+        })
+    })
+
+    // Expiry Date auto show
+    $(document).ready(function () {
+        // Declare the getTwoDigits function at the global scope
+        const getTwoDigits = (value) => (value < 10 ? `0${value}` : value);
+
+        const formatDate = (date) => {
+            date.setMonth(date.getMonth() + 1); // Add one month to the current date
+            const day = getTwoDigits(date.getDate());
+            const month = getTwoDigits(date.getMonth() + 1); // add 1 since getMonth returns 0-11 for the months
+            const year = date.getFullYear();
+            return `${year}-${month}-${day}`;
+        };
+
+        const formatTime = (date) => {
+            const hours = getTwoDigits(date.getHours());
+            const mins = getTwoDigits(date.getMinutes());
+            return `${hours}:${mins}`;
+        };
+
+        const date = new Date();
+        document.getElementById('id_expiry_date').value = formatDate(date);
+    });
+</script>

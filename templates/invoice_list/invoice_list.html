@@ -1,0 +1,528 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} Dashboard {% endblock %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'invoice_list_style/css/invoice_list_style.css' %}">
+<!--========== from User setup js file ==========-->
+<script src="{% static 'invoice_list_style/js/invoice_list_js.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<div class="loader"></div>
+<!-- loader end -->
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row"
+                    style="display: flex; justify-content: center; text-align: center; align-items: center;">
+                    <div class="col col-md-4 col-md-6 dashboar-head">
+                        <div class="d-sm-flex align-items-center mb-2">
+                            <i class='bx bx-list-ul text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Invoice List</h1>
+                        </div>
+                    </div>
+                    <!-- Date Range Filter -->
+                    <div class="date-range">
+                        <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                            <div class="date_range-element" style="display:flex">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto">
+                                        <label for="inv_start" class="text-white col-form-label">From :</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="text" class="form-control item_inputbox datepicker" id="inv_start"
+                                            name="inv_start" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div class="row g-3 align-items-center" style="margin-left: 15px;">
+                                    <div class="col-auto">
+                                        <label for="inv_end" class="text-white col-form-label">To :</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="text" class="form-control item_inputbox datepicker" id="inv_end"
+                                            name="inv_end" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div class="row g-3 align-items-center" style="margin-left: 15px;">
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-success invBtn btn-xs text-white"
+                                            style="margin-left: 1rem; margin-right: 1rem; box-shadow: 4px 2px 5px 2px #43507e;">
+                                            Preview
+                                        </button>
+                                        <button id="generatePDF" class="btn btn-info invBtn btn-xs text-white"
+                                            style="margin-right: 0.5rem; box-shadow: 4px 2px 5px 2px #43507e;">
+                                            Print Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- containt start -->
+            <section>
+                <div class="col-sm-12">
+                    <form action="" method="">
+                        <div class="table-body" style="width: 99%; margin-left: 0.4rem;">
+                            <table id="invList" class="table table-striped" style="width: 100%;">
+                                <thead class="text-center table-header">
+                                    <tr style="border-style: hidden!important;">
+                                        <th style="text-align:center;">SL</th>
+                                        <th style="text-align:center;">Invoice Date</th>
+                                        <th style="text-align:center;">Invoice No</th>
+                                        <th style="text-align:center;">Customer Name</th>
+                                        <th style="text-align:center;">Mobile</th>
+                                        <th style="text-align:center;">Total Bill</th>
+                                        <th style="text-align:center;">C. Cost</th>
+                                        <th style="text-align:center;">Discount</th>
+                                        <th style="text-align:center;">VAT Tax</th>
+                                        <th style="text-align:center;">Cancel</th>
+                                        <th style="text-align:center;">Net Total</th>
+                                        <th style="text-align:center;">Paid</th>
+                                        <th style="text-align:center;">Refund</th>
+                                        <th style="text-align:center;">Due</th>
+                                        <th style="text-align:center;">Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-row" id="invTablebody">
+                                    <!-- load table body value with Ajax -->
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </section>
+    </section>
+    <!--  -->
+    <!-- containt end  -->
+    <script>
+        $(function () {
+            $(document).on('click', '.view-data', function () {
+                lineloaderstart();
+                uni_modal("Invoice Receipt", "{% url 'receipt_modal' %}?id=" + $(this).attr('data-id'));
+                lineloaderstop();
+            });
+
+            $(document).on('click', '.view-chalan', function () {
+                lineloaderstart();
+                uni_modal("Chalan Receipt", "{% url 'chalan_modal' %}?id=" + $(this).attr('data-id'));
+                lineloaderstop();
+            });
+        })
+
+
+        // AJAX request
+        $(document).ready(function () {
+            let sortDirection = 'desc'; // Initial sort direction
+
+            $('.invBtn').click(function () {
+                const startDate = $('#inv_start').val();
+                const endDate = $('#inv_end').val();
+
+                // Toggle sorting direction between 'asc' and 'desc' on button click
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+
+                // Call the updateTable function with dates and sort direction
+                updateTable(startDate, endDate, sortDirection);
+            });
+
+            function updateTable(startDate, endDate, sortDir) {
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: '/get_Invoice_list/',
+                    type: 'POST',
+                    data: {
+                        'inv_start': startDate,
+                        'inv_end': endDate,
+                        'sort_direction': sortDir
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var data = response.data;
+
+                        // Remove the existing DataTable instance
+                        $('#invList').DataTable().destroy();
+
+                        // Sort the data based on item.invoice.inv_id
+                        data.sort((a, b) => {
+                            return sortDir === 'asc' ?
+                                b.invoice.inv_id - a.invoice.inv_id :
+                                b.invoice.inv_id - a.invoice.inv_id;
+                        });
+
+                        var tableBody = $('#invTablebody');
+                        tableBody.empty(); // Clear existing table content
+
+                        data.forEach(function (item, index) {
+                            var row = `<tr style="border-style: hidden!important;">
+                                <td style="text-align:center;">${index + 1}</td>
+                                <td style="text-align:center;">${item.invoice.invoice_date}</td>
+                                <td style="text-align:center;">${item.invoice.inv_id}</td>
+                                <td style="text-align:left;">${item.invoice.customer_name}</td>
+                                <td style="text-align:center;">${item.invoice.mobile_number}</td>
+                                <td style="text-align:center;">${item.grand_total}</td>
+                                <td style="text-align:center;">${item.total_cost_amt}</td>
+                                <td style="text-align:center;">${item.total_discount_sum}</td>
+                                <td style="text-align:center;">${item.grand_vat_tax}</td>
+                                <td style="text-align:center;">${item.grand_cancel_amt}</td>
+                                <td style="text-align:center;">${item.total_net_bill}</td>
+                                <td style="text-align:center;">${item.total_payment_collection}</td>
+                                <td style="text-align:center;">${item.total_refund_amt}</td>
+                                <td style="text-align:center;">${item.total_due_amount}</td>
+                                <td style="text-align:center;">
+                                    <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-data" data-id="${item.invoice.inv_id}">
+                                        <i title='Print Invoice Receipt' class='bx bxs-receipt printIcon text-white'></i>
+                                    </button>
+                                    <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-chalan" data-id="${item.invoice.inv_id}">
+                                        <i title='Print Invoice Chalan' class='bx bx-printer printIcon text-white'></i>
+                                    </button>
+                                </td>
+                            </tr>`;
+
+                            tableBody.append(row);
+                        });
+
+                        // Re-initialize DataTable with the updated data
+                        $('#invList').DataTable({
+                            "searching": true,
+                            "ordering": false,
+                            "scrollX": true,
+                            "scrollY": '100vh',
+                            "paging": true,
+                            lengthMenu: [
+                                [15, 25, 50, 100, -1],
+                                [15, 25, 50, 100, 'All']
+                            ]
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);  // Handle error gracefully
+                    }
+                });
+            }
+
+            // Function to retrieve today's date in the required format
+            function getTodayDate() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            // Set default start and end dates to today's date
+            $('#inv_start').val(getTodayDate());
+            $('#inv_end').val(getTodayDate());
+
+            // Configure datepicker for start and end date inputs
+            $('#inv_start, #inv_end').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: new Date(),
+            });
+
+            // Initial table load with today's data
+            updateTable(getTodayDate(), getTodayDate());
+        });
+
+
+        // loader scrt
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+
+            loader.classList.add("loader-hidden");
+
+            loader.addEventListener("transitionend", () => {
+                // document.body.removeChild("loader");
+            });
+        });
+
+
+        //<!-- currect date -->
+        $(function () {
+            // Get present date
+            const currentDate = new Date();
+
+            // Set today's date in the input fields
+            $('#inv_start, #inv_end').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: currentDate,
+            });
+
+            // Set the present date in the input fields
+            $('#inv_start').datepicker('setDate', currentDate);
+            $('#inv_end').datepicker('setDate', currentDate);
+        });
+
+
+        $(document).ready(function () {
+            let companyInfo;
+            // Make Ajax request to get user information
+            $.ajax({
+                type: 'GET',
+                url: '/get_user_org_informations/',  // URL mapped in your Django urlpatterns
+                success: function (response) {
+                    companyInfo = response;
+                },
+                error: function (error) {
+                    console.error('Error fetching user information:', error);
+                }
+            });
+
+            //======================================  XX  Report  XX    ==================================
+            //<!-- report js code -->
+            // Event listener for the Generate PDF button
+            $('#generatePDF').on('click', function () {
+                // Initialize jsPDF and the autotable plugin
+                const doc = new jsPDF('landscape');
+
+                // Get the inv_start and inv_end values from the input fields
+                const inv_start = $('#inv_start').val();
+                const inv_end = $('#inv_end').val();
+
+                // Define the header styling
+                const headerX = 5; // X position
+                const headerY = 10; // Y position
+                const headerFontSize = 8;
+                const headerFontColor = '#333'; // Color in HEX format
+                const maxHeaderWidth = 285; // Maximum width for the header
+
+                // Function to update the header content
+                function updateHeader() {
+                    // Header content
+                    const headerText = [
+                        `${companyInfo.org_name}`,
+                        `${companyInfo.address}`,
+                        `Email: ${companyInfo.email}, Website: ${companyInfo.website}`,
+                        `Hotline: ${companyInfo.phone}, ${companyInfo.hotline}, Fax: ${companyInfo.fax}`,
+                        "From: " + inv_start + " To: " + inv_end,
+                        "",
+                        "Invoice Report",
+                        ""
+                    ].join('\n');
+
+                    doc.setFontSize(headerFontSize);
+                    doc.setTextColor(headerFontColor);
+
+                    let currentY = headerY;
+
+                    // Split header text into lines and center align each line
+                    headerText.split('\n').forEach((line, index) => {
+                        let fontSize = headerFontSize; // Default font size
+                        if (index === 0) {
+                            fontSize = 12; // Customize the font size for the first line
+                        } else if (index === 1) {
+                            fontSize = 9;
+                        } else if (index === 6) {
+                            fontSize = 13;
+                        }
+
+                        doc.setFontSize(fontSize); // Set the font size for the current line
+
+                        const textWidth = doc.getTextWidth(line);
+                        const xPos = headerX + (maxHeaderWidth - textWidth) / 2; // Calculate the X position for center alignment
+
+                        doc.text(line, xPos, currentY);
+                        currentY += fontSize * 0.5; // Adjust vertical spacing
+                    });
+                }
+
+                //<!-- footer start -->
+                // Generate the content for the footer
+                const footerText = 'Software By: Shariat Sunny';
+
+                // Calculate the width and height for the footer
+                const footerWidth = maxHeaderWidth; // Use the same width as the header
+                const footerHeight = 4; // Adjust the height as needed
+
+                // Calculate the Y position for the footer (e.g., at the bottom of the page)
+                const footerY = doc.internal.pageSize.height - footerHeight;
+
+                // Set the font size, font color, and other styles for the footer
+                const footerFontSize = 8;
+                const footerFontColor = '#333'; // Color in HEX format
+
+                doc.setFontSize(footerFontSize);
+                doc.setTextColor(footerFontColor);
+
+                //<!-- footer start -->
+                doc.pageCount = 0; // Initialize the page count
+
+                // Function to update the footer content
+                function updateFooter() {
+                    // Get the current date and time
+                    const now = new Date();
+                    const formattedDateTime = now.toLocaleString(); // Customize date and time format as needed
+                    const pageNumber = doc.pageCount + 1; // Add 1 to start page numbering from 1
+
+                    // Replace the placeholders with the actual values
+                    const footer = `${footerText} - Printed By: ${companyInfo.first_name} ${companyInfo.last_name} - Printed on: ${formattedDateTime} - Page ${pageNumber}`;
+
+                    // Add the updated footer text to the page
+                    doc.text(footer, headerX, footerY, { align: 'left', maxWidth: footerWidth });
+                }
+
+                // Function to calculate the height of the header
+                function calculateHeaderHeight() {
+                    // Define the header content
+                    const headerText = `
+                            ${companyInfo.org_name}
+                            ${companyInfo.address}
+                            Email: ${companyInfo.email}, Website: ${companyInfo.website}
+                            Hotline: ${companyInfo.phone}, ${companyInfo.hotline}, Fax: ${companyInfo.fax}
+                            From: ${inv_start} To: ${inv_end}
+
+                            Invoice Report
+
+                        `;
+
+                    let headerHeight = 0;
+
+                    // Calculate the height of the header content
+                    headerText.split('\n').forEach(line => {
+                        headerHeight += doc.getTextDimensions(line).h + 1;
+                    });
+
+                    return headerHeight;
+                }
+
+                // Calculate the header height
+                const headerHeight = calculateHeaderHeight();
+
+                // Get the table and remove the last column (13th column)
+                const table = document.getElementById('invList');
+                const rows = table.querySelectorAll('tr');
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('th, td');
+                    cells[cells.length - 1].remove(); // Remove the last cell from each row
+                });
+
+                // Function to calculate the table height
+                function calculateTableHeight() {
+                    const pageHeight = doc.internal.pageSize.height;
+                    const footerHeight = 10; // Adjust this value as needed
+
+                    return pageHeight - footerHeight - headerHeight - 20; // 20 is for spacing
+                }
+
+                // Calculate the table height
+                const tableHeight = calculateTableHeight();
+
+                // Function to generate the table
+                function generateTable() {
+                    // Convert the modified table to a data URL and add it to the PDF
+                    doc.autoTable({
+                        html: table,
+                        startY: headerHeight + 10, // Start the table below the header with some spacing
+                        tableHeight: tableHeight,
+
+                        // Customize column widths using the 'columnStyles' option
+                        columnStyles: {
+                            0: { halign: 'center' },
+                            1: { halign: 'center' },
+                            2: { halign: 'center' },
+                            3: { halign: 'left' },
+                            4: { halign: 'center' },
+                            5: { halign: 'center' },
+                            6: { halign: 'center' },
+                            7: { halign: 'center' },
+                            8: { halign: 'center' },
+                            9: { halign: 'center' },
+                            10: { halign: 'center' },
+                            11: { halign: 'center' },
+                            12: { halign: 'center' },
+                            13: { halign: 'center' },
+                            // Add more column styles as needed
+                        },
+
+                        //<!-- footer start -->
+                        didDrawPage: function (data) {
+                            // Update the footer on each page
+                            updateFooter();
+
+                            // Increment the page count after updating the footer
+                            doc.pageCount++;
+                        },
+                        //<!-- footer end -->
+
+                        theme: 'grid', // Use the 'grid' theme for table borders
+                        styles: {
+                            textColor: '#333', // Text color of table content
+                            fontSize: 8.5, // Font size for table content
+                            cellPadding: 2,
+                        },
+                        alternateRowStyles: {
+                            // Customize alternating row colors
+                            fillColor: '#fff',
+                        },
+                        headStyles: {
+                            // Customize table header styles
+                            fontSize: 8,
+                            fillColor: '#FDFDFA',
+                            textColor: '#333',
+                            fontStyle: 'bold',
+                            lineWidth: 0.1, // Border width (adjust as needed)
+                            halign: 'center',
+                            //lineColor: '#F5F5F1', // Border color (adjust as needed)
+                        },
+                        scale: 0.9,
+                    });
+                }
+
+                // Calculate the number of pages needed for the table
+                const tablePages = Math.ceil(tableHeight / doc.internal.pageSize.height);
+
+                // Generate the header only on the first page
+                updateHeader();
+                updateFooter();
+
+                // Generate the table on each page
+                for (let i = 0; i < tablePages; i++) {
+                    if (i > 0) {
+                        doc.addPage(); // Add a new page for the table
+                        updateFooter(); // Update the footer on each subsequent page
+                    }
+
+                    generateTable(); // Generate the table on the current page
+                }
+
+                // Generate a data URL for the PDF
+                const pdfDataUrl = doc.output('datauristring');
+
+                // Create a new window or tab and load the PDF data URL
+                const pdfWindow = window.open();
+                pdfWindow.document.write('<iframe width="100%" height="100%" frameborder="0" src="' + pdfDataUrl + '" marginwidth="0" marginheight="0" style="padding: 0;"></iframe>');
+                pdfWindow.document.close();
+
+                if (!pdfWindow) {
+                    alert('Please allow pop-ups to view the PDF.');
+                }
+            });
+        });
+    </script>
+
+</main>
+{% endblock %}

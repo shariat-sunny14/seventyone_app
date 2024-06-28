@@ -1,0 +1,1379 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'department_style/css/department_setup.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2" style="display: flex;">
+                        <i class='bx bx-buildings text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">Department Setup</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <div class="row row_item_setup">
+            <div class="col-sm-5">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="filter_head">
+                                <h2 class="text-warning">Filtering</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup"
+                                            style="display: flex; justify-content: center;">
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio2" type="radio" name="deptoption"
+                                                    value="true" id="orgActive">
+                                                <label class="form-check-label" for="orgActive">Active</label>
+                                            </div>
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio3" type="radio" name="deptoption"
+                                                    value="false" id="orgInactive">
+                                                <label class="form-check-label" for="orgInactive">Inactive</label>
+                                            </div>
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio1" type="radio" name="deptoption"
+                                                    value="1" id="orgAll">
+                                                <label class="form-check-label" for="orgAll">All</label>
+                                            </div>
+                                            <div class="form-check form-check-inline"
+                                                style="position: relative; z-index: 1;">
+                                                <a href="/departments_list"
+                                                    class="btn btn-danger text-white btn-xs item_del_btn">
+                                                    Clear
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="list_of_org">
+                                <h2 class="text-success">List of Departments</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <!--  -->
+                                            <div class="type_type">
+                                                <table id="" class="table table-hover" class="table table-striped"
+                                                    style="width: 100%;">
+                                                    <thead class="text-center table-header_itemlist">
+                                                        <tr>
+                                                            <th style="text-align:center; width: 20%;">Dept. No.</th>
+                                                            <th style="text-align:center; width: 60%;">Department Name
+                                                            </th>
+                                                            <th style="text-align:center; width: 15%;">Status</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="4"
+                                                                style="text-align:center; background: #fff !important;">
+                                                                <input type="text" id="deptsearch"
+                                                                    class="form-control search_control item_inputbox"
+                                                                    style="margin-left: 4px; background:#fffab6;"
+                                                                    placeholder="Searching ..." autocomplete="off">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody id="dept_Tbody" class="table-body-row"
+                                                        style="text-align:center; cursor: pointer;">
+                                                        <!-- Table body here -->
+
+                                                    </tbody>
+                                                    <!-- loader start -->
+                                                    <section class="loader-section">
+                                                        <div class="loader-body">
+                                                            <div class="loader">
+                                                                <div class="upper ball"></div>
+                                                                <div class="right ball"></div>
+                                                                <div class="lower ball"></div>
+                                                                <div class="left ball"></div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    <!-- loader end -->
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="col-sm-7" id="form1" name="form1">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <form action="" method="" id="dept_form">
+                                <input type="hidden" id="id_dept_id" name="dept_id" value="">
+                                <div class="add_edit_head">
+                                    <h2 class="text-primary">Add/Update Department Information</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row row_item_setup">
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_org_setup">
+                                                <div class="row row_item_setup">
+                                                    <div class="col-sm-6">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_dept_no"
+                                                                        class="col-sm-Dept_lb col-form-label font_size_filter required">
+                                                                        Dept. No:
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text"
+                                                                            class="form-control item_inputbox"
+                                                                            id="id_dept_no" name="dept_no"
+                                                                            autocomplete="off" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-4">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div
+                                                                    class="item_setupflag div-align">
+                                                                    <label
+                                                                        class="form-check-label text-danger setupflag_label"
+                                                                        for="id_is_parent_dept">
+                                                                        Is Parent Dept.?
+                                                                    </label>
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="id_is_parent_dept" name="is_parent_dept"
+                                                                        value="1" aria-label="...">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-2">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="item_setupflag div-align">
+                                                                    <label
+                                                                        class="form-check-label text-danger setupflag_label"
+                                                                        for="id_is_active">
+                                                                        Active?
+                                                                    </label>
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="id_is_active" name="is_active" value="1"
+                                                                        aria-label="...">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_org_setup">
+                                                <div class="row row_item_setup">
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_dept_name"
+                                                                        class="col-sm-2_mody col-form-label font_size_filter required">
+                                                                        Dept. Name:
+                                                                    </label>
+                                                                    <div class="col-sm-11_mody">
+                                                                        <input type="text"
+                                                                            class="form-control item_inputbox"
+                                                                            id="id_dept_name" name="dept_name"
+                                                                            autocomplete="off" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="row row_item_setup" id="parent_dept_info">
+                                        <div class="col-sm-4">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_parent_dept_id" title="Parent Department"
+                                                            class="col-sm-PDept col-form-label font_size_filter required">
+                                                            Parent Dept.:
+                                                        </label>
+                                                        <div class="col-sm-PD6">
+                                                            <input type="text" name="parent_dept_no" id="id_parent_dept_no"
+                                                                class="form-control item_inputbox" readonly required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-8">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <div class="col-sm-12">
+                                                            <select id="id_parent_dept_id" name="parent_dept_id"
+                                                                onchange="myFunction(this);"
+                                                                class="form-select parent_dept_align item_inputbox"
+                                                                required>
+                                                                <option hidden selected disabled value="">
+                                                                    Choose Parent Department ...
+                                                                </option>
+                                                                {% for Pdept in parent_dept%}
+                                                                <option value="{{ Pdept.dept_id }}"
+                                                                    id="{{ Pdept.dept_no }}">
+                                                                    {{ Pdept.dept_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <!--  -->
+                                    <div class="col-sm-12" id="business_unit_flag_info">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <div class="itemsetup_container">
+                                                    <div class="business_nit_lag_head">
+                                                        <h2 class="text-warning">Business Unit Flag Information</h2>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row row_item_setup">
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_alias"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Alias:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_alias"
+                                                                                                name="alias"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_level"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Level:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_level"
+                                                                                                name="level"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_Report_sl_no"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Rep. SL No:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_Report_sl_no"
+                                                                                                name="Report_sl_no"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_financebusiness_area"
+                                                                                            title="Financial Business Area"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            F.B. Area:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_financebusiness_area"
+                                                                                                name="financebusiness_area"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_unitflag_descr"
+                                                                                            class="col-sm-descr3 col-form-label font_size_filter">
+                                                                                            Description:
+                                                                                        </label>
+                                                                                        <div class="col-sm-descr11">
+                                                                                            <textarea type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_unitflag_descr"
+                                                                                                name="unitflag_descr"
+                                                                                                autocomplete="off"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div class="row cash_point_row">
+                                                                                        <table style="width: 95%; margin-left: 1rem; margin-right: 1rem; margin-top: 0.5rem; margin-bottom: 0.5rem; font-size: 13px;">
+                                                                                            <tr>
+                                                                                                <td style="text-align: right; width: 25%;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_ipd_dept_flag">
+                                                                                                        IPD Department Flag:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_ipd_dept_flag"
+                                                                                                        name="ipd_dept_flag"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                                <td style="text-align: right; width: 42%;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_opd_dept_flag">
+                                                                                                        OPD Department Flag:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_opd_dept_flag"
+                                                                                                        name="opd_dept_flag"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                                <td style="text-align: right;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_daycare_flag">
+                                                                                                        Daycare Flag:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_daycare_flag"
+                                                                                                        name="daycare_flag"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td style="text-align: right; width: 25%;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_clinical_flag">
+                                                                                                        Clinical Flag:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_clinical_flag"
+                                                                                                        name="clinical_flag"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                                <td style="text-align: right; width: 42%;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_hr_flag">
+                                                                                                        HR Flag:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_hr_flag"
+                                                                                                        name="hr_flag"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                                <td style="text-align: right;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_film_required">
+                                                                                                        Film Required:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_film_required"
+                                                                                                        name="film_required"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td style="text-align: right; width: 25%;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_billing_flag">
+                                                                                                        Billing Flag:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_billing_flag"
+                                                                                                        name="billing_flag"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                                <td style="text-align: right; width: 42%;">
+                                                                                                    <!--  -->
+                                                                                                    <label
+                                                                                                        class="form-check-label setupflag_label"
+                                                                                                        for="id_dept_bill_activation">
+                                                                                                        Department Bill Activation:
+                                                                                                    </label>
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="checkbox"
+                                                                                                        id="id_dept_bill_activation"
+                                                                                                        name="dept_bill_activation"
+                                                                                                        value="1"
+                                                                                                        aria-label="...">
+                                                                                                    <!--  -->
+                                                                                                </td>
+                                                                                                <td style="text-align: right;">
+                                                                                                    
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <div class="itemsetup_container">
+                                                    <div class="others_info_head">
+                                                        <h2 class="text-info">Business Unit Details</h2>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row row_item_setup">
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_district"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            District:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <select id="id_district"
+                                                                                                name="district"
+                                                                                                class="form-select item_inputbox"
+                                                                                                aria-label="Default select example">
+                                                                                                <option value=""
+                                                                                                    selected disabled>
+                                                                                                    Choose District ...
+                                                                                                </option>
+                                                                                                {% for dist in districts %}
+                                                                                                <option
+                                                                                                    value="{{dist.lookup_id}}">
+                                                                                                    {{ dist.name }}
+                                                                                                </option>
+                                                                                                {% endfor %}
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_category"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Category:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_category"
+                                                                                                name="category"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_location"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Location:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_location"
+                                                                                                name="location"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_grade"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Grade:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_grade"
+                                                                                                name="grade"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_opening_date"
+                                                                                            title="Opening Date"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Open Date:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox datepicker"
+                                                                                                id="id_opening_date"
+                                                                                                name="opening_date"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_location_type"
+                                                                                            title="Location Type"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Loc. Type:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_location_type"
+                                                                                                name="location_type"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_email"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Email:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="email"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_email"
+                                                                                                name="email"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_fax"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Fax:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_fax" name="fax"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_website"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Website:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_website"
+                                                                                                name="website"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_hotline"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Hotline:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_hotline"
+                                                                                                name="hotline"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_phone"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Phone:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_phone"
+                                                                                                name="phone"
+                                                                                                autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="item_setupflag div-align">
+                                                                                        <label for="id_address"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Address:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <textarea type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                style="height: 28px;"
+                                                                                                id="id_address"
+                                                                                                name="address"
+                                                                                                autocomplete="off"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12" style="margin-bottom: 0.5rem;">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row">
+                                                                                        <label for="id_unit_details_descr"
+                                                                                            class="col-sm-descr3 col-form-label font_size_filter">
+                                                                                            Description:
+                                                                                        </label>
+                                                                                        <div class="col-sm-descr11">
+                                                                                            <textarea type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_unit_details_descr"
+                                                                                                name="unit_details_descr"
+                                                                                                autocomplete="off"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- submit button -->
+                                <div class="submit_button">
+                                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="showForm1();"
+                                        style="margin-right: 10px;">
+                                        Add New
+                                    </button> -->
+                                    <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
+                                        onclick="$('#dept_form')[0].reset();">
+                                        Clear
+                                    </button>
+                                    <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                        style="margin-right: 10px;">
+                                        Save & Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function dept_populateTable(data) {
+
+            // Dept history
+            for (var i = 0; i < data.dept_Dtls.length; i++) {
+                var dept_data = data.dept_Dtls[i];
+
+                var dept_id = dept_data.dept_id;
+                var dept_no = dept_data.dept_no;
+                var dept_name = dept_data.dept_name;
+                var parent_dept_id = dept_data.parent_dept_id;
+                var is_parent_dept = dept_data.is_parent_dept;
+                var is_active = dept_data.is_active;
+                var alias = dept_data.alias;
+                var level = dept_data.level;
+                var Report_sl_no = dept_data.Report_sl_no;
+                var financebusiness_area = dept_data.financebusiness_area;
+                var unitflag_descr = dept_data.unitflag_descr;
+                var ipd_dept_flag = dept_data.ipd_dept_flag;
+                var opd_dept_flag = dept_data.opd_dept_flag;
+                var daycare_flag = dept_data.daycare_flag;
+                var clinical_flag = dept_data.clinical_flag;
+                var hr_flag = dept_data.hr_flag;
+                var film_required = dept_data.film_required;
+                var billing_flag = dept_data.billing_flag;
+                var dept_bill_activation = dept_data.dept_bill_activation;
+                var district = dept_data.district;
+                var category = dept_data.category;
+                var location = dept_data.location;
+                var grade = dept_data.grade;
+                var opening_date = dept_data.opening_date;
+                var location_type = dept_data.location_type;
+                var email = dept_data.email;
+                var fax = dept_data.fax;
+                var website = dept_data.website;
+                var hotline = dept_data.hotline;
+                var phone = dept_data.phone;
+                var address = dept_data.address;
+                var unit_details_descr = dept_data.unit_details_descr;
+
+                // Get the checkbox input element by its ID
+                var is_activeCheckbox = document.getElementById("id_is_active");
+                var is_parent_deptCheckbox = document.getElementById("id_is_parent_dept");
+
+                var ipd_dept_flagCheckbox = document.getElementById("id_ipd_dept_flag");
+                var opd_dept_flagCheckbox = document.getElementById("id_opd_dept_flag");
+                var daycare_flagCheckbox = document.getElementById("id_daycare_flag");
+                var clinical_flagCheckbox = document.getElementById("id_clinical_flag");
+                var hr_flagCheckbox = document.getElementById("id_hr_flag");
+                var film_requiredCheckbox = document.getElementById("id_film_required");
+                var billing_flagCheckbox = document.getElementById("id_billing_flag");
+                var dept_bill_activationCheckbox = document.getElementById("id_dept_bill_activation");
+
+
+                // Set the checked attribute based on the is_active value
+                is_activeCheckbox.checked = is_active;
+                is_parent_deptCheckbox.checked = is_parent_dept;
+
+                ipd_dept_flagCheckbox.checked = ipd_dept_flag;
+                opd_dept_flagCheckbox.checked = opd_dept_flag;
+                daycare_flagCheckbox.checked = daycare_flag;
+                clinical_flagCheckbox.checked = clinical_flag;
+                hr_flagCheckbox.checked = hr_flag;
+                film_requiredCheckbox.checked = film_required;
+                billing_flagCheckbox.checked = billing_flag;
+                dept_bill_activationCheckbox.checked = dept_bill_activation;
+
+
+                $("#id_dept_id").val(dept_id);
+                $("#id_dept_no").val(dept_no);
+                $("#id_dept_name").val(dept_name);
+                $("#id_parent_dept_id").val(parent_dept_id);
+                $("#id_alias").val(alias);
+                $("#id_level").val(level);
+                $("#id_Report_sl_no").val(Report_sl_no);
+                $("#id_financebusiness_area").val(financebusiness_area);
+                $("#id_unitflag_descr").val(unitflag_descr);
+                $("#id_district").val(district);
+                $("#id_category").val(category);
+                $("#id_location").val(location);
+                $("#id_grade").val(grade);
+                $("#id_opening_date").val(opening_date);
+                $("#id_location_type").val(location_type);
+                $("#id_email").val(email);
+                $("#id_fax").val(fax);
+                $("#id_website").val(website);
+                $("#id_hotline").val(hotline);
+                $("#id_phone").val(phone);
+                $("#id_address").val(address);
+                $("#id_unit_details_descr").val(unit_details_descr);
+
+                console.log("Dept_list:", dept_data);
+            }
+        }
+
+
+        function toggleInputs(element, disabled) {
+            const inputs = element.querySelectorAll("input, select, textarea, checkbox");
+            inputs.forEach(input => {
+                input.disabled = disabled;
+            });
+        }
+    
+        function toggleDisplay(element, isChecked) {
+            element.style.display = isChecked ? "none" : "flex";
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".dept_editBtn", function () {
+            var deptID = $(this).data("dept-id"); // Get the item_id from the data attribute
+
+            $.ajax({
+                type: "GET",
+                url: "/get_department_lists/" + deptID + "/",
+                dataType: "json",
+                success: function (data) {
+                    dept_populateTable(data);
+
+                    // Disable or enable inputs based on is_parent_dept value
+                    const isParentDept = data.dept_Dtls[0].is_parent_dept;
+                    const parentDeptInfo = document.getElementById("parent_dept_info");
+                    const businessUnitFlagInfo = document.getElementById("business_unit_flag_info");
+
+                    toggleInputs(parentDeptInfo, isParentDept);
+                    toggleInputs(businessUnitFlagInfo, isParentDept);
+                    toggleDisplay(parentDeptInfo, isParentDept);
+                    toggleDisplay(businessUnitFlagInfo, isParentDept);
+
+                    // Set the value of id_parent_dept_no
+                    const selectedOption = $("#id_parent_dept_id option:selected");
+                    const selectedDeptNo = selectedOption.attr("id");
+                    $("#id_parent_dept_no").val(selectedDeptNo);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Store details");
+                }
+            });
+        });
+    });
+
+    function myFunction(element) {
+        const selectedDeptNo = $(element).find("option:selected").attr("id");
+        $("#id_parent_dept_no").val(selectedDeptNo);
+    }
+
+    //<!--  -->
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialOrgData();
+        handleOrgRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="deptoption"]').change(function () {
+            var option = $(this).val();
+
+            // Save the selected option to local storage
+            localStorage.setItem('deptlistOption', option);
+
+            // Load items
+            loadOrglist();
+        });
+
+        // Load items based on the search query
+        loadOrgFromSearch();
+
+        // Function to load items based on the search query
+        function loadOrgFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedDeptsearchQuery = localStorage.getItem("DeptsearchQuery");
+            var deptListsearch = $('#deptsearch');
+
+            // Check if there's a saved search query
+            if (savedDeptsearchQuery) {
+                // Set the search input value
+                deptListsearch.val(savedDeptsearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            deptListsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("DeptsearchQuery", query);
+                loadOrglist();
+            });
+
+            // Trigger the search on page load
+            loadOrglist();
+        }
+
+        function loadInitialOrgData() {
+            // Retrieve the selected option from local storage
+            var storeinitialOption = localStorage.getItem('deptlistOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="deptoption"][value="' + storeinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadOrglist();
+        }
+
+        function loadOrglist() {
+            // Get the current search query and option from local storage
+            var DeptsearchQuery = localStorage.getItem("DeptsearchQuery") || '';
+            var deptoption = localStorage.getItem('deptlistOption') || 'true';
+
+            // Make Ajax request
+            $.ajax({
+                type: 'GET',
+                url: '/get_list_of_departments/',
+                data: {
+                    'deptoption': deptoption,
+                    'dept_search_query': DeptsearchQuery
+                },
+                success: function (data) {
+                    // Update the table with filtered data
+                    updateOrgTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateOrgTable(data) {
+            var tableBody = $('#dept_Tbody');
+            tableBody.empty();
+        
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+        
+                if (data.data) {
+                    $.each(data.data, function (index, parentDept) {
+                        var statusText = parentDept.is_active ? 'Active' : 'Inactive';
+                        var statusClass = parentDept.is_active ? 'active-status' : 'inactive-status';
+                        var parentRow = $(`<tr class="parent_dept dept_editBtn" data-dept-id="${parentDept.dept_id}" style="background: rgb(31 175 155)">
+                                            <td>${parentDept.dept_no}</td>
+                                            <td style="text-align: left;">${parentDept.dept_name}</td>
+                                            <td class="status_act_inac ${statusClass}" style="text-align: center;">${statusText}</td>
+                                        </tr>`);
+                        tableBody.append(parentRow);
+        
+                        if (parentDept.details && parentDept.details.length > 0) {
+                            $.each(parentDept.details, function (index, detail) {
+                                var statusText = detail.is_active ? 'Active' : 'Inactive';
+                                var statusClass = detail.is_active ? 'active-status' : 'inactive-status';
+        
+                                var childRow = $(`<tr class="dept_editBtn" data-dept-id="${detail.dept_id}">
+                                                    <td style="text-align: center;">${detail.dept_no}</td>
+                                                    <td style="text-align: left;">${detail.dept_name}</td>
+                                                    <td class="status_act_inac ${statusClass}" style="text-align: center;">${statusText}</td>
+                                                </tr>`);
+                                parentRow.after(childRow); // Append child row after parent
+        
+                                //childRow.hide(); // Hide child rows initially
+                            });
+                        }
+                    });
+        
+                    // Accordion functionality
+                    $('.parent_dept').on('click', function () {
+                        $(this).nextUntil('.parent_dept').toggle();
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleOrgRowSelection();
+        }
+
+        //<!-- submit ajax -->
+        $(function () {
+            $('#dept_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+    
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'dept_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadOrglist();
+                            showOrgLoader();
+                            $('#dept_form')[0].reset();
+                            // Hide loader
+                            //setTimeout(function () { hideOrgLoader(); }, 1100);
+
+                            location.reload();
+    
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleOrgRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedDeptID = localStorage.getItem("selectedDeptID");
+        if (selectedDeptID) {
+            $(".dept_editBtn").removeClass("selected-row");
+            $(".dept_editBtn[data-dept-id='" + selectedDeptID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".dept_editBtn", function () {
+            var clickedDeptID = $(this).data("dept-id");
+            $(".dept_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedDeptID", clickedDeptID);
+        });
+    }
+
+    //==========================================
+    //loader 
+    const loader = document.querySelector(".loader");
+    const loaderBody = document.querySelector(".loader-body");
+
+    // Function to show the loader
+    function showOrgLoader() {
+        loader.style.display = "block";
+        loaderBody.style.display = "block";
+        loader.style.left = "50%"; // Set left position to center
+        loader.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideOrgLoader() {
+        loader.style.display = "none";
+        loaderBody.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndOrgShowLoader() {
+        const loaderOrgVisible = localStorage.getItem("loaderOrgVisible");
+        if (loaderOrgVisible === "true") {
+            showOrgLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="deptoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showOrgLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideOrgLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndOrgShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideOrgLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+
+    //=========================================
+    document.addEventListener("DOMContentLoaded", function () {
+        const parentDeptCheckbox = document.getElementById("id_is_parent_dept");
+        const parentDeptInfo = document.getElementById("parent_dept_info");
+        const businessUnitFlagInfo = document.getElementById("business_unit_flag_info");
+
+        parentDeptCheckbox.addEventListener("change", function () {
+            const isChecked = this.checked;
+
+            // Disable or enable inputs based on checkbox state
+            toggleInputs(parentDeptInfo, isChecked);
+            toggleInputs(businessUnitFlagInfo, isChecked);
+
+            // Hide or show divs based on checkbox state
+            toggleDisplay(parentDeptInfo, isChecked);
+            toggleDisplay(businessUnitFlagInfo, isChecked);
+        });
+
+        // Function to toggle inputs within a given element
+        function toggleInputs(element, disabled) {
+            const inputs = element.querySelectorAll("input, select, textarea, checkbox");
+            inputs.forEach(input => {
+                input.disabled = disabled;
+            });
+        }
+
+        // Function to toggle display property of an element
+        function toggleDisplay(element, isChecked) {
+            element.style.display = isChecked ? "none" : "flex";
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!-- confirmation modal -->
+<div class="modal fade" id="confirm_modal" role='dialog'>
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header confirmHeader">
+                <h5 class="modal-title confirmTitle">Confirmation</h5>
+            </div>
+            <div class="modal-body confirmBody" style="display: flex; justify-content: center;">
+                <div id="delete_content"></div>
+            </div>
+            <div class="modal-footer confirmFooter">
+                <button type="button" class="btn btn-sm btn-flat btn-success confirmBtn" style="width: 5rem !important;"
+                    data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-flat btn-danger confirmBtn" id='confirm' onclick=""
+                    style="width: 6.5rem !important;">Confirm?</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // confirmation scrpt
+    window._conf = function ($msg = '', $func = '', $params = []) {
+        $('#confirm_modal #confirm').attr('onclick', $func + "(" + $params.join(',') + ")")
+        $('#confirm_modal .modal-body').html($msg)
+        $('#confirm_modal').modal('show')
+    }
+    $(function () {
+
+    })
+</script>

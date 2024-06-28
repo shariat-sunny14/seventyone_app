@@ -1,0 +1,39 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'item_consum_style/css/item_consumption.css' %}">
+<!--========== from item_consumption js file ==========-->
+<script src="{% static 'item_consum_style/js/item_consumption.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section style="margin-top: 10px;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="consumption_details-tab" href="#consumption_details" type="button" role="tab">Consumption Details Report</a>
+            </li>
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="consumption_summary-tab" href="#consumption_summary" type="button" role="tab">Consumption Summary Report</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- consum_details_report -->
+            <div class="tab-pane show active" id="consumption_details" role="tabpanel">
+                <!-- consum_details_report content here -->
+                {% include 'item_consumption/consum_details_report.html' %}
+            </div>
+            <!-- consumption_summary -->
+            <div class="tab-pane" id="consumption_summary" role="tabpanel">
+                <!-- consumption_summary content here -->
+                {% include 'item_consumption/consum_summary_report.html' %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

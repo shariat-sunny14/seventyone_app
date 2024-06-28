@@ -1,0 +1,154 @@
+<form id="save_access" action="" method="">
+    <input type="hidden" name="user_id" value="{% if access.pk %}{{access.pk}}{% endif %}">
+    <!-- accordion -->
+    {% regroup module_data by module_name as grouped_modules %}
+    {% for group in grouped_modules %}
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+    
+        <div class="accordion-item">
+            {% for module in group.list %}
+            <h2 class="accordion-header" id="{{module.module_id}}">
+                <button class="accordion-button" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#{{module.module_no}}"
+                    aria-expanded="false"
+                    aria-controls="{{module.module_no}}">
+                    {% endfor %}
+                    {{ group.grouper }}
+                </button>
+            </h2>
+            {% for module in group.list %}
+            <div id="{{module.module_no}}"
+                class="accordion-collapse collapse"
+                aria-labelledby="{{module.module_id}}">
+                <div class="accordion-body type-feature-body">
+                    <!-- accordion body -->
+                    {% if module.module_id2moduletype.all %}
+                    <table class="table access-featuretable">
+                        {% for mt in module.module_id2moduletype.all %}
+                        <thead style="border: 1px solid #57a378;">
+                            <tr>
+                                <th colspan="3" class="access-typeName"
+                                    style="text-align: left; border-bottom: 0!important;">
+                                    {{ mt.type_name }}
+                                </th>
+                            </tr>
+                        </thead>
+                        {% if mt.type_id2feature_list.all %}
+                        <tbody class="feature-list" style="display: flex; border-left: 1px solid #57a378; 
+                            border-right: 1px solid #57a378; 
+                            border-bottom: 1px solid #57a378;">
+                            {% for feature in mt.type_id2feature_list.all %}
+                            <tr>
+                                <td colspan="3" class="access-featureName"
+                                    style="display: block; text-align: left; width: 14.27rem;">
+                                    <div class="form-check column">
+                                        <span class="input-access">
+                                            <!-- feature_id check box -->
+                                            <input type="checkbox" style="display: none;"
+                                                id="feature_{{ feature.feature_id }}"
+                                                name="feature_id[]"
+                                                value="{{feature.feature_id}}" {% if feature.feature_id in access_features %}checked{% endif %}>
+                                            <!-- is active checkbox -->
+                                            <input class="form-check-input"
+                                                type="checkbox" value="1"
+                                                name="is_active[]"
+                                                id="{{feature.feature_id}}" {% if feature.feature_id in access_features %}checked="checked"{% endif %}>
+                                        </span>
+                                        <!--  -->
+                                        <label class="form-check-label"
+                                            for="{{feature.feature_id}}">
+                                            {{ feature.feature_name }}
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                        {% endif %}
+                        {% endfor %}
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    <!-- submit button -->
+    <div class="submit_button">
+        <button type="button" class="btn btn-danger modulesubmitBtn btn-sm" data-bs-dismiss="modal"
+            style="margin-right: 10px;">Close</button>
+        <button type="submit" value="submit" class="btn btn-success modulesubmitBtn btn-sm"
+            style="margin-right: 10px;">Save</button>
+    </div>
+</form>
+<script>
+    //
+    $(function () {
+        $('#save_access').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save_user_access' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg)
+                        location.reload()
+                        //setTimeout(function () { location.reload() }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            })
+        })
+    })
+    // one click to open all accordion
+    $(document).ready(function() {
+        // Function to toggle accordion elements on checkbox change
+        $('#openAll').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('.accordion-collapse').each(function(index) {
+                    let $element = $(this);
+                    setTimeout(function() {
+                        $element.addClass('show');
+                        $element.prev().find('.accordion-button').attr('aria-expanded', 'true');
+                    }, index * 300);
+                });
+                localStorage.setItem('openAll', 'true'); // Save state to localStorage
+            } else {
+                let elementsCount = $('.accordion-collapse').length;
+                $('.accordion-collapse').each(function(index) {
+                    let $element = $(this);
+                    setTimeout(function() {
+                        $element.removeClass('show');
+                        $element.prev().find('.accordion-button').attr('aria-expanded', 'false');
+                    }, (elementsCount - index) * 300);
+                });
+                localStorage.setItem('openAll', 'false'); // Save state to localStorage
+            }
+        });
+    
+        // Check localStorage on page load
+        let openAllState = localStorage.getItem('openAll');
+        if (openAllState === 'true') {
+            $('#openAll').prop('checked', true);
+            $('.accordion-collapse').addClass('show');
+            $('.accordion-button').attr('aria-expanded', 'true');
+        } else {
+            $('#openAll').prop('checked', false);
+            $('.accordion-collapse').removeClass('show');
+            $('.accordion-button').attr('aria-expanded', 'false');
+        }
+    });
+</script>

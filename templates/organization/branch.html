@@ -1,0 +1,986 @@
+{% load static %}
+<main>
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <i class='bx bxs-window-alt text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">Branch Setup</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <div class="row row_item_setup">
+            <div class="col-sm-5">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="filter_head">
+                                <h2 class="text-warning">Filtering</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup"
+                                            style="display: flex; justify-content: center;">
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio2" type="radio" name="branchoption"
+                                                    value="true" id="branchActive">
+                                                <label class="form-check-label" for="branchActive">Active</label>
+                                            </div>
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio3" type="radio" name="branchoption"
+                                                    value="false" id="branchInactive">
+                                                <label class="form-check-label" for="branchInactive">Inactive</label>
+                                            </div>
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio1" type="radio" name="branchoption"
+                                                    value="1" id="branchgAll">
+                                                <label class="form-check-label" for="branchgAll">All</label>
+                                            </div>
+                                            <div class="form-check form-check-inline"
+                                                style="position: relative; z-index: 1;">
+                                                <a href="/organizations_list"
+                                                    class="btn btn-danger text-white btn-xs item_del_btn">
+                                                    Clear
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="list_of_org">
+                                <h2 class="text-success">List of Branchs</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <!--  -->
+                                            <div class="type_type">
+                                                <table id="" class="table table-hover" class="table table-striped"
+                                                    style="width: 100%;">
+                                                    <thead class="text-center table-header_itemlist">
+                                                        <tr>
+                                                            <th style="text-align:center; width: 20%;">
+                                                                Bran. No.
+                                                            </th>
+                                                            <th style="text-align:center; width: 60%;">
+                                                                Branch Name
+                                                            </th>
+                                                            <th style="text-align:center; width: 15%;">Status</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="4"
+                                                                style="text-align:center; background: #fff !important;">
+                                                                <input type="search" id="branchsearch"
+                                                                    class="form-control search_control item_inputbox"
+                                                                    style="margin-left: 4px; background:#fffab6;"
+                                                                    placeholder="Searching ..." autocomplete="off">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody id="branchTbody" class="table-body-row"
+                                                        style="text-align:center; cursor: pointer;">
+                                                        <!--  -->
+                                                        
+                                                        <!--  -->
+                                                    </tbody>
+                                                    <!-- loader start -->
+                                                    <section class="Branch-loader-section">
+                                                        <div class="Branch-loader-body">
+                                                            <div class="Branch-loader">
+                                                                <div class="upper ball"></div>
+                                                                <div class="right ball"></div>
+                                                                <div class="lower ball"></div>
+                                                                <div class="left ball"></div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    <!-- loader end -->
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="col-sm-7" id="form1" name="form1">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <form id="branch_form" enctype="multipart/form-data">
+                                <input type="hidden" id="id_branch_id" name="branch_id" value="">
+                                <div class="add_edit_head">
+                                    <h2 class="text-primary">Add/Update Branchs Information</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row row_item_setup">
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_org_setup">
+                                                <div class="row row_item_setup">
+                                                    <div class="col-sm-8">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_branch_no"
+                                                                        class="col-sm-bran col-form-label font_size_filter required">
+                                                                        Bran. No:
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text"
+                                                                            class="form-control item_inputbox"
+                                                                            id="id_branch_no" name="branch_no"
+                                                                            autocomplete="off" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-4">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="item_setupflag div_id_is_active"
+                                                                    style="display: flex; justify-content: right;">
+                                                                    <label
+                                                                        class="form-check-label text-danger setupflag_label"
+                                                                        for="id_branch_is_active">
+                                                                        Active?
+                                                                    </label>
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="id_branch_is_active" name="is_active" value="1"
+                                                                        aria-label="...">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_org_setup">
+                                                <div class="row row_item_setup">
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_branch_name"
+                                                                        class="col-sm-2_mody col-form-label font_size_filter required">
+                                                                        Branch Name:
+                                                                    </label>
+                                                                    <div class="col-sm-11_mody">
+                                                                        <input type="text"
+                                                                            class="form-control item_inputbox"
+                                                                            id="id_branch_name" name="branch_name"
+                                                                            autocomplete="off" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_org_setup">
+                                                <div class="row row_item_setup">
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_branch_org_name"
+                                                                        class="col-sm-2_mody col-form-label font_size_filter required">
+                                                                        Org. Name:
+                                                                    </label>
+                                                                    <div class="col-sm-11_mody">
+                                                                        <select id="id_branch_org_name" name="branch_org_name" class="form-select item_inputbox"
+                                                                            aria-label="Default select example">
+                                                                            <option value="" selected disabled>Choose Organization</option>
+                                                                            {% for org in organization %}
+                                                                            <option value="{{org.org_id}}">
+                                                                                {{ org.org_name }}
+                                                                            </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <div class="itemsetup_container">
+                                                    <div class="others_info_head">
+                                                        <h2 class="text-info">Others Informations</h2>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row row_item_setup">
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_country">
+                                                                                        <label for="id_branch_country"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Country:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <select id="id_branch_country" name="branch_country"
+                                                                                                class="form-select item_inputbox"
+                                                                                                aria-label="Default select example">
+                                                                                                <option value="" selected disabled>Choose Country ...</option>
+                                                                                                {% for count in countries %}
+                                                                                                <option value="{{count.lookup_id}}">
+                                                                                                    {{ count.name }}
+                                                                                                </option>
+                                                                                                {% endfor %}
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div class="item_setupflag div_id_division"
+                                                                                        style="display: flex; justify-content: right;">
+                                                                                        <label for="id_branch_division"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Division:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <select id="id_branch_division" name="branch_division"
+                                                                                                class="form-select item_inputbox"
+                                                                                                aria-label="Default select example">
+                                                                                                <option value="" selected disabled>Choose Division ...</option>
+                                                                                                {% for divis in divisions %}
+                                                                                                <option value="{{divis.lookup_id}}">
+                                                                                                    {{ divis.name }}
+                                                                                                </option>
+                                                                                                {% endfor %}
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_district">
+                                                                                        <label for="id_branch_district"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            District:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <select id="id_branch_district" name="branch_district"
+                                                                                                class="form-select item_inputbox"
+                                                                                                aria-label="Default select example">
+                                                                                                <option value="" selected disabled>Choose District ...</option>
+                                                                                                {% for dist in districts %}
+                                                                                                <option value="{{dist.lookup_id}}">
+                                                                                                    {{ dist.name }}
+                                                                                                </option>
+                                                                                                {% endfor %}
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div class="item_setupflag div_id_upazila"
+                                                                                        style="display: flex; justify-content: right;">
+                                                                                        <label for="id_branch_upazila"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Upazila:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <select id="id_branch_upazila" name="branch_upazila"
+                                                                                                class="form-select item_inputbox"
+                                                                                                aria-label="Default select example">
+                                                                                                <option value="" selected disabled>Choose Upazila ...</option>
+                                                                                                {% for upazila in upazilas %}
+                                                                                                <option value="{{upazila.lookup_id}}">
+                                                                                                    {{ upazila.name }}
+                                                                                                </option>
+                                                                                                {% endfor %}
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_email">
+                                                                                        <label for="id_branch_email"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Email:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="email"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_branch_email" name="branch_email" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div class="item_setupflag div_id_fax"
+                                                                                        style="display: flex; justify-content: right;">
+                                                                                        <label for="id_branch_fax"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Fax:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_branch_fax" name="branch_fax" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_website">
+                                                                                        <label for="id_branch_website"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Website:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text" class="form-control item_inputbox"
+                                                                                                id="id_branch_website" name="branch_website" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div class="item_setupflag div_id_hotline"
+                                                                                        style="display: flex; justify-content: right;">
+                                                                                        <label for="id_branch_hotline"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Hotline:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_branch_hotline" name="branch_hotline" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_phone">
+                                                                                        <label for="id_branch_phone"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Phone:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="number"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_branch_phone" name="branch_phone" autocomplete="off">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div class="item_setupflag div_id_org_logo"
+                                                                                        style="display: flex; justify-content: right;">
+                                                                                        <label for="id_logo"
+                                                                                            class="col-sm-3 col-form-label font_size_filter">
+                                                                                            Logo:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <!-- logo -->
+                                                                                            <div class="profile-container px-4">
+                                                                                                <div class="row gx-5 user-profile">
+                                                                                                    <div class="col user-profile-img">
+                                                                                                        <div class="user-img">
+                                                                                                            <div class="profile-pic">
+                                                                                                                <div id="display_image">
+                                                                                                                    <img class="img-viewer" id="selected_branchlogo" src="{% static 'images/profile_img/user.png' %}">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="form-row field-profile_img profile-icon">
+                                                                                                                <div>
+                                                                                                                    <label for="id_branch_logo">
+                                                                                                                        <i class="bx bxs-camera profile-upload-icon"></i>
+                                                                                                                    </label>
+                                                                                                                    <input type="file" name="branch_logo" accept="image/*" id="id_branch_logo" style="display:none;"
+                                                                                                                        onchange="displaySelectedBranchLogo(this);">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <!-- logo -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12" style="margin-bottom: 0.5rem;">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_address">
+                                                                                        <label for="id_branch_address"
+                                                                                            class="col-sm-3modify col-form-label font_size_filter">
+                                                                                            Address:
+                                                                                        </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <textarea type="text"
+                                                                                                class="form-control item_inputbox"
+                                                                                                id="id_branch_address" name="branch_address"
+                                                                                                autocomplete="off"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-12" style="margin-bottom: 1rem;">
+                                                            <div class="card main-card">
+                                                                <div class="card-body card-body_org_setup">
+                                                                    <div class="row row_item_setup">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="card main-card">
+                                                                                <div class="card-body item_setup_sub">
+                                                                                    <div
+                                                                                        class="row cash_point_row div_id_description">
+                                                                                        <label for="id_branch_description"
+                                                                                            class="col-sm-label_mody col-form-label font_size_filter">
+                                                                                            Description:
+                                                                                        </label>
+                                                                                        <div class="col-sm-10modify">
+                                                                                            <textarea type="text" class="form-control item_inputbox"
+                                                                                                id="id_branch_description" name="branch_description" 
+                                                                                                autocomplete="off"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- submit button -->
+                                <div class="submit_button">
+                                    <button type="button" class="btn btn-primary btn-sm" onClick="location.href='/organizations_list'"
+                                        style="margin-right: 10px;">
+                                        Add New
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
+                                        onclick="$('#store_form')[0].reset();">
+                                        Clear
+                                    </button>
+                                    <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                        style="margin-right: 10px;">
+                                        Save & Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function branch_populateTable(data) {
+
+            // org history
+            for (var i = 0; i < data.branch_Dtls.length; i++) {
+                var branch_data = data.branch_Dtls[i];
+
+                var branch_id = branch_data.branch_id;
+                var branch_no = branch_data.branch_no;
+                var branch_name = branch_data.branch_name;
+                var branch_orgName = branch_data.bran_org_id;
+                var is_active = branch_data.is_active;
+                var country = branch_data.country;
+                var division = branch_data.division;
+                var district = branch_data.district;
+                var upazila = branch_data.upazila;
+                var email = branch_data.email;
+                var fax = branch_data.fax;
+                var website = branch_data.website;
+                var hotline = branch_data.hotline;
+                var phone = branch_data.phone;
+                var branch_logo = branch_data.branch_logo;
+                var address = branch_data.address;
+                var description = branch_data.description;
+
+                // Get the checkbox input element by its ID
+                var is_activeBranchCheckbox = document.getElementById("id_branch_is_active");
+
+                // Set the checked attribute based on the is_active value
+                is_activeBranchCheckbox.checked = is_active;
+
+                $("#id_branch_id").val(branch_id);
+                $("#id_branch_no").val(branch_no);
+                $("#id_branch_name").val(branch_name);
+                $("#id_branch_org_name").val(branch_orgName);
+                $("#id_branch_country").val(country);
+                $("#id_branch_division").val(division);
+                $("#id_branch_district").val(district);
+                $("#id_branch_upazila").val(upazila);
+                $("#id_branch_email").val(email);
+                $("#id_branch_fax").val(fax);
+                $("#id_branch_website").val(website);
+                $("#id_branch_hotline").val(hotline);
+                $("#id_branch_phone").val(phone);
+                $("#selected_branchlogo").attr("src", branch_logo);
+                $("#id_branch_address").val(address);
+                $("#id_branch_description").val(description);
+
+                console.log("Branch_list:", branch_data);
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".branch_editBtn", function () {
+            var branchID = $(this).data("branch-id"); // Get the item_id from the data attribute
+
+            $.ajax({
+                type: "GET",
+                url: "/select_branch_lists/" + branchID + "/",
+                dataType: "json",
+                success: function (data) {
+                    branch_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Store details");
+                }
+            });
+        });
+
+    });
+
+    //<!--  -->
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialBranData();
+        handleBranRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="branchoption"]').change(function () {
+            var option = $(this).val();
+
+            // Save the selected option to local storage
+            localStorage.setItem('branchlistOption', option);
+
+            // Load items
+            loadBranchlist();
+        });
+
+        // Load items based on the search query
+        loadOrgFromSearch();
+
+        // Function to load items based on the search query
+        function loadOrgFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedBranchsearchQuery = localStorage.getItem("BranchSearchQuery");
+            var branchListsearch = $('#branchsearch');
+
+            // Check if there's a saved search query
+            if (savedBranchsearchQuery) {
+                // Set the search input value
+                branchListsearch.val(savedBranchsearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            branchListsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("BranchSearchQuery", query);
+                loadBranchlist();
+            });
+
+            // Trigger the search on page load
+            loadBranchlist();
+        }
+
+        function loadInitialBranData() {
+            // Retrieve the selected option from local storage
+            var storeinitialOption = localStorage.getItem('branchlistOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="branchoption"][value="' + storeinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadBranchlist();
+        }
+
+        function loadBranchlist() {
+            // Get the current search query and option from local storage
+            var BranchSearchQuery = localStorage.getItem("BranchSearchQuery") || '';
+            var branchoption = localStorage.getItem('branchlistOption') || 'true';
+
+            // Make Ajax request
+            $.ajax({
+                type: 'GET',
+                url: '/get_list_of_branchs/',
+                data: {
+                    'branchoption': branchoption,
+                    'branch_search_query': BranchSearchQuery
+                },
+                success: function (data) {
+                    // Update the table with filtered data
+                    updateOrgTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateOrgTable(data) {
+            var tableBody = $('#branchTbody');
+            tableBody.empty();
+        
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+        
+                if (data.data) {
+                    $.each(data.data, function (index, org) {
+                        var statusText = org.is_active ? 'Active' : 'Inactive';
+                        var statusClass = org.is_active ? 'active-status' : 'inactive-status';
+        
+                        // Append organization row (accordion header)
+                        tableBody.append(`<tr data-bs-toggle="collapse" href="#collapseOrg${index}" role="button" aria-expanded="false" aria-controls="collapseOrg${index}">
+                            <td style="text-align: left; background: #76acbd; color: #fff; border-bottom: 1px solid #fff;" colspan="3"><span style="margin-left: 1rem;">${org.org_name}</span></td>
+                        </tr>`);
+        
+                        // Append collapsible section for organization details (branches)
+                        tableBody.append(`<tr class="collapse show" id="collapseOrg${index}">
+                            <td colspan="3">
+                                <table class="table" style="margin-bottom: 0rem;">
+                                    <tbody id="orgDetailsTbody${index}"></tbody>
+                                </table>
+                            </td>
+                        </tr>`);
+        
+                        // Check if the organization has details
+                        if (org.details && org.details.length > 0) {
+                            var orgDetailsTbody = $(`#orgDetailsTbody${index}`);
+        
+                            // Append details row for each branch
+                            $.each(org.details, function (index, branch) {
+                                var branchStatusText = branch.is_active ? 'Active' : 'Inactive';
+                                var branchStatusClass = branch.is_active ? 'active-status' : 'inactive-status';
+        
+                                orgDetailsTbody.append(`<tr class="branch_editBtn" data-branch-id="${branch.branch_id}">
+                                    <td style="text-align: center; width: 20%;">${branch.branch_no}</td>
+                                    <td style="text-align: left; width: 60%;">${branch.branch_name}</td>
+                                    <td class="status_act_inac ${branchStatusClass}" style="text-align: center; width: 15%;">${branchStatusText}</td>
+                                </tr>`);
+                            });
+                        }
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleBranRowSelection();
+        }
+
+        $(function () {
+            $('#branch_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'branch_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadBranchlist();
+                            showOrgLoader();
+                            $('#branch_form')[0].reset();
+                            // Clear the displayed image by setting its src to an empty string
+                            $('#selected_branchlogo').attr('src', '{% static "images/profile_img/user.png" %}');
+                            // Hide loader
+                            setTimeout(function () {hideOrgLoader();}, 1100);
+
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleBranRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedBranStoreID = localStorage.getItem("selectedBranStoreID");
+        if (selectedBranStoreID) {
+            $(".branch_editBtn").removeClass("selected-row");
+            $(".branch_editBtn[data-branch-id='" + selectedBranStoreID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".branch_editBtn", function () {
+            var clickedBranStoreID = $(this).data("branch-id");
+            $(".branch_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedBranStoreID", clickedBranStoreID);
+        });
+    }
+
+    //==========================================
+    //Branch-loader 
+    const Branchloader = document.querySelector(".Branch-loader");
+    const BranchloaderBody = document.querySelector(".Branch-loader-body");
+
+    // Function to show the loader
+    function showBranchLoader() {
+        Branchloader.style.display = "block";
+        BranchloaderBody.style.display = "block";
+        Branchloader.style.left = "50%"; // Set left position to center
+        Branchloader.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideBranchLoader() {
+        Branchloader.style.display = "none";
+        BranchloaderBody.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndOrgShowLoader() {
+        const loaderBranchVisible = localStorage.getItem("loaderBranchVisible");
+        if (loaderBranchVisible === "true") {
+            showBranchLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="branchoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showBranchLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideBranchLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndOrgShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideBranchLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+
+    // image load in the page
+    function displaySelectedBranchLogo(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+    
+                img.onload = function () {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+    
+                    var maxWidth = 300;
+                    var maxHeight = 300;
+    
+                    var width = img.width;
+                    var height = img.height;
+    
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        } else {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+    
+                        canvas.width = width;
+                        canvas.height = height;
+    
+                        ctx.drawImage(img, 0, 0, width, height);
+    
+                        // Create or select the element with ID 'selected_branchlogo'
+                        var selectedBranchLogo = document.getElementById('selected_branchlogo');
+                        if (!selectedBranchLogo) {
+                            selectedBranchLogo = new Image();
+                            selectedBranchLogo.id = 'selected_branchlogo';
+                            document.body.appendChild(selectedBranchLogo); // Append the image to the body or any other appropriate container
+                        }
+    
+                        // Set the image source to the resized image
+                        selectedBranchLogo.src = canvas.toDataURL('image/jpeg');
+    
+                        // Check if image size exceeds 300x300 after resizing
+                        if (width > maxWidth || height > maxHeight) {
+                            toastr.warning('Image size should be within 300x300 pixels.');
+                        }
+                    } else {
+                        // If the image is within the size limit, set the image source directly
+                        var selectedBranchLogo = document.getElementById('selected_branchlogo');
+                        if (selectedBranchLogo) {
+                            selectedBranchLogo.src = img.src;
+                        }
+                    }
+                };
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

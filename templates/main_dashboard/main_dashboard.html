@@ -1,0 +1,103 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'main_dashboard/css/main_dashboard_styles.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <!-- loader start -->
+    <section>
+        <div class="loader-body">
+            <div class="loader">
+                <div class="upper ball"></div>
+                <div class="right ball"></div>
+                <div class="lower ball"></div>
+                <div class="left ball"></div>
+            </div>
+        </div>
+    </section>
+    <!-- loader end -->
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Page Heading -->
+                <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div class="col col-md-4 col-md-6">
+                        <div class="align-items-center" style="display: flex; margin-left: 1rem;">
+                            <i class='bx bxs-dashboard text-white req-head-icon'></i>
+                            <h1 class="text-white req-head">Module Dashboard</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                {% if user.is_authenticated %}
+                {% for module_id, module_data in grouped_data.items %}
+                <div class="access-featuretable" style="margin-bottom: 1rem;">
+                    <div style="border: 1px solid #6071b7; padding: 0.2rem; background: #6071b7;">
+                        <span class="access-typeName" style="margin-left: 1rem; text-align: left; border-bottom: 0!important; font-weight: bolder; color: #fff; font-size: 0.85rem;">
+                            {{ module_data.module_name }}
+                        </span>
+                    </div>
+                    
+                    <div style="font-size: 0.75rem; border: 1px solid #6071b7;">
+                        <div style="margin-top: 1rem; margin-bottom: 0.5rem; display: flex; flex-direction: row; align-content: center; justify-content: flex-start; align-items: center; flex-wrap: wrap;">
+                            {% for type_name, type_data in module_data.types.items %}
+                            {% for feature in type_data.features %}
+                            <div class="ag-courses_item shadow">
+                                <a href="{{ feature.feature_page_link }}" class="ag-courses-item_link nav__link" style="border-bottom: 0;">
+                                    <div class="ag-courses-item_bg"></div>
+                                    <div class="card-body ag-courses-item_title">
+                                        <div class="card shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold"><!-- class="text-uppercase" -->
+                                                            <span class="card-title">{{ feature.feature_name }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class='{{ feature.feature_icon }} fa-2x'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </section>
+        </section>
+    </section>
+</main>
+<script>
+    //loader 
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+        const loaderBody = document.querySelector(".loader-body");
+
+        setTimeout(() => {
+            loader.style.display = "none"; // Hide the loader
+            loaderBody.style.display = "none"; // Hide the loader-body
+        }, 1100); // Hide the loader after 0.75 seconds
+    });
+</script>
+{% endblock %}
+<!--========== CONTENTS end==========-->

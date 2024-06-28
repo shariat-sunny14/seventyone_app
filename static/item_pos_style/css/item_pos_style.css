@@ -1,0 +1,891 @@
+/* main header start */
+.container-fluid {
+    cursor: pointer;
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    width: 100%;
+    padding-right: 0rem;
+    padding-left: 0rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.dashboar-head {
+    width: 100%;
+    /* border-bottom: 1px solid white; */
+    margin-top: 0.5em;
+    margin-bottom: 0.5rem;
+}
+
+.req-head-icon {
+    font-size: 16px;
+}
+
+.req-head {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.py-2 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.text-size {
+    font-size: 15px;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* main header end */
+
+/* cash point start */
+@media (min-width: 576px) {
+    .col-sm-2 {
+        display: flex;
+        flex: 0 0 auto;
+        width: 29%;
+        font-size: 11.5px;
+        justify-content: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-client-label {
+        display: flex;
+        flex: 0 0 auto;
+        width: 20.8%;
+        font-size: 11.5px;
+        justify-content: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-client-input {
+        flex: 0 0 auto;
+        width: 75.4%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-address {
+        display: flex;
+        flex: 0 0 auto;
+        width: 9.98%;
+        font-size: 11.5px;
+        justify-content: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-addr-in {
+        flex: 0 0 auto;
+        width: 55.2%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-3 {
+        flex: 0 0 auto;
+        width: 14%;
+        margin-left: 0.25rem;
+        margin-right: 0.46rem;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-1-modify {
+        flex: 0 0 auto;
+        width: 16.64%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-11-modfy {
+        flex: 0 0 auto;
+        width: 85%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-12 {
+        flex: 0 0 auto;
+        width: 99.5%;
+    }
+}
+
+.main_pos_card {
+    background: #45559711;
+    /* rgb(243, 255, 252) */
+    height: 100%;
+}
+
+.pos_card {
+    border: 0;
+    background: none;
+}
+
+
+.pos_card_body {
+    padding: 0.15rem 0.15rem;
+}
+
+.cash_point_row {
+    --bs-gutter-x: 0.1rem;
+    margin-bottom: 0;
+}
+
+.pos_inputbox {
+    margin-top: 2px;
+    padding: 0.175rem 0.25rem 0.175rem 0.75rem;
+    font-size: 11.5px;
+}
+
+.pos_salesDisInput {
+    margin-top: 2px;
+    padding: 0.175rem 0.25rem 0.175rem 0.175rem;
+    font-size: 11.5px;
+}
+
+.pos-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.pos-control:focus {
+    outline: none;
+}
+
+/* item search css */
+.pos_searchBox {
+    height: 2rem;
+    margin-top: 2px;
+    padding: 0.175rem 0.25rem 0.175rem 1rem;
+    font-size: 0.9rem;
+    background: #0080004f !important;
+    border: 1px solid #0080004f !important;
+}
+
+.item_search-body {
+    position: relative;
+    display: flex;
+    margin-left: -0.6rem;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+
+.search-icon {
+    position: relative;
+    margin-top: 0.9px;
+    background: green;
+    width: 2rem;
+    height: 34.6px;
+    border: 1px solid green;
+    border-radius: 4.5px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 22px;
+    color: #303030;
+    left: 8px;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.ts-control>input {
+    background: transparent !important;
+}
+
+.ts-control,
+.ts-wrapper.single.input-active .ts-control {
+    background: transparent;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    --bs-table-accent-bg: none !important;
+}
+
+/* item search css */
+
+.ts-control {
+    position: relative;
+    margin-top: 0px;
+    padding: 0.02rem 0.02rem 0.05rem 0.2rem;
+    font-size: 11.5px;
+    border: 0px solid #d0d0d0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+    box-sizing: border-box;
+    box-shadow: none;
+    border-radius: 3px;
+    display: flex;
+    flex-wrap: wrap;
+    background: transparent;
+}
+
+.ts-wrapper.single .ts-control,
+.ts-wrapper.single .ts-control input {
+    font-size: 11.5px;
+}
+
+.ts-dropdown [data-selectable].option {
+    display: flex;
+    margin-top: 0.2px;
+    font-size: 13px;
+    background: #009688;
+    color: #212529;
+    padding: 10px 10px 10px 10px;
+    border-bottom: 1px solid #efefef;
+    justify-content: left;
+    text-align: center;
+    align-items: center;
+}
+
+.ts-dropdown-content {
+    max-height: 300px;
+}
+
+.pos_inputbox option {
+    font-size: 11.5px;
+}
+
+.last_invshowprntBtm {
+    margin-top: 2px;
+    width: 63.5px;
+    padding: 0.125rem 0.55rem;
+    font-size: 0.8rem;
+}
+
+/* cash point end */
+
+
+/* add items start */
+.item_table_body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.table-header {
+    color: #fff;
+    background: #2e94a1;
+    font-size: 11.5px;
+}
+
+.table-header_itemlist {
+    color: #fff;
+    background: #0f6974;
+    font-size: 11px;
+}
+
+.table-body-row {
+    font-size: 12.5px;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    padding: 3px;
+    border-bottom: 0px;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 1px 1px;
+}
+
+.table>:not(caption)>*>* {
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+#mytbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#mytbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.item_add_btn {
+    padding: 0.125rem 0.55rem;
+    font-size: 0.85rem;
+}
+
+.item_del_btn {
+    margin-top: 0.6px;
+    padding: 0.06rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 0.4rem;
+    margin-right: 0.2rem;
+}
+
+/* payment mode */
+.table>tbody {
+    vertical-align: sub;
+    font-size: 11px;
+}
+
+.paymode_table {
+    margin-bottom: 0;
+    --bs-table-accent-bg: none;
+    color: none;
+    border-color: none;
+    border-style: 0;
+}
+
+/* tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-style: none !important;
+} */
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-style: dashed;
+    border-bottom-color: #c5c1c1;
+}
+
+
+.item_payment_btn {
+    margin-top: 0.6px;
+    padding: 0.3rem 1.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
+}
+
+
+/* ======================= */
+datalist {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #9e9e9e;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    font-family: sans-serif;
+    width: 385px;
+    padding: 5px;
+    text-align: left;
+    max-height: 10rem;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+option {
+    background-color: white;
+    padding: 4px;
+    color: #212529;
+    margin-bottom: 1px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    /* background: #eeeeee; */
+}
+
+option:hover {
+    background-color: lightblue;
+}
+
+.payment-submitBtn {
+    position: relative;
+    display: flex;
+    justify-content: right;
+}
+
+
+.dis-label {
+    display: flex;
+    width: 25%;
+    justify-content: center;
+    align-items: center;
+}
+
+.dis-perc {
+    display: flex;
+    width: 7%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.remarks-label {
+    display: flex;
+    width: 12.7%;
+    align-items: center;
+    text-align: center;
+    justify-content: right;
+}
+
+
+/* auto serial */
+#addPosItem_Tbl {
+    counter-reset: serial-number;
+    /* Set the serial number counter to 0 */
+}
+
+#addPosItem_Tbl td:first-child:before {
+    counter-increment: serial-number;
+    /* Increment the serial number counter */
+    content: counter(serial-number);
+    /* Display the counter */
+}
+
+/* 2nd table */
+
+
+/* auto serial end*/
+
+.itemAdd_del_btn {
+    position: relative;
+    margin-top: 0.6px;
+    margin-bottom: 2px;
+    padding: 0.03rem 0.35rem;
+    font-weight: bold;
+    margin-left: 0.15rem;
+    margin-right: 0.2rem;
+    z-index: 1;
+    font-size: 0.8rem;
+}
+
+.item_del_checkbox {
+    margin-top: 0em;
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.inputbox_tdrow {
+    position: relative;
+    margin-top: 0px;
+    padding: 0.15rem 0.15rem 0.15rem 0.15rem;
+    font-size: 11px;
+    border: 0;
+    outline: 0;
+    /* z-index: 1; */
+    display: block;
+    width: 97%;
+    text-align: center;
+    background: transparent;
+    border-radius: 0;
+}
+
+.paymentDtl {
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.disc_input {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+
+/* auto serial */
+#mul_item_tbl {
+    counter-reset: rowNumber;
+}
+
+#mul_item_tbl tbody tr {
+    counter-increment: rowNumber;
+}
+
+#mul_item_tbl tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+/* receipt items auto serial*/
+#receipt-items {
+    counter-reset: rowNumber;
+}
+
+#receipt-items tbody tr {
+    counter-increment: rowNumber;
+}
+
+#receipt-items tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+/* auto serial end*/
+
+/* table */
+#POS-field {
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+}
+
+.table {
+    margin-bottom: 0rem !important;
+}
+
+/*  */
+.multiple_input {
+    justify-content: left;
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+
+.calcBtn {
+    margin-top: -1px;
+    padding: 0.15rem 0.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 0.4rem;
+    margin-right: 0.2rem;
+}
+
+/* loader */
+.loader-body {
+    position: absolute;
+    left: 4px;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: #e4e4e4ab;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.loader {
+    height: 25px;
+    width: 25px;
+    position: relative;
+    animation: rotate 5s infinite;
+}
+
+.ball {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upper {
+    left: 0;
+    top: -22px;
+    background: #2da2ff;
+    animation: upper 1s linear infinite;
+}
+
+@keyframes upper {
+    50% {
+        top: 22px;
+    }
+
+    100% {
+        top: 22px;
+    }
+}
+
+.right {
+    right: -22px;
+    top: 0;
+    background: #ff337a;
+    animation: right 1s linear infinite;
+}
+
+@keyframes right {
+    50% {
+        right: 22px;
+    }
+
+    100% {
+        right: 22px;
+    }
+}
+
+.lower {
+    bottom: -22px;
+    left: 0;
+    background: #ffff00;
+    animation: lower 1s linear infinite;
+}
+
+@keyframes lower {
+    50% {
+        bottom: 22px;
+    }
+
+    100% {
+        bottom: 22px;
+    }
+}
+
+.left {
+    left: -22px;
+    top: 0;
+    background: #00ff00;
+    animation: left 1s linear infinite;
+}
+
+@keyframes left {
+    50% {
+        left: 22px;
+    }
+
+    100% {
+        left: 22px;
+    }
+}
+
+/* loader */
+
+
+/* Hide dropdown list by default */
+.dropdown-list {
+    display: none;
+}
+
+/* Show the dropdown list when the show-dropdown class is added */
+.show-dropdown {
+    display: block;
+}
+
+.pos_item {
+    position: relative;
+}
+
+.pos_item .dropdown-menu {
+    position: absolute;
+    top: 0 !important;
+    left: 0 !important;
+    display: none;
+
+}
+
+.dropdown-menu {
+    /* width: 93%; */
+    padding: 2px 2px 2px !important;
+    margin: 0;
+    font-size: 0.8rem !important;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 0.25rem;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    position: relative;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #f3f3f3;
+    background: darkseagreen;
+    transition: background-color 0.3s ease;
+    overflow: hidden;
+}
+
+.dropdown-menu li.active a.dropdown-item {
+    background: #f3f3f3 !important;
+    box-sizing: border-box;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-left-color: royalblue !important;
+    border-right-color: royalblue !important;
+}
+
+.itemName {
+    width: 32rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 2rem;
+    margin-top: 2px;
+}
+
+.itemOtherName {
+    width: 6rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+.itemBatchName {
+    width: 10rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+.itemQtyName {
+    width: 4rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+.itemPriceName {
+    width: 4rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+.itemNameIcon {
+    position: absolute;
+    font-size: 1.5rem;
+    margin-top: -2px;
+    left: 10px;
+    color: chocolate;
+}
+
+.itemOtherIcon {
+    font-size: 1.5rem;
+    margin-left: 8px;
+    margin-right: 5px;
+    color: darkcyan;
+    margin-top: 0px;
+}
+
+
+.form-check-inline {
+    display: inline-block;
+    margin-top: 0.23rem;
+    margin-left: 0.7rem;
+    margin-right: 0rem;
+}
+
+textarea.form-control {
+    min-height: calc(0.5em + (0.75rem + 2px));
+}
+
+.radioBtnAlign {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 13.5px;
+}
+
+.form-check-manual {
+    margin-top: 0.15rem;
+    min-height: 0rem;
+    margin-bottom: 0rem;
+}
+
+/* ================================================================================ */
+
+.credit_balance {
+    display: flex;
+    height: 1.7rem;
+    border-radius: 1rem;
+    background: #e3e3e3;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+.py-3 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+hr {
+    margin: 0.6rem 0;
+}

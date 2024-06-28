@@ -1,0 +1,1004 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'opening_stock/css/opening_stock_style.css' %}">
+<!--========== from js file ==========-->
+<script src="{% static 'opening_stock/js/opening_stock.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<div class="loader"></div>
+<!-- loader end -->
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bx-folder-open text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Add New Opening Stock</h1>
+                        </div>
+                        <div class="add-moduleBtn" onClick="location.href='/opening_stock'">
+                            <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn" style="font-weight: bolder; background: #239bc1; box-shadow: 4px 2px 5px 2px #43507e;">
+                                Opening Stock List
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section>
+                <div class="row row_item_setup">
+                    <!-- Opening Stock main entry form -->
+                    <div class="col-sm-12">
+                        <div class="card main-card">
+                            <div class="card-body card-body_item_setup">
+                                <div class="itemsetup_container">
+                                    <form id="OPstock-form" action="" method="POST">
+                                        <!-- accordion header -->
+                                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-headingOne">
+                                                    <button class="accordion-button accordion_btn_body" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#OpeningstockOne"
+                                                        aria-expanded="false" aria-controls="flush-collapseOne">
+                                                        Add New Opening Stock Information
+                                                    </button>
+                                                </h2>
+                                                <div id="OpeningstockOne" class="accordion-collapse collapse show"
+                                                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                                    <div class="accordion-body">
+                                                        <!-- head body -->
+                                                        <div class="row row_item_setup">
+                                                            <div class="col-sm-12">
+                                                                <div class="card main-card">
+                                                                    <div class="card-body card-body_item_setup">
+                                                                        <!-- 1st row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_po_no"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                OP No:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <input type="text"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    id="id_po_no" name="po_no"
+                                                                                                    readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_transaction_date"
+                                                                                                class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Date:
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="date" id="id_transaction_date"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    name="transaction_date" readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <!--  -->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- 2nd row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_current_store"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Current Store:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <select id="id_current_store"
+                                                                                                    name="current_store"
+                                                                                                    class="form-select item_inputbox">
+                                                                                                    <!--  -->
+                                                                                                    
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--   -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_org"
+                                                                                                class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Organization:
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <select id="id_org" name="org"
+                                                                                                    class="form-select item_inputbox">
+                                                                                                    {% for org in org_list %}
+                                                                                                    <option
+                                                                                                        value="{{ org.org_id }}"
+                                                                                                        id="{{ org.org_id }}">
+                                                                                                        {{ org.org_name }}
+                                                                                                    </option>
+                                                                                                    {% endfor %}
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <!--  -->
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_branchs"
+                                                                                                class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Branchs:
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-9_manual">
+                                                                                                <select id="id_branchs" name="branchs"
+                                                                                                    class="form-select item_inputbox">
+                                                                                                    <!-- branch List -->
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- 3rd row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!-- approve by -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row div_id_is_approved_by">
+                                                                                            <label for="id_is_approved_by"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Approved By :
+                                                                                            </label>
+                                                                                            {% if user.is_authenticated %}
+                                                                                            <div class="col-sm-1">
+                                                                                                <input type="checkbox"
+                                                                                                    id="id_approved_name"
+                                                                                                    name="is_approved_by"
+                                                                                                    class="form-check-input checkbox_manual"
+                                                                                                    onClick="is_approved_name();"
+                                                                                                    value="{{ user.first_name }} {{ user.last_name }}">
+                                                                                                <input type="hidden" id="is_approved_by_user" value="{{ user.user_id }}">
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            <input type="hidden" id="id_is_approved" name="is_approved" value="0"
+                                                                                                class="form-check-input checkbox_manual">
+                                                                                            <!--  -->
+                                                                                            <div class="col-sm-mody">
+                                                                                                <input type="text" class="form-control item_inputbox"
+                                                                                                    id="id_is_approved_by" name="is_approved_by" readonly>
+                                                                                                <!-- id="is_approved_by" value wise name="is_retn_rec_by" value show -->
+                                                                                                <input type="hidden" class="form-control item_inputbox" id="id_user_id_by" name="is_user_id_by" readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row div_id_approved_date">
+                                                                                            <label for="id_approved_date"
+                                                                                                class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Appr. Date :
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="date"
+                                                                                                    id="id_approved_date"
+                                                                                                    name="approved_date"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    readonly>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <!--  -->
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_remarks"
+                                                                                                class="col-sm-1 col_sm_one col-form-label font_size_filter">
+                                                                                                Remarks:
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-11 col_sm_eleven">
+                                                                                                <textarea type="text"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    id="id_remarks" name="remarks"
+                                                                                                    style="height: 28px; margin-bottom: 5px;"></textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- main entry form -->
+                                        <div class="row row_item_setup" style="margin-top: 0.5rem; margin-bottom: 0.7rem; box-shadow: 0px 0.1rem 0.2rem 0px #e6edef;">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body card-body_item_setup">
+                                                        <div class="row row_item_setup">
+                                                            <!--  -->
+                                                            <div class="col-sm-12">
+                                                                <div class="card main-card" style="margin-bottom: 0.5rem;">
+                                                                    <div class="card-body item_setup_sub">
+                                                                        <div class="row cash_point_row div_id_item_name">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-2_mody" style="margin-left: 5px;">
+                                                                                <select id="items_type" class="form-control item_inputbox">
+                                                                                    <option value="1" selected>All Type</option>
+                                                                                    {% for type in item_tname %}
+                                                                                    <option id="{{type.type_id}}" value="{{type.type_id}}">
+                                                                                        {{ type.type_name }}
+                                                                                    </option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-8_mody">
+                                                                                <div style="display: None;">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control item_inputbox item_id"
+                                                                                        id="item_id" name="item_id" value="">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control item_inputbox item_no"
+                                                                                        id="item_no" name="item_no" value="">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control item_inputbox item_type_name"
+                                                                                        id="item_type_name"
+                                                                                        name="item_type_name" value="">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control item_inputbox uom_name"
+                                                                                        id="item_uom_name" name="item_uom_name"
+                                                                                        value="hidden">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control item_inputbox stock_qty"
+                                                                                        id="stock_qty" name="stock_qty"
+                                                                                        value="">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control item_inputbox sales_price"
+                                                                                        id="sales_price" name="sales_price" value="">
+                                                                                </div>
+                                                                                <fieldset>
+                                                                                    <!-- searching item list for adding -->
+                                                                                    <input type="search" id="items_name" placeholder="Search..." class="form-control item_inputbox" autocomplete="off" style="background: #fffab6;">
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <!-- <label for="id_item_qty"
+                                                                                class="col-sm-1 col-form-label font_size_filter">
+                                                                                Qty:
+                                                                            </label> -->
+                                                                            <div class="col-sm-2_mody">
+                                                                                <input type="number" style="text-align: center; background: #fffab6;"
+                                                                                    autocomplete="off" placeholder="Quantity"
+                                                                                    class="form-control item_inputbox"
+                                                                                    id="id_item_qty" name="item_qty">
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-3_mody">
+                                                                                <select id="id_filter_suppliers"
+                                                                                    name="filter_suppliers"
+                                                                                    class="form-select item_inputbox">
+                                                                                    <!--  -->
+
+                                                                                </select>
+                                                                            </div>
+                                                                            <!-- <div class="col-sm-3_mody">
+                                                                                <input type="text" style="text-align: left;"
+                                                                                    autocomplete="off" placeholder="Chalan no. here"
+                                                                                    class="form-control item_inputbox"
+                                                                                    id="item_batch" name="item_batch">
+                                                                            </div> -->
+                                                                            <!-- add Button -->
+                                                                            <div class="col-sm-1 col-sm-1_manual">
+                                                                                <button type="button" id="addOPSitem" style="margin-left: -5px;"
+                                                                                    class="btn btn-success text-white btn-xs item_add_clear_btn">
+                                                                                    Add
+                                                                                </button>
+                                                                            </div>
+                                                                            <!-- clear Button -->
+                                                                            <!-- <div class="col-sm-1">
+                                                                                <button
+                                                                                    class="btn btn-danger text-white btn-xs item_add_clear_btn">Clear</button>
+                                                                            </div> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+
+                                        <!--  -->
+                                        <!-- table body -->
+                                        <section style="margin-left: 0.15rem; margin-bottom: 0.5rem;">
+                                            <div class="table_border">
+                                                <div class="col-xl-12">
+                                                    <div class="table-body item_table_body">
+                                                        <div class="d-flex w-100" id="OPSTBL">
+                                                            <table class="table" style="width: 100%; text-align:center; margin-bottom: 0rem;">
+                                                                <thead class="text-center table-header_itemlist">
+                                                                    <tr style="border-style: hidden!important;">
+                                                                        <th style="text-align:center; width: 3%;">Sl</th>
+                                                                        <th style="text-align:center;">Item No</th>
+                                                                        <th style="text-align:center; width: 25%;">Item Name</th>
+                                                                        <th style="text-align:center;">Type</th>
+                                                                        <th style="text-align:center;">UoM</th>
+                                                                        <th style="text-align:center; width: 8%;">Stock Qty</th>
+                                                                        <th style="text-align:center;">Price</th>
+                                                                        <th style="text-align:center;">OPS. Qty</th>
+                                                                        <th style="text-align:center; width: 10%;">Invoice No</th>
+                                                                        <th style="text-align:center; width: 8%;">Tot. Amt.</th>
+                                                                        <th style="text-align:center; width: 3%;">
+                                                                            opt.
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="OPStbody_dtl">
+                                                                    <!--  -->
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="d-flex w-100" id="OPSTBL_lastRow">
+                                                            <table class="table" style="width: 100%; text-align:center;">
+                                                                <tbody>
+                                                                    <tr class="item-row">
+                                                                        <td colspan="9" style="text-align:right; font-size: 0.75rem; font-weight: bolder;">Total Amt.</td>
+                                                                        <td style="text-align:center; font-size: 0.75rem; width: 14%; font-weight: bolder;" class="grand_total_amt"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <noscript id="item-clone">
+                                                <tr class="item-row" style="border-style: hidden!important;">
+                                                    <td class="serial-number inputbox_tdrow" style="text-align:center;">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="text" value="" class="inputbox_tdrow" id="item_no"
+                                                            name="item_no[]" readonly>
+                                                        <input type="hidden" value="" class="inputbox_tdrow" id="item_id"
+                                                            name="item_id[]" readonly>
+                                                        <input type="hidden" value="" class="inputbox_tdrow" id="items_name"
+                                                            name="items_name[]" readonly>
+                                                    </td>
+                                                    <td style="position: relative; margin-top: 2.5px; text-align: left;"
+                                                        class="inputbox_tdrow items_name_id">
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="text" value="" class="inputbox_tdrow" id="type_name"
+                                                            name="type_name[]" readonly>
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="text" value="" class="inputbox_tdrow" id="uom_name"
+                                                            name="uom_name[]" readonly>
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="number" value="" class="inputbox_tdrow" id="stock_qty"
+                                                            name="stock_qty[]" readonly>
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="number" value="0" class="inputbox_rowwise item_disabled" id="item_price"
+                                                            name="item_price[]" required autocomplete="off">
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="number" value="0" class="inputbox_rowwise item_disabled" id="item_qty"
+                                                            name="item_qty[]" required autocomplete="off">
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="text" class="inputbox_rowwise item_disabled" id="item_batchs"
+                                                            name="item_batchs[]" required autocomplete="off">
+                                                    </td>
+                                                    <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
+                                                    <td style="text-align:center;">
+                                                        <button type="button"
+                                                            class="btn btn-danger text-white btn-xs itemAdd_del_btn">X</button>
+                                                    </td>
+                                                </tr>
+                                            </noscript>
+                                        </section>
+                                        <!-- opening stock submission -->
+                                        <section class="submissionBtn-body">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_item_setup">
+                                                            <div class="row row_item_setup">
+                                                                <!-- submit button -->
+                                                                <div class="submit_button">
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        onClick="location.href='/add_purchase_order'"
+                                                                        class="btn btn-primary btn-sm text-white" id="id_new-po"
+                                                                        type="button">
+                                                                        New Opening Stock
+                                                                    </button>
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-success btn-sm" type="submit"
+                                                                        id="approve_stock">
+                                                                        Approve
+                                                                    </button>
+                                                                    <!--  -->
+                                                                    <!-- <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-info btn-sm text-white"
+                                                                        id="id_proposal-report" type="button">
+                                                                        Proposal Report
+                                                                    </button> -->
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-warning btn-sm text-white" id="id_draft"
+                                                                        type="submit">
+                                                                        Draft
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<!-- scriptStart  -->
+<script>
+    //
+    function Calculate() {
+        var grand_totalAmount = 0;
+        $('#OPSTBL table tbody tr').each(function () {
+            var itemQty = parseFloat($(this).find('[name="item_qty[]"]').val()) || 0;
+            var itemPrice = parseFloat($(this).find('[name="item_price[]"]').val()) || 0;
+    
+            var totalAmount = itemQty * itemPrice;
+    
+            if (isNaN(totalAmount)) {
+                totalAmount = 0;
+            }
+    
+            $(this).find('.total_amt').text(totalAmount.toLocaleString('en-US'));
+    
+            // Add the total amount to the grand total
+            grand_totalAmount += totalAmount;
+        });
+    
+        // Set the grand total in the grand_totalamt field
+        $('.grand_total_amt').text(grand_totalAmount.toLocaleString('en-US'));
+    }
+    
+    $(document).ready(function () {
+
+        $('#id_org').change(function () {
+            OrgWiseUpdateFilterOptions();
+        });
+
+        OrgWiseUpdateFilterOptions();
+
+        function OrgWiseUpdateFilterOptions() {
+            var selectedOrgId = $('#id_org').val();
+
+            // Branch option value
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    $('#id_branchs').empty();
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_branchs').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+                    $('#id_branchs').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+
+            // type options update Function
+            $.ajax({
+                url: '/get_list_of_item_type/',
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    $('#items_type').empty();
+                    $('#items_type').append('<option value="1" selected>All Type</option>');
+                    $.each(data.itype_list, function (index, type) {
+                        $('#items_type').append('<option value="' + type.type_id + '" id="' + type.type_id + '">' + type.type_name + '</option>');
+                    });
+                    $('#items_type').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching item type:', error);
+                }
+            });
+
+
+
+            // supplier options update Function
+            $.ajax({
+                url: '/get_list_of_supplier/',
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    //<!--  -->
+                    $('#id_filter_suppliers').empty();
+                    $('#id_filter_suppliers').append('<option value="1" selected>All Supplier</option>');
+                    $.each(data.supp_list, function (index, supp) {
+                        $('#id_filter_suppliers').append('<option value="' + supp.supplier_id + '" id="' + supp.supplier_id + '">' + supp.supplier_name + '</option>');
+                    });
+                    $('#id_filter_suppliers').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching suppliers:', error);
+                }
+            });
+        }
+
+    });
+    //<!--  -->
+
+    $(document).ready(function () {
+        $('#items_name').typeahead({
+            source: function (query, result) {
+                var selected_type_id = $('#items_type').val(); // Get the selected type_id here
+                var selected_id_org = $('#id_org').val();
+                var selected_supplier_id = $('#id_filter_suppliers').val();
+                $.ajax({
+                    url: '/get_opening_stock_list/',
+                    data: {
+                        query: query,
+                        selectedTypeId: selected_type_id,
+                        id_org: selected_id_org,
+                        filter_suppliers: selected_supplier_id,
+                    }, // Pass selectedTypeId
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        result($.map(data.data, function (item) {
+                            return { name: item.item_name.toString(), id: item.item_id }; // Return an object with name and id
+                        }));
+                    }
+                });
+            },
+            updater: function (item) {
+                var selectedItemId = item.id;
+                var selected_id_org = $('#id_org').val();
+
+                $.ajax({
+                    url: '/get_os_item_details_list/',
+                    data: { 
+                        selectedItem: selectedItemId,
+                        id_org: selected_id_org,
+                    }, // Send the selected item ID to retrieve details
+                    dataType: "json",
+                    type: "GET",
+                    success: function (response) {
+                        var selectedItemDetails = response.data;
+
+                        // Assign selected data to the corresponding text input fields
+                        $('#item_id').val(selectedItemDetails[0].item_id);
+                        $('#item_no').val(selectedItemDetails[0].item_no);
+                        $('#item_type_name').val(selectedItemDetails[0].type_name);
+                        $('#item_uom_name').val(selectedItemDetails[0].uom_name);
+                        $('#sales_price').val(selectedItemDetails[0].sales_price);
+                        $('#stock_qty').val(selectedItemDetails[0].grandQty);
+                    }
+                });
+
+                // Return the selected item name to fill the input field
+                return item.name;
+            },
+            items: 150, // Specify the number of items to display
+            displayText: function (item) {
+                return item.name; // Adjust this if you want to customize the display text
+            },
+        });
+    });
+    //<!--  -->
+    
+    const getTwoDigits = (value) => value < 10 ? `0${value}` : value;
+
+    const formatDate = (date) => {
+        const day = getTwoDigits(date.getDate());
+        const month = getTwoDigits(date.getMonth() + 1); // add 1 since getMonth returns 0-11 for the months
+        const year = date.getFullYear();
+
+        return `${year}-${month}-${day}`;
+    }
+
+    const formatTime = (date) => {
+        const hours = getTwoDigits(date.getHours());
+        const mins = getTwoDigits(date.getMinutes());
+
+        return `${hours}:${mins}`;
+    }
+
+    const date = new Date();
+    document.getElementById('id_transaction_date').value = formatDate(date);
+    //document.getElementById('id_approved_date').value = formatDate(date);
+
+    //<!-- present date show scriptEnd  -->
+
+    //<!-- Checkbox check to value show -->
+    function is_approved_name() {
+        var approvedNameCheckbox = document.getElementById("id_approved_name");
+        var isApprovedInput = document.getElementById("id_is_approved");
+        var approvedDateInput = document.getElementById("id_approved_date");
+        var draftButton = document.getElementById("id_draft");
+        var approveButton = document.getElementById("approve_stock");
+        var ItemAddButton = document.getElementById("addOPSitem");
+        var isApprovedByInput = document.getElementById("id_is_approved_by"); // Declare and initialize this variable
+        var isUserID = document.getElementById("id_user_id_by");
+
+        // Find the parent <tbody> element
+        var OPStbody_dtl = document.getElementById("OPStbody_dtl");
+
+        // Find elements within the <tbody>
+        var IteQtyInputs = OPStbody_dtl.getElementsByClassName("item_disabled");
+        var IteBatchInputs = OPStbody_dtl.getElementsByClassName("item_disabled");
+        var IteExpDateInputs = OPStbody_dtl.getElementsByClassName("item_disabled");
+        var ItemDeleteButtons = OPStbody_dtl.getElementsByClassName("itemAdd_del_btn");
+    
+        if (approvedNameCheckbox.checked) {
+            var authUserId = $('#is_approved_by_user').val();
+            isApprovedInput.value = "1";
+            var currentDate = new Date();
+            isUserID.value = authUserId;
+    
+            // Adjust the date to your local time zone
+            var offset = currentDate.getTimezoneOffset();
+            currentDate = new Date(currentDate.getTime() - offset * 60 * 1000);
+    
+            approvedDateInput.value = currentDate.toISOString().split('T')[0];
+    
+            // Handle checkboxes and set the value of "Approved By" input
+            var checkboxes = document.getElementsByName('is_approved_by');
+            var checkboxesChecked = [];
+    
+            // Loop over the checkboxes
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checkboxesChecked.push(checkboxes[i].value);
+                }
+            }
+            isApprovedByInput.value = checkboxesChecked.join(', ');
+
+            // Change the input fields to readonly
+            for (var i = 0; i < IteQtyInputs.length; i++) {
+                IteQtyInputs[i].readOnly = true;
+                IteBatchInputs[i].readOnly = true;
+                IteExpDateInputs[i].readOnly = true;
+            }
+
+            for (var i = 0; i < ItemDeleteButtons.length; i++) {
+                ItemDeleteButtons[i].disabled = true; // Disable delete buttons
+            }
+    
+            draftButton.disabled = true;
+            approveButton.disabled = false;
+            ItemAddButton.disabled = true;
+        } else {
+            isApprovedInput.value = "0";
+            isUserID.value = "";
+            isApprovedByInput.value = "";
+            approvedDateInput.value = "";
+            
+            // Change the input fields back to editable
+            for (var i = 0; i < IteQtyInputs.length; i++) {
+                IteQtyInputs[i].readOnly = false;
+                IteBatchInputs[i].readOnly = false;
+                IteExpDateInputs[i].readOnly = false;
+            }
+
+            for (var i = 0; i < ItemDeleteButtons.length; i++) {
+                ItemDeleteButtons[i].disabled = false; // Enable delete buttons
+            }
+    
+            draftButton.disabled = false;
+            approveButton.disabled = true;
+            ItemAddButton.disabled = false;
+        }
+    }
+    
+    // Add an event listener to the "id_approved_name" checkbox
+    document.getElementById("id_approved_name").addEventListener("change", is_approved_name);
+    
+    // Initially toggle the button state
+    is_approved_name();
+    //<!--  -->
+
+    //<!-- Store id auto select and id value show another places -->
+    $('#id_current_store').removeAttr('selected').find('option:first').attr('selected', 'selected').trigger("change");
+    function myStoreName(element) {
+        document.getElementById("id_store_no").value = element.options[element.selectedIndex].id;
+    }
+    //<!-- Store id auto select and id value show another places end -->
+
+
+    //<!-- Store id auto select and id value show another places -->
+    $(document).ready(function () {
+        $('#id_current_store').on('change', function () {
+            var selectedStoreId = $(this).val();
+            $('#id_store_no').val(selectedStoreId);
+        });
+
+        // Trigger change event to update the store number initially
+        $('#id_current_store').change();
+    });
+    //<!-- Store id auto select and id value show another places end -->
+
+    // add multiple input field add with value
+    $(document).ready(function () {
+        // Call the function to populate user stores
+        populateUserStores();
+        Calculate();
+        // Function to fetch and populate user stores
+        function populateUserStores() {
+            $.ajax({
+                url: "{% url 'get_user_stores' %}",
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.stores) {
+                        var select = $('#id_current_store');
+                        select.empty();
+                        $.each(response.stores, function (index, store) {
+                            select.append($('<option>', {
+                                value: store.store_id,
+                                id: store.store_id,
+                                text: store.store_name
+                            }));
+                        });
+
+                        // After populating user stores, trigger the change event for id_current_store
+                        $('#id_current_store').trigger('change');
+                    } else {
+                        console.error('Error fetching user stores');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        //<!--  -->
+        $('#addOPSitem').click(function () {
+            var item_id = $('#item_id').val();
+            var store_id = $('#id_current_store').val();
+            var item_no = $('#item_no').val();
+            var item_type_name = $('#item_type_name').val();
+            var item_uom_name = $('#item_uom_name').val();
+            var items_name = $('#items_name').val();
+            var item_price = $('#sales_price').val();
+            var item_qty = $('#id_item_qty').val();
+            var stock_qty = $('#stock_qty').val();
+            var item_batch = $('#item_batch').val();
+            
+            if (items_name == '' || item_qty == '' || items_name == null || item_qty == null) {
+                toastr.warning("Item Name and Quantity Field is required!");
+                return false;
+            }
+    
+            if ($('#OPSTBL table tbody input[name="item_id[]"]').filter(function () {
+                return $(this).val() === item_id;
+            }).length > 0) {
+                toastr.warning('Item Already in the List.');
+                return false;
+            }
+    
+            if (item_id && store_id) {
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    type: 'POST',
+                    url: '/exists_opningStock_data/',
+                    data: {
+                        'store_id': store_id,
+                        'item_ids[]': item_id
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status === 'success') {
+                            var tr = $($('noscript#item-clone').html()).clone();
+                            tr.find('.serial-number').text($('#OPSTBL table tbody tr').length + 1);
+                            tr.find('[name="item_id[]"]').val(item_id);
+                            tr.find('[name="item_no[]"]').val(item_no);
+                            tr.find('[name="type_name[]"]').val(item_type_name);
+                            tr.find('[name="uom_name[]"]').val(item_uom_name);
+                            tr.find('[name="items_name[]"]').val(items_name);
+                            tr.find('.items_name_id').text(items_name);
+                            tr.find('[name="item_price[]"]').val(item_price);
+                            tr.find('[name="item_qty[]"]').val(item_qty);
+                            tr.find('[name="item_batchs[]"]').val(item_batch);
+                            tr.find('[name="stock_qty[]"]').val(parseInt(stock_qty));
+    
+                            $('#OPSTBL table tbody').append(tr);
+                            $('#items_name').val('').trigger('change');
+    
+                            tr.find('[name="item_qty[]"]').on('input keypress keyup keydown', function () {
+                                // Handle quantity changes
+                                Calculate();
+                            });
+                
+                            tr.find('[name="item_price[]"]').on('input keypress keyup keydown', function () {
+                                // Handle quantity changes
+                                Calculate();
+                            });
+    
+                            tr.find('.itemAdd_del_btn').click(function () {
+                                tr.remove();
+                                Calculate();
+                            });
+    
+                            // After cloning, set the ID of the new datepicker
+                            var newItem = $('#OPSTBL table tbody tr:last');
+                            var newIndex = $('#OPSTBL table tbody tr').length;
+                            var newDatepicker = newItem.find('.datepicker');
+                            var newDatepickerId = "item_exp_date_" + newIndex;
+    
+                            // Assign the unique ID to the new datepicker
+                            newDatepicker.attr('id', newDatepickerId);
+    
+                            // Initialize the datepicker for the new row
+                            newDatepicker.datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                changeYear: true,
+                                changeMonth: true
+                            });
+
+                            Calculate();
+                        } else {
+                            toastr.error(data.msg);
+                        }
+                    }
+                });
+            }
+            Calculate();
+        });
+        //
+        $('#id_draft').click(function () {
+            if ($('#OPSTBL table tbody tr').length <= 0) {
+                toastr.warning("Add Atleast 1 (One) Item First!..")
+                return false;
+            }
+        })
+
+        //
+        $('#approve_stock').click(function () {
+            if ($('#OPSTBL table tbody tr').length <= 0) {
+                toastr.warning("Add Atleast 1 (One) Item First!..")
+                return false;
+            }
+        })
+    });
+
+
+    $(function () {
+        $('#OPstock-form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'add_opening_stock' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg)
+                        //location.reload()
+                        setTimeout(function () { 
+                            location.reload()
+                            window.location.href = "{% url 'opening_stock' %}";
+                        }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            })
+        })
+    })
+
+    //<!-- loader scrpt-->
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+
+        loader.classList.add("loader-hidden");
+
+        loader.addEventListener("transitionend", () => {
+            // document.body.removeChild("loader");
+        });
+    });
+</script>
+
+{% endblock %}

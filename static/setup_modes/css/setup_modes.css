@@ -1,0 +1,159 @@
+/* main header start */
+.container-fluid {
+    cursor: pointer;
+}
+
+.dashboar-head {
+    width: 100%;
+    border-bottom: 1px solid white;
+    margin-top: 0.5em;
+    margin-bottom: 0.5rem;
+}
+
+.req-head-icon {
+    font-size: 16px;
+}
+
+.req-head {
+    font-size: 18px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.py-2 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.text-size {
+    font-size: 15px;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* main header end */
+
+.main-card {
+    border: 0;
+}
+
+.card-body_item_setup {
+    flex: 1 1 auto;
+    padding: 0.5rem 0.5rem;
+}
+
+.itemsetup_container {
+    position: relative;
+    /* height: 70vh; */
+    margin-top: 8px;
+    border: 1px solid rgb(211, 211, 211);
+    /* background: rgba(216, 216, 216, 0.767); */
+}
+
+.add_edit_head {
+    position: relative;
+    display: flex;
+    margin-top: -17px;
+    margin-left: 25px;
+    width: 20%;
+    height: 33px;
+    background: #fff;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.add_edit_head h2 {
+    position: absolute;
+    display: flex;
+    font-size: 14px;
+    color: rgb(126, 126, 126);
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.card-body_store {
+    flex: 1 1 auto;
+    padding: 0.1rem 0.5rem;
+}
+
+.item_setupflag {
+    margin-bottom: 4px;
+    font-size: 13.5px;
+}
+
+.setupflag_label {
+    margin-right: 5px;
+}
+
+.item_inputbox {
+    position: relative;
+    margin-top: 2px;
+    padding: 0.175rem 0.25rem 0.175rem 0.75rem;
+    font-size: 0.8rem;
+    border-color: cadetblue;
+    z-index: 1;
+}
+
+@media (min-width: 576px) {
+    .col-org_filter {
+        flex: 0 0 auto;
+        width: 16.5%;
+    }
+}
+
+.font_size_filter {
+    display: flex;
+    padding-right: 8px;
+    font-size: 13px;
+    justify-content: right;
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+
+.submit_button {
+    position: relative;
+    display: flex;
+    margin-top: -6px;
+    justify-content: right;
+}

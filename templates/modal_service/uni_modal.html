@@ -1,0 +1,51 @@
+<!-- log out modal end -->
+<!-- pos billing modal start -->
+<div class="modal fade" id="uni_modal" role='dialog'>
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content rounded-0">
+            <!-- <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div> -->
+            <div class="modal-body">
+            </div>
+            <!-- <div class="modal-footer">
+                    <h5 class="modal-footer"></h5>
+                    <button type="button" class="btn  btn-sm btn-flat btn-primary rounded-0" id='submit'
+                        onclick="$('#uni_modal form').submit()">Save</button>
+                    <button type="button" class="btn btn-sm btn-flat btn-secondary rounded-0"
+                        data-bs-dismiss="modal">Cancel</button>
+                </div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+    window.uni_modal = function ($title = '', $url = '', $size = "", $footer) {
+        $.ajax({
+            url: $url,
+            error: err => {
+                console.log()
+                alert("An error occured")
+            },
+            success: function (resp) {
+                if (resp) {
+                    $('#uni_modal .modal-title').html($title)
+                    $('#uni_modal .modal-body').html(resp)
+                    $('#uni_modal .modal-footer').html($footer)
+                    if ($size != '') {
+                        $('#uni_modal .modal-dialog').addClass($size + '  modal-dialog-centered')
+                    } else {
+                        $('#uni_modal .modal-dialog').removeAttr("class").addClass("modal-dialog modal-md")
+                    }
+                    $('#uni_modal').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        focus: true
+                    })
+                    $('#uni_modal').modal('show')
+                }
+            }
+        })
+    }
+</script>
+<!-- pos billing modal end -->

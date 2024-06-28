@@ -1,0 +1,825 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'credit_management/css/credit_management.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bx-credit-card-alt text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Credit Management Services</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <form action="" method="" id="client_form">
+                <input type="hidden" id="id_supplier_id" name="supplier_id" value="">
+                <section>
+                    <div class="card po_card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 1rem; background: whitesmoke;">
+                        <div class="card-body">
+                            <div class="report-filter">
+                                <!-- Date Range Filter -->
+                                <div class="date-range">
+                                    <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                        <div class="date_range-element" style="display:flex">
+                                            <!--  -->
+                                            <div class="row store_row col-sm-6"
+                                                style="flex-grow: 1; display: flex; justify-content: left;">
+                                                <label for="id_filter_org" class="col-auto col-form-label">
+                                                    Organization:
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <select id="id_filter_org" name="filter_org" class="form-select store_Selectbox"
+                                                        aria-label="Default select example">
+                                                        {% for org in org_list %}
+                                                        <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                            {{org.org_name}}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row store_row col-sm-6"
+                                                style="flex-grow: 2; display: flex; justify-content: right;">
+                                                <label for="id_filter_branch" class="col-auto col-form-label">
+                                                    Branch:
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <select id="id_filter_branch" name="filter_branch"
+                                                        class="form-select store_Selectbox" aria-label="Default select example">
+                                                        <!--  -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--  -->
+                <section>
+                    <div class="row row_item_setup">
+                        <div class="col-sm-5">
+                            <!-- List of Clients -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemfilter_container">
+                                        <div class="filter_head">
+                                            <h2 class="text-success">List of Clients</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body card-body_item_setup">
+                                                        <!--  -->
+                                                        <div class="client_TB">
+                                                            <table id="" class="table table-striped table-hover"
+                                                                style="width: 100%;">
+                                                                <thead class="text-center table-header_itemlist">
+                                                                    <tr>
+                                                                        <th style="text-align:center; width: 20%;">Client No.</th>
+                                                                        <th style="text-align:center; width: 65%;">Client Name</th>
+                                                                        <th style="text-align:center; width: 15%;">Action</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th colspan="3"
+                                                                            style="text-align:center; background: #fff !important;">
+                                                                            <input type="search" id="clientssearch"
+                                                                                class="form-control search_control item_inputbox"
+                                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                                placeholder="Searching ..." autocomplete="off">
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody id="client_Tbody" class="table-body-row"
+                                                                    style="text-align:center; cursor: pointer;">
+                                                                    <!--  -->
+
+                                                                </tbody>
+                                                                <!-- loader start -->
+                                                                <section class="loader-section">
+                                                                    <div class="loader-body">
+                                                                        <div class="loader">
+                                                                            <div class="upper ball"></div>
+                                                                            <div class="right ball"></div>
+                                                                            <div class="lower ball"></div>
+                                                                            <div class="left ball"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                                <!-- loader end -->
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- List of Clients -->
+
+                        <!--  -->
+                        <div class="col-sm-7">
+                            <!-- Clients Information -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-primary">Clients Information</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div id="trans_client_info" id="supplier_info">
+                                            <!-- 1st row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-4">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_supplier_no"
+                                                                    class="col-sm-6 col-form-label font_size_filter">
+                                                                    Client No:
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control item_inputbox"
+                                                                        id="id_supplier_no" name="supplier_no" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_supplier_name"
+                                                                    class="col-sm-4 col-form-label font_size_filter">
+                                                                    Client Name:
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control item_inputbox"
+                                                                        id="id_supplier_name" name="supplier_name" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 2nd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_company_name"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">
+                                                                    Comp. Name:
+                                                                </label>
+                                                                <div class="col-sm-s10">
+                                                                    <input type="text" value="" class="form-control item_inputbox"
+                                                                        id="id_company_name" name="company_name" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 3rd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_address"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">Address:</label>
+                                                                <div class="col-sm-s10">
+                                                                    <textarea class="form-control item_inputbox" id="id_address"
+                                                                        name="address" value=""
+                                                                        style="height: 28px; margin-bottom: 5px;" autocomplete="off"
+                                                                        readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 4th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_phone"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Phone:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="number" value="" class="form-control item_inputbox"
+                                                                        id="id_phone" name="phone" required autocomplete="off" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_mobile"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Mobile:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number" class="form-control item_inputbox"
+                                                                        id="id_mobile" name="mobile" autocomplete="off" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 5th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_supplier_email"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Email:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="email" value="" class="form-control item_inputbox"
+                                                                        id="id_supplier_email" name="supplier_email" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_supplier_fax"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Fax:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number" value="" class="form-control item_inputbox"
+                                                                        id="id_supplier_fax" name="supplier_fax" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Credit Payments -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-info">Payments Information</h2>
+                                        </div>
+                                        <!--  -->
+                                        <!-- 1st row -->
+                                        <div class="row row_item_setup">
+                                            <div style="display: flex;">
+                                                <div class="col-sm-5">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_credit_payment"
+                                                                    class="col-sm-4 col-form-label font_size_filter">
+                                                                    Payments:
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number" class="form-control reset_input item_inputbox"
+                                                                        style="text-align: right; padding-right: 1rem; background: #fffab6;"
+                                                                        id="id_credit_payment" name="credit_payment"
+                                                                        autocomplete="off" placeholder="Enter Your Payments Amt." required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4" style="margin-left: 3rem; margin-top: 3px;">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <!--  -->
+                                                                <div class="form-check form-check-inline" style="width: 36%;">
+                                                                    <label class="form-check-label" for="id_is_debited"
+                                                                        style="font-size: 11.5px;">Is Debited</label>
+                                                                    <input class="form-check-input" type="radio" name="is_debited" id="id_is_debited"
+                                                                        value="1" checked>
+                                                                </div>
+                                                                <div class="form-check form-check-inline" style="width: 40%;">
+                                                                    <label class="form-check-label" for="id_is_credited"
+                                                                        style="font-size: 11.5px;">Is Credited</label>
+                                                                    <input class="form-check-input" type="radio" name="is_credited" id="id_is_credited"
+                                                                        value="1">
+                                                                </div>
+                                                                <!--  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-2">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <!-- submit button -->
+                                                            <div class="submit_button">
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    style="margin-right: 10px;"
+                                                                    onclick="$('.reset_input').val('');">
+                                                                    Clear
+                                                                </button>
+                                                                <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                                                    style="margin-right: 10px;">
+                                                                    Save
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- History of Credit Payments -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-warning">History of Transactions</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div style="height: 88vh; overflow-x: auto;" id="trans_table">
+                                            <table id="credit-trans-table" class="table table-striped" style="width: 100%; border: 1px solid rgb(211, 211, 211); overflow-x: auto;">
+                                                <thead style="text-align: center; background: #0f6a8d; color: #fff;">
+                                                    <tr style="font-size: 0.8rem; font-weight: bold;">
+                                                        <th style="width: 15%;">Trans ID</th>
+                                                        <th style="width: 20%;">Date</th>
+                                                        <th style="width: 30%;">Type of Payments</th>
+                                                        <th style="width: 15%;">Debit</th>
+                                                        <th style="width: 15%;">Credit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!--  -->
+                                                    
+                                                </tbody>
+                                            </table>
+                                            <!--  -->
+                                            <table id="debit_credit_amt" class="table table-striped" style="width: 100%; border: 1px solid rgb(211, 211, 211); margin-bottom: 0.2rem;">
+                                                <thead style="background: rgb(226, 226, 226);">
+                                                    <tr style="font-size: 0.85rem">
+                                                        <th colspan="3" style="width: 68.5%; text-align: right;">Total Debit and Credit Amounts:</th>
+                                                        <th style="width: 15%; text-align: center;"><span id="total_debit_amt"></span></th>
+                                                        <th style="width: 15%; text-align: center;"><span id="total_credit_amt"></span></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <!--  -->
+                                            <table id="debit_credit_balance" class="table table-striped" style="width: 100%; border: 1px solid rgb(211, 211, 211);">
+                                                <thead style="background: rgb(226, 226, 226);">
+                                                    <tr style="font-size: 0.85rem">
+                                                        <th colspan="4" style="width: 69.5%; text-align: right;">Total Balance:</th>
+                                                        <th style="width: 31.5%; text-align: right;"><span id="total_balance_amt" style="margin-right: 2rem;"></span></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </section>
+    </section>
+</main>
+<script>
+    // id_is_debited, id_is_credited click to change
+    function toggleCheck(primaryId, secondaryId) {
+        document.getElementById(primaryId).addEventListener('change', function () {
+            document.getElementById(secondaryId).checked = false;
+        });
+
+        document.getElementById(secondaryId).addEventListener('change', function () {
+            document.getElementById(primaryId).checked = false;
+        });
+    }
+
+    toggleCheck('id_is_credited', 'id_is_debited');
+
+    //==============================================================================
+    $(document).ready(function () {
+        // Function to fetch clients list
+        function fetchClientsList() {
+            var orgFilter = $('#id_filter_org').val();
+            var searchQuery = $('#clientssearch').val();
+
+            // Show the loader
+            $('.loader-section').show();
+
+            // Make the AJAX request
+            $.ajax({
+                url: "{% url 'list_of_clients' %}",
+                type: 'GET',
+                data: {
+                    'org_filter': orgFilter,
+                    'supp_search_query': searchQuery
+                },
+                dataType: 'json',
+                success: function (response) {
+                    // Hide the loader
+                    $('.loader-section').hide();
+
+                    // Clear the existing table body
+                    $('#client_Tbody').empty();
+
+                    // Populate the table body with the new data
+                    response.data.forEach(function (client) {
+                        var row = $('<tr>').attr("data-supplier-id", client.supplier_id).append(
+                            $('<td>').text(client.supplier_no),
+                            $('<td>').css("text-align", "left").text(client.supplier_name),
+                            $('<td>').html('<button type="button" data-action="report" class="btn btn-sm btn-warning view-data" style="font-size: 0.8rem;" data-supplier-id="' + client.supplier_id + '">Report</button>')
+                        ).addClass("client-row");
+                        $('#client_Tbody').append(row);
+                    });
+
+                    // Highlight selected row if applicable
+                    highlightSelectedRowOnInit();
+
+                    // Call handleClientRowSelection after adding rows
+                    handleClientRowSelection();
+
+                    // Check if there is a selected supplier ID in local storage and populate details
+                    var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+                    var selectedBranchId = $('#id_filter_branch').val();
+                    if (selectedSupplierId, selectedBranchId) {
+                        populateSupplierDetails(selectedSupplierId);
+                        fetchAndDisplayCreditTransactions(selectedSupplierId, selectedBranchId);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Hide the loader
+                    $('.loader-section').hide();
+                    console.error('Error fetching clients list:', status, error);
+                }
+            });
+        }
+
+        // Bind fetchClientsList function to input events
+        $('#id_filter_org, #id_filter_branch, #clientssearch').on('change keyup', fetchClientsList);
+
+        // Bind an event handler to the change event of #id_filter_org
+        $('#id_filter_org').on('change', function () {
+            // Remove the "selected-row" class from all elements with the class ".client-row"
+            $('.client-row').removeClass('selected-row');
+
+            // Clear the supplier details
+            supp_populateTable({});
+
+            // Clear the selected supplier ID from local storage
+            localStorage.removeItem("selectedSupplierId");
+
+            // Check if there is a selected supplier ID in local storage and populate details
+            var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+            var selectedBranchId = $('#id_filter_branch').val();
+            if (selectedSupplierId, selectedBranchId) {
+                populateSupplierDetails(selectedSupplierId);
+                fetchAndDisplayCreditTransactions(selectedSupplierId, selectedBranchId);
+            }
+        });
+
+        // Initial fetch
+        fetchClientsList();
+
+
+        $(function () {
+            $('#client_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'add_credit_transaction' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            $('.loader-section').show();
+                            $('#client_form')[0].reset();
+                            // Hide loader
+                            setTimeout(function () {
+                                $('.loader-section').hide();
+                            }, 1100);
+                            // Check if there is a selected supplier ID in local storage and populate details
+                            var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+                            var selectedBranchId = $('#id_filter_branch').val();
+                            if (selectedSupplierId, selectedBranchId) {
+                                populateSupplierDetails(selectedSupplierId);
+                                fetchAndDisplayCreditTransactions(selectedSupplierId, selectedBranchId);
+                            }
+
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    // Function to handle row selection
+    function handleClientRowSelection() {
+        // Attach click event listener to all client rows
+        $(document).on("click", ".client-row", function () {
+            var clickedClientId = $(this).data("supplier-id"); // Get the supplier ID from the clicked row
+            var selectedBranchId = $('#id_filter_branch').val();
+
+            // Remove highlighting from other rows
+            $(".client-row").removeClass("selected-row");
+
+            // Highlight the selected row
+            $(this).addClass("selected-row");
+
+            // Save the selected supplier ID to local storage
+            localStorage.setItem("selectedSupplierId", clickedClientId);
+
+            // Call the function to populate the table with supplier details
+            populateSupplierDetails(clickedClientId);
+
+            // Call the function to fetch and display the credit transactions
+            fetchAndDisplayCreditTransactions(clickedClientId, selectedBranchId);
+        });
+    }
+
+    // Function to populate the table with supplier details
+    function populateSupplierDetails(supplierId) {
+        if (supplierId) {
+            $.ajax({
+                type: "GET",
+                url: "/get_supplier_lists/" + supplierId + "/",
+                dataType: "json",
+                success: function (data) {
+                    supp_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    //toastr.warning("Failed to fetch Supplier details");
+                }
+            });
+        }
+    }
+
+    // Function to populate the table with supplier details
+    function supp_populateTable(data) {
+        // Clear existing supplier details
+        $('#id_supplier_id').val("");
+        $('#id_supplier_no').val("");
+        $('#id_supplier_name').val("");
+        $('#id_company_name').val("");
+        $('#id_address').val("");
+        $('#id_phone').val("");
+        $('#id_mobile').val("");
+        $('#id_supplier_email').val("");
+        $('#id_supplier_fax').val("");
+
+        // Populate with new data if available
+        if (data.hasOwnProperty('supplier_Dtls') && data.supplier_Dtls.length > 0) {
+            var supplier = data.supplier_Dtls[0]; // Assuming only one supplier detail is returned
+            $('#id_supplier_id').val(supplier.supplier_id);
+            $('#id_supplier_no').val(supplier.supplier_no);
+            $('#id_supplier_name').val(supplier.supplier_name);
+            $('#id_company_name').val(supplier.company_name);
+            $('#id_address').val(supplier.address);
+            $('#id_phone').val(supplier.phone);
+            $('#id_mobile').val(supplier.mobile);
+            $('#id_supplier_email').val(supplier.supplier_email);
+            $('#id_supplier_fax').val(supplier.supplier_fax);
+        }
+    }
+
+    // Function to highlight selected row on initialization
+    function highlightSelectedRowOnInit() {
+        var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+        if (selectedSupplierId) {
+            $(".client-row").each(function () {
+                if ($(this).data("supplier-id").toString() === selectedSupplierId) {
+                    $(this).addClass("selected-row");
+                    return false; // Break the loop once the match is found
+                }
+            });
+        }
+    }
+
+
+    function fetchAndDisplayCreditTransactions(supplierId, branchId) {
+        if (supplierId) {
+            $.ajax({
+                url: "{% url 'get_credit_transactions' %}",
+                type: 'GET',
+                data: {
+                    'supplier_id': supplierId,
+                    'branch_id': branchId,
+                },
+                dataType: 'json',
+                success: function (response) {
+                    // Clear the existing table body
+                    $('#credit-trans-table tbody').empty();
+                    var totalDebitAmt = 0;
+                    var totalCreditAmt = 0;
+        
+                    // Populate the table body with the new data
+                    response.forEach(function (transaction, index) {
+                        var debitPaymentId = 'id_debit_payment_' + index;
+                        var creditPaymentId = 'id_credit_payment_' + index;
+                        var row = $('<tr style="font-size: 0.8rem;">').append(
+                            $('<td style="text-align: center;">').text(transaction.credit_id),
+                            $('<td style="text-align: center;">').text(transaction.credit_pay_date),
+                            $('<td style="text-align: left;">').text(transaction.type_of),
+                            $('<td>').html('<input type="number" class="debit-payment-input" id="' + debitPaymentId + '" value="' + (transaction.debit_payment || '') + '" style="width: 100%; border: none; text-align: center; font-weight: 500; background: transparent;" readonly>'),
+                            $('<td>').html('<input type="number" class="credit-payment-input" id="' + creditPaymentId + '" value="' + (transaction.credit_payment || '') + '" style="width: 100%; border: none; text-align: center; font-weight: 500; background: transparent;" readonly>'),
+                        );
+                        $('#credit-trans-table tbody').append(row);
+
+                        // Add debit payment to totalDebitAmt
+                        if (!isNaN(transaction.debit_payment)) {
+                            totalDebitAmt += parseFloat(transaction.debit_payment);
+                        }
+
+                        // Add credit payment to totalCreditAmt
+                        if (!isNaN(transaction.credit_payment)) {
+                            totalCreditAmt += parseFloat(transaction.credit_payment);
+                        }
+                    });
+
+                    // Calculate the balance
+                    var balance = totalDebitAmt - totalCreditAmt;
+
+                    // Set the total debit and credit amounts
+                    $('#total_debit_amt').text(totalDebitAmt.toFixed(0));
+                    $('#total_credit_amt').text(totalCreditAmt.toFixed(0));
+                    $('#total_balance_amt').text(balance.toFixed(0));
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching credit transactions:', status, error);
+                }
+            });
+        } else {
+            // Clear the table body
+            $('#credit-trans-table tbody').empty();
+        }
+    }
+
+    //=================================================================================
+
+    // get branch option org wise
+    $(document).ready(function () {
+        // Initial population of branch options based on the selected organization
+        updateBranchOptionsfilter();
+
+        // Event listener for the change event on #id_filter_org
+        $('#id_filter_org').change(function () {
+            updateBranchOptionsfilter();
+        });
+
+        function updateBranchOptionsfilter() {
+            // Get the selected organization ID
+            var selectedFilterOrgId = $('#id_filter_org').val();
+
+            // Make an AJAX request to get branch options based on the selected organization
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    // Clear existing options
+                    $('#id_filter_branch').empty();
+
+                    // Add fetched branch options
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_filter_branch').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+
+                    // Trigger change event for #id_filter_branch to automatically update its value
+                    $('#id_filter_branch').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+    });
+
+
+    $(function () {
+        $(document).on('click', '.view-data', function () {
+            var supplierID = $(this).attr('data-supplier-id'); // Get the supplier ID from the clicked row
+            var selectedBranchId = $('#id_filter_branch').val();
+            var selectedorgId = $('#id_filter_org').val();
+
+            lineloaderstart();
+            // Construct the URL with both supplierID and selectedBranchId as query parameters
+            var url = "{% url 'credit_report_modal' %}?id=" + supplierID + "&branch_id=" + selectedBranchId + "&org_id=" + selectedorgId;
+            
+            // Open the modal with the constructed URL
+            modal_lg("Credit Report Modal", url);
+            
+            lineloaderstop();
+        });
+    });
+
+    //==========================================
+    //loader 
+    const loader = document.querySelector(".loader");
+    const loaderBody = document.querySelector(".loader-body");
+
+    // Function to show the loader
+    function showTypeLoader() {
+        loader.style.display = "block";
+        loaderBody.style.display = "block";
+        loader.style.left = "50%"; // Set left position to center
+        loader.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideTypeLoader() {
+        loader.style.display = "none";
+        loaderBody.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndTypeShowLoader() {
+        const loaderVisible = localStorage.getItem("loaderVisible");
+        if (loaderVisible === "true") {
+            showTypeLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="typeoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showTypeLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideTypeLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndTypeShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideTypeLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+</script>
+{% endblock %}

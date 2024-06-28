@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--========== FAVICON ICONS ==========-->
+    <link rel="shortcut icon" href="{% static 'fav_icon/inventory_fav_icon.png' %}">
+
+    <!----===== Boxicons CSS ===== -->
+    <link rel="stylesheet" href="{% static 'assets/boxicons-2.1.4/css/boxicons.min.css' %}">
+
+    <!--========== Bootstrap link ==========-->
+    <link rel="stylesheet" href="{% static 'assets/bootstrap-5.0.2/dist/css/bootstrap.min.css' %}">
+    <!-- datatable -->
+    <link rel="stylesheet" href="{% static 'assets/DataTables_1.13.6/css/dataTables.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/DataTables_1.13.6/css/dataTables.bootstrap5.css' %}">
+    <!-- <script src="{% static 'assets/DataTables_1.13.6/js/dataTables.dataTables.min.js' %}"></script> -->
+
+    <!-- *************************** chart js ***************************** -->
+    <!-- Include Chart.js -->
+    <script src="{% static 'assets/chart_cdn/chart_js/chart.min.js' %}"></script>
+    
+    <!-- Include chartjs-plugin-datalabels AFTER Chart.js -->
+    <script src="{% static 'assets/chart_cdn/chartjs-plugin-datalabels/plugin-datalabels.js' %}"></script>
+    <!-- *************************** chart js ***************************** -->
+
+    <!-- *************************** Report ***************************** -->
+    <!-- jsPDF -->
+    <script src="{% static 'assets/jspdf/jspdf-1.5.3/jspdf.min.js' %}"></script>
+
+    <!-- jspdf-autotable -->
+    <script src="{% static 'assets/jspdf/jspdf-autotable-3.5.6/jspdf.plugin.autotable.min.js' %}"></script>
+    <!-- *************************** Report ***************************** -->
+
+    <!--==========Bootstap MAIN JS ==========-->
+    <!--Jquery Cdn -->
+    <script src="{% static 'assets/bootstrap-5.0.2/dist/js/bootstrap.min.js' %}"></script>
+    <!-- <script src="{% static 'assets/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js' %}"></script> -->
+
+    <!-- ajax googleapis libs jquery -->
+    <script src="{% static 'assets/ajax_googleapis_2.1.1/js/ajax.googleapis.jquery.min.js' %}"></script>
+
+    <!-- datatables CDN javascript / CSS -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'assets/jquery_dataTables/css/jquery.dataTables.1.13.6.css' %}">
+    <!-- js -->
+    <script src="{% static 'assets/jquery_dataTables/js/jquery.dataTables.1.13.6.js' %}" defer></script>
+
+    <!-- toastr js -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'assets/toastr/css/toastr.min.css' %}">
+    <!-- JS -->
+    <script src="{% static 'assets/toastr/js/toastr.min.js' %}"></script>
+
+    <!-- jQuery CDN -->
+    <script src="{% static 'assets/jquery_3.7.0/js/jquery.3.7.0.min.js' %}"></script>
+    <!-- Then include jQuery UI and the datepicker widget -->
+    <link rel="stylesheet" href="{% static 'assets/jquery-ui-1.13.2/jquery-ui.css' %}">
+    <script src="{% static 'assets/jquery-ui-1.13.2/jquery-ui.js' %}"></script>
+
+    <!-- Bootstrap Typeahead library -->
+    <script src="{% static 'assets/bootstrap-3-typeahead-4.0.2/typeahead.min.js' %}"></script>
+
+    <!-- Barcode CDN -->
+    <script src="{% static 'assets/jsbarcode.3.8.0/js/JsBarcode.all.min.js' %}"></script>
+
+    <!-- tom-select -->
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'assets/tom_select_2.0.0/css/tom_select.css' %}">
+    <!-- js -->
+    <script src="{% static 'assets/tom_select_2.0.0/js/tom_select.complete.min.js' %}"></script>
+
+    <!----======== main base from style CSS ======== -->
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'base_form_style/main_base_style/css/main_base_style.css' %}">
+
+    <title>Seventy One (Pvt.) Ltd.</title>
+
+    {% block extra_link %} {% endblock %}
+</head>
+
+<body>
+    <!--========== HEADER ==========-->
+    <header class="header">
+        <div class="header__container">
+            {% if user.is_authenticated %}
+            <!--  -->
+            <div style="width: 35%;">
+                <a class="header__nane">{{ user_org_name }}</a>
+                <span class="header__address">{{user_org_address}}</span>
+            </div>
+            <!--  -->
+            
+            <!--  -->
+            <div class="title_user_name">
+                <div class="body_user_name">
+                    <div class="user__name">
+                        <h3>
+                            {{ user.first_name }}
+                            {{ user.last_name }}
+                            <div class="designation">
+                                ({{ user.designation }})
+                            </div>
+                        </h3>
+                    </div>
+                    <a href="#logout/confirmation">
+                        {% if user.profile_img %}
+                        <img src="{{ user.profile_img.url }}" alt="" class="header__img">
+                        {% else %}
+                        <!-- Provide a default image or leave it empty -->
+                        <img src="{% static 'images/profile_img/user.png' %}" alt="" class="header__img">
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- <a href="#logout/confirmation">
+                <i class='bx bxs-cog logout__icon'></i>
+            </a> -->
+
+            <div class="header__toggle">
+                <i class='bx bx-menu' id="header-toggle"></i>
+            </div>
+        </div>
+    </header>
+
+    <!--========== NAV ==========-->
+    {% include 'base_form/navbar/nav_bar.html' %}
+    <!--========== CONTENTS ==========-->
+
+    <main>
+        <section>
+            <div class="block_body">
+                <!--========== CONTENTS ==========-->
+                {% block body %} {% endblock %}
+            </div>
+        </section>
+    </main>
+
+
+
+    <!-- log out modal start -->
+    <div id="logout/confirmation" class="modal_body">
+        <div class="modalcontent">
+            <div class="toggle">
+                <h1></h1>
+            </div>
+            <ul>
+                <li>
+                    <a href="/accounts/profile/" class="nav__link" style="padding: 0; border-bottom: 0;">
+                        <span class="icon"><i class='bx bx-home' aria-hidden="true"></i></span>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                    <a href="#" class="useInfoChanging_by_user" data-id="{{ user.user_id }}">
+                        <span class="icon"><i class="bx bx-user" aria-hidden="true"></i></span>
+                        <span class="title">User Info</span>
+                    </a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                    <a href="#" class="passwordChanging_by_user" data-id="{{ user.user_id }}">
+                        <span class="icon"><i class="bx bx-lock" aria-hidden="true"></i></span>
+                        <span class="title">Password</span>
+                    </a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <span class="icon"><i class='bx bx-log-out bx-flip-horizontal' aria-hidden="true"></i></span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+            <a href="#" class="modalclose">&times;</a>
+        </div>
+    </div>
+
+    <!-- modal including start -->
+    {% include 'modal_service/uni_modal.html' %}
+    {% include 'modal_service/confirmation_modal.html' %}
+    {% include 'modal_service/modal-lg.html' %}
+    {% include 'modal_service/modal-xl.html' %}
+    {% include 'modal_service/modal-md.html' %}
+    <!-- modal including end -->
+
+    <!-- main loader start -->
+    {% include 'loader_service/circle_loader.html' %}
+    {% include 'loader_service/line_loader.html' %}
+    <!-- main loader end -->
+
+    <!--========== main base from js file ==========-->
+    <script src="{% static 'base_form_style/main_base_style/js/script.js' %}"></script>
+
+    <!-- password changing by user -->
+    <script>
+        // User Info Change Modal
+        $('.useInfoChanging_by_user').click(function () {
+            // main loader
+            lineloaderstart();
+            // main loader
+            modal_xl("edit user setup", "{% url 'user_info_update_by_user' %}?user_id=" + $(this).attr('data-id'));
+            lineloaderstop();
+        })
+        // password change modal
+        $('.passwordChanging_by_user').click(function () {
+            // main loader
+            lineloaderstart();
+            // main loader
+            modal_md("Password Change Info", "{% url 'password_changing_by_user' %}?user_id=" + $(this).attr('data-id'));
+            lineloaderstop();
+        })
+    </script>
+
+    <!--========== from doctor setup js file ==========-->
+    <!-- <script src="{% static 'doctor_setup_style/js/doctor_setup_script.js' %}"></script> -->
+
+</body>
+<!-- Footer -->
+<!-- <footer class="footer"> -->
+<!-- <li class="list-inline-item"><a href="#"><i class='bx bxl-linkedin-square'></i></a></li> -->
+<!-- <p class="text-muted">Copyright &copy;Shariat Sunny 2023. All Rights Reserved. Software Versions: 1.0.0</p> -->
+<!-- </footer> -->
+<!-- Footer End -->
+
+</html>

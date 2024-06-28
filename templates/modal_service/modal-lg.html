@@ -1,0 +1,38 @@
+<div class="modal fade" id="modal_lg" role='dialog'>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.modal_lg = function ($title = '', $url = '', $size = "", $footer) {
+        $.ajax({
+            url: $url,
+            error: err => {
+                console.log()
+                alert("An error occured")
+            },
+            success: function (resp) {
+                if (resp) {
+                    $('#modal_lg .modal-title').html($title)
+                    $('#modal_lg .modal-body').html(resp)
+                    $('#modal_lg .modal-footer').html($footer)
+                    if ($size != '') {
+                        $('#modal_lg .modal-dialog').addClass($size + '  modal-dialog-centered')
+                    } else {
+                        $('#modal_lg .modal-dialog').removeAttr("class").addClass("modal-dialog modal-lg")
+                    }
+                    $('#modal_lg').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        focus: true
+                    })
+                    $('#modal_lg').modal('show')
+                }
+            }
+        })
+    }
+</script>

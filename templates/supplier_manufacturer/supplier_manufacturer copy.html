@@ -1,0 +1,39 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'supplier_manufac_style/css/supplier_manufac.css' %}">
+<!--========== from type_category js file ==========-->
+<script src="{% static 'supplier_manufac_style/js/supplier_manufac.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section style="margin-top: 10px;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="supplier_setup-tab" href="#supplier_setup" type="button" role="tab">Suppliers Setup</a>
+            </li>
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="manufacturer_setup-tab" href="#manufacturer_setup" type="button" role="tab">Manufacturer Setup</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- Suppliers Setup -->
+            <div class="tab-pane show active" id="supplier_setup" role="tabpanel">
+                <!-- Suppliers Setup content here -->
+                {% include 'supplier_manufacturer/supplier.html' %}
+            </div>
+            <!-- Manufacturer Setup -->
+            <div class="tab-pane" id="manufacturer_setup" role="tabpanel">
+                <!-- Manufacturer Setup content here -->
+                {% include 'supplier_manufacturer/manufacturer.html' %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

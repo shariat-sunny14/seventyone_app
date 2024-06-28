@@ -1,0 +1,824 @@
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row" style="display: flex; justify-content: center; text-align: center; align-items: center;">
+                    <div class="col col-md-12 col-md-12 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <div class="col-md-12" style="display: flex; align-items: center;">
+                                <div class="col-md-5" style="display: flex;">
+                                    <i class='bx bx-wallet-alt text-white req-head-icon'></i>
+                                    <h1 class="h3 text-white req-head">Item Wise Invoice Cancellation</h1>
+                                </div>
+                                <!--  -->
+                                <div class="col-md-7" style="display: flex; justify-content: right;">
+                                    <!--  -->
+                                    <button type="button" onClick="location.href='/item_pos_billing'"
+                                        class="btn bg-warning bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
+                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem;">
+                                        Billing
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                <form action="" id="update_invDtl">
+                    <section>
+                        <div class="card main_pos_card">
+                            <div class="row cash_point_row">
+                                <div class="col-sm-12">
+                                    <div class="card pos_card">
+                                        <div class="card-body pos_card_body">
+                                            <div class="row cash_point_row">
+                                                <div class="col-sm-4">
+                                                    <div class="card pos_card" style="margin-top: 18px;">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <label for="cash_point"
+                                                                    class="col-sm-2-mody col-form-label invLabel">
+                                                                    Invoice No
+                                                                </label>
+                                                                <div class="col-sm-7-mody">
+                                                                    <input type="number" value="" name="searchID" id="searchID"
+                                                                        class="form-control text-center pos_inputbox"
+                                                                        placeholder="Searching by Invoice ID" autocomplete="off"
+                                                                        required>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-3">
+                                                                    <button type="button"
+                                                                        class="btn bg-info text-white btn-xs due_invDBtn load-data"
+                                                                        id="searchBtn">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-5">
+                                                    <div class="card pos_card">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <label for="cash_point" style="margin-top: 18px;"
+                                                                    class="col-sm-3-mody col-form-label invLabel">
+                                                                    Customer Info.
+                                                                </label>
+                                                                <div class="col-sm-9-mody">
+                                                                    <textarea style="height: 62px; color: #037c83;" type="text" class="form-control invDetails pos_inputbox" readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-4_mody">
+                                                    <div class="card pos_card">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <!--  -->
+                                                                <div class="invoice_status">
+                                                                    <h2 class="invoice_statusDtl"></h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--  -->
+                    <section>
+                        <div class="col-xl-12">
+                            <div class="table-body item_table_body">
+                                <div class="d-flex w-100" id="cancel-table" style="border: 1px solid #99b2b5;">
+                                    <table class="table table-striped" style="width: 100%;" id="mul_item_tbl">
+                                        <thead class="text-center table-header_itemlist">
+                                            <tr style="border-style: hidden!important;">
+                                                <th style="text-align:center; width: 3%;">Sl</th>
+                                                <th style="text-align:center;">Item No</th>
+                                                <th style="text-align:center; width: 20%;">Item Name</th>
+                                                <th style="text-align:center;">Type</th>
+                                                <th style="text-align:center;">Batch</th>
+                                                <th style="text-align:center;">S.Rate</th>
+                                                <th style="text-align:center;">S.Qty</th>
+                                                <th style="text-align:center;">Item Dis</th>
+                                                <th style="text-align:center;">Can Qty</th>
+                                                <th style="text-align:center;">
+                                                    <input type="checkbox" value="" name="is_cancel_all" id="is_cancel_all"
+                                                        class="form-check-input">
+                                                </th>
+                                                <th style="text-align:center; width: 8%;">Qty Cancel</th>
+                                                <th style="text-align:center; width: 8%;">Total</th>
+                                                <th style="text-align:center; width: 15%;">Cancel Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="mytbody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--  -->
+                    <section style="margin-top: 2rem; margin-bottom: 10px;">
+                        <div class="row cash_point_row">
+                            <div class="col-sm-4">
+                                <div class="card main_pos_card">
+                                    <div class="status_head">
+                                        <h2>Bill Summary Status</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="actual_amount" class="col-sm-2 col-form-label">Total Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    name="actual_amount" value="0">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="actual_amount">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="vat_amount" class="col-sm-2 col-form-label">Total VAT TAX:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="vat_amount">
+                                                <span class="form-control paymentDtl pos_inputbox" id="vat_amount">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="total_discount" class="col-sm-2 col-form-label">Total Gross Dis:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_discount">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="total_discount">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_tot" class="col-sm-2 col-form-label">Carrying Cost:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="carrying_cost_tot">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_carrying_cost_tot">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="collection_amt" class="col-sm-2 col-form-label">Instant Collection:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="collection_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="collection_amt">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="due_collection" class="col-sm-2 col-form-label">Due Collection:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="due_collection">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="due_collection">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card main_pos_card">
+                                    <div class="status_head">
+                                        <h2>Bill Cancel Status</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="cancel_bill" class="col-sm-2 col-form-label">Cancel Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    name="cancel_bill" value="0">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="cancel_bill">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="cancel_vat_amount" class="col-sm-2 col-form-label">Cancel VAT TAX:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="cancel_vat_amount">
+                                                <span class="form-control paymentDtl pos_inputbox" id="cancel_vat_amount">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="cancel_gross_disc" class="col-sm-2 col-form-label">Cancel Gross Dis:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="cancel_gross_disc">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="cancel_gross_disc">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="refund_amt" class="col-sm-2 col-form-label">Refund Amt.:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="refund_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="refund_amt">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <!--  -->
+                            <div class="col-sm-4">
+                                <div class="card main_pos_card">
+                                    <div class="status_head">
+                                        <h2>Overall Summary Status</h2>
+                                    </div>
+                                    <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="total_net_bill" class="col-sm-2  col-form-label">Total Net Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="total_net_bill">
+                                                <span class="form-control paymentDtl pos_inputbox" id="total_net_bill">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="total_net_vat" class="col-sm-2  col-form-label">Net Vat Tax (+):</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="total_net_vat">
+                                                <span class="form-control paymentDtl pos_inputbox" id="total_net_vat">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="total_net_disc" class="col-sm-2  col-form-label">Net Discount (-):</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="total_net_disc">
+                                                <span class="form-control paymentDtl pos_inputbox" id="total_net_disc">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_item_wise" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="carrying_cost_item_wise">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_item_wise">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="grand_net_bill" class="col-sm-2  col-form-label">Grand Net Bill:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="grand_net_bill">
+                                                <span class="form-control paymentDtl pos_inputbox" id="grand_net_bill">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="total_pay_amt" class="col-sm-2 col-form-label">Total Pay Amt:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_pay_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="total_pay_amt">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="due_amount" class="col-sm-2 text-danger col-form-label">
+                                                Due Amount:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox"
+                                                    value="0" name="due_amount" readonly>
+                                                <span class="form-control paymentDtl pos_inputbox text-danger" id="due_amount">0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="payment-submitBtn">
+                            <table id="" class="table paymode_table" style="width: 35%;">
+                                <tbody>
+                                    <tr style="border-style: hidden!important;">
+                                        <td style="text-align:right; width: 100%;">
+                                            <button type="button" style="text-align:center; width: 20%;" id="resetButton"
+                                                onClick="location.href='/due_refund_cancel_services'"
+                                                class="btn btn-danger col-sm-4 text-white btn-xs item_payment_btn">
+                                                Clear
+                                            </button>
+                                            <button type="submit" style="width: 32%; margin-right: 2rem; text-align:center; background:#05476e;"
+                                                id="check_out"
+                                                class="btn col-sm-4 text-white btn-xs item_payment_btn">
+                                                Cancel Item
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </form>
+            </section>
+        </section>
+    </section>
+</main>
+
+<script>
+    $(document).ready(function () {
+        var grand_total_bill = 0; // Initialize a variable to hold the cumulative total
+
+        // Intercept the Enter key press in the search input field
+        $("#searchID").keypress(function (e) {
+            if (e.which === 13) {
+                e.preventDefault(); // Prevent the default form submission
+                // Add any additional actions you want to perform here
+
+                // For example, you can trigger the search button click
+                $("#searchBtn").click();
+            }
+        });
+
+        // Define a function to populate the table with data
+        function populateTable(data) {
+            var tableBody = $("#mytbody");
+            tableBody.empty();  // Clear the existing rows
+
+            var grand_total_bill = 0;
+            var grand_vat_tax = 0;
+            var grand_discount = 0;
+            var total_cancel_bill = 0;
+            var total_cancel_vat = 0;
+            var total_cancel_gross_dis = 0;
+            var grand_bill = 0;
+            var grand_net_vat_tax = 0;
+            var grand_net_disc = 0;
+            var net_grand_bill = 0;
+            var collection_amt = 0;
+            var due_collection_amt = 0;
+            var refund_amt = 0;
+            var grand_pay_amount = 0;
+            var grand_net_due_amt = 0;
+            var total_item_wise_ccost = 0;
+
+            // invoice history
+            for (var i = 0; i < data.invoice_items.length; i++) {
+                var invoice = data.invoice_items[i];
+
+                var invoiceData = "Invoice Date: " + invoice.invoice_date + "\n";
+                invoiceData += "Invoice ID: " + invoice.inv_id + "\n";
+                invoiceData += "Customer Name: " + invoice.customer_name + "\n";
+                invoiceData += "Gender: " + invoice.gender + "\n";
+                invoiceData += "Mobile Number: " + invoice.mobile_number;
+
+                $(".invDetails").val(invoiceData);
+
+                
+                console.log("invoice:", invoice);
+            }
+
+            // payment history
+            for (var i = 0; i < data.payments_amt.length; i++) {
+                var collections = data.payments_amt[i];
+                
+                collection_amt = collections.collection_amt_sum
+                due_collection_amt = collections.due_collection_amt_sum
+                refund_amt = collections.refund_amt_sum
+                grand_pay_amount = collection_amt + due_collection_amt - refund_amt
+                grand_net_due_amt = collections.net_due_amt
+                totat_carrying_cost_amt = collections.carrying_cost
+
+                $('input[name="carrying_cost_item_wise"]').val(totat_carrying_cost_amt);
+                $('#id_carrying_cost_item_wise').text(totat_carrying_cost_amt.toFixed(0));
+
+                $('input[name="carrying_cost_tot"]').val(totat_carrying_cost_amt);
+                $('#id_carrying_cost_tot').text(totat_carrying_cost_amt.toFixed(0));
+
+                $('input[name="collection_amt"]').val(collection_amt);
+                $('#collection_amt').text(collection_amt.toFixed(0));
+
+                $('input[name="due_collection"]').val(due_collection_amt);
+                $('#due_collection').text(due_collection_amt.toFixed(0));
+
+                $('input[name="refund_amt"]').val(refund_amt);
+                $('#refund_amt').text(refund_amt.toFixed(0));
+
+                $('input[name="total_pay_amt"]').val(grand_pay_amount);
+                $('#total_pay_amt').text(grand_pay_amount.toFixed(0));
+
+                $('input[name="due_amount"]').val(grand_net_due_amt);
+                $('#due_amount').text(grand_net_due_amt.toFixed(0));
+
+                if (collections.net_due_amt === 0) {
+                    document.querySelector(".invoice_statusDtl").classList.add("no-due");
+                    document.querySelector(".invoice_statusDtl").textContent = "Invoice Has No Due";
+                } else if (collections.net_due_amt < 0) {
+                    document.querySelector(".invoice_statusDtl").classList.add("needs-refund");
+                    document.querySelector(".invoice_statusDtl").textContent = "The invoice needs to be Refunded";
+                } else {
+                    document.querySelector(".invoice_statusDtl").classList.add("has-due");
+                    document.querySelector(".invoice_statusDtl").textContent = "Invoice Has Due";
+                }
+                
+            }
+            
+
+            // invoicedtl history
+            for (var i = 0; i < data.invoicedtl_data.length; i++) {
+                var item = data.invoicedtl_data[i];
+
+                var cancel_item_w_dis = ((item.item_w_dis / item.qty) * item.canncelled_qty)
+                var totalAmount = (((item.sales_rate * item.qty) - item.item_w_dis) - ((item.sales_rate * item.canncelled_qty) - cancel_item_w_dis)).toFixed(0);
+
+                // Now you can use 'item' and 'invoice' as needed
+                console.log("Item:", item);
+
+                // actual bill calculation start
+                var total_bills = item.total_bill
+                var total_vat_tax = item.vat_tax
+                var total_disc = item.total_dis
+                var cancel_bill = item.cancel_bill
+                var cancel_vat = item.cancel_vat
+                var cancel_gross_dis = item.cancel_gross_dis
+                var item_wise_ccost = item.item_wise_ccost
+
+                grand_total_bill += parseFloat(total_bills);
+                grand_vat_tax += parseFloat(total_vat_tax);
+                grand_discount += parseFloat(total_disc);
+                total_cancel_bill += parseFloat(cancel_bill);
+                total_cancel_vat += parseFloat(cancel_vat);
+                total_cancel_gross_dis += parseFloat(cancel_gross_dis);
+                total_item_wise_ccost += parseFloat(item_wise_ccost);
+
+                grand_bill = grand_total_bill - total_cancel_bill
+
+                grand_net_vat_tax = grand_vat_tax - total_cancel_vat
+
+                grand_net_disc = grand_discount - total_cancel_gross_dis
+
+                net_grand_bill = grand_bill + grand_net_vat_tax + total_item_wise_ccost - grand_net_disc
+
+                $('input[name="actual_amount"]').val(grand_total_bill);
+                $('#actual_amount').text(grand_total_bill.toFixed(0));
+
+                $('input[name="vat_amount"]').val(grand_vat_tax);
+                $('#vat_amount').text(grand_vat_tax.toFixed(0));
+
+                $('input[name="total_discount"]').val(grand_discount);
+                $('#total_discount').text(grand_discount.toFixed(0));
+                
+                $('input[name="cancel_bill"]').val(total_cancel_bill);
+                $('#cancel_bill').text(total_cancel_bill.toFixed(0));
+
+                $('input[name="cancel_vat_amount"]').val(total_cancel_vat);
+                $('#cancel_vat_amount').text(total_cancel_vat.toFixed(3));
+
+                $('input[name="cancel_gross_disc"]').val(total_cancel_gross_dis);
+                $('#cancel_gross_disc').text(total_cancel_gross_dis.toFixed(3));
+
+                $('input[name="total_net_bill"]').val(grand_bill);
+                $('#total_net_bill').text(grand_bill.toFixed(0));
+
+                $('input[name="total_net_vat"]').val(grand_net_vat_tax);
+                $('#total_net_vat').text(grand_net_vat_tax.toFixed(3));
+
+                $('input[name="total_net_disc"]').val(grand_net_disc);
+                $('#total_net_disc').text(grand_net_disc.toFixed(3));
+
+                $('input[name="grand_net_bill"]').val(net_grand_bill);
+                $('#grand_net_bill').text(net_grand_bill.toFixed(0));
+                
+                
+                var checkboxId = item.item_no + 1;
+                var inputId = item.item_no + 11;
+
+                var isChecked = item.qty === item.canncelled_qty;
+                var isDisabled = isChecked ? 'disabled' : '';
+
+                var row = $("<tr style='border-style: hidden!important;'>");
+                row.append("<td style='text-align:center;'></td>");
+                row.append("<td style='text-align:center;'>" + item.item_no + "<input type='hidden' value='" + item.invdtl_id + "' name='invoicedtl_id[]' class='form-control pos_inputbox'></td>");
+                row.append("<td style='text-align:left;'>" + item.item_name + "</td>");
+                row.append("<td style='text-align:center;'>" + item.item_type + "</td>");
+                row.append("<td style='text-align:center;'>" + item.batch + "</td>");  // Add batch
+                row.append("<td style='text-align:center;'>" + item.sales_rate + "<input type='hidden' value='" + item.sales_rate + "' name='sales_rate[]' class='form-control pos_inputbox'></td>");
+                row.append("<td style='text-align:center;'>" + item.qty + "<input type='hidden' value='" + item.qty + "' name='itemQty[]' class='form-control pos_inputbox'></td>");
+                row.append("<td style='text-align:center;'>" + item.item_w_dis + "<input type='hidden' value='" + item.item_w_dis + "' name='item_w_dis[]' class='form-control pos_inputbox'><input type='hidden' value='" + item.gross_dis + "' name='gross_dis[]' class='form-control pos_inputbox'><input type='hidden' value='" + item.vat_tax + "' name='vat_tax[]' class='form-control pos_inputbox'></td>");
+                row.append("<td style='text-align:center;'>" + item.canncelled_qty + "<input type='hidden' value='" + item.canncelled_qty + "' name='qty_cancelled[]' class='form-control pos_inputbox'></td>");
+                row.append("<td style='text-align:center;'><input type='checkbox' value='' id='" + checkboxId + "' name='is_cancel[]' class='form-check-input input-gap' " + (isChecked ? 'checked' : '') + " " + isDisabled + "></td>");
+                row.append("<td style='text-align:center;'><input type='number' id='" + inputId + "' value='' max='" + (item.qty - item.canncelled_qty) + "' name='cancel_qty[]' class='form-control text-center inv_can_inputbox' placeholder='max " + (item.qty - item.canncelled_qty) + "' disabled></td>"); // Can Qty column
+                row.append("<td style='text-align:center;'>" + totalAmount + "</td>");
+                row.append("<td style='text-align:center;'><input value='" + item.cancel_reason + "' name='cancel_reason[]' class='form-control text-danger text-left pos_inputbox' style='margin-left: -3px;' autocomplete='off'></td>");
+                row.append("<td style='text-align:center;'><input type='number' value='" + item.canncelled_qty + "' id='id_net_cancelQty' name='net_cancelQty[]' class='form-control text-left pos_inputbox' style='display:none;'></td>");
+
+                tableBody.append(row);
+                
+                
+
+                // individual input checkbox checked
+                $('input[name="cancel_qty[]"]').on('input', function () {
+                    var maxValue = parseInt($(this).attr('max'));
+                    var enteredValue = parseInt($(this).val());
+                
+                    // Get the row containing the input field
+                    var row = $(this).closest('tr');
+                    var checkbox = row.find('input[type="checkbox"]');
+                    var qty = parseInt(row.find('td:eq(6)').text()); // Qty in the seventh column
+                    var cancelledQty = parseInt(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
+                
+                    if (maxValue > 0) {
+                        if (isNaN(enteredValue) || enteredValue < 0) {
+                            $(this).val(''); // Clear the input field for negative or non-numeric input
+                        } else if (enteredValue > maxValue) {
+                            $(this).val(maxValue); // Set the input field to the maximum value
+                        }
+                    } else {
+                        // If maxValue is 0, clear the input field
+                        $(this).val('');
+                    }
+                
+                    if (qty === cancelledQty) {
+                        $(this).prop('disabled', true); // Disable the input field when qty equals cancelledQty
+                    } else {
+                        $(this).prop('disabled', false); // Enable the input field otherwise
+                    }
+                
+                    if (checkbox.prop('checked')) {
+                        var salesRate = parseFloat(row.find('td:eq(5)').text()); // Assuming sales rate is in the sixth column
+                
+                        // Calculate total amount based on entered value and sales rate
+                        var item_w_dis = parseInt(row.find('td:eq(7)').text());
+                        var remaining_item_w_dis = ((item_w_dis / qty) * (qty - cancelledQty - enteredValue)).toFixed(0);
+                        var newTotalAmount = ((salesRate * (qty - cancelledQty - enteredValue)) - remaining_item_w_dis).toFixed(0);
+                
+                        var sum = enteredValue + cancelledQty;
+                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum);
+                
+                        // Update the totalAmount cell in the row
+                        row.find('td:eq(11)').text(newTotalAmount);
+                    }
+                
+                    recalculateTotalAmount($(this));
+                });
+
+                // Attach a change event listener to the checkboxes
+                $('input[type="checkbox"]').on('change', function () {
+                    var row = $(this).closest('tr');
+                    var inputField = row.find('input[name="cancel_qty[]"]');
+                    
+                    if ($(this).prop('checked')) {
+                        inputField.prop('disabled', false);
+                        inputField.prop('required', true);
+                        recalculateTotalAmount(inputField);
+                    } else {
+                        inputField.prop('disabled', true);
+                        inputField.prop('required', false);
+                        inputField.val('');
+                        recalculateTotalAmount(inputField);
+                    }
+                });
+
+                $('input[name="is_cancel[]"]').on('change', function () {
+                    // Check if all individual checkboxes are checked and if all of them meet the condition item.qty === item.cancelled_qty
+                    var allChecked = $('input[name="is_cancel[]"]:checked').length === $('input[name="is_cancel[]"]').length;
+                    var allMeetCondition = true;
+                    
+                    if (allChecked) {
+                        $('input[name="is_cancel[]"]:checked').each(function () {
+                            var row = $(this).closest('tr');
+                            var qty = parseInt(row.find('td:eq(6)').text());
+                            var cancelledQty = parseInt(row.find('td:eq(8)').text());
+                            if (qty !== cancelledQty) {
+                                allMeetCondition = false;
+                                return false; // Exit the loop early if a checkbox doesn't meet the condition
+                            }
+                        });
+                    } else {
+                        allMeetCondition = false;
+                    }
+                
+                    // Update the "Check All" checkbox's state and disabled attribute
+                    var isCancelAll = $('#is_cancel_all');
+                    isCancelAll.prop('checked', allChecked);
+                    isCancelAll.prop('disabled', allMeetCondition);
+                });
+
+                $('input[type="checkbox"]').on('change', function () {
+                    var row = $(this).closest('tr');
+                    var reasonField = row.find('input[name="cancel_reason[]"]');
+
+                    if ($(this).prop('checked')) {
+                        reasonField.val('Customer Request');
+                    } else {
+                        reasonField.val('');
+                    }
+                });
+
+                // all checkebox checked
+                $('#is_cancel_all').on('change', function () {
+                    var isChecked = $(this).prop('checked');
+                
+                    // Find all the individual checkboxes and set their checked state
+                    $('input[name="is_cancel[]"]').prop('checked', isChecked);
+                
+                    // Find all the input fields and enable or disable them
+                    var cancelQtyInputs = $('input[name="cancel_qty[]"]');
+                    cancelQtyInputs.prop('disabled', !isChecked);
+                    cancelQtyInputs.prop('required', isChecked);
+                
+                    // Find all the cancel_reason input fields and set their value to 'Customer Request' or empty
+                    $('input[name="cancel_reason[]"]').val(isChecked ? 'Customer Request' : '');
+                
+                    if (!isChecked) {
+                        // Clear the input values for cancel_qty[]
+                        cancelQtyInputs.val('');
+                    }
+                
+                    // Call a function to recalculate the total amount for all items
+                    recalculateTotalAmountForAll(isChecked);
+                });
+
+                // Attach a change event listener to the individual checkboxes
+                $('input[name="is_cancel[]"]').on('change', function () {
+                    // Check if all the individual checkboxes are checked
+                    var allChecked = $('input[name="is_cancel[]"]:checked').length === $('input[name="is_cancel[]"]').length;
+
+                    // Update the "Check All" checkbox's state
+                    $('#is_cancel_all').prop('checked', allChecked);
+
+                    // When an individual checkbox is changed, call the logic to recalculate total amount for that item
+                    var row = $(this).closest('tr');
+                    var inputField = row.find('input[name="cancel_qty[]"]');
+                    if ($(this).prop('checked')) {
+                        inputField.prop('disabled', false);
+                    } else {
+                        inputField.prop('disabled', true);
+                        inputField.val('');
+                    }
+                });
+
+                // individual checkbox calculations
+                function recalculateTotalAmount(inputField) {
+                    var row = inputField.closest('tr');
+                    var salesRate = parseFloat(row.find('td:eq(5)').text()); // Assuming sales rate is in the sixth column
+                    var qty = parseInt(row.find('td:eq(6)').text()); // Qty in the seventh column
+                    var item_w_dis = parseInt(row.find('td:eq(7)').text());
+                    var cancelledQty = parseInt(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
+                    var enteredValue = parseInt(inputField.val()) || 0;
+                    var isChecked = row.find('input[type="checkbox"]').prop('checked');
+
+                    if (isChecked) {
+                        var sum = enteredValue + cancelledQty;
+                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum); // Display the sum
+                    } else {
+                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(cancelledQty); // Display the cancelQty
+                    }
+
+                    // Check for invalid input and convert it to 0 if necessary
+                    if (isNaN(enteredValue) || enteredValue < 0) {
+                        enteredValue = 0;
+                    }
+
+                    var remaining_item_w_dis = ((item_w_dis / qty) * (qty - cancelledQty - enteredValue)).toFixed(0);
+                    var newTotalAmount = ((salesRate * (qty - cancelledQty - enteredValue)) - remaining_item_w_dis).toFixed(0);
+                    row.find('td:eq(11)').text(newTotalAmount);
+                }
+
+                // all checkbox calculations
+                function recalculateTotalAmountForAll(isChecked) {
+                    // Loop through all items and recalculate the total amount for each item
+                    $('input[name="cancel_qty[]"]').each(function () {
+                        recalculateTotalAmount($(this));
+                    });
+
+                    $('input[name="is_cancel[]"]:checked').each(function () {
+                        var row = $(this).closest('tr');
+                        var salesRate = parseFloat(row.find('td:eq(5)').text());
+                        var qty = parseInt(row.find('td:eq(6)').text());
+                        var item_w_dis = parseInt(row.find('td:eq(7)').text());
+                        var cancelledQty = parseInt(row.find('td:eq(8)').text());
+                        var enteredValue = parseInt(row.find('input[name="cancel_qty[]"]').val()) || 0;
+                
+                        if (isChecked) {
+                            var sum = enteredValue + cancelledQty;
+                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum); // Display the sum
+                        } else {
+                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(cancelledQty); // Display the cancelQty
+                        }
+                
+                        var remaining_item_w_dis = ((item_w_dis / qty) * (qty - cancelledQty - enteredValue)).toFixed(0);
+                        var newTotalAmount = ((salesRate * (qty - cancelledQty - enteredValue)) - remaining_item_w_dis).toFixed(0);
+                        row.find('td:eq(11)').text(newTotalAmount);
+                    });
+
+                    // If is_cancel_all is unchecked, update the totalAmount for all items
+                    if (!isChecked) {
+                        $('input[name="is_cancel[]"]:checked').each(function () {
+                            var row = $(this).closest('tr');
+                            var salesRate = parseFloat(row.find('td:eq(5)').text()); // Assuming sales rate is in the sixth column
+                            var qty = parseInt(row.find('td:eq(6)').text()); // Qty in the seventh column
+                            var item_w_dis = parseInt(row.find('td:eq(7)').text());
+                            var cancelledQty = parseInt(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
+                            var enteredValue = 0; // Set to 0 when is_cancel_all is unchecked
+                            
+                            var remaining_item_w_dis = ((item_w_dis / qty) * (qty - cancelledQty - enteredValue)).toFixed(0);
+                            var newTotalAmount = ((salesRate * (qty - cancelledQty - enteredValue)) - remaining_item_w_dis).toFixed(0);
+                            row.find('td:eq(11)').text(newTotalAmount);
+
+
+                            var sum = enteredValue + cancelledQty;
+                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum);
+                        });
+                    }
+                }
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $("#searchBtn").click(function () {
+            var invoiceID = $("#searchID").val();
+
+            $.ajax({
+                type: "GET",
+                url: "/item_wise_invoice_cancel_details/" + invoiceID + "/", // Replace with your actual URL
+                dataType: "json",
+                success: function (data) {
+                    populateTable(data); // Call the function to populate the table
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch invoice details");
+                }
+            });
+        });
+
+        $(function () {
+            $('#update_invDtl').submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'update_item_wise_invoice_details' %}",
+                    data: new FormData(form[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.success) {
+                            toastr.success(resp.msg);
+
+                            // Trigger the click event on the searchBtn button
+                            $("#searchBtn").click();
+    
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>

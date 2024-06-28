@@ -1,0 +1,522 @@
+<section>
+    <div class="container-fluid">
+        <!-- Main Heading -->
+        <div class="row">
+            <div class="col col-md-4 col-md-6 dashboar-head">
+                <div class="d-sm-flex align-items-center mb-2">
+                    <i class='bx bx-book-alt text-success req-head-icon'></i>
+                    <h1 class="h3 text-success req-head">Category Setup</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  -->
+<section>
+    <div class="row row_item_setup">
+        <div class="col-sm-5">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-warning">Filtering</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup" style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);">
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio2" type="radio" name="catoption"
+                                                value="true" id="catActive">
+                                            <label class="form-check-label" for="catActive">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio3" type="radio" name="catoption"
+                                                value="false" id="catInactive">
+                                            <label class="form-check-label" for="catInactive">Inactive</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio1" type="radio" name="catoption"
+                                                value="1" id="catAll">
+                                            <label class="form-check-label" for="catAll">All</label>
+                                        </div>
+                                        <div class="form-check form-check-inline"
+                                            style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                            <a href="/type_uom_category"
+                                                class="btn btn-danger text-white btn-xs item_del_btn">
+                                                Clear
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="container col-sm-12" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                        <div class="row org-filterRow">
+                                            <label for="id_cat_org_filter" class="col-org_filter col-form-label font_size_filter">
+                                                Org Name:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select id="id_cat_org_filter" name="cat_org_filter" class="form-select item_inputbox"
+                                                    aria-label="Default select example" required>
+                                                    {% for org in org_list %}
+                                                    <option value="{{org.org_id}}">
+                                                        {{ org.org_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-success">List of Category</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <!--  -->
+                                        <div class="type_type">
+                                            <table id="" class="table table-striped table-hover" style="width: 100%;">
+                                                <thead class="text-center table-header_itemlist">
+                                                    <tr>
+                                                        <th style="text-align:center; width: 20%;">Categ No.</th>
+                                                        <th style="text-align:center; width: 30%;">Category Name</th>
+                                                        <th style="text-align:center; width: 35%;">Organizations</th>
+                                                        <th style="text-align:center; width: 15%;">Status</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="4"
+                                                            style="text-align:center; background: #fff !important;">
+                                                            <input type="search" id="catsearch"
+                                                                class="form-control search_control item_inputbox"
+                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                placeholder="Searching ..." autocomplete="off">
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="cat_filter_body" class="table-body-row"
+                                                    style="text-align:center; cursor: pointer;">
+
+                                                </tbody>
+                                                <!-- loader start -->
+                                                <section class="loader-section">
+                                                    <div class="loader-body_cat">
+                                                        <div class="loader_cat">
+                                                            <div class="upper ball"></div>
+                                                            <div class="right ball"></div>
+                                                            <div class="lower ball"></div>
+                                                            <div class="left ball"></div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <!-- loader end -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Item Category main entry form -->
+        <div class="col-sm-7">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemsetup_container">
+                        <form action="" method="" id="cat_form">
+                            <input type="hidden" id="id_category_id" name="category_id" value="">
+                            <div class="add_edit_head">
+                                <h2 class="text-primary">Add/Update Category Information</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row row_item_setup">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="item_setupflag"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label text-danger setupflag_label"
+                                                    for="id_is_active_cat">
+                                                    Active?
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_active_cat"
+                                                    name="is_active" value="1" aria-label="...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-5">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_category_no">
+                                                                <label for="id_category_no"
+                                                                    class="col-sm-4 col-form-label font_size_filter required">Cat.
+                                                                    No:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_category_no" name="category_no" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-7">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_category_name">
+                                                                <label for="id_category_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter required">Cat.
+                                                                    Name:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox" id="id_category_name" 
+                                                                        name="category_name" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row"
+                                                                style="margin-top: -2px;">
+                                                                <label for="id_cat_org"
+                                                                    class="col-sm-orgName col-form-label font_size_filter required">
+                                                                    Org Name:
+                                                                </label>
+                                                                <div class="col-orgInput">
+                                                                    <select id="id_cat_org" name="cat_org" class="form-select item_inputbox"
+                                                                        aria-label="Default select example" required>
+                                                                        <option value="" selected disabled>Choose Organization ...</option>
+                                                                        {% for org in org_list %}
+                                                                        <option value="{{org.org_id}}">
+                                                                            {{ org.org_name }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- submit button -->
+                            <div class="submit_button">
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px;" onclick="location.href='/type_uom_category';">
+                                    New
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
+                                    onclick="$('#cat_form')[0].reset();">
+                                    Clear
+                                </button>
+                                <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                    style="margin-right: 10px;">
+                                    Save & Update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function cat_populateTable(data) {
+
+            // item history
+            for (var i = 0; i < data.cat_Dtls.length; i++) {
+                var catD = data.cat_Dtls[i];
+
+                var category_id = catD.category_id;
+                var category_no = catD.category_no;
+                var category_name = catD.category_name;
+                var org_name = catD.org_name;
+                var is_active_cat = catD.is_active;
+
+                // Get the checkbox input element by its ID
+                var is_activeCatCheckbox = document.getElementById("id_is_active_cat");
+
+                // Set the checked attribute based on the is_active value
+                is_activeCatCheckbox.checked = is_active_cat;
+
+                $("#id_category_id").val(category_id);
+                $("#id_category_no").val(category_no);
+                $("#id_category_name").val(category_name);
+                var catOrgSelect = $("#id_cat_org");
+                catOrgSelect.find('option:contains("' + org_name + '")').prop('selected', true);
+
+                console.log("Cat_list:", catD);
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".cat_editBtn", function () {
+            var catID = $(this).data("cat-id"); // Get the item_id from the data attribute
+
+            $.ajax({
+                type: "GET",
+                url: "/get_category_lists/" + catID + "/",
+                dataType: "json",
+                success: function (data) {
+                    cat_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Item Category details");
+                }
+            });
+        });
+
+    });
+
+    //<!--  -->
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialCatData();
+        handleCatRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="catoption"]').change(function () {
+            localStorage.setItem('catlistOption', $('input[name="catoption"]:checked').val());
+
+            // Load items
+            loadcatlist();
+        });
+
+        $('#id_cat_org_filter').change(() => {
+            // Save the selected organization filter value to local storage
+            catOrgFilterValue = $('#id_cat_org_filter').val();
+            // Load items
+            loadcatlist();
+        });
+
+        // Load items based on the search query
+        loadcatFromSearch();
+
+        // Function to load items based on the search query
+        function loadcatFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedCatsearchQuery = localStorage.getItem("CatsearchQuery");
+            var catListsearch = $('#catsearch');
+
+            // Check if there's a saved search query
+            if (savedCatsearchQuery) {
+                // Set the search input value
+                catListsearch.val(savedCatsearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            catListsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("CatsearchQuery", query);
+                loadcatlist();
+            });
+
+            // Trigger the search on page load
+            loadcatlist();
+        }
+
+        function loadInitialCatData() {
+            // Retrieve the selected option from local storage
+            var catinitialOption = localStorage.getItem('catlistOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="catoption"][value="' + catinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadcatlist();
+        }
+
+        function loadcatlist() {
+            // Get the current search query and option from local storage
+            var CatsearchQuery = localStorage.getItem("CatsearchQuery") || '';
+            var catoption = localStorage.getItem('catlistOption') || 'true';
+            var catOrgFilterValue = $('#id_cat_org_filter').val();
+
+            // Make Ajax request
+            $.ajax({
+                type: 'GET',
+                url: '/get_list_of_category/',
+                data: {
+                    'catoption': catoption,
+                    'cat_search_query': CatsearchQuery,
+                    'cat_org_filter': catOrgFilterValue,
+                },
+                success: function (data) {
+                    // Update the table with filtered data
+                    updateCatTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateCatTable(data) {
+            var tableBody = $('#cat_filter_body');
+            tableBody.empty();
+
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+
+                if (data.data) {
+                    $.each(data.data, function (index, catL) {
+                        var catstatusText = catL.is_active ? 'Active' : 'Inactive';
+                        var catstatusClass = catL.is_active ? 'active-status' : 'inactive-status';
+
+                        tableBody.append(`<tr class="cat_editBtn" data-cat-id="${catL.category_id}">
+                            <td style="text-align: center;">${catL.category_no}</td>
+                            <td style="text-align: left;">${catL.category_name}</td>
+                            <td style="text-align: left;">${catL.org_name}</td>
+                            <td class="status_act_inac ${catstatusClass}" style="text-align: center;">${catstatusText}</td>
+                        </tr>`);
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleCatRowSelection();
+        }
+
+        $(function () {
+            $('#cat_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'category_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadcatlist();
+                            showCatLoader();
+                            $('#cat_form')[0].reset();
+                            // Hide loader
+                            setTimeout(function () {
+                                hideCatLoader();
+                            }, 1100);
+
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleCatRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedCatID = localStorage.getItem("selectedCatID");
+        if (selectedCatID) {
+            $(".cat_editBtn").removeClass("selected-row");
+            $(".cat_editBtn[data-cat-id='" + selectedCatID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".cat_editBtn", function () {
+            var clickedCatID = $(this).data("cat-id");
+            $(".cat_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedCatID", clickedCatID);
+        });
+    }
+
+    //==========================================
+    //loader 
+    const loader_cat = document.querySelector(".loader_cat");
+    const loaderBody_cat = document.querySelector(".loader-body_cat");
+
+    // Function to show the loader
+    function showCatLoader() {
+        loader_cat.style.display = "block";
+        loaderBody_cat.style.display = "block";
+        loader_cat.style.left = "50%"; // Set left position to center
+        loader_cat.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideCatLoader() {
+        loader_cat.style.display = "none";
+        loaderBody_cat.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndCatShowLoader() {
+        const loaderVisible = localStorage.getItem("loaderVisible");
+        if (loaderVisible === "true") {
+            showCatLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="catoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showCatLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideCatLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndCatShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideCatLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+</script>

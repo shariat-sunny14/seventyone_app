@@ -1,0 +1,687 @@
+<main>
+    <section>
+        <div class="row row_item_setup">
+            <div class="col-sm-5">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="filter_head">
+                                <h2 class="text-warning">Filtering</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup"
+                                            style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);">
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio2" type="radio" name="storeoption"
+                                                    value="true" id="storeActive">
+                                                <label class="form-check-label" for="storeActive">Active</label>
+                                            </div>
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio3" type="radio" name="storeoption"
+                                                    value="false" id="storeInactive">
+                                                <label class="form-check-label" for="storeInactive">Inactive</label>
+                                            </div>
+                                            <div class="form-check form-check-inline inline_item">
+                                                <input class="form-check-input radio1" type="radio" name="storeoption"
+                                                    value="1" id="storeAll">
+                                                <label class="form-check-label" for="storeAll">All</label>
+                                            </div>
+                                            <div class="form-check form-check-inline"
+                                                style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                                <a href="/store_setup"
+                                                    class="btn btn-danger text-white btn-xs item_del_btn">
+                                                    Clear
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="container col-sm-12" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                            <div class="row org-filterRow">
+                                                <label for="id_org_filter" class="col-org_filter col-form-label font_size_filter">
+                                                    Org Name:
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select id="id_org_filter" name="org_filter" class="form-select item_inputbox"
+                                                        aria-label="Default select example">
+                                                        <!--  -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row org-filterRow">
+                                                <label for="id_filter_branch" class="col-org_filter col-form-label font_size_filter">
+                                                    Branchs:
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select id="id_filter_branch" name="filter_branch" class="form-select item_inputbox"
+                                                        aria-label="Default select example">
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="filter_head">
+                                <h2 class="text-success">List of Store</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <!--  -->
+                                            <div class="type_type">
+                                                <table id="" class="table table-hover" class="table table-striped"
+                                                    style="width: 100%;">
+                                                    <thead class="text-center table-header_itemlist">
+                                                        <tr>
+                                                            <th style="text-align:center; width: 15%;">Store No.</th>
+                                                            <th style="text-align:center; width: 35%;">Store Name</th>
+                                                            <th style="text-align:center; width: 30%;">Branch</th>
+                                                            <th style="text-align:center; width: 15%;">Status</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="4"
+                                                                style="text-align:center; background: #fff !important;">
+                                                                <input type="search" id="storesearch"
+                                                                    class="form-control search_control item_inputbox"
+                                                                    style="margin-left: 4px; background:#fffab6;"
+                                                                    placeholder="Searching ..." autocomplete="off">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody id="store_filter_body" class="table-body-row"
+                                                        style="text-align:center; cursor: pointer;">
+                                                        <!--  -->
+                                                    </tbody>
+                                                    <!-- loader start -->
+                                                    <section class="loader-section">
+                                                        <div class="loader-body">
+                                                            <div class="loader">
+                                                                <div class="upper ball"></div>
+                                                                <div class="right ball"></div>
+                                                                <div class="lower ball"></div>
+                                                                <div class="left ball"></div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    <!-- loader end -->
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="col-sm-7">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <form id="store_form">
+                                <input type="hidden" id="id_store_id" name="store_id" value="">
+                                <div class="add_edit_head">
+                                    <h2 class="text-primary">Add/Update Store Setup Information</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row row_item_setup">
+                                    <!--  -->
+                                    <div class="col-sm-12" style="display: none;">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_store">
+                                                <div class="item_setupflag" style="display: flex; justify-content: right;">
+                                                    <label class="form-check-label setupflag_label"
+                                                        for="id_is_branch_store">
+                                                        Is Branch Store:
+                                                    </label>
+                                                    <input class="form-check-input" type="radio" id="id_is_branch_store"
+                                                        name="is_branch_store" value="1" aria-label="..." checked>
+                                                    <input class="form-check-input" type="hidden" id="id_is_org_store"
+                                                        name="is_org_store" value="0" aria-label="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <div class="row row_item_setup">
+                                                    <div class="col-sm-5">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row div_id_store_no">
+                                                                    <label for="id_store_no"
+                                                                        class="col-sm-4 col-form-label font_size_filter required">
+                                                                        Store No:
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text"
+                                                                            class="form-control item_inputbox"
+                                                                            id="id_store_no" name="store_no"
+                                                                            autocomplete="off" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-7">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row div_id_store_name">
+                                                                    <label for="id_store_name"
+                                                                        class="col-sm-3 col-form-label font_size_filter required">
+                                                                        Store Name:
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                            class="form-control item_inputbox"
+                                                                            id="id_store_name" name="store_name"
+                                                                            autocomplete="off" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_org"
+                                                                        class="col-sm-orgName col-form-label font_size_filter required">
+                                                                        Org Name:
+                                                                    </label>
+                                                                    <div class="col-orgInput">
+                                                                        <select id="id_org" name="org" class="form-select item_inputbox"
+                                                                            aria-label="Default select example" required>
+                                                                            <!--  -->
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row div_id_store_name">
+                                                                    <label for="id_branch_name" class="col-sm-orgName col-form-label font_size_filter required">
+                                                                        Branch:
+                                                                    </label>
+                                                                    <div class="col-orgInput">
+                                                                        <select id="id_branch_name" name="branch_name" class="form-select item_inputbox" aria-label="Default select example" required>
+                                                                            <!-- Your options go here -->
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_store">
+                                                <div class="item_setupflag div_id_is_active" style="display: flex; justify-content: right;">
+                                                    <label class="form-check-label text-danger setupflag_label"
+                                                        for="id_is_active">
+                                                        Active?
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox" id="id_is_active"
+                                                        name="is_active" value="1" aria-label="...">
+                                                </div>
+                                                <!--  -->
+                                                <div class="item_setupflag div_id_is_general_store" style="display: flex; justify-content: right;">
+                                                    <label class="form-check-label setupflag_label"
+                                                        for="id_is_general_store">
+                                                        General Store
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="id_is_general_store" name="is_general_store" value="1"
+                                                        aria-label="...">
+                                                </div>
+                                                <!--  -->
+                                                <div class="item_setupflag div_id_is_main_store" style="display: flex; justify-content: right;">
+                                                    <label class="form-check-label setupflag_label"
+                                                        for="id_is_main_store">
+                                                        Main Store
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="id_is_main_store" name="is_main_store" value="1"
+                                                        aria-label="...">
+                                                </div>
+                                                <!--  -->
+                                                <div class="item_setupflag div_id_is_sub_store" style="display: flex; justify-content: right;">
+                                                    <label class="form-check-label setupflag_label"
+                                                        for="id_is_sub_store">
+                                                        Sub Store
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox" id="id_is_sub_store"
+                                                        name="is_sub_store" value="1" aria-label="...">
+                                                </div>
+                                                <!--  -->
+                                                <div class="item_setupflag div_id_is_pos_report" style="display: flex; justify-content: right;">
+                                                    <label class="form-check-label setupflag_label"
+                                                        for="id_is_pos_report">
+                                                        POS Report Print
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="id_is_pos_report" name="is_pos_report" value="1"
+                                                        aria-label="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- submit button -->
+                                <div class="submit_button">
+                                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="showForm1();"
+                                        style="margin-right: 10px;">
+                                        Add New
+                                    </button> -->
+                                    <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
+                                        onclick="resetForm();">
+                                        Clear
+                                    </button>
+                                    <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                        style="margin-right: 10px;">
+                                        Save & Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script>
+    // reset form and id wise value
+    function resetForm() {
+        $('#store_form')[0].reset();
+        // Manually set the value back to its initial value
+        $('#id_store_id').val('');
+    }
+    //
+    $(document).ready(function () {
+        // Set up the change event handler for #id_org_wise_temp
+        $('#id_org_wise_temp').change(function () {
+            updateBranchOptionsfilter();
+            updateOrgOptionsfilter();
+        });
+
+        // Initial population of branch options and org options based on the selected organization
+        updateBranchOptionsfilter();
+        updateOrgOptionsfilter();
+
+        // Function to update org options
+        function updateOrgOptionsfilter() {
+            var selectedFilterOrgId = $('#id_org_wise_temp').val();
+            $.ajax({
+                url: '/get_org_options/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_org_filter, #id_org').empty();
+                    $('#id_org').append('<option selected disabled>Choose Organization ...</option>');
+                    $.each(data.org_Data, function (index, org) {
+                        $('#id_org_filter, #id_org').append('<option value="' + org.org_id + '">' + org.org_name + '</option>');
+                    });
+                    $('#id_org_filter, #id_org').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching org options:', error);
+                }
+            });
+        }
+
+        // Function to update branch options
+        function updateBranchOptionsfilter() {
+            var selectedFilterOrgId = $('#id_org_wise_temp').val();
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_filter_branch, #id_branch_name').empty();
+                    $('#id_branch_name').append('<option selected disabled>Choose Branch ...</option>');
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_filter_branch, #id_branch_name').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+                    $('#id_filter_branch, #id_branch_name').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+    });
+    
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function branWiseStore_populateTable(data) {
+    
+            // item history
+            for (var i = 0; i < data.store_Dtls.length; i++) {
+                var storeD = data.store_Dtls[i];
+    
+                var store_id = storeD.store_id;
+                var store_no = storeD.store_no;
+                var store_name = storeD.store_name;
+                var is_active = storeD.is_active;
+                var is_general_store = storeD.is_general_store;
+                var is_main_store = storeD.is_main_store;
+                var is_sub_store = storeD.is_sub_store;
+                var is_pos_report = storeD.is_pos_report;
+                var org_name = storeD.org_name;
+                var branch_name = storeD.branch_name;
+                // Get the select element
+                var orgSelect = $("#id_org");
+                var branchSelect = $("#id_branch_name");
+                // Find the option with the corresponding text and set it as selected
+                orgSelect.find('option:contains("' + org_name + '")').prop('selected', true);
+                branchSelect.find('option:contains("' + branch_name + '")').prop('selected', true);
+    
+                // Get the checkbox input element by its ID
+                var is_activeCheckbox = document.getElementById("id_is_active");
+                var is_general_storeCheckbox = document.getElementById("id_is_general_store");
+                var is_main_storeCheckbox = document.getElementById("id_is_main_store");
+                var is_sub_storeCheckbox = document.getElementById("id_is_sub_store");
+                var is_pos_reportCheckbox = document.getElementById("id_is_pos_report");
+    
+                // Set the checked attribute based on the is_active value
+                is_activeCheckbox.checked = is_active;
+                is_general_storeCheckbox.checked = is_general_store;
+                is_main_storeCheckbox.checked = is_main_store;
+                is_sub_storeCheckbox.checked = is_sub_store;
+                is_pos_reportCheckbox.checked = is_pos_report;
+    
+                $("#id_store_id").val(store_id);
+                $("#id_store_no").val(store_no);
+                $("#id_store_name").val(store_name);
+    
+                console.log("store_list:", storeD);
+            }
+        }
+    
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".store_editBtn", function () {
+            var storeID = $(this).data("store-id"); // Get the item_id from the data attribute
+    
+            $.ajax({
+                type: "GET",
+                url: "/get_store_lists/" + storeID + "/",
+                dataType: "json",
+                success: function (data) {
+                    branWiseStore_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Store details");
+                }
+            });
+        });
+    
+    });
+    
+    //<!--  -->
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialStoreData();
+        handleStoreRowSelection();
+    
+        // Add event listeners to radio buttons
+        $('input[name="storeoption"]').change(function () {
+            var option = $(this).val();
+    
+            // Save the selected option to local storage
+            localStorage.setItem('storelistOption', option);
+    
+            // Load items
+            loadstorelist();
+        });
+    
+        // Load items based on the search query
+        loadstoreFromSearch();
+    
+        // Function to load items based on the search query
+        function loadstoreFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedStoresearchQuery = localStorage.getItem("StoresearchQuery");
+            var storeListsearch = $('#storesearch');
+    
+            // Check if there's a saved search query
+            if (savedStoresearchQuery) {
+                // Set the search input value
+                storeListsearch.val(savedStoresearchQuery);
+            }
+    
+            // Add an event listener to the search input field
+            storeListsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("StoresearchQuery", query);
+                loadstorelist();
+            });
+    
+            // Trigger the search on page load
+            loadstorelist();
+        }
+    
+        function loadInitialStoreData() {
+            // Retrieve the selected option from local storage
+            var storeinitialOption = localStorage.getItem('storelistOption') || 'true';
+    
+            // Check the corresponding radio button
+            $('input[name="storeoption"][value="' + storeinitialOption + '"]').prop('checked', true);
+    
+            // Load items
+            loadstorelist();
+        }
+
+        //
+        $('#id_org_filter, #id_filter_branch').change(function () {
+            var orgFilterValue = $('#id_org_filter').val();
+            var branchFilterValue = $('#id_filter_branch').val();
+        
+            // Set values in local storage
+            localStorage.setItem('orgFilterValue', orgFilterValue);
+            localStorage.setItem('branchFilterValue', branchFilterValue);
+        
+            // Load store list with the new filters
+            loadstorelist();
+        });
+    
+        function loadstorelist() {
+            // Get the current search query and option from local storage
+            setTimeout(function () {
+                var StoresearchQuery = localStorage.getItem("StoresearchQuery") || '';
+                var storeoption = localStorage.getItem('storelistOption') || 'true';
+                var orgFilterValue = localStorage.getItem('orgFilterValue') || '';
+                var branchFilterValue = localStorage.getItem('branchFilterValue') || '';
+        
+                // Make Ajax request
+                $.ajax({
+                    type: 'GET',
+                    url: '/get_list_of_store/',
+                    data: {
+                        'storeoption': storeoption,
+                        'store_search_query': StoresearchQuery,
+                        'org_filter': orgFilterValue,
+                        'branch_filter': branchFilterValue,
+                    },
+                    success: function (data) {
+                        // Update the table with filtered data
+                        updateStoreTable(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ajax Error:', xhr.responseText);
+                        console.log('Status:', status);
+                        console.log('Error:', error);
+                    }
+                });
+            }, 500);
+        }
+    
+        function updateStoreTable(data) {
+            var tableBody = $('#store_filter_body');
+            tableBody.empty();
+    
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+    
+                if (data.data) {
+                    $.each(data.data, function (index, storeL) {
+                        var statusText = storeL.is_active ? 'Active' : 'Inactive';
+                        var statusClass = storeL.is_active ? 'active-status' : 'inactive-status';
+    
+                        tableBody.append(`<tr class="store_editBtn" data-store-id="${storeL.store_id}">
+                            <td style="text-align: center;">${storeL.store_no}</td>
+                            <td style="text-align: left;">${storeL.store_name}</td>
+                            <td style="text-align: left;">${storeL.branch_name}</td>
+                            <td class="status_act_inac ${statusClass}" style="text-align: center;">${statusText}</td>
+                        </tr>`);
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleStoreRowSelection();
+        }
+    
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if the cookie name matches with the expected format
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        $(function () {
+            $('#store_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+    
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": getCookie('csrftoken')
+                    },
+                    url: "{% url 'branch_store_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadstorelist();
+                            //showstoreLoader();
+                            resetForm();
+                            // Hide loader
+                            //setTimeout(function () {
+                            //    hidestoreLoader();
+                            //}, 1100);
+    
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+    
+    function handleStoreRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedStoreID = localStorage.getItem("selectedStoreID");
+        if (selectedStoreID) {
+            $(".store_editBtn").removeClass("selected-row");
+            $(".store_editBtn[data-store-id='" + selectedStoreID + "']").addClass("selected-row");
+        }
+    
+        // Add an event listener to the item rows
+        $(document).on("click", ".store_editBtn", function () {
+            var clickedStoreID = $(this).data("store-id");
+            $(".store_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+    
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedStoreID", clickedStoreID);
+        });
+    }
+    
+    //==========================================
+    //loader 
+    $(document).ready(function () {
+        const loader = $(".loader");
+        const loaderBody = $(".loader-body");
+    
+        // Function to show the loader
+        function showStoreLoader() {
+            loader.css({ display: "block", left: "50%", top: "50%" });
+            loaderBody.css("display", "flex");
+        }
+    
+        // Function to hide the loader
+        function hideStoreLoader() {
+            loader.css("display", "none");
+            loaderBody.css("display", "none");
+        }
+    
+        // Event listener for radio button change
+        $('input[name="storeoption"]').on('change', function () {
+            showStoreLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+    
+            // Hide loader after a delay (you can adjust this)
+            setTimeout(() => {
+                hideStoreLoader();
+            }, 1100); // Example: hide loader after 1.1 seconds
+        });
+    
+        // Show loader on page load
+        showStoreLoader();
+    
+        // Hide loader after a delay on page load (you can adjust this)
+        setTimeout(() => {
+            hideStoreLoader();
+        }, 1100); // Example: hide loader after 1.1 seconds
+    });
+    //loader
+    //==========================================
+</script>

@@ -1,0 +1,462 @@
+{% load static %}
+<style>
+    @media (min-width: 500px) {
+        .d-sm-flex {
+            display: flex !important;
+        }
+    }
+    
+    /* .row {
+        margin-left: calc(var(--bs-gutter-x)/ 2);
+    } */
+    
+    .container-fluid {
+        cursor: pointer;
+    }
+    
+    .card {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.5rem;
+        background-color: #fff;
+        margin: 0;
+        box-shadow: 0 0.25rem 0.5rem #e6edef;
+        color: #495057;
+    }
+
+    .form-control {
+        padding: 0.175rem 0.25rem 0.175rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .font_size {
+        font-size: 0.89rem;
+    }
+    
+    .btn-user-info {
+        line-height: 1;
+        padding: 0.175rem 0.5rem;
+        font-size: 1.2rem;
+        --bs-btn-padding-x: 0.75rem;
+        --bs-btn-padding-y: 0.325rem;
+        --bs-btn-font-size: 0.8rem;
+    }
+
+    .g-3,
+    .gy-3 {
+        --bs-gutter-y: 0rem;
+    }
+
+    .add_user_card {
+        border: 0;
+        background: none;
+        box-shadow: none;
+    }
+
+    .add_user_card_other {
+        border: 0;
+        /* border-left: 1px solid rgba(0, 0, 0, .125); */
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+    }
+
+    @media (min-width: 576px) {
+        .col-sm-2 {
+            flex: 0 0 auto;
+            width: 20%;
+        }
+    }
+
+    .profile-container {
+        position: relative;
+        margin-left: 2.5rem;
+    }
+
+    .user-profile {
+        position: absolute;
+        display: flex;
+        inset: 0;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-profile-img {
+        position: relative;
+        inset: 0;
+        display: contents;
+    }
+
+    .user-img {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        /* background: #dfdfdf36; */
+        margin-right: 0.5rem;
+        border-radius: 50%;
+    }
+
+    #display_image {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        /* background: #dfdfdf36; */
+        margin-right: 0.5rem;
+        border-radius: 50%;
+    }
+
+    .profile-pic {
+        width: 100%;
+        height: 100%;
+        border: 5px solid #def7f3;
+        border-radius: 50%;
+    }
+
+    .profile-icon {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 20px;
+        right: 0;
+        left: 7.8rem;
+        background: rgba(112, 112, 112, 0.692);
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    .profile-upload-icon {
+        position: absolute;
+        display: flex;
+        top: 0;
+        left: 1.5px;
+        right: 0;
+        bottom: 1.5px;
+        font-size: 20px;
+        color: rgb(231, 231, 231);
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .img-viewer {
+        position: relative;
+        margin-top: 1px;
+        margin-left: -3px;
+        width: 148px;
+        height: 147.5px;
+        margin-right: 0.5rem;
+        border-radius: 50%;
+        outline: 1px solid #fff;
+    }
+
+    .profile-icon>input {
+        display: none;
+    }
+
+    .sec_prt_font_s {
+        font-size: 0.89rem;
+    }
+
+    .form-control {
+        border: 1px solid rgb(133, 196, 255);
+    }
+    
+    .form-control:hover {
+        background: #d3ffef;
+    }
+
+    .main-card {
+        border: 0;
+        box-shadow: none;
+    }
+
+    .card-body_item_setup {
+        flex: 1 1 auto;
+        padding: 0.5rem 0.2rem;
+    }
+
+    .itemsetup_container {
+        position: relative;
+        /* height: 70vh; */
+        margin-top: 8px;
+        border: 1px solid rgb(211, 211, 211);
+        /* background: rgba(216, 216, 216, 0.767); */
+    }
+
+    .add_edit_head {
+        position: relative;
+        display: flex;
+        margin-top: -17px;
+        margin-left: 25px;
+        width: 25%;
+        height: 33px;
+        background: #fff;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        border-radius: 35px;
+    }
+
+    .add_edit_head h2 {
+        position: absolute;
+        display: flex;
+        font-size: 14px;
+        color: rgb(126, 126, 126);
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+    }
+
+
+</style>
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container">
+                <form action="" method="" id="updateuserinfo_byuser">
+                    <input type="hidden" name="user_id" value="{% if user_data.pk %}{{user_data.pk}}{% endif %}">
+                    <div class="add_edit_head">
+                        <h2 class="text-primary">Update User Information</h2>
+                    </div>
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="card add_user_card">
+                                <div class="card-body">
+                                    <div class="user_add_body">
+                                        <div class="sub_body_one">
+                                            <div class="row add_user_row">
+                                                <!--  -->
+                                                <div class="row g-3 align-items-center" id="div_id_first_name">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_first_name"
+                                                            class="col-form-label font_size required">
+                                                            First name:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="text"
+                                                            value="{% if user_data.first_name %}{{user_data.first_name}}{% endif %}"
+                                                            class="form-control form_adduser_body" id="id_first_name"
+                                                            name="first_name" required autocomplete="off">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_last_name">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_last_name"
+                                                            class="col-form-label font_size required">
+                                                            Last name:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="text"
+                                                            value="{% if user_data.last_name %}{{user_data.last_name}}{% endif %}"
+                                                            class="form-control form_adduser_body" id="id_last_name" name="last_name" 
+                                                            autocomplete="off" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_email">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_email" class="col-form-label font_size required">
+                                                            Email:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xl-8 adduser_col">
+                                                        <input type="email"
+                                                            value="{% if user_data.email %}{{user_data.email}}{% endif %}"
+                                                            class="form-control form_adduser_body emailinput"
+                                                            id="id_email" name="email" required autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+
+                                                <div class="row g-3 align-items-center" id="div_id_designation">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_designation"
+                                                            class="col-form-label sec_prt_font_s required">Designation:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-8 adduser_col">
+                                                        <input type="text"
+                                                            value="{% if user_data.designation %}{{user_data.designation}}{% endif %}"
+                                                            class="form-control form_adduser_body" id="id_designation"
+                                                            name="designation" required autocomplete="off">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 align-items-center" id="div_id_phone_no">
+                                                    <div class="col-sm-2">
+                                                        <label for="id_phone_no"
+                                                            class="col-form-label sec_prt_font_s">Phone No:
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-8 adduser_col">
+                                                        <input type="number"
+                                                            value="{% if user_data.phone_no %}{{user_data.phone_no}}{% endif %}"
+                                                            class="form-control form_adduser_body" id="id_phone_no"
+                                                            name="phone_no" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="col-sm-5" style="border-left: 1px solid rgba(0, 0, 0, .125);">
+                            <div class="card add_user_card_other">
+                                <div class="card-body">
+                                    <!-- image -->
+                                    <div class="profile-container px-4" id="div_id_profile_img">
+                                        <div class="row gx-5 user-profile">
+                                            <div class="col user-profile-img">
+                                                <div class="user-img">
+                                                    <div class="profile-pic">
+                                                        <div id="display_image">
+                                                            <img class="img-viewer" id="selected_image" src="{% if user_data.profile_img %}{{ user_data.profile_img.url }}{% else %}{% static 'images/profile_img/user.png' %}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row field-profile_img profile-icon">
+                                                        <div>
+                                                            <label for="id_profile_img">
+                                                                <i class="bx bxs-camera profile-upload-icon"></i>
+                                                            </label>
+                                                            <input type="file" name="profile_img" accept="image/*" id="id_profile_img" 
+                                                            style="display:none;" onchange="displaySelectedImage(this);">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- image end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="usersetup_modal-footer"
+                        style="display: flex; justify-content: right; align-items: center; text-align: center; margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-user-info btn-danger" data-bs-dismiss="modal"
+                            style="font-size: 0.85rem; padding: 0.5rem; margin-right: 1rem;">
+                            Close
+                        </button>
+                        <button id="edutUserBtn" name="submit" type="submit" class="btn btn-user-info btn-success"
+                            style="font-size: 0.85rem; padding: 0.5rem; margin-right: 1rem;">
+                            Update User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#updateuserinfo_byuser').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+            var user_id = formData.get('user_id');  // Get user_id from the form data
+    
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'update_userinfo_by_users' user_id=0 %}".replace('0', user_id),  // Replace 0 with user_id
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    console.log(resp);
+                    if (resp.success) {
+                        toastr.success(resp.msg);
+                        setTimeout(function () { location.reload() }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                    toastr.error("An error occurred while processing the request.");
+                }
+            });
+        });
+    });
+
+
+    // image load in the page
+    function displaySelectedImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+    
+                img.onload = function () {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+    
+                    var maxWidth = 300;
+                    var maxHeight = 300;
+    
+                    var width = img.width;
+                    var height = img.height;
+    
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        } else {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+    
+                        canvas.width = width;
+                        canvas.height = height;
+    
+                        ctx.drawImage(img, 0, 0, width, height);
+    
+                        // Create or select the element with ID 'selected_image'
+                        var selectedImage = document.getElementById('selected_image');
+                        if (!selectedImage) {
+                            selectedImage = new Image();
+                            selectedImage.id = 'selected_image';
+                            document.body.appendChild(selectedImage); // Append the image to the body or any other appropriate container
+                        }
+    
+                        // Set the image source to the resized image
+                        selectedImage.src = canvas.toDataURL('image/jpeg');
+    
+                        // Check if image size exceeds 300x300 after resizing
+                        if (width > maxWidth || height > maxHeight) {
+                            toastr.warning('Image size should be within 300x300 pixels.');
+                        }
+                    } else {
+                        // If the image is within the size limit, set the image source directly
+                        var selectedImage = document.getElementById('selected_image');
+                        if (selectedImage) {
+                            selectedImage.src = img.src;
+                        }
+                    }
+                };
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

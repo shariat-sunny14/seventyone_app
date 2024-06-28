@@ -1,0 +1,524 @@
+<section>
+    <div class="container-fluid">
+        <!-- Main Heading -->
+        <div class="row">
+            <div class="col col-md-4 col-md-6 dashboar-head">
+                <div class="d-sm-flex align-items-center mb-2">
+                    <i class='bx bx-book-alt text-success req-head-icon'></i>
+                    <h1 class="h3 text-success req-head">UoM Setup</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  -->
+<section>
+    <div class="row row_item_setup">
+        <div class="col-sm-5">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-warning">Filtering</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup" style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);">
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio2" type="radio" name="uomoption"
+                                                value="true" id="uomActive">
+                                            <label class="form-check-label" for="uomActive">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio3" type="radio" name="uomoption"
+                                                value="false" id="uomInactive">
+                                            <label class="form-check-label" for="uomInactive">Inactive</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio1" type="radio" name="uomoption"
+                                                value="1" id="uomAll">
+                                            <label class="form-check-label" for="uomAll">All</label>
+                                        </div>
+                                        <div class="form-check form-check-inline"
+                                            style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                            <a href="/type_uom_category"
+                                                class="btn btn-danger text-white btn-xs item_del_btn">
+                                                Clear
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="container col-sm-12" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                        <div class="row org-filterRow">
+                                            <label for="id_uom_org_filter" class="col-org_filter col-form-label font_size_filter">
+                                                Org Name:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select id="id_uom_org_filter" name="uom_org_filter" class="form-select item_inputbox"
+                                                    aria-label="Default select example" required>
+                                                    {% for org in org_list %}
+                                                    <option value="{{org.org_id}}">
+                                                        {{ org.org_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-success">List of UoM</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <div class="type_type">
+                                            <table id="" class="table table-striped table-hover" style="width: 100%;">
+                                                <thead class="text-center table-header_itemlist">
+                                                    <tr>
+                                                        <th style="text-align:center; width: 20%;">UoM No.</th>
+                                                        <th style="text-align:center; width: 30%;">UoM Name</th>
+                                                        <th style="text-align:center; width: 35%;">Organizations</th>
+                                                        <th style="text-align:center; width: 15%;">Status</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="4"
+                                                            style="text-align:center; background: #fff !important;">
+                                                            <input type="search" id="uomsearch"
+                                                                class="form-control search_control item_inputbox"
+                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                placeholder="Searching ..." autocomplete="off">
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="uom_filter_body" class="table-body-row"
+                                                    style="text-align:center; cursor: pointer;">
+
+                                                </tbody>
+                                                <!-- loader start -->
+                                                <section class="loader-section">
+                                                    <div class="loader-body_uom">
+                                                        <div class="loader_uom">
+                                                            <div class="upper ball"></div>
+                                                            <div class="right ball"></div>
+                                                            <div class="lower ball"></div>
+                                                            <div class="left ball"></div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <!-- loader end -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Item UoM main entry form -->
+        <div class="col-sm-7">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemsetup_container">
+                        <form action="" method="" id="uom_form">
+                            <input type="hidden" id="id_item_uom_id" name="item_uom_id" value="">
+                            <div class="add_edit_head">
+                                <h2 class="text-primary">Add/Update Unit of Measurement Setup</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row row_item_setup">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="item_setupflag"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label text-danger setupflag_label"
+                                                    for="id_is_active_uom">
+                                                    Active?
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_active_uom"
+                                                    name="is_active" value="1" aria-label="...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="row row_item_setup">
+                                                <!--  -->
+                                                <div class="col-sm-5">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_item_uom_no">
+                                                                <label for="id_item_uom_no"
+                                                                    class="col-sm-4 col-form-label font_size_filter required">UoM
+                                                                    No:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_item_uom_no" name="item_uom_no" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-7">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_item_uom_name">
+                                                                <label for="id_item_uom_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter required">UoM
+                                                                    Name:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox" id="id_item_uom_name" 
+                                                                        name="item_uom_name" autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row"
+                                                                style="margin-top: -2px;">
+                                                                <label for="id_uom_org"
+                                                                    class="col-sm-orgName col-form-label font_size_filter required">
+                                                                    Org Name:
+                                                                </label>
+                                                                <div class="col-orgInput">
+                                                                    <select id="id_uom_org" name="uom_org" class="form-select item_inputbox"
+                                                                        aria-label="Default select example" required>
+                                                                        <option value="" selected disabled>Choose Organization ...</option>
+                                                                        {% for org in org_list %}
+                                                                        <option value="{{org.org_id}}">
+                                                                            {{ org.org_name }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- submit button -->
+                            <div class="submit_button">
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px;" onclick="location.href='/type_uom_category';">
+                                    New
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
+                                    onclick="$('#uom_form')[0].reset();">
+                                    Clear
+                                </button>
+                                <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                    style="margin-right: 10px;">
+                                    Save & Update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function uom_populateTable(data) {
+
+            // item history
+            for (var i = 0; i < data.uom_Dtls.length; i++) {
+                var UoMData = data.uom_Dtls[i];
+
+                var item_uom_id = UoMData.item_uom_id;
+                var item_uom_no = UoMData.item_uom_no;
+                var item_uom_name = UoMData.item_uom_name;
+                var org_name = UoMData.org_name;
+                var is_active_uom = UoMData.is_active;
+
+                // Get the checkbox input element by its ID
+                var is_activeCheckbox_uom = document.getElementById("id_is_active_uom");
+
+                // Set the checked attribute based on the is_active value
+                is_activeCheckbox_uom.checked = is_active_uom;
+
+                $("#id_item_uom_id").val(item_uom_id);
+                $("#id_item_uom_no").val(item_uom_no);
+                $("#id_item_uom_name").val(item_uom_name);
+
+                var uomOrgSelect = $("#id_uom_org");
+                uomOrgSelect.find('option:contains("' + org_name + '")').prop('selected', true);
+
+                console.log("UoM_list:", UoMData);
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".uom_editBtn", function () {
+            var uomID = $(this).data("uom-id"); // Get the item_id from the data attribute
+
+            $.ajax({
+                type: "GET",
+                url: "/get_uom_lists/" + uomID + "/",
+                dataType: "json",
+                success: function (data) {
+                    uom_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Item UoM details");
+                }
+            });
+        });
+
+    });
+
+    //<!--  -->
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialuomData();
+        handleUomRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="uomoption"]').change(function () {
+            localStorage.setItem('uomlistOption', $('input[name="uomoption"]:checked').val());
+
+            // Load items
+            loaduomlist();
+        });
+
+        $('#id_uom_org_filter').change(() => {
+            // Save the selected organization filter value to local storage
+            uomOrgFilterValue = $('#id_uom_org_filter').val();
+            // Load items
+            loaduomlist();
+        });
+
+
+        // Load items based on the search query
+        loaduomFromSearch();
+
+        // Function to load items based on the search query
+        function loaduomFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedUomsearchQuery = localStorage.getItem("UomsearchQuery");
+            var uomListsearch = $('#uomsearch');
+
+            // Check if there's a saved search query
+            if (savedUomsearchQuery) {
+                // Set the search input value
+                uomListsearch.val(savedUomsearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            uomListsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("UomsearchQuery", query);
+                loaduomlist();
+            });
+
+            // Trigger the search on page load
+            loaduomlist();
+        }
+
+        function loadInitialuomData() {
+            // Retrieve the selected option from local storage
+            var uominitialOption = localStorage.getItem('uomlistOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="uomoption"][value="' + uominitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loaduomlist();
+        }
+
+        function loaduomlist() {
+            // Get the current search query and option from local storage
+            var UomsearchQuery = localStorage.getItem("UomsearchQuery") || '';
+            var uomoption = localStorage.getItem('uomlistOption') || 'true';
+            var uomOrgFilterValue = $('#id_uom_org_filter').val();
+
+            // Make Ajax request
+            $.ajax({
+                type: 'GET',
+                url: '/get_list_of_uom/',
+                data: {
+                    'uomoption': uomoption,
+                    'uom_search_query': UomsearchQuery,
+                    'uom_org_filter': uomOrgFilterValue,
+                },
+                success: function (data) {
+                    // Update the table with filtered data
+                    updateUomTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateUomTable(data) {
+            var tableBody = $('#uom_filter_body');
+            tableBody.empty();
+
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+
+                if (data.data) {
+                    $.each(data.data, function (index, uomL) {
+                        var uomstatusText = uomL.is_active ? 'Active' : 'Inactive';
+                        var uomstatusClass = uomL.is_active ? 'active-status' : 'inactive-status';
+
+                        tableBody.append(`<tr class="uom_editBtn" data-uom-id="${uomL.item_uom_id}">
+                            <td style="text-align: center;">${uomL.item_uom_no}</td>
+                            <td style="text-align: left;">${uomL.item_uom_name}</td>
+                            <td style="text-align: left;">${uomL.org_name}</td>
+                            <td class="status_act_inac ${uomstatusClass}" style="text-align: center;">${uomstatusText}</td>
+                        </tr>`);
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleUomRowSelection();
+        }
+
+        $(function () {
+            $('#uom_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'uom_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loaduomlist();
+                            showLoader();
+                            $('#uom_form')[0].reset();
+                            // Hide loader
+                            setTimeout(function () {
+                                hideLoader();
+                            }, 1100);
+
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleUomRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedUoMID = localStorage.getItem("selectedUoMID");
+        if (selectedUoMID) {
+            $(".uom_editBtn").removeClass("selected-row");
+            $(".uom_editBtn[data-uom-id='" + selectedUoMID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".uom_editBtn", function () {
+            var clickedUoMID = $(this).data("uom-id");
+            $(".uom_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedUoMID", clickedUoMID);
+        });
+    }
+
+    //==========================================
+    //loader 
+    const loader_uom = document.querySelector(".loader_uom");
+    const loaderBody_uom = document.querySelector(".loader-body_uom");
+
+    // Function to show the loader
+    function showLoader() {
+        loader_uom.style.display = "block";
+        loaderBody_uom.style.display = "block";
+        loader_uom.style.left = "50%"; // Set left position to center
+        loader_uom.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideLoader() {
+        loader_uom.style.display = "none";
+        loaderBody_uom.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndShowLoader() {
+        const loaderVisible = localStorage.getItem("loaderVisible");
+        if (loaderVisible === "true") {
+            showLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="uomoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+</script>

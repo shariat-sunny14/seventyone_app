@@ -1,0 +1,42 @@
+<!-- log out modal end -->
+<!-- pos billing modal start -->
+<div class="modal fade" id="modal_md" role='dialog'>
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.modal_md = function ($title = '', $url = '', $size = "", $footer) {
+        $.ajax({
+            url: $url,
+            error: err => {
+                console.log()
+                alert("An error occured")
+            },
+            success: function (resp) {
+                if (resp) {
+                    $('#modal_md .modal-title').html($title)
+                    $('#modal_md .modal-body').html(resp)
+                    $('#modal_md .modal-footer').html($footer)
+                    if ($size != '') {
+                        $('#modal_md .modal-dialog').addClass($size + '  modal-dialog-centered')
+                    } else {
+                        $('#modal_md .modal-dialog').removeAttr("class").addClass("modal-dialog modal-md")
+                    }
+                    $('#modal_md').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        focus: true
+                    })
+                    $('#modal_md').modal('show')
+                }
+            }
+        })
+    }
+</script>
+<!-- pos billing modal end -->

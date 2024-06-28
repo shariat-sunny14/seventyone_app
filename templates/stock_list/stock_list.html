@@ -1,0 +1,261 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'stock_list_style/css/stock_list.css' %}">
+<!--========== from type_category js file ==========-->
+<script src="{% static 'stock_list_style/js/stock_list.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section>
+        <!-- loader start -->
+        <div class="loader"></div>
+        <!-- loader end -->
+        <main class="container-fluid" style="margin-top: 8px; margin-bottom: 8px;">
+            <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+                <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                    <!-- Main Heading -->
+                    <div class="row">
+                        <div class="col col-md-4 col-md-6 dashboar-head">
+                            <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; margin-left: 1rem;">
+                                <i class='bx bx-chart text-white req-head-icon'></i>
+                                <h1 class="h3 text-white req-head">Item Wise Stock List</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <section class="container-fluid">
+                    <div class="card" style="margin-right: 0.5rem; margin-bottom: 0.5rem; background: whitesmoke;">
+                        <div class="card-body">
+                            <div class="report-filter">
+                                <!-- Date Range Filter -->
+                                <div class="date-range">
+                                    <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                        <div class="date_range-element" style="display:flex">
+                                            <div class="row store_row" style="flex-grow: 1;">
+                                                <label for="id_store_name" class="col-auto col-form-label">
+                                                    Store Name:
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <select id="id_store_name" name="store_name"
+                                                        class="form-select store_Selectbox"
+                                                        aria-label="Default select example" required>
+                                                        {% for store in store_data %}
+                                                        <option id="{{store.store_id}}" value="{{store.store_id}}">
+                                                            {{store.store_name}}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row store_row" style="flex-grow: 1;">
+                                                <label for="id_filter_org" class="col-auto col-form-label">
+                                                    Organization:
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <select id="id_filter_org" name="filter_org"
+                                                        class="form-select store_Selectbox"
+                                                        aria-label="Default select example">
+                                                        {% for org in org_list %}
+                                                        <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                            {{org.org_name}}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row g-3 align-items-center" style="flex-grow: 0;">
+                                                <div class="col-auto">
+                                                    <button id="stockReportPDF"
+                                                        class="btn btn-warning invBtn btn-xs text-white stock_report" data-id=""
+                                                        style="margin-right: 0.5rem;">
+                                                        PDF Report
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- containt start -->
+                    <section style="margin-bottom: 0.5rem; margin-right: 0.5rem;">
+                        <div class="card hide_card_border">
+                            <div class="card-body" style="padding: 0.2rem 0.2rem;">
+                                <div class="col-xl-12">
+                                    <!-- <tr>
+                                        <th colspan="4" style="text-align:center; background: #fff !important;">
+                                            <input type="search" id="id_search_item" name="search_item"
+                                                class="form-control search_control item_inputbox"
+                                                style="margin-bottom: 0.3rem; background:#fffab6;" placeholder="Searching ..."
+                                                autocomplete="off">
+                                        </th>
+                                    </tr> -->
+                                    <div class="stockListTB">
+                                        <table id="stockTB" class="table table-striped" style="width: 100%; border: 1px solid #3da9b8;">
+                                            <thead class="text-center table-header">
+                                                <tr style="border-style: hidden!important;">
+                                                    <th style="text-align:center; width: 5%;">SL</th>
+                                                    <th style="text-align:center; width: 10%;">Item No</th>
+                                                    <th style="text-align:center; width: 25%;">Item Name</th>
+                                                    <th style="text-align:center; width: 8%;">Type</th>
+                                                    <th style="text-align:center; width: 8%;">UoM</th>
+                                                    <th style="text-align:center; width: 15%;">Supplier</th>
+                                                    <th style="text-align:center; width: 8%;">P. Price</th>
+                                                    <th style="text-align:center; width: 8%;">S. Price</th>
+                                                    <th style="text-align:center; width: 13%;">Stock Qty</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-body-row">
+                                                <!--  -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- containt end  -->
+                </section>
+                <!--  -->
+            </section>
+            <script>
+                $(document).ready(function () {
+                    startLoader();
+                    // Function to fetch and populate table data based on selected store_id and search_query
+                    const fetchTableData = function (selectedStoreId) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/get_item_wise_stock/',
+                            data: {
+                                store_id: selectedStoreId
+                            },
+                            success: function (response) {
+                                // Destroy the existing DataTable instance
+                                $('#stockTB').DataTable().destroy();
+                
+                                updateStockTable(response);
+                
+                                // Re-initialize DataTable after updating the table data
+                                $('#stockTB').DataTable({
+                                    "ordering": false,
+                                });
+                                endLoader();
+                            },
+                            error: function (error) {
+                                console.error('Error fetching data:', error);
+                            }
+                        });
+                    };
+                
+                    // Function to update the stock table with retrieved data
+                    function updateStockTable(response) {
+                        if (response && response.data) {
+                            const stockData = response.data;
+                            stockData.sort((a, b) => a.total_stockQty - b.total_stockQty);
+                            // Clear existing table body
+                            $('#stockTB tbody').empty();
+                            // Populate table rows with new data
+                            stockData.forEach(function (data, index) {
+                                $('#stockTB tbody').append(`
+                                    <tr style="height: 2.4rem;">
+                                        <td style="text-align:center;">${index + 1}</td>
+                                        <td style="text-align:center;">${data.item_no}</td>
+                                        <td style="text-align:left;">${data.item_name}</td>
+                                        <td style="text-align:center;">${data.item_type_name}</td>
+                                        <td style="text-align:center;">${data.item_uom}</td>
+                                        <td style="text-align:left;">${data.item_Supplier}</td>
+                                        <td style="text-align:center;">${data.item_p_price}</td>
+                                        <td style="text-align:center;">${data.item_s_price}</td>
+                                        <td style="text-align:center;">${data.total_stockQty}</td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            // Clear table if no data
+                            $('#stockTB tbody').empty();
+                        }
+                    }
+                
+                    // Event listener for search item input
+                    $('#id_search_item').on('input', function () {
+                        const searchQuery = $(this).val().trim();
+                        const selectedStoreId = $('#id_store_name').val();
+                        fetchTableData(selectedStoreId, searchQuery);
+                    });
+                
+                    // Event listener for store name select change
+                    $('#id_store_name').change(function () {
+                        const selectedStoreId = $(this).val();
+                        const searchQuery = $('#id_search_item').val().trim();
+                        fetchTableData(selectedStoreId, searchQuery);
+                    });
+                
+                    // Initial request on document ready
+                    const defaultStoreId = $('#id_store_name').val();
+                    fetchTableData(defaultStoreId, '');
+                });
+
+                // loader start
+                function startLoader() {
+                    const loader = document.querySelector(".loader");
+                    loader.classList.remove("loader-hidden");
+                }
+                
+                function endLoader() {
+                    const loader = document.querySelector(".loader");
+                    loader.classList.remove("loader-hidden");
+                    setTimeout(() => {
+                        loader.classList.add("loader-hidden");
+                    }, 500);
+                }
+                //loader end
+
+                $(document).ready(function() {
+                    // Function to update the data-id attribute of the stock report button
+                    function updateStockReportButton() {
+                        const selectedStoreId = $('#id_store_name').val();
+                        $('#stockReportPDF').attr('data-id', selectedStoreId);
+                    }
+                
+                    // Event listener for store name select change
+                    $('#id_store_name').change(function() {
+                        updateStockReportButton();
+                    });
+                
+                    // Initial setting of the data-id attribute on document ready
+                    updateStockReportButton();
+                
+                    // Event listener for stock report button click
+                    $(document).on('click', '.stock_report', function(e) {
+                        const stockId = $(this).data('id');
+                        var orgId = $('#id_filter_org').val();
+                
+                        // Ensure stockId is defined before using it in the URL
+                        if (stockId) {
+                            const stockReportUrl = "{% url 'item_wise_stock_report' store_id=0 %}".replace('0', stockId) + "?org_id=" + orgId;
+                            window.open(stockReportUrl, '_blank');
+                        } else {
+                            console.error('Stock ID is undefined');
+                        }
+                    });
+                });
+            </script>
+        </main>
+    </section>
+</main>
+{% endblock %}

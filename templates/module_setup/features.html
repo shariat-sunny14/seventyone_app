@@ -1,0 +1,348 @@
+{% load static %}
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container">
+                <form id="save_feature" action="" method="">
+                    <input type="hidden" name="feature_id"
+                        value="{% if moduleFeature.pk %}{{moduleFeature.pk}}{% endif %}">
+                    <div class="add_edit_head">
+                        <h2>Features Setup Info.</h2>
+                    </div>
+                    <!--  -->
+                    <div class="row row_item_setup">
+                        <div class="col-sm-10">
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_feature_no">
+                                                        <label for="feature_no"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Feature No :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if moduleFeature.feature_no %}{{moduleFeature.feature_no}}{% endif %}"
+                                                                class="form-control item_inputbox" id="feature_no"
+                                                                name="feature_no" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_feature_name">
+                                                        <label for="feature_name"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Feature Name :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if moduleFeature.feature_name %}{{moduleFeature.feature_name}}{% endif %}"
+                                                                class="form-control item_inputbox" id="feature_name"
+                                                                name="feature_name" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_feature_type">
+                                                        <label for="feature_type"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Featuer Type :
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <select id="feature_type" name="feature_type"
+                                                                class="form-select item_inputbox"
+                                                                aria-label="Default select example" required>
+                                                                {% if not moduleFeature.feature_type %}
+                                                                <option value="" disabled selected>Choose Feature Type
+                                                                    here ..
+                                                                </option>
+                                                                {% else %}
+                                                                <option value="" disabled>Choose Feature Type here ..
+                                                                </option>
+                                                                {% endif %}
+
+                                                                {% if moduleFeature.feature_type %}
+                                                                <option value="{{ moduleFeature.feature_type }}"
+                                                                    style="display: none;" selected>
+                                                                    {{ moduleFeature.feature_type }}
+                                                                </option>
+                                                                <option value="Form">
+                                                                    Form
+                                                                </option>
+                                                                <option value="Access">
+                                                                    Access
+                                                                </option>
+                                                                {% else %}
+                                                                <option value="Form">
+                                                                    Form
+                                                                </option>
+                                                                <option value="Access">
+                                                                    Access
+                                                                </option>
+                                                                {% endif %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_serial_no">
+                                                        <label for="serial_no"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Serial No :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="number"
+                                                                value="{% if moduleFeature.serial_no %}{{moduleFeature.serial_no}}{% endif %}"
+                                                                class="form-control item_inputbox" id="serial_no"
+                                                                name="serial_no" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_feature_code">
+                                                        <label for="feature_code"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Feature Code :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if moduleFeature.feature_code %}{{moduleFeature.feature_code}}{% endif %}"
+                                                                class="form-control item_inputbox" id="feature_code"
+                                                                name="feature_code" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_feature_page_link">
+                                                        <label for="feature_page_link"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Page Link :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if moduleFeature.feature_page_link %}{{moduleFeature.feature_page_link}}{% endif %}"
+                                                                class="form-control item_inputbox"
+                                                                id="feature_page_link" name="feature_page_link" required
+                                                                autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_category_name">
+                                                        <label for="module_id"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Parent Module :
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <select id="module_id" name="module_id"
+                                                                class="form-select item_inputbox"
+                                                                aria-label="Default select example" required>
+                                                                <!--  -->
+                                                                {% if not moduleFeature.module_id %}
+                                                                <option value="" disabled selected>Choose Module Name ..
+                                                                </option>
+                                                                {% else %}
+                                                                <option value="" disabled>Choose Module Name ..</option>
+                                                                {% endif %}
+
+                                                                {% if moduleFeature.module_id %}
+                                                                <option value="{{ moduleFeature.module_id }}"
+                                                                    style="display: none;" selected>
+                                                                    {{ moduleFeature.module_id.module_name }}
+                                                                </option>
+                                                                {% for datarow in modules %}
+                                                                <option value="{{ datarow.module_id }}">
+                                                                    {{ datarow.module_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                                {% else %}
+                                                                {% for datarow in modules %}
+                                                                <option value="{{ datarow.module_id }}">
+                                                                    {{ datarow.module_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                                {% endif %}
+                                                                <!--  -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_type_id">
+                                                        <label for="type_id"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Module Type :
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <select id="type_id" name="type_id"
+                                                                class="form-select item_inputbox"
+                                                                aria-label="Default select example" required>
+                                                                <!--  -->
+                                                                {% if not moduleFeature.type_id %}
+                                                                <option value="" disabled selected>Choose Type ..
+                                                                </option>
+                                                                {% else %}
+                                                                <option value="" disabled>Choose Type ..</option>
+                                                                {% endif %}
+
+                                                                {% if moduleFeature.type_id %}
+                                                                <option value="{{ moduleFeature.type_id }}"
+                                                                    style="display: none;" selected>
+                                                                    {{ moduleFeature.type_id.type_name }}
+                                                                </option>
+                                                                {% for datT in mod_type %}
+                                                                <option value="{{ datT.type_id }}">
+                                                                    {{ datT.type_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                                {% else %}
+                                                                {% for datT in mod_type %}
+                                                                <option value="{{ datT.type_id }}">
+                                                                    {{ datT.type_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                                {% endif %}
+                                                                <!--  -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_category_name">
+                                                        <label for="feature_icon"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Feature Icon :
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if moduleFeature.feature_icon %}{{moduleFeature.feature_icon}}{% endif %}"
+                                                                class="form-control item_inputbox" id="feature_icon"
+                                                                name="feature_icon" required autocomplete="off"
+                                                                placeholder="Boxicons Icon Class name only">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="item_setupflag div_id_feature_status"
+                                        style="display: flex; justify-content: right;">
+                                        <label class="form-check-label text-danger setupflag_label"
+                                            for="feature_status">
+                                            Active?
+                                        </label>
+                                        <input type="hidden" name="feature_status" value="0">
+                                        {% if moduleFeature.is_active == 1 %}
+                                        <input class="form-check-input" type="checkbox" id="feature_status"
+                                            name="feature_status" value="1" aria-label="..." checked>
+                                        {% else %}
+                                        <input class="form-check-input" type="checkbox" id="feature_status"
+                                            name="feature_status" value="0" aria-label="...">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="item_setupflag" style="display: flex; justify-content: center;">
+                                        <a href="https://boxicons.com/" target="_blank">
+                                            <img src="{% static 'images/boxicons_img/boxicons.jpg' %}" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- submit button -->
+                    <div class="submit_button">
+                        <button type="button" class="btn btn-danger modulesubmitBtn btn-sm" data-bs-dismiss="modal"
+                            style="margin-right: 10px;">Close</button>
+                        <button type="submit" value="submit" class="btn btn-success modulesubmitBtn btn-sm"
+                            style="margin-right: 10px;">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#save_feature').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'add_features' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg)
+                        //location.reload()
+                        setTimeout(function () { location.reload() }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            })
+        })
+    })
+
+    // Checkbox value change 1 or 0
+    $('#feature_status').on('change', function () {
+        this.value = this.checked ? 1 : 0;
+    }).change();
+</script>

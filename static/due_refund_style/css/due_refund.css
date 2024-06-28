@@ -1,0 +1,742 @@
+/* main header start */
+.container-fluid {
+    cursor: pointer;
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    width: 100%;
+    padding-right: 0rem;
+    padding-left: 0rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.dashboar-head {
+    width: 100%;
+    /* border-bottom: 1px solid white; */
+    margin-top: 0.5em;
+    margin-bottom: 0.5rem;
+}
+
+.req-head-icon {
+    font-size: 16px;
+}
+
+.req-head {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.py-2 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.text-size {
+    font-size: 15px;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.status_head {
+    position: relative;
+    display: flex;
+    margin-top: -16px;
+    margin-left: 25px;
+    width: 42%;
+    height: 30px;
+    background: linear-gradient(to bottom, #fff, rgb(243, 255, 252));
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.status_head h2 {
+    position: absolute;
+    display: flex;
+    font-size: 0.8rem;
+    color: #04425f;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.coll_status {
+    position: relative;
+    display: flex;
+    margin-top: -16px;
+    margin-left: 25px;
+    width: 17%;
+    height: 30px;
+    background: linear-gradient(to bottom, #fff, rgb(243, 255, 252));
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.coll_status h2 {
+    position: absolute;
+    display: flex;
+    font-size: 0.8rem;
+    color: #04425f;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.invoice_status {
+    position: relative;
+    display: flex;
+    margin-top: 18px;
+    width: 100%;
+    height: 30px;
+    background: rgb(220, 252, 244);
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border: 1.3px solid rgb(174, 243, 226);
+    border-radius: 35px;
+    animation: borderAnimation 4s linear infinite;
+}
+
+@keyframes borderAnimation {
+    0% {
+        border-color: rgb(174, 243, 226);
+    }
+
+    25% {
+        border-color: rgb(226, 243, 174);
+        transform: translate(3px, -3px);
+    }
+
+    50% {
+        border-color: rgb(243, 174, 226);
+        transform: translate(0, 0);
+    }
+
+    75% {
+        border-color: rgb(174, 226, 243);
+        transform: translate(-3px, 3px);
+    }
+
+    100% {
+        border-color: rgb(174, 243, 226);
+    }
+}
+
+.invoice_status h2 {
+    position: absolute;
+    display: flex;
+    font-size: 0.8rem;
+    font-weight: bolder;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.invoice_statusDtl {
+    transition: color 0.5s;
+}
+
+/* CSS animations for different states */
+.invoice_statusDtl.no-due {
+    color: rgb(30, 134, 4);
+}
+
+.invoice_statusDtl.needs-refund {
+    color: rgb(255, 145, 0);
+}
+
+.invoice_statusDtl.has-due {
+    color: red;
+}
+
+/*  */
+.due_ref_invoice_statusDtl {
+    transition: color 0.5s;
+}
+
+/* CSS animations for different states */
+.due_ref_invoice_statusDtl.no-due {
+    color: rgb(30, 134, 4);
+}
+
+.due_ref_invoice_statusDtl.needs-refund {
+    color: rgb(255, 145, 0);
+}
+
+.due_ref_invoice_statusDtl.has-due {
+    color: red;
+}
+
+/*  */
+.can_invoice_status {
+    transition: color 0.5s;
+}
+
+/* CSS animations for different states */
+.can_invoice_status.no-due {
+    color: rgb(30, 134, 4);
+}
+
+.can_invoice_status.needs-refund {
+    color: rgb(255, 145, 0);
+}
+
+.can_invoice_status.has-due {
+    color: red;
+}
+/* main header end */
+
+@media (min-width: 768px) {
+    .col-md-11-modfy {
+        flex: 0 0 auto;
+        width: 66.6%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-7-mody {
+        flex: 0 0 auto;
+        width: 60%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-2 {
+        display: flex;
+        flex: 0 0 auto;
+        width: 29%;
+        font-size: 11.5px;
+        justify-content: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-9-mody {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-3-mody {
+        display: flex;
+        flex: 0 0 auto;
+        width: 20%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-4_mody {
+        flex: 0 0 auto;
+        width: 24%;
+        margin-left: 0.1rem;
+        margin-right: 0.46rem;
+    }
+}
+
+
+@media (min-width: 576px) {
+    .col-sm-2-mody {
+        display: flex;
+        flex: 0 0 auto;
+        width: 16%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-3 {
+        flex: 0 0 auto;
+        width: 14%;
+        margin-left: 0.25rem;
+        margin-right: 0.46rem;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-1-modify {
+        flex: 0 0 auto;
+        width: 16.64%;
+    }
+}
+
+.nav-tabs {
+    font-size: 14px;
+}
+
+.POSlink_btn {
+    margin-top: 0.6px;
+    padding: 0.3rem 1.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
+}
+
+.invLabel {
+    display: flex;
+    font-size: 11.5px;
+    justify-content: left;
+    padding-top: calc(0.375rem + 1px);
+    padding-bottom: calc(0.375rem + 1px);
+    margin-left: 10px;
+}
+
+.form-check-input {
+    width: 2.2em;
+    height: 2em;
+    margin-top: -0.2em;
+}
+
+.input-gap {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.main_pos_card {
+    background: rgb(243, 255, 252);
+    height: 100%;
+}
+
+.pos_card {
+    border: 0;
+    background: none;
+}
+
+
+.pos_card_body {
+    padding: 0.15rem 0.15rem;
+}
+
+.cash_point_row {
+    --bs-gutter-x: 0.1rem;
+    margin-bottom: 0;
+}
+
+.pos_inputbox {
+    margin-top: 2px;
+    padding: 0.175rem 0.25rem 0.175rem 0.75rem;
+    font-size: 11.5px;
+}
+
+.inv_can_inputbox {
+    margin-top: 2px;
+    padding: 0.175rem 0.15rem 0.175rem 0.15rem;
+    font-size: 11.5px;
+}
+
+.due_invDBtn {
+    margin-top: 2px;
+    margin-left: 1rem;
+    padding: 0.175rem 0.475rem 0.175rem 0.475rem;
+    font-size: 11.5px;
+}
+
+.ts-control {
+    position: relative;
+    margin-top: 0px;
+    padding: 0.02rem 0.02rem 0.05rem 0.2rem;
+    font-size: 11.5px;
+    border: 0px solid #d0d0d0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+    box-sizing: border-box;
+    box-shadow: none;
+    border-radius: 3px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ts-wrapper.single .ts-control,
+.ts-wrapper.single .ts-control input {
+    font-size: 11.5px;
+}
+
+.ts-dropdown [data-selectable].option {
+    font-size: 11.5px;
+}
+
+.pos_inputbox option {
+    font-size: 11.5px;
+}
+
+.inv_can_inputbox option {
+    font-size: 11.5px;
+}
+
+.last_invshowprntBtm {
+    margin-top: 2px;
+    width: 63.5px;
+    padding: 0.125rem 0.55rem;
+    font-size: 0.8rem;
+}
+
+/* cash point end */
+
+
+/* add items start */
+.item_table_body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.table-header {
+    color: #fff;
+    background: #2e94a1;
+    font-size: 11.5px;
+}
+
+.table-header_itemlist {
+    color: #fff;
+    background: #85acb1;
+    font-size: 11px;
+}
+
+.table-body-row {
+    font-size: 12.5px;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    padding: 3px;
+    border-bottom: 0px;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 1px 1px;
+}
+
+.table>:not(caption)>*>* {
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.item_add_btn {
+    padding: 0.125rem 0.55rem;
+    font-size: 0.85rem;
+}
+
+.item_del_btn {
+    margin-top: 0.6px;
+    padding: 0.06rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 0.4rem;
+    margin-right: 0.2rem;
+}
+
+/* payment mode */
+.table>tbody {
+    vertical-align: sub;
+    font-size: 11px;
+}
+
+.paymode_table {
+    margin-bottom: 0;
+    --bs-table-accent-bg: none;
+    color: none;
+    border-color: none;
+    border-style: 0;
+}
+
+/* tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-style: none !important;
+} */
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-style: dashed;
+    border-bottom-color: #c5c1c1;
+}
+
+
+.item_payment_btn {
+    margin-top: 0.6px;
+    padding: 0.3rem 1.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
+}
+
+
+/* ======================= */
+datalist {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #9e9e9e;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    font-family: sans-serif;
+    width: 385px;
+    padding: 5px;
+    text-align: left;
+    max-height: 10rem;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+option {
+    background-color: white;
+    padding: 4px;
+    color: #212529;
+    margin-bottom: 1px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    /* background: #eeeeee; */
+}
+
+option:hover {
+    background-color: lightblue;
+}
+
+.payment-submitBtn {
+    position: relative;
+    display: flex;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    justify-content: right;
+}
+
+
+.dis-label {
+    display: flex;
+    width: 25%;
+    justify-content: center;
+    align-items: center;
+}
+
+.dis-perc {
+    display: flex;
+    width: 7%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.remarks-label {
+    display: flex;
+    width: 12.7%;
+    align-items: center;
+    text-align: center;
+    justify-content: right;
+}
+
+
+/* auto serial */
+#addPosItem_Tbl {
+    counter-reset: serial-number;
+    /* Set the serial number counter to 0 */
+}
+
+#addPosItem_Tbl td:first-child:before {
+    counter-increment: serial-number;
+    /* Increment the serial number counter */
+    content: counter(serial-number);
+    /* Display the counter */
+}
+
+/* 2nd table */
+
+
+/* auto serial end*/
+
+.itemAdd_del_btn {
+    position: relative;
+    margin-top: 0.6px;
+    margin-bottom: 2px;
+    padding: 0.03rem 0.35rem;
+    font-weight: bold;
+    margin-left: 0.15rem;
+    margin-right: 0.2rem;
+    z-index: 1;
+    font-size: 0.8rem;
+}
+
+.item_del_checkbox {
+    margin-top: 0em;
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.inputbox_tdrow {
+    position: relative;
+    margin-top: 0px;
+    padding: 0.15rem 0.15rem 0.15rem 0.15rem;
+    font-size: 11px;
+    border: 0;
+    outline: 0;
+    /* z-index: 1; */
+    display: block;
+    width: 97%;
+    background: transparent;
+    border-radius: 0;
+}
+
+.paymentDtl {
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.disc_input {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+
+/* auto serial */
+#mul_item_tbl {
+    counter-reset: rowNumber;
+}
+
+#mul_item_tbl tbody tr {
+    counter-increment: rowNumber;
+}
+
+#mul_item_tbl tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+/* receipt items auto serial*/
+#receipt-items {
+    counter-reset: rowNumber;
+}
+
+#receipt-items tbody tr {
+    counter-increment: rowNumber;
+}
+
+#receipt-items tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+/* auto serial end*/
+
+/* table */
+#POS-field {
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+}
+
+.table {
+    margin-bottom: 0rem !important;
+}
+
+.calcBtn {
+    margin-top: -3px;
+    padding: 0.15rem 0.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 0.4rem;
+    margin-right: 0.8rem;
+}
+
+/* loader */
+.loader {
+    position: absolute;
+    top: 0rem;
+    left: -0.28rem;
+    right: 0rem;
+    bottom: 0rem;
+    width: 100.59%;
+    height: 555px;
+    display: flex;
+    background-color: rgba(240, 240, 240, 0.671);
+    transition: opacity 0.75s, visibility 0.75s;
+    z-index: 1;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+/* loader css */
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid #1a8af3;
+    border-top: 15px solid #81c2ff;
+    border-left: 15px solid #81c2ff;
+    border-radius: 50%;
+    animation: main_loading 0.75s ease infinite;
+}
+
+@keyframes main_loading {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+/* loader css */

@@ -1,0 +1,1450 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'item_setup_style/css/item_setup_style.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <i class='bx bx-edit-alt text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">Item Setup</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <div class="row row_item_setup">
+            <div class="col-sm-4">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemfilter_container">
+                            <div class="filter_head">
+                                <h2 class="text-warning">Filtering</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup"
+                                            style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);"">
+                                            <div class=" form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio2" type="radio" name="option"
+                                                value="true" id="activeList">
+                                            <label class="form-check-label" for="activeList">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio3" type="radio" name="option"
+                                                value="false" id="inactiveList">
+                                            <label class="form-check-label" for="inactiveList">Inactive</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio1" type="radio" name="option" value="1"
+                                                id="allList">
+                                            <label class="form-check-label" for="allList">All</label>
+                                        </div>
+                                        <div class="form-check form-check-inline"
+                                            style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                            <a href="/item_setup" class="btn btn-danger text-white btn-xs item_del_btn">
+                                                Clear
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="container col-sm-12" style="margin-top: 1rem;">
+                                        <div class="row org-filterRow">
+                                            <label for="id_org_filter"
+                                                class="col-org_filter col-form-label font_size_filter">
+                                                Org Name:
+                                            </label>
+                                            <div class="org_bran_selectbox">
+                                                <select id="id_org_filter" name="org_filter"
+                                                    class="form-select item_inputbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option value="{{org.org_id}}">
+                                                        {{ org.org_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="container col-sm-12" style="margin-bottom: 1rem;">
+                                        <div class="row org-filterRow">
+                                            <label for="id_manuf_filter"
+                                                class="col-org_filter col-form-label font_size_filter">
+                                                Manufac.:
+                                            </label>
+                                            <div class="org_bran_selectbox">
+                                                <select id="id_manuf_filter" name="manuf_filter"
+                                                    class="form-select item_inputbox"
+                                                    aria-label="Default select example">
+                                                    <option value="1" selected>All Manufacturer</option>
+                                                    {% for suppl in supplier_list %}
+                                                    <option value="{{suppl.supplier_id}}">
+                                                        {{ suppl.supplier_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-success">List of Items</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <!--  -->
+                                        <div class="item-table">
+                                            <table id="listOfItem" class="table table-striped table-hover"
+                                                style="width: 100%;">
+                                                <thead class="text-center table-header_itemlist">
+                                                    <tr>
+                                                        <th style="text-align:center; width: 20%;">Item No</th>
+                                                        <th style="text-align:center; width: 65%;">Item Name</th>
+                                                        <th class="fixed-column" style="text-align:center; width: 15%;">
+                                                            Status</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="4"
+                                                            style="text-align:center; background: #fff !important;">
+                                                            <input type="search" id="searchInput"
+                                                                class="form-control search_control item_inputbox"
+                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                placeholder="Searching Item ..." autocomplete="off">
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="filter_body" class="table-body-row"
+                                                    style="text-align:center; cursor: pointer;">
+                                                    <!-- load ajax value -->
+
+                                                </tbody>
+                                                <!-- loader start -->
+                                                <section class="loader-section">
+                                                    <div class="loader-body">
+                                                        <div class="loader">
+                                                            <div class="upper ball"></div>
+                                                            <div class="right ball"></div>
+                                                            <div class="lower ball"></div>
+                                                            <div class="left ball"></div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <!-- loader end -->
+                                            </table>
+
+                                        </div>
+                                        <nav aria-label="Page navigation example" style="margin-top: 8px;">
+                                            <ul class="pagination pagination-sm justify-content-end">
+                                                <div style="position: absolute; left: 10px;">
+                                                    <li class="page-item">
+                                                        <span style="font-size: 0.75rem; color: #4c6e48;">Page <span
+                                                                id="currentPage">1</span> of <span
+                                                                id="totalPages">1</span>
+                                                        </span>
+                                                    </li>
+                                                </div>
+                                                <!--  -->
+                                                <div style="display: flex; margin-right: 5px;">
+                                                    <li class="page-item" style="margin-right: 0.5rem;">
+                                                        <button id="firstPage" style="width: 3.2rem; border: 0;
+                                                                font-size: 0.75rem;
+                                                                padding: 3px 5px 3px 5px;
+                                                                color: #fff;
+                                                                border-radius: 5px;">
+                                                            First
+                                                        </button>
+                                                    </li>
+                                                    <li class="page-item" style="margin-right: 0.5rem;">
+                                                        <button id="prevPage" style="width: 4.2rem; border: 0;
+                                                                font-size: 0.75rem;
+                                                                padding: 3px 5px 3px 5px;
+                                                                color: #fff;
+                                                                border-radius: 5px;">
+                                                            Previous
+                                                        </button>
+                                                    </li>
+                                                    <li class="page-item" style="margin-right: 0.5rem;">
+                                                        <button id="nextPage" style="width: 3.2rem; border: 0;
+                                                                font-size: 0.75rem;
+                                                                padding: 3px 5px 3px 5px;
+                                                                color: #fff;
+                                                                border-radius: 5px;">
+                                                            Next
+                                                        </button>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <button id="lastPage" style="width: 3.2rem; border: 0;
+                                                                font-size: 0.75rem;
+                                                                padding: 3px 5px 3px 5px;
+                                                                color: #fff;
+                                                                border-radius: 5px;">
+                                                            Last
+                                                        </button>
+                                                    </li>
+                                                </div>
+                                            </ul>
+                                        </nav>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Item set up main entry form -->
+        <div class="col-sm-8">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <form action="" method="" id="items_form">
+                        <input type="hidden" id="id_item_id" name="item_id" value="">
+                        <div class="itemsetup_container">
+                            <div class="add_edit_head">
+                                <h2 class="text-primary">Add/Update New Item Informations</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row row_item_setup">
+                                <div class="col-sm-10">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-4">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_item_no">
+                                                                <label for="id_item_no"
+                                                                    class="col-sm-6 col-form-label font_size_filter required">
+                                                                    Item No:
+                                                                </label>
+
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" value=""
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_item_no" name="item_no"
+                                                                        autocomplete="off" required>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_item_name">
+                                                                <label for="id_item_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter required">
+                                                                    Item Name:
+                                                                </label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_item_name" name="item_name"
+                                                                        autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <!-- 2nd row first -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_uom_name">
+                                                                <label for="id_org"
+                                                                    class="col-sm-s1 col-form-label font_size_filter required">
+                                                                    Org Name:
+                                                                </label>
+                                                                <div class="col-sm-s10">
+                                                                    <!--  -->
+                                                                    <select id="id_org" name="org"
+                                                                        class="form-select item_inputbox"
+                                                                        aria-label="Default select example">
+                                                                        <!--  -->
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 2nd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-4">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_item_type_no">
+                                                                <label for="id_item_type_no"
+                                                                    class="col-sm-6 col-form-label font_size_filter required">
+                                                                    Item Type:
+                                                                </label>
+                                                                <div class="col-sm-6">
+
+                                                                    <input type="text" id="id_item_type_no"
+                                                                        name="item_type_no"
+                                                                        class="form-control item_inputbox" readonly
+                                                                        required>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <!-- <label for="customer_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter">Item
+                                                                    Name:</label> -->
+                                                                <div class="col-sm-12 div_id_item_type_name">
+
+                                                                    <select id="id_item_type_name" name="item_type_name"
+                                                                        onchange="myFunction(this);"
+                                                                        class="form-select item_inputbox" required>
+                                                                        <!--  -->
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 3rd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_sales_price">
+                                                                <label for="id_sales_price"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">
+                                                                    Sales Price:
+                                                                </label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="number" autocomplete="none"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_sales_price" name="sales_price">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_purchase_price">
+                                                                <label for="id_purchase_price"
+                                                                    class="col-sm-4 col-form-label font_size_filter">
+                                                                    Purch. Price:
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number" autocomplete="none"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_purchase_price" name="purchase_price">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 4th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_uom_name"
+                                                                    class="col-sm-s3 col-form-label font_size_filter required">
+                                                                    UoM Name:
+                                                                </label>
+                                                                <div class="col-sm-s8">
+                                                                    <select id="id_uom_name" name="uom_name"
+                                                                        class="form-select item_inputbox"
+                                                                        aria-label="Default select example" required>
+                                                                        <!--  -->
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_extended_stock" title="Extended Stock"
+                                                                    class="col-sm-s3 col-form-label font_size_filter required">
+                                                                    Extended St.:
+                                                                </label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="number"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_extended_stock" name="extended_stock"
+                                                                        autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 5th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-4">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufacturer_no">
+                                                                <label for="id_manufacturer_no"
+                                                                    class="col-sm-6 col-form-label font_size_filter required">
+                                                                    Manufacturer:
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" id="id_manufacturer_no"
+                                                                        class="form-control item_inputbox"
+                                                                        name="manufacturer_no" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_manufacturer_name">
+                                                                <!-- <label for="customer_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter">Item
+                                                                    Name:</label> -->
+                                                                <div class="col-sm-12">
+                                                                    <select id="id_manufacturer_name"
+                                                                        name="manufacturer_name"
+                                                                        onchange="manufacFunc(this);"
+                                                                        class="form-select item_inputbox"
+                                                                        aria-label="Default select example" required>
+                                                                        <!--  -->
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 6th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-4">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_category_no">
+                                                                <label for="id_category_no"
+                                                                    class="col-sm-6 col-form-label font_size_filter">Category:</label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" id="id_category_no"
+                                                                        name="category_no"
+                                                                        class="form-control item_inputbox" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_category_name">
+                                                                <!-- <label for="customer_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter">Item
+                                                                    Name:</label> -->
+                                                                <div class="col-sm-12">
+                                                                    <select id="id_category_name" name="category_name"
+                                                                        onchange="categoryFun(this);"
+                                                                        class="form-select item_inputbox"
+                                                                        aria-label="Default select example">
+                                                                        <!--  -->
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 7th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_box_qty">
+                                                                <label for="id_box_qty"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">
+                                                                    Box Qty:
+                                                                </label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="text" name="box_qty" autocomplete="off"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_box_qty">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_re_order_qty">
+                                                                <label for="id_re_order_qty"
+                                                                    class="col-sm-4 col-form-label font_size_filter">
+                                                                    Re-Order Qty:
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" name="re_order_qty"
+                                                                        autocomplete="off" value="0"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_re_order_qty">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 8th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_discount_percentace">
+                                                                <label for="id_discount_percentace"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Discount(%):</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="text" name="discount_percentace"
+                                                                        class="form-control item_inputbox"
+                                                                        autocomplete="off" id="id_discount_percentace">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_discount_tk">
+                                                                <label for="id_discount_tk"
+                                                                    class="col-sm-4 col-form-label font_size_filter">(TK):</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" name="discount_tk"
+                                                                        autocomplete="off"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_discount_tk">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="item_setupflag div_id_is_active"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label text-danger setupflag_label"
+                                                    for="id_is_active">
+                                                    Active?
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_active"
+                                                    name="is_active" value="1">
+                                            </div>
+                                            <!--  -->
+                                            <div class="item_setupflag div_id_is_foreign_flag"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label setupflag_label"
+                                                    for="id_is_foreign_flag">
+                                                    Foreign Flag:
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_foreign_flag"
+                                                    name="is_foreign_flag" value="1">
+                                            </div>
+                                            <!--  -->
+                                            <div class="item_setupflag div_id_is_discount_able"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label setupflag_label"
+                                                    for="id_is_discount_able">
+                                                    Discount able:
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_discount_able"
+                                                    name="is_discount_able" value="1">
+                                            </div>
+                                            <!--  -->
+                                            <div class="item_setupflag div_id_is_expireable"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label setupflag_label" for="id_is_expireable">
+                                                    Expireable:
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_expireable"
+                                                    name="is_expireable" value="1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- supplier -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <!-- supplier add in item wise -->
+                                        <div class="supplier_container">
+                                            <div class="supplier_head">
+                                                <h2 class="text-info">Supplier Informations</h2>
+                                            </div>
+                                            <!--  -->
+                                            <div class="card-body card-body_item_setup">
+                                                <div class="row row_item_setup supp-row-margin">
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <!--  -->
+                                                            <div class="col-sm-1" style="display: none;">
+                                                                <input type="text" id="supp_no_id"
+                                                                    class="form-control item_inputbox supp_no_id"
+                                                                    readonly>
+                                                                <input type="text" id="supp_names_id"
+                                                                    class="form-control item_inputbox supp_names_id"
+                                                                    readonly>
+                                                                <input type="text" id="supp_id"
+                                                                    class="form-control item_inputbox supp_id" readonly>
+                                                            </div>
+                                                            <!--  -->
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row supp-row-margin">
+                                                                    <label for="supplr_name"
+                                                                        class="col-sm-1 col-form-label font_size_filter">
+                                                                        Supplier Name:
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <select id="supplr_name"
+                                                                            class="form-select item_inputbox selectSupplier"
+                                                                            aria-label="Default select example">
+                                                                            <!--  -->
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <button type="button"
+                                                                        class="btn btn-success text-white btn-xs supplier_btn"
+                                                                        id="addsupplier">Add</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <section>
+                                                <div class="col-xl-12">
+                                                    <div class="table-body item_table_body">
+                                                        <table id="sup_table" class="table table-striped"
+                                                            style="width: 98%; margin-left: 1%;">
+                                                            <thead class="text-center table-header_itemlist">
+                                                                <tr>
+                                                                    <th style="text-align:center; width: 10%;">
+                                                                        Supplier No
+                                                                    </th>
+                                                                    <th style="text-align:center; width: 25%;">
+                                                                        Supplier Name
+                                                                    </th>
+                                                                    <th style="text-align:center; width: 10%;">
+                                                                        Quotation Price
+                                                                    </th>
+                                                                    <th style="text-align:center; width: 10%;">
+                                                                        Sales Price
+                                                                    </th>
+                                                                    <th style="text-align:center; width: 6%;">
+                                                                        Active
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="sup_row" class="table-body-row"
+                                                                style="text-align:center;">
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <noscript id="item-clone">
+                                                    <tr class="item-row" style="border-style: hidden!important;">
+                                                        <td style="text-align:center;">
+                                                            <div class="col-sm-12 div_id_supplier_no">
+                                                                <input type="text" value="" id="supplier_ids"
+                                                                    style="display: none;" name="supplier_ids[]"
+                                                                    class="form-control item_inputbox" readonly>
+                                                                <input type="text" value="" id="supplier_nos"
+                                                                    name="supplier_nos[]"
+                                                                    class="form-control item_inputbox" readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:center; display: none;"
+                                                            class="inputbox_tdrow items_supplier_name">
+                                                        </td>
+                                                        <td style="text-align:center;" class="inputbox_tdrow">
+                                                            <div class="col-sm-12 div_id_supplier_name">
+                                                                <input type="text" value=""
+                                                                    class="form-control item_inputbox"
+                                                                    id="supplier_names" name="supplier_names[]"
+                                                                    readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:center;">
+                                                            <div class="col-sm-12 div_id_quotation_price">
+                                                                <input type="number" class="form-control item_inputbox"
+                                                                    name="quotation_prices[]" id="id_quotation_price"
+                                                                    style="text-align: center;" autocomplete="off">
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:center;">
+                                                            <div class="col-sm-12 div_id_supp_sales_price">
+                                                                <input type="number" class="form-control item_inputbox"
+                                                                    name="supp_sales_prices[]" id="id_supp_sales_price"
+                                                                    style="text-align: center;" autocomplete="off">
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:center;">
+                                                            <div class="col-sm-12">
+                                                                <div class="div_id_supplier_is_active">
+                                                                    <input class="form-check-input item_checkbox"
+                                                                        type="checkbox" id="id_supplier_is_active"
+                                                                        name="supplier_is_actives[]" value="1"
+                                                                        aria-label="..." style="margin-left: 5px;"
+                                                                        checked>
+                                                                    <button type="button"
+                                                                        class="btn btn-danger text-white btn-xs item_cross_btn deleteBtn">X</button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </noscript>
+                                            </section>
+                                        </div>
+                                        <!-- submit button -->
+                                        <div class="submit_button">
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                style="margin-right: 10px;" onclick="resetItemsForm();">
+                                                Clear
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onClick="location.href='/item_setup'" style="margin-right: 10px;">
+                                                Add New
+                                            </button>
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                Save & Update
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    // get org filter
+    $(document).ready(function () {
+        // Set up the change event handler for #id_org_filter
+        $('#id_org_filter').change(function () {
+            updateBranchFilterOptions();
+        });
+
+        // Initial population of branch options and org options based on the selected organization
+        updateBranchFilterOptions();
+
+        // Function to update org options
+
+        // Function to update branch options
+        function updateBranchFilterOptions() {
+            var selectedFilterOrgId = $('#id_org_filter').val();
+            // org option value
+            $.ajax({
+                url: '/get_org_options/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_org').empty();
+                    $('#id_org').append('<option selected disabled>Choose Organization ...</option>');
+                    $.each(data.org_Data, function (index, org) {
+                        $('#id_org').append('<option value="' + org.org_id + '">' + org.org_name + '</option>');
+                    });
+                    $('#id_org').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching org options:', error);
+                }
+            });
+
+            // type options update Function
+            $.ajax({
+                url: '/get_list_of_item_type/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_item_type_name').empty();
+                    $('#id_item_type_name').append('<option selected disabled>Choose Item Type ...</option>');
+                    $.each(data.itype_list, function (index, type) {
+                        $('#id_item_type_name').append('<option value="' + type.type_id + '" id="' + type.type_no + '">' + type.type_name + '</option>');
+                    });
+                    $('#id_item_type_name').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+
+            // uom options update Function
+            $.ajax({
+                url: '/get_list_of_item_uom/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_uom_name').empty();
+                    $('#id_uom_name').append('<option selected disabled>Choose Item UoM ...</option>');
+                    $.each(data.iuom_list, function (index, uom) {
+                        $('#id_uom_name').append('<option value="' + uom.item_uom_id + '">' + uom.item_uom_name + '</option>');
+                    });
+                    $('#id_uom_name').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+
+            // category options update Function
+            $.ajax({
+                url: '/get_list_of_item_category/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_category_name').empty();
+                    $('#id_category_name').append('<option selected disabled>Choose Item Category ...</option>');
+                    $.each(data.icat_list, function (index, cat) {
+                        $('#id_category_name').append('<option value="' + cat.category_id + '" id="' + cat.category_no + '">' + cat.category_name + '</option>');
+                    });
+                    $('#id_category_name').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+
+            // manufacturer options update Function
+            $.ajax({
+                url: '/get_list_of_manufacturer/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#id_manufacturer_name').empty();
+                    $('#id_manufacturer_name').append('<option selected disabled>Choose Manufacturer ...</option>');
+                    $.each(data.manu_list, function (index, manu) {
+                        $('#id_manufacturer_name').append('<option value="' + manu.supplier_id + '" id="' + manu.supplier_no + '">' + manu.supplier_name + '</option>');
+                    });
+                    $('#id_manufacturer_name').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+
+            // supplier options update Function
+            $.ajax({
+                url: '/get_list_of_supplier/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    $('#supplr_name').empty();
+                    $('#supplr_name').append('<option selected disabled>Choose Supplier ...</option>');
+                    $.each(data.supp_list, function (index, supp) {
+                        $('#supplr_name').append('<option data-supp_id="' + supp.supplier_id + '" data-supp_no_id="' + supp.supplier_no + '" data-supp_names_id="' + supp.supplier_name + '">' + supp.supplier_name + '</option>');
+                    });
+                    $('#supplr_name').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+
+    });
+
+    // org input
+    //$(document).ready(function () {
+    // Set up the change event handler for #id_org
+    //    $('#id_org').change(function () {
+    //        updateBranchOptions();
+    //updateItypeOptions();
+    //    });
+
+    // Initial population of branch options and org options based on the selected organization
+    //    updateBranchOptions();
+    //updateItypeOptions();
+
+    // branch options update Function 
+    //    function updateBranchOptions() {
+    //        var selectedOrgId = $('#id_org').val();
+
+    //    }
+    //});
+
+    //===============================================
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function item_populateTable(data) {
+            var tableBody = $("#sup_row");
+            tableBody.empty();
+
+            // item history
+            for (var i = 0; i < data.item_dtls.length; i++) {
+                var item = data.item_dtls[i];
+
+                var item_id = item.item_id;
+                var item_no = item.item_no;
+                var item_name = item.item_name;
+                var org_name = item.org_name;
+                var item_type_no = item.item_type_no;
+                var item_type_name = item.item_type_name;
+                var sales_price = item.sales_price;
+                var purchase_price = item.purchase_price;
+                var uom_name = item.uom_name;
+                var manufacturer_no = item.manufacturer_no;
+                var manufacturer_name = item.manufacturer_name;
+                var category_no = item.category_no;
+                var category_name = item.category_name;
+                var box_qty = item.box_qty;
+                var re_order_qty = item.re_order_qty;
+                var discount_percentace = item.discount_percentace;
+                var discount_tk = item.discount_tk;
+                var is_active = item.is_active;
+                var is_foreign_flag = item.is_foreign_flag;
+                var is_discount_able = item.is_discount_able;
+                var is_expireable = item.is_expireable;
+                var extended_stock = item.extended_stock;
+
+                // Get the checkbox input element by its ID
+                var is_activeCheckbox = document.getElementById("id_is_active");
+                var is_foreign_flagCheckbox = document.getElementById("id_is_foreign_flag");
+                var is_discount_ableCheckbox = document.getElementById("id_is_discount_able");
+                var is_expireableCheckbox = document.getElementById("id_is_expireable");
+
+                // Set the checked attribute based on the is_active value
+                is_activeCheckbox.checked = is_active;
+                is_foreign_flagCheckbox.checked = is_foreign_flag;
+                is_discount_ableCheckbox.checked = is_discount_able;
+                is_expireableCheckbox.checked = is_expireable;
+
+                $("#id_item_id").val(item_id);
+                $("#id_item_no").val(item_no);
+                $("#id_item_name").val(item_name);
+                $("#id_item_type_no").val(item_type_no);
+                $("#id_item_type_name").val(item_type_name);
+                $("#id_sales_price").val(sales_price);
+                $("#id_purchase_price").val(purchase_price);
+                $("#id_uom_name").val(uom_name);
+                $("#id_manufacturer_no").val(manufacturer_no);
+                $("#id_manufacturer_name").val(manufacturer_name);
+                $("#id_category_no").val(category_no);
+                $("#id_category_name").val(category_name);
+                $("#id_box_qty").val(box_qty);
+                $("#id_re_order_qty").val(re_order_qty);
+                $("#id_discount_percentace").val(discount_percentace);
+                $("#id_discount_tk").val(discount_tk);
+                $("#id_extended_stock").val(extended_stock);
+
+                // Get the select element
+                var orgSelect = $("#id_org");
+                // Find the option with the corresponding text and set it as selected
+                orgSelect.find('option:contains("' + org_name + '")').prop('selected', true);
+
+                console.log("item:", item);
+            }
+
+            // supplier details
+            for (var i = 0; i < data.item_supplierDtl.length; i++) {
+                var supplier = data.item_supplierDtl[i];
+
+                var supplierdtl_id = supplier.supplierdtl_id;
+                var isChecked = supplier.supplier_is_active;
+                var checkboxValue = isChecked ? 1 : 0;
+
+                console.log('supplier.supplier_is_active:', supplier.supplier_is_active);
+
+                var row = $("<tr style='border-style: hidden!important;'>");
+                row.append("<td style='text-align:center;'><input type='text' value='" + supplier.supplier_no + "' class='form-control item_inputbox' readonly><input type='text' value='" + supplier.supplier_id + "' style='display: none;' name='supplier_ids[]' class='form-control item_inputbox' readonly></td>");
+                row.append("<td style='text-align:center;'><input type='text' value='" + supplier.supplier_name + "' class='form-control item_inputbox' readonly></td>");
+                row.append("<td style='text-align:center;'><input type='number' value='" + supplier.quotation_price + "' class='form-control item_inputbox' name='quotation_prices[]' id='id_quotation_price' autocomplete='off'></td>");
+                row.append("<td style='text-align:center;'><input type='number' value='" + supplier.supp_sales_price + "' class='form-control item_inputbox' name='supp_sales_prices[]' id='id_supp_sales_price' autocomplete='off'></td>");
+
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = 0; // Default value is 0
+                checkbox.className = 'form-check-input item_checkbox';
+                checkbox.id = 'id_supplier_is_active';
+                checkbox.name = 'supplier_is_actives[]';
+                checkbox.style.marginLeft = '5px';
+                if (isChecked) {
+                    checkbox.checked = true;
+                    checkbox.value = 1; // Set the value to 1 when checked
+                }
+                checkbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        this.value = 1;
+                    } else {
+                        this.value = 0;
+                    }
+                });
+
+                row.append("<td style='text-align:center;'></td>");
+                row.find("td:last").append(checkbox);
+                row.find("td:last").append("<button type='button' class='btn btn-danger text-white btn-xs item_cross_btn supp_deleteBtn' style='margin-left: 5px;' data-supplier-dtl_id='" + supplierdtl_id + "'>X</button>");
+
+                tableBody.append(row);
+
+                console.log("supplier:", supplier);
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".item_editBtn", function () {
+            var itemID = $(this).data("item-id"); // Get the item_id from the data attribute
+
+            $.ajax({
+                type: "GET",
+                url: "/get_item_lists/" + itemID + "/",
+                dataType: "json",
+                success: function (data) {
+                    item_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Items details");
+                }
+            });
+        });
+        //<!-- submit ajax -->
+    });
+
+    //<!-- id_no return scripts -->
+    function myFunction(element) {
+        document.getElementById("id_item_type_no").value = element.options[element.selectedIndex].id;
+    }
+
+    function categoryFun(element) {
+        document.getElementById("id_category_no").value = element.options[element.selectedIndex].id;
+    }
+
+    function manufacFunc(element) {
+        document.getElementById("id_manufacturer_no").value = element.options[element.selectedIndex].id;
+    }
+
+    //function supplierFun(element) {
+    //    document.getElementById("supp_no_id").value = element.options[element.selectedIndex].id;
+    //}
+    //
+    $('.selectSupplier').on('change', function () {
+        $('.supp_id')
+            .val(
+                $(this).find(':selected').data('supp_id')
+            );
+        $('.supp_no_id')
+            .val(
+                $(this).find(':selected').data('supp_no_id')
+            );
+        $('.supp_names_id')
+            .val(
+                $(this).find(':selected').data('supp_names_id')
+            );
+    });
+    //
+
+    $(document).ready(function () {
+        // Create a Set to store unique supplier names
+        var uniqueSupplierNames = new Set();
+
+        $('#addsupplier').click(function () {
+            var supp_id = $('#supp_id').val();
+            var supp_no_id = $('#supp_no_id').val();
+            var supplr_name = $('#supp_names_id').val();
+
+            if (supplr_name == '' || supplr_name == null) {
+                toastr.warning("Supplier Name is required!");
+                return false;
+            }
+
+            if (uniqueSupplierNames.has(supplr_name)) {
+                toastr.warning('Supplier Already in the List.');
+            } else {
+                // Add the supplier name to the Set
+                uniqueSupplierNames.add(supplr_name);
+
+                var tr = $($('noscript#item-clone').html()).clone();
+                tr.find('[name="supplier_ids[]"]').val(supp_id);
+                tr.find('[name="supplier_nos[]"]').val(supp_no_id);
+                tr.find('[name="supplier_names[]"]').val(supplr_name);
+                tr.find('.items_supplier_name').text(supplr_name);
+                $('#sup_table tbody').append(tr);
+
+                tr.find('.deleteBtn').click(function () {
+                    tr.remove();
+                    // Remove the item name from the Set when it is removed
+                    uniqueSupplierNames.delete(supplr_name);
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '.supp_deleteBtn', function () {
+        var supplierdtl_id = $(this).data('supplier-dtl_id');
+        var buttonElement = $(this);
+
+        // Send an AJAX request to delete the supplier
+        $.ajax({
+            type: 'DELETE',
+            url: `/delete_supplier_value/${supplierdtl_id}/`,
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            success: function (resp) {
+                if (resp.success) {
+                    toastr.success(resp.msg);
+                    buttonElement.closest('tr').remove();
+                } else {
+                    toastr.error(resp.errmsg);
+                }
+            },
+            error: function (xhr, errmsg, err) {
+                alert('Error occurred while deleting: ' + err);
+            }
+        });
+    });
+
+    //==========================================
+    //loader 
+    const loader = document.querySelector(".loader");
+    const loaderBody = document.querySelector(".loader-body");
+
+    // Function to show the loader
+    function showLoader() {
+        loader.style.display = "block";
+        loaderBody.style.display = "block";
+        loader.style.left = "50%"; // Set left position to center
+        loader.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideLoader() {
+        loader.style.display = "none";
+        loaderBody.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndShowLoader() {
+        const loaderVisible = localStorage.getItem("loaderVisible");
+        if (loaderVisible === "true") {
+            showLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="option"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndShowLoader();
+    //loader
+    //==========================================
+
+    $(document).ready(function () {
+        var currentPage = 1;
+        var totalPages = 1;
+
+        // Load initial data based on the initially checked radio button
+        loadInitialData();
+        handleRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="option"]').change(function () {
+            var option = $(this).val();
+
+            // Save the selected option to local storage
+            localStorage.setItem('selectedOption', option);
+
+            // Load items
+            loadItems();
+        });
+
+        // Load items based on the search query
+        loadItemsFromSearch();
+
+        // Function to load items based on the search query
+        function loadItemsFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedSearchQuery = localStorage.getItem("searchQuery");
+            var searchInput = $('#searchInput');
+
+            // Check if there's a saved search query
+            if (savedSearchQuery) {
+                // Set the search input value
+                searchInput.val(savedSearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            searchInput.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("searchQuery", query);
+                loadItems();
+            });
+
+            // Trigger the search on page load
+            loadItems();
+        }
+
+        function loadInitialData() {
+            // Retrieve the selected option from local storage
+            var initialOption = localStorage.getItem('selectedOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="option"][value="' + initialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadItems();
+        }
+
+        // Event handler for org filter change
+        $('#id_org_filter, #id_manuf_filter').change(function () {
+            loadItems();
+        });
+
+        function loadItems(pageNumber = 1) {
+            showLoader();
+            // Get the current search query, option, and org filter from local storage
+            var searchQuery = localStorage.getItem("searchQuery") || '';
+            var option = localStorage.getItem('selectedOption') || 'true';
+            var orgFilterItem = $('#id_org_filter').val();
+            var manufacFilter = $('#id_manuf_filter').val();
+        
+            // Check if orgFilterItem and manufacFilter have values
+            if (orgFilterItem && manufacFilter) {
+                // Make Ajax request
+                $.ajax({
+                    type: 'GET',
+                    url: '/list_of_item/',
+                    data: {
+                        'option': option,
+                        'search_query': searchQuery,
+                        'org_filter': orgFilterItem,
+                        'manuf_filter': manufacFilter,
+                        'page': pageNumber
+                    },
+                    success: function (data) {
+                        // Update the table with filtered data
+                        updateTable(data);
+        
+                        // Update currentPage and totalPages based on the response
+                        currentPage = data.current_page;
+                        totalPages = data.total_pages;
+        
+                        // Update pagination UI
+                        updatePaginationUI();
+                        hideLoader();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ajax Error:', xhr.responseText);
+                        console.log('Status:', status);
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        }
+
+        // Pagination UI functions
+        function updatePaginationUI() {
+            $('#currentPage').text(currentPage);
+            $('#totalPages').text(totalPages);
+            updateButtonStates();
+        }
+
+        function updateButtonStates() {
+            $('#firstPage').toggleClass('active', currentPage === 1);
+            $('#prevPage').toggleClass('active', currentPage > 1);
+            $('#nextPage').toggleClass('active', currentPage < totalPages);
+            $('#lastPage').toggleClass('active', currentPage === totalPages);
+        }
+
+        // Event handling for pagination buttons
+        $('#firstPage').on('click', function () {
+            if (currentPage !== 1) {
+                currentPage = 1;
+                loadItems(currentPage);
+            }
+        });
+
+        $('#lastPage').on('click', function () {
+            if (currentPage !== totalPages) {
+                currentPage = totalPages;
+                loadItems(currentPage);
+            }
+        });
+
+        $('#prevPage').on('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                loadItems(currentPage);
+            }
+        });
+
+        $('#nextPage').on('click', function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadItems(currentPage);
+            }
+        });
+
+        // Initial load
+        loadItems(currentPage);
+
+        function updateTable(data) {
+            var tableBody = $('#filter_body');
+            tableBody.empty();
+
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+
+                if (data.data) {
+                    $.each(data.data, function (index, item) {
+                        var statusText = item.is_active ? 'Active' : 'Inactive';
+                        var statusClass = item.is_active ? 'active-status' : 'inactive-status';
+
+                        tableBody.append(`<tr class="item_editBtn" data-item-id="${item.item_id}">
+                            <td style="text-align: left;"><span style="margin-left: 5px;">${item.item_no}</span></td>
+                            <td style="text-align: left;">${item.item_name}</td>
+                            <td class="status_act_inac ${statusClass}" style="text-align: center;">${statusText}</td>
+                        </tr>`);
+                    });
+                }
+            }
+            // Check if there is a selected item ID in local storage and highlight the row
+            handleRowSelection();
+        }
+
+        $(function () {
+            $('#items_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'item_add' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadItems();
+                            showLoader();
+                            resetItemsForm();
+                            // Hide loader
+                            setTimeout(function () {
+                                hideLoader();
+                            }, 1100);
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedItemID = localStorage.getItem("selectedItemID");
+        if (selectedItemID) {
+            $(".item_editBtn").removeClass("selected-row");
+            $(".item_editBtn[data-item-id='" + selectedItemID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".item_editBtn", function () {
+            var clickedItemID = $(this).data("item-id");
+            $(".item_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedItemID", clickedItemID);
+        });
+    }
+
+    // Item form reset
+    function resetItemsForm() {
+        $('#items_form')[0].reset();
+        $('#sup_row').empty();
+        $('#id_item_id').val('');
+    }
+</script>
+
+{% endblock %}

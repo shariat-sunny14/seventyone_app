@@ -1,0 +1,836 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'statistics_style/css/statistics_style.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<section>
+    <div class="loader-body">
+        <div class="loader">
+            <div class="upper ball"></div>
+            <div class="right ball"></div>
+            <div class="lower ball"></div>
+            <div class="left ball"></div>
+        </div>
+    </div>
+</section>
+<!-- loader end -->
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head">
+                        <div class="d-sm-flex align-items-center mb-2" style="margin-left: 1rem;">
+                            <i class='bx bx-scatter-chart text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Status of Statistics </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <!--  -->
+            <section>
+                <div class="card date_range-card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 1.2rem;">
+                    <div class="card-body">
+                        <div class="report-filter">
+                            <!-- Date Range Filter -->
+                            <div class="date-range">
+                                <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                    <div class="date_range-element" style="display:flex">
+                                        <!--  -->
+                                        <div class="row store_row" style="flex-grow: 1;">
+                                            <div class="date_range-element display-flex"
+                                                style="justify-content: right;">
+                                                <!-- expire date from -->
+                                                <div class="row g-3 align-items-center">
+                                                    <div class="col-auto">
+                                                        <label for="static_start" class="col-form-label">From :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="text" class="form-control item_inputbox datepicker"
+                                                            id="static_start" name="static_start" autocomplete="off"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                                <!-- expire date end -->
+                                                <div class="row g-3 align-items-center" style="margin-left: 15px;">
+                                                    <div class="col-auto">
+                                                        <label for="static_end" class="col-form-label">To :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="text" class="form-control item_inputbox datepicker"
+                                                            id="static_end" name="static_end" autocomplete="off"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--  -->
+            <section style="width: 98%;">
+                <div class="display-flex col-sm-12">
+                    <div class="col-sm-3">
+                        <div class="card" style="margin-right: 2.2rem; margin-left: 0.6rem;">
+                            <div class="card-body card-body-mody">
+                                <h5 class="card-title title-font text-primary">Number of Total Items</h5>
+                                <h5 class="font-weight-light pb-2 mb-1 border-bottom card-body-size text-primary"
+                                    id="totalItemsCount">Loading...</h5>
+                                <p class="tx-12 card-footer-size">Over All Total Active Items</p>
+                                <div class="card-icon-wrapper bg-primary">
+                                    <i class='bx bx-list-ul card-icon-size'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-3">
+                        <div class="card" style="margin-right: 2.2rem;">
+                            <div class="card-body card-body-mody">
+                                <h5 class="card-title title-font text-warning">Total Item Comsuptions</h5>
+                                <h5 class="font-weight-light pb-2 mb-1 border-bottom card-body-size text-warning"
+                                    id="totalConsumCount">Loading...</h5>
+                                <p class="tx-12 card-footer-size">Over All Date Wise Item Comsuptions</p>
+                                <div class="card-icon-wrapper bg-warning">
+                                    <i class='bx bx-landscape card-icon-size'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-3">
+                        <div class="card" style="margin-right: 2.2rem;">
+                            <div class="card-body card-body-mody">
+                                <h5 class="card-title title-font text-info">Total Sales</h5>
+                                <h5 class="font-weight-light pb-2 mb-1 border-bottom card-body-size text-info"
+                                    id="totalSalesAmt">Loading...</h5>
+                                <p class="tx-12 card-footer-size">Over All Date Wise Total Sales</p>
+                                <div class="card-icon-wrapper bg-info">
+                                    <i class='bx bx-shopping-bag card-icon-size'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body card-body-mody">
+                                <h5 class="card-title title-font text-success">Total Collections</h5>
+                                <h5 class="font-weight-light pb-2 mb-1 border-bottom card-body-size text-success"
+                                    id="totalCollectionAmt">Loading...</h5>
+                                <p class="tx-12 card-footer-size">Over All Date Wise Total Collections</p>
+                                <div class="card-icon-wrapper bg-success">
+                                    <i class='bx bx-dollar card-icon-size'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                </div>
+            </section>
+            <!--  -->
+            <div style="margin-top: 2rem;">
+                <hr class="w-100">
+            </div>
+            <!-- chart start -->
+            <!-- Total Store Wise Stock Qty -->
+            <section style="margin-left: 0.3rem; margin-bottom: 1rem;">
+                <div class="display-flex col-sm-12">
+                    <div class="col-sm-4">
+                        <div class="card" id="showfullscreen_stock"
+                            style="height: 22rem; margin-right: 1.5rem; margin-left: 0.6rem;">
+                            <div class="card-body">
+                                <div style="display: flex;">
+                                    <h5 class="card-title title-font text-success">Total Store Wise Stock Qty</h5>
+                                    <div class="fullexitBtn">
+                                        <i id="fullscreenIconDstock" class='bx bx-fullscreen'
+                                            style="cursor: pointer;"></i>
+                                        <i id="exitFullscreenDstock" class='bx bx-cross'
+                                            style="display: none; cursor: pointer;"></i>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div>
+                                    <hr class="w-100 hr-body">
+                                </div>
+                                <!-- body -->
+                                <div style="display: flex; width: 100%; margin: auto; justify-content: center;">
+                                    <canvas class="store_stock_pie" id="stockChart"></canvas>
+                                </div>
+                                <p class="tx-12 card-footer-size"
+                                    style="margin-top: 1.5rem; border-top: 1px solid #dee2e6;">
+                                    Over All Store Wise Total Stock Qty Status</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-4">
+                        <div class="card" id="showfullscreenDsales"
+                            style="height: 22rem; margin-right: 1.5rem; margin-left: 0.6rem;">
+                            <div class="card-body">
+                                <div style="display: flex;">
+                                    <h5 class="card-title title-font text-success">Invoice Wise Details Sales</h5>
+                                    <div class="fullexitBtn">
+                                        <i id="fullscreenIconDsales" class='bx bx-fullscreen'
+                                            style="cursor: pointer;"></i>
+                                        <i id="exitFullscreenDsales" class='bx bx-cross'
+                                            style="display: none; cursor: pointer;"></i>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div>
+                                    <hr class="w-100 hr-body">
+                                </div>
+                                <!-- body -->
+                                <div style="display: flex; width: 100%; margin: auto; justify-content: center;">
+                                    <canvas class="details_sales_line" id="lineChart"
+                                        style="user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+                                </div>
+                                <p class="tx-12 card-footer-size"
+                                    style="margin-top: 1.5rem; border-top: 1px solid #dee2e6;">
+                                    Over All Invoice Time Wise Details Sales Status</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-4">
+                        <div class="card" id="showfullscreenItemWise" style="height: 22rem; margin-left: 0.6rem;">
+                            <div class="card-body">
+                                <div style="display: flex;">
+                                    <h5 class="card-title title-font text-success">Item Wise Top Sales</h5>
+                                    <div class="fullexitBtn">
+                                        <i id="fullscreenIconItemWise" class='bx bx-fullscreen'
+                                            style="cursor: pointer;"></i>
+                                        <i id="exitFullscreenItemWise" class='bx bx-cross'
+                                            style="display: none; cursor: pointer;"></i>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div>
+                                    <hr class="w-100 hr-body">
+                                </div>
+                                <!-- body -->
+                                <div style="display: flex; width: 100%; margin: auto; justify-content: center;">
+                                    <canvas class="itemw_sales_bar" id="barChart"
+                                        style="user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+                                </div>
+                                <p class="tx-12 card-footer-size"
+                                    style="margin-top: 1.5rem; border-top: 1px solid #dee2e6;">
+                                    Over All Item Wise Top Sales Status</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                </div>
+            </section>
+            <!--  -->
+            <div style="margin-top: 2rem;">
+                <hr class="w-100">
+            </div>
+            <!--  -->
+            <section>
+
+            </section>
+        </section>
+    </section>
+    <!--  -->
+</main>
+<script>
+    //<!-- Total Store Wise Stock Qty -->
+    document.getElementById('fullscreenIconDstock').addEventListener('click', function () {
+        const elem = document.getElementById('showfullscreen_stock');
+
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', function () {
+        const exitFullscreenDstockBtn = document.getElementById('exitFullscreenDstock');
+        const fullscreenIconDstock = document.getElementById('fullscreenIconDstock');
+        const detailsSalesLine = document.querySelector('.store_stock_pie');
+
+        if (document.fullscreenElement) {
+            exitFullscreenDstockBtn.style.display = 'block';
+            fullscreenIconDstock.style.display = 'none';
+
+            // Add class to enlarge canvas in full-screen mode
+            detailsSalesLine.classList.add('fullScreenCanvas');
+        } else {
+            exitFullscreenDstockBtn.style.display = 'none';
+            fullscreenIconDstock.style.display = 'block';
+
+            // Remove class when exiting full-screen mode
+            detailsSalesLine.classList.remove('fullScreenCanvas');
+
+            // Reapply default styles for the canvas when exiting full-screen mode
+            detailsSalesLine.style.height = '240px';
+            detailsSalesLine.style.width = '100%';
+        }
+    });
+
+    document.getElementById('exitFullscreenDstock').addEventListener('click', function () {
+        if (document.exitFullscreenDstock) {
+            document.exitFullscreenDstock();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
+    });
+
+    //<!-- Invoice Wise Details Sales -->
+    document.getElementById('fullscreenIconDsales').addEventListener('click', function () {
+        const elem = document.getElementById('showfullscreenDsales');
+
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', function () {
+        const exitFullscreenDsalesBtn = document.getElementById('exitFullscreenDsales');
+        const fullscreenIconDsales = document.getElementById('fullscreenIconDsales');
+        const detailsSalesLine = document.querySelector('.details_sales_line');
+
+        if (document.fullscreenElement) {
+            exitFullscreenDsalesBtn.style.display = 'block';
+            fullscreenIconDsales.style.display = 'none';
+
+            // Add class to enlarge canvas in full-screen mode
+            detailsSalesLine.classList.add('fullScreenCanvas');
+        } else {
+            exitFullscreenDsalesBtn.style.display = 'none';
+            fullscreenIconDsales.style.display = 'block';
+
+            // Remove class when exiting full-screen mode
+            detailsSalesLine.classList.remove('fullScreenCanvas');
+
+            // Reapply default styles for the canvas when exiting full-screen mode
+            detailsSalesLine.style.height = '240px';
+            detailsSalesLine.style.width = '100%';
+        }
+    });
+
+    document.getElementById('exitFullscreenDsales').addEventListener('click', function () {
+        if (document.exitFullscreenDsales) {
+            document.exitFullscreenDsales();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
+    });
+
+    //<!-- Item wise top Sales Amount -->
+    document.getElementById('fullscreenIconItemWise').addEventListener('click', function () {
+        const elem = document.getElementById('showfullscreenItemWise');
+
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', function () {
+        const exitFullscreenItemWiseBtn = document.getElementById('exitFullscreenItemWise');
+        const fullscreenIconItemWise = document.getElementById('fullscreenIconItemWise');
+        const detailsSalesLine = document.querySelector('.itemw_sales_bar');
+
+        if (document.fullscreenElement) {
+            exitFullscreenItemWiseBtn.style.display = 'block';
+            fullscreenIconItemWise.style.display = 'none';
+
+            // Add class to enlarge canvas in full-screen mode
+            detailsSalesLine.classList.add('fullScreenCanvas');
+        } else {
+            exitFullscreenItemWiseBtn.style.display = 'none';
+            fullscreenIconItemWise.style.display = 'block';
+
+            // Remove class when exiting full-screen mode
+            detailsSalesLine.classList.remove('fullScreenCanvas');
+
+            // Reapply default styles for the canvas when exiting full-screen mode
+            detailsSalesLine.style.height = '240px';
+            detailsSalesLine.style.width = '100%';
+        }
+    });
+
+    document.getElementById('exitFullscreenItemWise').addEventListener('click', function () {
+        if (document.exitFullscreenItemWise) {
+            document.exitFullscreenItemWise();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
+    });
+
+    //<!-- date time wise filter -->
+    $(function () {
+        // Get present date
+        const currentDate = new Date();
+
+        // Set today's date in the input fields
+        $('#static_start, #static_end').datepicker({
+            dateFormat: 'yy-mm-dd', // Change the date format as needed
+            changeMonth: true, // Allow changing month
+            changeYear: true, // Allow changing year
+            maxDate: currentDate, // Set maximum date as the present date
+        });
+
+        // Set the present date in the input fields
+        $('#static_start').datepicker('setDate', currentDate);
+        $('#static_end').datepicker('setDate', currentDate);
+    });
+
+    //<!--  -->
+    function generateRandomColor(opacity) {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + opacity + ')';
+    }
+
+    $(document).ready(function () {
+        var colors = [];
+        for (var i = 0; i < 15; i++) {
+            colors.push(generateRandomColor(0.7));
+        }
+
+        $.ajax({
+            url: '{% url "get_store_wise_stock_qty" %}',
+            dataType: 'json',
+            success: function (data) {
+                var ctx = document.getElementById('stockChart').getContext('2d');
+                var stockChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Stock Qty.',
+                            data: data.sizes,
+                            backgroundColor: colors,
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        elements: {
+                            arc: {
+                                borderWidth: 0, // Remove border
+                                shadowOffsetX: -2, // Adjust shadow offset for a 3D-like effect
+                                shadowOffsetY: 2,
+                                shadowBlur: 4, // Blur the shadow
+                                shadowColor: 'rgba(0, 0, 0, 0.5)', // Shadow color
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+    //<!--  -->
+    $(document).ready(function () {
+        $.ajax({
+            url: '{% url "get_total_items_values" %}',
+            dataType: 'json',
+            success: function (data) {
+                // Access the total items count from the received JSON data
+                var totalItems = data.total_items_count;
+
+                // Set the total items count after a delay
+                setTimeout(function () {
+                    $('#totalItemsCount').text(totalItems);
+                }, 2000);
+            }
+        });
+    });
+    //<!-- Item Comsuptions -->
+    $(document).ready(function () {
+        // Function to update sales_total_qty based on the date range
+        function updateSalesTotalQty() {
+            var startDate = $('#static_start').val();
+            var endDate = $('#static_end').val();
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: '{% url "get_total_consumption_datewise" %}',
+                method: 'POST',
+                data: {
+                    'static_start': startDate,
+                    'static_end': endDate,
+                    // Add other necessary data parameters if required
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var totalConsumption = data.sales_total_qty;
+                    setTimeout(function () {
+                        $('#totalConsumCount').text(totalConsumption + ' Qty.');
+                    }, 2500);
+                }
+            });
+        }
+
+        // Trigger updateSalesTotalQty function when date inputs change
+        $('#static_start, #static_end').change(function () {
+            updateSalesTotalQty();
+        });
+
+        // Initial call to fetch and display sales_total_qty
+        updateSalesTotalQty();
+    });
+
+    //<!-- Total Sales -->
+    $(document).ready(function () {
+        // Function to update sales_total_amt based on the date range
+        function updateSalesTotalAmt() {
+            var startDate = $('#static_start').val();
+            var endDate = $('#static_end').val();
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: '{% url "get_total_sales_amt_datewise" %}',
+                method: 'POST',
+                data: {
+                    'static_start': startDate,
+                    'static_end': endDate,
+                    // Add other necessary data parameters if required
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var salesAmt = data.sales_total_amt;
+                    setTimeout(function () {
+                        $('#totalSalesAmt').text(salesAmt + ' Tk.');
+                    }, 3000);
+                }
+            });
+        }
+
+        // Trigger updateSalesTotalAmt function when date inputs change
+        $('#static_start, #static_end').change(function () {
+            updateSalesTotalAmt();
+        });
+
+        // Initial call to fetch and display sales_total_amt
+        updateSalesTotalAmt();
+    });
+
+    //<!-- Total Collections -->
+    $(document).ready(function () {
+        // Function to update net_grand_collection based on the date range
+        function updateSalesTotalCollAmt() {
+            var startDate = $('#static_start').val();
+            var endDate = $('#static_end').val();
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: '{% url "get_total_collection_amt_datewise" %}',
+                method: 'POST',
+                data: {
+                    'static_start': startDate,
+                    'static_end': endDate,
+                    // Add other necessary data parameters if required
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var collectionAmt = data.net_grand_collection;
+                    setTimeout(function () {
+                        $('#totalCollectionAmt').text(collectionAmt + ' Tk.');
+                    }, 3500);
+                }
+            });
+        }
+
+        // Trigger updateSalesTotalCollAmt function when date inputs change
+        $('#static_start, #static_end').change(function () {
+            updateSalesTotalCollAmt();
+        });
+
+        // Initial call to fetch and display net_grand_collection
+        updateSalesTotalCollAmt();
+    });
+    //<!--  -->
+
+    //<!-- Invoice Wise Details Sales line chart  -->
+    $(document).ready(function () {
+        var lineChart; // Declare the Chart variable outside the functions
+
+        function updateDetailsSalesInvoicewise() {
+            var startDate = $('#static_start').val();
+            var endDate = $('#static_end').val();
+
+            var colors = [];
+            for (var i = 0; i < 15; i++) {
+                colors.push(generateRandomColor(0.7));
+            }
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: '{% url "get_details_sales_invoicewise" %}',
+                method: 'POST',
+                data: {
+                    'static_start': startDate,
+                    'static_end': endDate
+                    // Add other necessary data parameters if required
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var detailsSalesAmt = data.details_sales_amt;
+                    var timestamps = data.timestamps;
+
+                    if (lineChart) {
+                        lineChart.destroy(); // Destroy the existing Chart instance
+                    }
+
+                    var ctx = document.getElementById('lineChart').getContext('2d');
+                    lineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: timestamps,
+                            datasets: [{
+                                label: 'Sales Amount',
+                                data: detailsSalesAmt,
+                                borderColor: colors,
+                                borderWidth: 1,
+                                pointBackgroundColor: colors,
+                                pointBorderColor: colors,
+                                pointBorderWidth: 1.5,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false,
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    ticks: {
+                                        display: false,
+                                        fontSize: '5px', // Adjust font size of timestamps on X-axis
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        display: true,
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    ticks: {
+                                        fontSize: '5px', // Adjust font size of timestamps on Y-axis
+                                    }
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    displayColors: false,
+                                    callbacks: {
+                                        label: function (context) {
+                                            return 'Sales: ' + context.raw.toFixed(2);
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    display: false,
+                                    labels: {
+                                        color: '#333333'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Trigger updateDetailsSalesInvoicewise function when date inputs change
+        $('#static_start, #static_end').change(function () {
+            updateDetailsSalesInvoicewise();
+        });
+
+        // Initial call to fetch and display net_grand_collection
+        updateDetailsSalesInvoicewise();
+    });
+
+    //<!-- Item Wise Top Sales Amount -->
+    $(document).ready(function () {
+        var barChart = null; // Store the chart instance globally
+
+        function updateItemWiseSales() {
+
+            var colors = [];
+            for (var i = 0; i < 15; i++) {
+                colors.push(generateRandomColor(0.7));
+            }
+
+            var startDate = $('#static_start').val();
+            var endDate = $('#static_end').val();
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: '{% url "get_item_wise_sales_amt" %}',
+                method: 'POST',
+                data: {
+                    'static_start': startDate,
+                    'static_end': endDate,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var itemWiseSales = data.item_wise_sales;
+
+                    // Extract item names and corresponding sales values
+                    var labels = Object.keys(itemWiseSales);
+                    var salesData = Object.values(itemWiseSales);
+
+                    var ctx = document.getElementById('barChart').getContext('2d');
+
+                    // Destroy the previous chart instance if it exists
+                    if (barChart !== null) {
+                        barChart.destroy();
+                    }
+
+                    // Create a new chart
+                    barChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Item-wise Sales',
+                                data: salesData,
+                                backgroundColor: colors,
+                                borderColor: colors,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false,
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    ticks: {
+                                        display: false,
+                                        fontSize: '5px', // Adjust font size of timestamps on X-axis
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        display: true,
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    ticks: {
+                                        fontSize: '5px', // Adjust font size of timestamps on Y-axis
+                                    }
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    displayColors: false,
+                                    callbacks: {
+                                        label: function (context) {
+                                            return 'Sales: ' + context.raw.toFixed(2);
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    display: false,
+                                    labels: {
+                                        color: '#333333'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Trigger updateItemWiseSales function when date inputs change
+        $('#static_start, #static_end').change(function () {
+            updateItemWiseSales();
+        });
+
+        // Initial call to fetch and display item-wise sales
+        updateItemWiseSales();
+    });
+
+    //loader 
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+        const loaderBody = document.querySelector(".loader-body");
+
+        setTimeout(() => {
+            loader.style.display = "none"; // Hide the loader
+            loaderBody.style.display = "none"; // Hide the loader-body
+        }, 1100); // Hide the loader after 0.75 seconds
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,533 @@
+<section>
+    <div class="container-fluid">
+        <!-- Main Heading -->
+        <div class="row">
+            <div class="col col-md-4 col-md-6 dashboar-head">
+                <div class="d-sm-flex align-items-center mb-2">
+                    <i class='bx bx-book-alt text-success req-head-icon'></i>
+                    <h1 class="h3 text-success req-head">Type Setup</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  -->
+<section>
+    <div class="row row_item_setup">
+        <div class="col-sm-5">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-warning">Filtering</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup"
+                                        style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);">
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio2" type="radio" name="typeoption"
+                                                value="true" id="typeActive">
+                                            <label class="form-check-label" for="typeActive">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio3" type="radio" name="typeoption"
+                                                value="false" id="typeInactive">
+                                            <label class="form-check-label" for="typeInactive">Inactive</label>
+                                        </div>
+                                        <div class="form-check form-check-inline inline_item">
+                                            <input class="form-check-input radio1" type="radio" name="typeoption"
+                                                value="1" id="typeAll">
+                                            <label class="form-check-label" for="typeAll">All</label>
+                                        </div>
+                                        <div class="form-check form-check-inline"
+                                            style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                            <a href="/type_uom_category"
+                                                class="btn btn-danger text-white btn-xs item_del_btn">
+                                                Clear
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                    <!--  -->
+                                    <div class="container col-sm-12" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                        <div class="row org-filterRow">
+                                            <label for="id_org_filter" class="col-org_filter col-form-label font_size_filter">
+                                                Org Name:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select id="id_org_filter" name="org_filter" class="form-select item_inputbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option value="{{org.org_id}}">
+                                                        {{ org.org_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemfilter_container">
+                        <div class="filter_head">
+                            <h2 class="text-success">List of Type</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <!--  -->
+                                        <div class="type_type">
+                                            <table id="" class="table table-striped table-hover" style="width: 100%;">
+                                                <thead class="text-center table-header_itemlist">
+                                                    <tr>
+                                                        <th style="text-align:center; width: 20%;">Type No.</th>
+                                                        <th style="text-align:center; width: 30%;">Type Name</th>
+                                                        <th style="text-align:center; width: 35%;">Organizations</th>
+                                                        <th style="text-align:center; width: 15%;">Status</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="4"
+                                                            style="text-align:center; background: #fff !important;">
+                                                            <input type="search" id="typesearch"
+                                                                class="form-control search_control item_inputbox"
+                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                placeholder="Searching ..." autocomplete="off">
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="type-filter_body" class="table-body-row"
+                                                    style="text-align:center; cursor: pointer;">
+
+                                                </tbody>
+                                                <!-- loader start -->
+                                                <section class="loader-section">
+                                                    <div class="loader-body">
+                                                        <div class="loader">
+                                                            <div class="upper ball"></div>
+                                                            <div class="right ball"></div>
+                                                            <div class="lower ball"></div>
+                                                            <div class="left ball"></div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <!-- loader end -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Item type main entry form -->
+
+        <!-- form 1 -->
+        <div class="col-sm-7">
+            <div class="card main-card">
+                <div class="card-body card-body_item_setup">
+                    <div class="itemsetup_container">
+                        <form action="" method="" id="type_form">
+                            <input type="hidden" id="id_type_id" name="type_id" value="">
+                            <div class="add_edit_head">
+                                <h2 class="text-primary">Add/Update Item Type Information</h2>
+                            </div>
+                            <!--  -->
+                            <div class="row row_item_setup">
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="item_setupflag div_id_is_active"
+                                                style="display: flex; justify-content: right;">
+                                                <label class="form-check-label text-danger setupflag_label"
+                                                    for="id_is_active">
+                                                    Active?
+                                                </label>
+                                                <input class="form-check-input" type="checkbox" id="id_is_active"
+                                                    name="is_active" value="1" aria-label="...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_item_setup">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-5">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_type_no">
+                                                                <label for="id_type_no"
+                                                                    class="col-sm-4 col-form-label font_size_filter required">
+                                                                    Type No:
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_type_no" name="type_no"
+                                                                        autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-7">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row div_id_type_name"
+                                                                style="margin-top: -2px;">
+                                                                <label for="id_type_name"
+                                                                    class="col-sm-3 col-form-label font_size_filter required">
+                                                                    Type Name:
+                                                                </label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text"
+                                                                        class="form-control item_inputbox"
+                                                                        id="id_type_name" name="type_name"
+                                                                        autocomplete="off" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                            <!--  -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row"
+                                                                style="margin-top: -2px;">
+                                                                <label for="id_org"
+                                                                    class="col-sm-orgName col-form-label font_size_filter required">
+                                                                    Org Name:
+                                                                </label>
+                                                                <div class="col-orgInput">
+                                                                    <select id="id_org" name="org" class="form-select item_inputbox"
+                                                                        aria-label="Default select example" required>
+                                                                        <option value="" selected disabled>Choose Organization ...</option>
+                                                                        {% for org in org_list %}
+                                                                        <option value="{{org.org_id}}">
+                                                                            {{ org.org_name }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- submit button -->
+                            <div class="submit_button">
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px;" onclick="location.href='/type_uom_category';">
+                                    New
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
+                                    onclick="$('#type_form')[0].reset();">
+                                    Clear
+                                </button>
+                                <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                    style="margin-right: 10px;">
+                                    Save & Update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        // Define a function to populate the table with data
+        function type_populateTable(data) {
+
+            // item history
+            for (var i = 0; i < data.type_Dtls.length; i++) {
+                var typeD = data.type_Dtls[i];
+
+                var type_id = typeD.type_id;
+                var type_no = typeD.type_no;
+                var type_name = typeD.type_name;
+                var org_name = typeD.org_name;
+                var is_active = typeD.is_active;
+
+                // Get the checkbox input element by its ID
+                var is_activeCheckbox = document.getElementById("id_is_active");
+
+                // Set the checked attribute based on the is_active value
+                is_activeCheckbox.checked = is_active;
+
+                $("#id_type_id").val(type_id);
+                $("#id_type_no").val(type_no);
+                $("#id_type_name").val(type_name);
+                // Get the select element
+                var orgSelect = $("#id_org");
+                // Find the option with the corresponding text and set it as selected
+                orgSelect.find('option:contains("' + org_name + '")').prop('selected', true);
+
+                console.log("type_list:", typeD);
+            }
+        }
+
+        // Fetch data from your Django view using AJAX
+        $(document).on("click", ".type_editBtn", function () {
+            var typeID = $(this).data("type-id"); // Get the item_id from the data attribute
+
+            $.ajax({
+                type: "GET",
+                url: "/get_type_lists/" + typeID + "/",
+                dataType: "json",
+                success: function (data) {
+                    type_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    toastr.warning("Failed to fetch Item Type details");
+                }
+            });
+        });
+
+    });
+
+    //<!--  -->
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadInitialtypeData();
+        handleTypeRowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="typeoption"]').change(() => {
+            // Save the selected option to local storage
+            localStorage.setItem('typelistOption', $('input[name="typeoption"]:checked').val());
+        
+            // Load items
+            loadtypelist();
+        });
+
+        $('#id_org_filter').change(() => {
+            // Save the selected organization filter value to local storage
+            orgFilterValue = $('#id_org_filter').val();
+            // Load items
+            loadtypelist();
+        });
+
+        // Load items based on the search query
+        loadtypeFromSearch();
+
+        // Function to load items based on the search query
+        function loadtypeFromSearch() {
+            // Get the search query from local storage if it exists
+            var savedTypesearchQuery = localStorage.getItem("TypesearchQuery");
+            var typeListsearch = $('#typesearch');
+
+            // Check if there's a saved search query
+            if (savedTypesearchQuery) {
+                // Set the search input value
+                typeListsearch.val(savedTypesearchQuery);
+            }
+
+            // Add an event listener to the search input field
+            typeListsearch.on('input', function () {
+                var query = $(this).val();
+                localStorage.setItem("TypesearchQuery", query);
+                loadtypelist();
+            });
+
+            // Trigger the search on page load
+            loadtypelist();
+        }
+
+        function loadInitialtypeData() {
+            // Retrieve the selected option from local storage
+            var typeinitialOption = localStorage.getItem('typelistOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="typeoption"][value="' + typeinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadtypelist();
+        }
+
+        function loadtypelist() {
+            var TypesearchQuery = localStorage.getItem("TypesearchQuery") || '';
+            var typeoption = localStorage.getItem('typelistOption') || 'true';
+            var orgFilterValue = $('#id_org_filter').val();
+    
+            $.ajax({
+                type: 'GET',
+                url: '/get_list_of_type/',
+                data: {
+                    'typeoption': typeoption,
+                    'type_search_query': TypesearchQuery,
+                    'org_filter': orgFilterValue,
+                },
+                success: function (data) {
+                    // Update the table with filtered data
+                    updateTypeTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateTypeTable(data) {
+            var tableBody = $('#type-filter_body');
+            tableBody.empty();
+    
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+    
+                if (data.data) {
+                    $.each(data.data, function (index, typeL) {
+                        var statusText = typeL.is_active ? 'Active' : 'Inactive';
+                        var statusClass = typeL.is_active ? 'active-status' : 'inactive-status';
+    
+                        tableBody.append(`<tr class="type_editBtn" data-type-id="${typeL.type_id}">
+                            <td style="text-align: center;">${typeL.type_no}</td>
+                            <td style="text-align: left;">${typeL.type_name}</td>
+                            <td style="text-align: left;">${typeL.org_name}</td>
+                            <td class="status_act_inac ${statusClass}" style="text-align: center;">${statusText}</td>
+                        </tr>`);
+                    });
+                }
+            }
+            handleTypeRowSelection();
+        }
+
+        $(function () {
+            $('#type_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'type_add_update' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            loadtypelist();
+                            showTypeLoader();
+                            $('#type_form')[0].reset();
+                            // Hide loader
+                            setTimeout(function () {
+                                hideTypeLoader();
+                            }, 1100);
+
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    function handleTypeRowSelection() {
+        // Check if there is a selected item ID in local storage and highlight the row
+        var selectedTypeID = localStorage.getItem("selectedTypeID");
+        if (selectedTypeID) {
+            $(".type_editBtn").removeClass("selected-row");
+            $(".type_editBtn[data-type-id='" + selectedTypeID + "']").addClass("selected-row");
+        }
+
+        // Add an event listener to the item rows
+        $(document).on("click", ".type_editBtn", function () {
+            var clickedTypeID = $(this).data("type-id");
+            $(".type_editBtn").removeClass("selected-row");
+            $(this).addClass("selected-row");
+
+            // Save the selected item ID to local storage
+            localStorage.setItem("selectedTypeID", clickedTypeID);
+        });
+    }
+
+    //==========================================
+    //loader 
+    const loader = document.querySelector(".loader");
+    const loaderBody = document.querySelector(".loader-body");
+
+    // Function to show the loader
+    function showTypeLoader() {
+        loader.style.display = "block";
+        loaderBody.style.display = "block";
+        loader.style.left = "50%"; // Set left position to center
+        loader.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideTypeLoader() {
+        loader.style.display = "none";
+        loaderBody.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndTypeShowLoader() {
+        const loaderVisible = localStorage.getItem("loaderVisible");
+        if (loaderVisible === "true") {
+            showTypeLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="typeoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showTypeLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideTypeLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndTypeShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideTypeLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+</script>

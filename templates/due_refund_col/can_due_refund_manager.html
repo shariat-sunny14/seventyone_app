@@ -1,0 +1,61 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'due_refund_style/css/due_refund.css' %}">
+<!--========== from User setup js file ==========-->
+<script src="{% static 'due_refund_style/js/due_refund.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section style="margin-top: 10px;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="invoice_cancel-tab" href="#invoice_cancel" type="button" role="tab">Invoice Cancel</a>
+            </li>
+            <!--  -->
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="item_wise_invoice_cancel-tab" href="#item_wise_invoice_cancel" type="button" role="tab">Item Wise Invoice Cancel</a>
+            </li>
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="refund_amounts-tab" href="#refund_amounts" type="button" role="tab">Refund</a>
+            </li>
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="due_refund_col-tab" href="#due_refund_collection" type="button" role="tab">Due Collection</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- invoice cancel -->
+            <div class="tab-pane show active" id="invoice_cancel" role="tabpanel">
+                <!-- invoice cancel content here -->
+                {% include 'due_refund_col/invoice_cancel.html' %}
+            </div>
+            <!-- item wise invoice cancel -->
+            <div class="tab-pane" id="item_wise_invoice_cancel" role="tabpanel">
+                <!-- item wise invoice cancel content here -->
+                {% include 'due_refund_col/item_wise_invoice_cancel.html' %}
+            </div>
+            <!-- refund amount -->
+            <div class="tab-pane" id="refund_amounts" role="tabpanel">
+                <!-- due refund amount content here -->
+                {% include 'due_refund_col/refund_amt.html' %}
+            </div>
+            <!-- due collection -->
+            <div class="tab-pane" id="due_refund_collection" role="tabpanel">
+                <!-- due collection content here -->
+                {% include 'due_refund_col/due_refund_col.html' %}
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+
+</script>
+{% endblock %}

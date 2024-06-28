@@ -1,0 +1,237 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'setup_modes/css/setup_modes.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main style="margin-left: 8px;">
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <div class="col-sm-12" style="display:flex;">
+                            <i class='bx bx-calendar-plus text-success req-head-icon'></i>
+                            <h1 class="h3 text-success req-head">Store Setup Mode</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <!--  -->
+    <section>
+        <div class="col-sm-12" style="display:flex; margin-top: 0.5rem;">
+            <div class="col-sm-12">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <form id="setup_mode">
+                                <div class="add_edit_head">
+                                    <h2 class="text-primary">Store Setup Information</h2>
+                                </div>
+                                <!--  -->
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_store" style="border-bottom: 1px solid rgb(211, 211, 211);">
+                                            <div class="item_setupflag" style="display: flex;">
+                                                <!--  -->
+                                                <div class="container col-sm-6" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                                    <div class="row org-filterRow">
+                                                        <label for="id_org" class="col-org_filter col-form-label font_size_filter">
+                                                            Org Name:
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <select id="id_org" name="org" class="form-select item_inputbox"
+                                                                aria-label="Default select example">
+                                                                <!--  -->
+                                                                {% for org in org_list %}
+                                                                <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                                    {{org.org_name}}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="container col-sm-6" style="display: flex; margin-top: 1rem; margin-bottom: 1rem;">
+                                                    <div class="col-sm-8">
+                                                        <div class="item_setupflag" style="display: flex; justify-content: right;">
+                                                            <label class="form-check-label setupflag_label"
+                                                                for="id_org_store_template">
+                                                                Is Org Store:
+                                                            </label>
+                                                            <input class="form-check-input" type="radio" id="id_org_store_template" style="margin-right: 1rem;" name="uitemp_name" value="org_wise_store" aria-label="...">
+                                                                <!--  -->
+                                                            <input style="display: none;" class="form-check-input" type="checkbox" id="id_is_org_store" name="is_org_store" value="1" aria-label="...">
+                                                            <!--  -->
+                                                            <!--  -->
+                                                            <label class="form-check-label setupflag_label"
+                                                                for="id_branch_store_template">
+                                                                Is Branch Store:
+                                                            </label>
+                                                            <input class="form-check-input" type="radio" id="id_branch_store_template" name="uitemp_name" value="branch_wise_store" aria-label="...">
+                                                                <!--  -->
+                                                            <input style="display: none;" class="form-check-input" type="checkbox" id="id_is_branch_store" name="is_branch_store" value="1" aria-label="...">
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <!--  -->
+                                                    <div class="col-sm-4">
+                                                        <div class="submit_button">
+                                                            <button type="submit" class="btn btn-success btn-sm">Save & Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_store">
+                                            <div class="item_setupflag" style="display: flex;">
+                                                <!--  -->
+                                                <img id="org_temp" src="{% static 'images/store_template/org_store_temp.jpg' %}" style="display: none;">
+                                                <img id="branch_temp" src="{% static 'images/store_template/branch_store_temp.jpg' %}" style="display: none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            
+        </div>
+    </section>
+</main>
+<script>
+    // Add an event listener to the document to handle radio button changes
+    document.addEventListener('DOMContentLoaded', function () {
+        var orgStoreTemplateRadio = document.getElementById('id_org_store_template');
+        var branchStoreTemplateRadio = document.getElementById('id_branch_store_template');
+        var isOrgStoreCheckbox = document.getElementById('id_is_org_store');
+        var isBranchStoreCheckbox = document.getElementById('id_is_branch_store');
+        var orgTempImage = document.getElementById('org_temp');
+        var branchTempImage = document.getElementById('branch_temp');
+
+        function showOrgImage() {
+            orgTempImage.style.display = 'block';
+            branchTempImage.style.display = 'none';
+            isOrgStoreCheckbox.checked = true;
+            isBranchStoreCheckbox.checked = false;
+            branchStoreTemplateRadio.checked = false;
+        }
+
+        function showBranchImage() {
+            orgTempImage.style.display = 'none';
+            branchTempImage.style.display = 'block';
+            isOrgStoreCheckbox.checked = false;
+            isBranchStoreCheckbox.checked = true;
+            orgStoreTemplateRadio.checked = false;
+        }
+
+        // Add event listeners to handle radio button changes
+        orgStoreTemplateRadio.addEventListener('change', showOrgImage);
+        branchStoreTemplateRadio.addEventListener('change', showBranchImage);
+
+        // Initial setup based on default selected radio button
+        if (orgStoreTemplateRadio.checked) {
+            showOrgImage();
+        } else if (branchStoreTemplateRadio.checked) {
+            showBranchImage();
+        }
+    });
+
+    //
+    document.addEventListener('DOMContentLoaded', function () {
+        var orgDropdown = document.getElementById('id_org');
+        var orgStoreTemplateRadio = document.getElementById('id_org_store_template');
+        var branchStoreTemplateRadio = document.getElementById('id_branch_store_template');
+        var isOrgStoreCheckbox = document.getElementById('id_is_org_store');
+        var isBranchStoreCheckbox = document.getElementById('id_is_branch_store');
+        var orgTempImage = document.getElementById('org_temp');
+        var branchTempImage = document.getElementById('branch_temp');
+    
+        // Function to update radio buttons, checkboxes, images, and uitemp_id
+        function updateRadioButtonsCheckboxesImagesAndId(uitemp_name, uitemp_id) {
+            console.log("Received uitemp_name:", uitemp_name);
+            console.log("Received uitemp_id:", uitemp_id);
+        
+            if (uitemp_name === 'org_wise_store' || uitemp_name === 'branch_wise_store') {
+                orgStoreTemplateRadio.checked = uitemp_name === 'org_wise_store';
+                branchStoreTemplateRadio.checked = uitemp_name === 'branch_wise_store';
+                isOrgStoreCheckbox.checked = uitemp_name === 'org_wise_store';
+                isBranchStoreCheckbox.checked = uitemp_name === 'branch_wise_store';
+                orgTempImage.style.display = uitemp_name === 'org_wise_store' ? 'block' : 'none';
+                branchTempImage.style.display = uitemp_name === 'branch_wise_store' ? 'block' : 'none';
+        
+            } else {
+                // Handle other cases if needed
+            }
+        }
+    
+        // Triggered when organization dropdown changes
+        orgDropdown.addEventListener('change', function () {
+            var selectedOrgId = orgDropdown.value;
+    
+            $.ajax({
+                url: '/get_ui_template/',
+                data: { 'org': selectedOrgId },
+                dataType: 'json',
+                success: function (data) {
+                    // Update radio buttons, checkboxes, images, and uitemp_id based on the fetched data
+                    updateRadioButtonsCheckboxesImagesAndId(data.uitemp_name);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error fetching uitemp_name:', errorThrown);
+                }
+            });
+        });
+    
+        // Trigger change event on organization dropdown to set initial values
+        orgDropdown.dispatchEvent(new Event('change'));
+    });
+
+    // ajax submission
+    $(document).ready(function () {
+        $("#setup_mode").submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+    
+            // Get form data
+            var formData = $(this).serialize();
+    
+            // Make AJAX request
+            $.ajax({
+                url: "{% url 'add_update_ui_template' %}",
+                data: formData,
+                headers: { "X-CSRFToken": "{{ csrf_token }}" },  // Add this line to include the CSRF token
+                method: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.msg);
+                        location.reload(true);
+                    } else {
+                        toastr.warning("Save failed. Error: " + response.errmsg);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX request failed. Status: " + status + ", Error: " + error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

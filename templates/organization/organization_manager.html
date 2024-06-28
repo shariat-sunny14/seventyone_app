@@ -1,0 +1,39 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'organizations/css/organizations_style.css' %}">
+<!--========== from type_category js file ==========-->
+<script src="{% static 'organizations/js/organizations.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section style="margin-top: 10px;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="organization_setup-tab" href="#organization_setup" type="button" role="tab">Organization Setup</a>
+            </li>
+            <!--  -->
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="branch_setup-tab" href="#branch_setup" type="button" role="tab">Branch Setup</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- Organization Setup -->
+            <div class="tab-pane show active" id="organization_setup" role="tabpanel">
+                <!-- Organization Setup content here -->
+                {% include 'organization/organization.html' %}
+            </div>
+            <!-- Branch Setup -->
+            <div class="tab-pane" id="branch_setup" role="tabpanel">
+                <!-- Branch Setup content here -->
+                {% include 'organization/branch.html' %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

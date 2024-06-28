@@ -1,0 +1,466 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'purchase_order/css/purchase_order.css' %}">
+<!--========== from js file ==========-->
+<script src="{% static 'purchase_order/js/purchase_order.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bxs-chevrons-left text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Purchase Order Return Receive List</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section>
+                <div class="card po_card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 1rem; background: whitesmoke;">
+                    <div class="card-body">
+                        <div class="report-filter">
+                            <!-- Date Range Filter -->
+                            <div class="date-range">
+                                <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                    <div class="date_range-element" style="display:flex">
+                                        <div class="row g-3 align-items-center col-sm-3" style="flex-grow: 0;">
+                                            <div class="col-auto">
+                                                <!-- all active inactive status -->
+                                                <section>
+                                                    <div class="active-filter">
+                                                        <!--  -->
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="pol_option" id="id_pending"
+                                                                value="false" checked>
+                                                            <label class="form-check-label" for="id_pending">Pending</label>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="pol_option" id="id_received"
+                                                                value="true">
+                                                            <label class="form-check-label" for="id_received">Return Received</label>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="pol_option" id="id_all"
+                                                                value="1">
+                                                            <label class="form-check-label" for="id_all">All</label>
+                                                        </div>
+                                                        <!--  -->
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="display: flex; justify-content: right;">
+                                            <label for="po_start" class="col-auto col-form-label">
+                                                From :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="po_start"
+                                                    name="po_start" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="row store_row col-sm-2" style="display: flex; justify-content: right;">
+                                            <label for="po_end" class="col-auto col-form-label">
+                                                To :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="po_end"
+                                                    name="po_end" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="flex-grow: 1; display: flex; justify-content: right;">
+                                            <label for="id_filter_org" class="col-auto col-form-label">
+                                                Org:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="id_filter_org" name="filter_org"
+                                                    class="form-select store_Selectbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                        {{org.org_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="flex-grow: 2; display: flex; justify-content: right;">
+                                            <label for="id_filter_branch" class="col-auto col-form-label">
+                                                Branch:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="id_filter_branch" name="filter_branch"
+                                                    class="form-select store_Selectbox"
+                                                    aria-label="Default select example">
+                                                    <!--  -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                <div class="module-table">
+                    <table id="PORlist_table" class="table table-striped table-hover" style="width: 100%; border: 1px solid #6aa2a8;">
+                        <thead class="text-center table-header_itemlist">
+                            <tr>
+                                <th style="text-align:center; width: 5%;">
+                                    Sl
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    PO ID
+                                </th>
+                                <th style="text-align:center; width: 15%;">
+                                    Store Name
+                                </th>
+                                <th style="text-align:center; width: 15%;">
+                                    Requisition To
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    Create Date
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    Retd. Rec. Date
+                                </th>
+                                <th style="text-align:center; width: 15%;">
+                                    Retd. Rec. by
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    Status
+                                </th>
+                                <th style="text-align:center; width: 8%;">
+                                    Option
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="POL_TBody" style="text-align:center; font-size: 0.8rem">
+                            <!--  -->
+        
+                        </tbody>
+        
+                        <!-- loader start -->
+                        <div class="loader"></div>
+                        <!-- loader end -->
+                    </table>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<!-- present date show scriptStart  -->
+<script>
+    window.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+        
+        // Set the end date to today
+        var endYear = today.getFullYear();
+        var endMonth = (today.getMonth() + 1).toString().padStart(2, '0'); // Month starts from 0
+        var endDate = today.getDate().toString().padStart(2, '0');
+        document.getElementById('po_end').value = endYear + '-' + endMonth + '-' + endDate;
+        
+        // Calculate one week ago
+        var oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+        
+        // Set the start date to one week ago
+        var startYear = oneWeekAgo.getFullYear();
+        var startMonth = (oneWeekAgo.getMonth() + 1).toString().padStart(2, '0'); // Month starts from 0
+        var startDate = oneWeekAgo.getDate().toString().padStart(2, '0');
+        document.getElementById('po_start').value = startYear + '-' + startMonth + '-' + startDate;
+    });
+    
+    //
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadPoData();
+        handlePORowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="pol_option"]').change(() => {
+            // Save the selected option to local storage
+            localStorage.setItem('polOption', $('input[name="pol_option"]:checked').val());
+        
+            // Load items
+            loadPOlist();
+        });
+
+        $('#id_filter_org').change(() => {
+            // Save the selected organization filter value to local storage
+            orgFilterValue = $('#id_filter_org').val();
+            // Load items
+            loadPOlist();
+        });
+
+        $('#id_filter_branch').change(() => {
+            // Save the selected organization filter value to local storage
+            branchFilterValue = $('#id_filter_branch').val();
+            // Load items
+            loadPOlist();
+        });
+
+        // Add event listener to po_start input
+        $('#po_start').change(() => {
+            // Update poStartValue when the value changes
+            poStartValue = $('#po_start').val();
+            // Load items
+            loadPOlist();
+        });
+
+        // Add event listener to po_end input
+        $('#po_end').change(() => {
+            // Update poEndValue when the value changes
+            poEndValue = $('#po_end').val();
+            // Load items
+            loadPOlist();
+        });
+
+        function loadPoData() {
+            // Retrieve the selected option from local storage
+            var poinitialOption = localStorage.getItem('polOption') || 'true';
+
+            // Check the corresponding radio button
+            $('input[name="pol_option"][value="' + poinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadPOlist();
+        }
+
+        function loadPOlist() {
+            var pol_option = localStorage.getItem('polOption') || 'true';
+            var orgFilterValue = $('#id_filter_org').val();
+            var branchFilterValue = $('#id_filter_branch').val();
+            var poStartValue = $('#po_start').val(); // Get the value of po_start input
+            var poEndValue = $('#po_end').val();     // Get the value of po_end input
+        
+            // Check if branchFilterValue is not empty before sending the request
+            if (branchFilterValue) {
+                startLoader();
+                $.ajax({
+                    type: 'GET',
+                    url: '/get_po_return_receive_details/',
+                    data: {
+                        'pol_option': pol_option,
+                        'filter_org': orgFilterValue,
+                        'filter_branch': branchFilterValue,
+                        'po_start': poStartValue, // Include po_start value in the data object
+                        'po_end': poEndValue      // Include po_end value in the data object
+                    },
+                    success: function (data) {
+                        // Destroy the existing DataTable instance
+                        $('#PORlist_table').DataTable().destroy();
+        
+                        // Update the table with filtered data
+                        updatePOTable(data);
+        
+                        // Re-initialize DataTable after updating the table data
+                        $('#PORlist_table').DataTable({
+                            "ordering": false,
+                        });
+
+                        highlightSelectedRowOnInit();
+
+                        endLoader();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ajax Error:', xhr.responseText);
+                        console.log('Status:', status);
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        }
+
+        function updatePOTable(data) {
+            var tableBody = $('#POL_TBody');
+            tableBody.empty();
+        
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+        
+                if (data.data) {
+                    $.each(data.data, function (index, poDtls) {
+                        var statusText = poDtls.is_return_received ? 'Return Received' : 'Pending';
+                        var statusClass = poDtls.is_return_received ? 'returned_rec' : 'notreturned_rec';
+        
+                        var rowHtml = `<tr class="po-row" data-id="${poDtls.po_id}">
+                                            <td style="text-align:center;">${index + 1}</td>
+                                            <td style="text-align:center;">${poDtls.po_no}</td>
+                                            <td style="text-align:left;">${poDtls.store_name}</td>
+                                            <td style="text-align:left;">${poDtls.supplier_name}</td>
+                                            <td style="text-align:center;">${poDtls.transaction_date}</td>
+                                            <td style="text-align:center;">${poDtls.return_received_date}</td>
+                                            <td style="text-align:center;">${poDtls.is_return_received_by_first} ${poDtls.is_return_received_by_last}</td>
+                                            <td style="text-align:center; font-weight: bolder; color: ${statusClass === 'returned_rec' ? '#27d127' : '#ff5959'};">${statusText}</td>
+                                            <td style="text-align:center;">
+                                                <button type="button" class="btn btn-warning printBtn table-row-btn btn-xs text-white update-po" style="cursor: pointer; margin-left: 0.25rem; margin-right: 0.25rem;" data-is_approve="${poDtls.is_return_received}" data-id="${poDtls.po_id}">
+                                                    <i class='bx bx-edit printIcon text-white'></i>
+                                                </button>
+                                                <button type="button" class="btn btn-info printBtn table-row-btn btn-xs text-white po_report" style="cursor: pointer; margin-left: 0.25rem; margin-right: 0.25rem;" data-id="${poDtls.po_id}" data-is_approve="${poDtls.is_return_received}">
+                                                    <i class='bx bx-printer printIcon text-white'></i>
+                                                </button>
+                                            </td>
+                                        </tr>`;
+                        
+                        tableBody.append(rowHtml);
+                    });
+                }
+            }
+        }
+    });
+    //
+    function handlePORowSelection() {
+        // Attach click event listener to all rows
+        $(document).on("click", ".po-row", function () {
+            var clickedPOId = $(this).data("id");
+            
+            // Remove highlighting from other rows
+            $(".po-row").removeClass("selected-row");
+            
+            // Highlight the selected row
+            $(this).addClass("selected-row");
+
+            // Save the selected PO ID to local storage
+            localStorage.setItem("selectedPOID", clickedPOId);
+        });
+    }
+
+    function highlightSelectedRowOnInit() {
+        var selectedPOID = localStorage.getItem("selectedPOID");
+        if (selectedPOID) {
+            $(".po-row").each(function() {
+                if ($(this).data("id").toString() === selectedPOID) {
+                    $(this).addClass("selected-row");
+                    return false; // Break the loop once the match is found
+                }
+            });
+        }
+    }
+
+    // get branch option org wise
+    $(document).ready(function () {
+        // Initial population of branch options based on the selected organization
+        updateBranchOptionsfilter();
+
+        // Event listener for the change event on #id_filter_org
+        $('#id_filter_org').change(function () {
+            updateBranchOptionsfilter();
+        });
+
+        function updateBranchOptionsfilter() {
+            // Get the selected organization ID
+            var selectedFilterOrgId = $('#id_filter_org').val();
+
+            // Make an AJAX request to get branch options based on the selected organization
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    // Clear existing options
+                    $('#id_filter_branch').empty();
+
+                    // Add fetched branch options
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_filter_branch').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+
+                    // Trigger change event for #id_filter_branch to automatically update its value
+                    $('#id_filter_branch').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+    });
+
+    // loader start
+    function startLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+    
+    function endLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+        setTimeout(() => {
+            loader.classList.add("loader-hidden");
+        }, 500);
+    }
+    //loader end
+
+    //<!-- status change true = Approved & false = Unapprove -->
+    elements = document.getElementsByClassName("status_appr_unapp");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].innerText === "True") {
+            elements[i].innerHTML = "Approved";
+            elements[i].classList.add("approved");
+        }
+        if (elements[i].innerText === "False") {
+            elements[i].innerHTML = "Unapprove";
+            elements[i].classList.add("unapprove");
+        }
+    }
+    //<!-- status change true = Approved & false = Unapprove -->
+    //
+    $(function () {
+        $(document).on('click', '.update-po', function (e) {
+            e.preventDefault(); // Prevent the default action of the click event
+            var isApproved = $(this).attr('data-is_approve');
+
+            if (isApproved === 'true') {
+                toastr.warning("PO Return Received Approved.. Edit Option Not Available ... Please Print Report!..");
+            } else {
+                var poId = $(this).attr('data-id');
+                var updatePurchaseOrderUrl = "{% url 'purchase_order_return_receive' 0 %}".replace('0', poId);
+                window.location.href = updatePurchaseOrderUrl;
+            }
+        });
+
+        //
+        $(document).on('click', '.po_report', function (e) {
+            e.preventDefault(); // Prevent the default action of the click event
+            var isApproved = $(this).attr('data-is_approve');
+            
+            if (isApproved === 'true') {
+                var porId = $(this).attr('data-id');
+                var PurchaseOrderReportUrl = "{% url 'po_return_receive_report' 0 %}".replace('0', porId);
+                window.open(PurchaseOrderReportUrl, '_blank'); // Open the URL in a new tab
+            } else {
+                toastr.warning("PO Return Receive Not Approved.. Please Approve First !..");
+            }
+        });
+    });
+
+    //
+
+</script>
+
+{% endblock %}

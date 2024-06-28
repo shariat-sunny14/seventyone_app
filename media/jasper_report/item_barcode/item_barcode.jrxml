@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="item_barcode" pageWidth="150" pageHeight="110" orientation="Landscape" columnWidth="150" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="731f1c94-f9db-4836-85d3-47c128499c5f">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="itemName" class="java.lang.String"/>
+	<field name="itemBatch" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="76" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="44" width="150" height="14" uuid="f6c1481c-eaba-45c6-b2b2-11fc55a09a33"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemName}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="FixRelativeToBottom" x="16" y="5" width="130" height="35" isPrintWhenDetailOverflows="true" uuid="a6fc82b0-a3aa-4fb1-93c6-86a8b8664bfc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" orientation="down" textPosition="none" quietZone="1.0" verticalQuietZone="1.0">
+					<jr:codeExpression><![CDATA[$F{itemName}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="0" y="58" width="150" height="14" uuid="b3e79449-e264-46d8-b599-908e7e5465ca"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itemBatch}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

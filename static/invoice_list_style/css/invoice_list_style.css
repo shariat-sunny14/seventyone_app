@@ -1,0 +1,424 @@
+/* main header start */
+.container-fluid {
+    cursor: pointer;
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    width: 100%;
+    padding-right: 0rem;
+    padding-left: 0rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.dashboar-head {
+    width: 30%;
+    /* border-bottom: 1px solid white; */
+    margin-top: 0.5em;
+    margin-bottom: 0.5rem;
+}
+
+.req-head-icon {
+    font-size: 25px;
+}
+
+.req-head-icon {
+    font-size: 20px;
+}
+
+.req-head {
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.py-2 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.text-size {
+    font-size: 15px;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* main header end */
+
+.table-body {
+    /* height: 500px;
+    overflow: auto; */
+    margin-bottom: 1rem;
+}
+
+.table {
+    margin-bottom: 0rem;
+    border: 1px solid #73a0a5;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #ffffff!important;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #f0f0f0!important;
+}
+
+.receipt-table {
+    border: 0 !important;
+}
+
+.payment-table {
+    border: 0 !important;
+}
+
+.table-header {
+    color: #fff;
+    background: #2e94a1;
+    font-size: 10.5px;
+}
+
+.table-body-row {
+    font-size: 11px;
+}
+
+.table>tbody {
+    vertical-align: 0;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    padding: 3px;
+    border-bottom: 0px;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 1px 1px;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-color: inherit;
+    border-width: 0;
+    border-style: dashed;
+    border-bottom-color: #c5c1c1;
+}
+
+.table-row-btn {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.table>:not(caption)>*>* {
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.btn {
+    line-height: 1;
+    padding: 0.175rem 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* data table */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: inherit;
+    font-size: 13px;
+    margin-left: 2rem;
+}
+
+table.dataTable thead>tr>th.sorting:after,
+table.dataTable thead>tr>th.sorting_asc:after,
+table.dataTable thead>tr>th.sorting_desc:after,
+table.dataTable thead>tr>th.sorting_asc_disabled:after,
+table.dataTable thead>tr>th.sorting_desc_disabled:after,
+table.dataTable thead>tr>td.sorting:after,
+table.dataTable thead>tr>td.sorting_asc:after,
+table.dataTable thead>tr>td.sorting_desc:after,
+table.dataTable thead>tr>td.sorting_asc_disabled:after,
+table.dataTable thead>tr>td.sorting_desc_disabled:after {
+    top: 50%;
+    content: "" !important;
+    content: "" /"" !important;
+}
+
+table.dataTable thead>tr>th.sorting:before,
+table.dataTable thead>tr>th.sorting_asc:before,
+table.dataTable thead>tr>th.sorting_desc:before,
+table.dataTable thead>tr>th.sorting_asc_disabled:before,
+table.dataTable thead>tr>th.sorting_desc_disabled:before,
+table.dataTable thead>tr>td.sorting:before,
+table.dataTable thead>tr>td.sorting_asc:before,
+table.dataTable thead>tr>td.sorting_desc:before,
+table.dataTable thead>tr>td.sorting_asc_disabled:before,
+table.dataTable thead>tr>td.sorting_desc_disabled:before {
+    bottom: 50%;
+    content: "" !important;
+    content: "" /"" !important;
+}
+
+table.dataTable thead>tr>th.sorting,
+table.dataTable thead>tr>th.sorting_asc,
+table.dataTable thead>tr>th.sorting_desc,
+table.dataTable thead>tr>th.sorting_asc_disabled,
+table.dataTable thead>tr>th.sorting_desc_disabled,
+table.dataTable thead>tr>td.sorting,
+table.dataTable thead>tr>td.sorting_asc,
+table.dataTable thead>tr>td.sorting_desc,
+table.dataTable thead>tr>td.sorting_asc_disabled,
+table.dataTable thead>tr>td.sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+    padding-right: 0px;
+}
+
+table.dataTable>thead>tr>th,
+table.dataTable>thead>tr>td {
+    padding: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 2px 1px;
+    border-style: hidden !important;
+}
+
+
+/* filtering & paging */
+.dataTables_wrapper .dataTables_length select {
+    padding: 0.175rem 0.65rem 0.175rem 0.65rem;
+    position: relative;
+    width: 44% !important;
+    font-weight: 400;
+    line-height: 1.5;
+    outline: none !important;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    margin-bottom: 0.5rem;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    flex-direction: row;
+    text-align: center;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    padding: 0.175rem 0.65rem 0.175rem 0.65rem;
+    position: relative;
+    width: 100% !important;
+    font-weight: 400;
+    line-height: 1.5;
+    outline: none !important;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    flex-direction: row;
+    text-align: left;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: right;
+    margin-right: 5rem;
+    margin-bottom: 0.5rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.1em 1em;
+    outline: none !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    margin-right: 1rem;
+    padding-top: 1em;
+}
+
+div.dataTables_scrollBody table {
+    border-bottom: 1px solid #73a0a5 !important;
+}
+
+/* filtering & paging */
+/* data table */
+
+/* tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-style: dashed;
+    border-bottom-color: #c5c1c1;
+} */
+
+/* receipt items auto serial*/
+#receipt-items {
+    counter-reset: rowNumber;
+}
+
+#receipt-items tbody tr {
+    counter-increment: rowNumber;
+}
+
+#receipt-items tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+/* auto serial end*/
+
+/* receipt print button */
+.btn-group-sm>.btn,
+.btn-sm {
+    line-height: 1.5;
+    padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+}
+
+.printBtn {
+    font-size: 1rem;
+}
+
+.printIcon {
+    line-height: 1.1;
+}
+
+/* loader */
+.loader {
+    position: absolute;
+    top: 0rem;
+    left: -0.28rem;
+    right: 0rem;
+    bottom: 0rem;
+    width: 100.59%;
+    height: 555px;
+    display: flex;
+    background-color: rgba(240, 240, 240, 0.671);
+    transition: opacity 0.75s, visibility 0.75s;
+    z-index: 1;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+/* loader css */
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid #1a8af3;
+    border-top: 15px solid #81c2ff;
+    border-left: 15px solid #81c2ff;
+    border-radius: 50%;
+    animation: main_loading 0.75s ease infinite;
+}
+
+@keyframes main_loading {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+/* loader css */
+
+.item_inputbox {
+    position: relative;
+    padding: 0.175rem 0.55rem 0.175rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.date-range {
+    display: flex;
+    width: 66%;
+    justify-content: right;
+    margin-right: 28px;
+}
+
+.row>* {
+    padding-right: calc(var(--bs-gutter-x) * .0);
+    padding-left: calc(var(--bs-gutter-x) * .4);
+}
+
+input[type="date"],
+input[type="time"] {
+    font-size: 0.8rem;
+}
+
+.invBtn {
+    height: 1.6rem;
+    font-size: 0.85rem;
+    padding: 0.1rem 1rem;
+}
+
+.row_modify {
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+}
+
+.g-3_mody,
+.gx-3_mody {
+    --bs-gutter-x: 1.5rem;
+}

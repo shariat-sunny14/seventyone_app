@@ -1,0 +1,850 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'b2b_clients/css/b2b_clients.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2" style="display: flex;">
+                        <i class='bx bx-hive text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">B2B Clients Percentage Setup</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <form action="" method="" id="Item_prec_form">
+        <input type="hidden" id="id_supplier_id" name="supplier_id" value="">
+        <section>
+            <div class="card po_card" style="margin-left: 0.5rem; margin-bottom: 1rem;">
+                <div class="card-body">
+                    <div class="report-filter">
+                        <!-- Date Range Filter -->
+                        <div class="date-range">
+                            <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                <div class="date_range-element" style="display:flex">
+                                    <!--  -->
+                                    <div class="row store_row col-sm-6"
+                                        style="flex-grow: 1; display: flex; justify-content: left;">
+                                        <label for="id_filter_org" class="col-auto col-form-label">
+                                            Organization:
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <select id="id_filter_org" name="filter_org"
+                                                class="form-select store_Selectbox" aria-label="Default select example">
+                                                {% for org in org_list %}
+                                                <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                    {{org.org_name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  -->
+        <section>
+            <div class="row row_item_setup">
+                <div class="col-sm-4">
+                    <!-- List of Clients -->
+                    <div class="card main-card" style="margin-left: 8.5px;">
+                        <div class="card-body card-body_item_setup">
+                            <div class="itemfilter_container">
+                                <div class="filter_head">
+                                    <h2 class="text-success">List of Clients</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <!--  -->
+                                                <div class="client_TB">
+                                                    <table id="" class="table table-striped table-hover"
+                                                        style="width: 100%;">
+                                                        <thead class="text-center table-header_itemlist">
+                                                            <tr>
+                                                                <th style="text-align:center; width: 20%;">Client No.
+                                                                </th>
+                                                                <th style="text-align:center; width: 65%;">Client Name
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th colspan="3"
+                                                                    style="text-align:center; background: #fff !important;">
+                                                                    <input type="search" id="clientssearch"
+                                                                        class="form-control search_control item_inputbox"
+                                                                        style="margin-left: 4px; background:#fffab6;"
+                                                                        placeholder="Searching ..." autocomplete="off">
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody id="client_Tbody" class="table-body-row"
+                                                            style="text-align:center; cursor: pointer;">
+                                                            <!--  -->
+
+                                                        </tbody>
+                                                        <!-- loader start -->
+                                                        <section class="loader-section">
+                                                            <div class="loader-body_itemRate">
+                                                                <div class="loader_itemRate">
+                                                                    <div class="upper ball"></div>
+                                                                    <div class="right ball"></div>
+                                                                    <div class="lower ball"></div>
+                                                                    <div class="left ball"></div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                        <!-- loader end -->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- List of Clients -->
+                <!--  -->
+                <div class="col-sm-8">
+                    <!-- Clients Information -->
+                    <div class="card main-card">
+                        <div class="card-body card-body_item_setup">
+                            <div class="itemsetup_container" style="padding: 0.5rem;">
+                                <div class="clients_head">
+                                    <h2 class="text-primary">Clients Information</h2>
+                                </div>
+                                <!--  -->
+                                <div id="trans_client_info">
+                                    <!-- 1st row -->
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-4">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_supplier_no"
+                                                            class="col-sm-6 col-form-label font_size_filter">
+                                                            Client No:
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control item_inputbox"
+                                                                id="id_supplier_no" name="supplier_no"
+                                                                autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-8">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_supplier_name"
+                                                            class="col-sm-4 col-form-label font_size_filter">
+                                                            Client Name:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control item_inputbox"
+                                                                id="id_supplier_name" name="supplier_name"
+                                                                autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 2nd row -->
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_company_name"
+                                                            class="col-sm-s1 col-form-label font_size_filter">
+                                                            Company Name:
+                                                        </label>
+                                                        <div class="col-sm-s10">
+                                                            <input type="text" value=""
+                                                                class="form-control item_inputbox" id="id_company_name"
+                                                                name="company_name" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 3rd row -->
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_address"
+                                                            class="col-sm-s1 col-form-label font_size_filter">Address:</label>
+                                                        <div class="col-sm-s10">
+                                                            <textarea class="form-control item_inputbox" id="id_address"
+                                                                name="address" value=""
+                                                                style="height: 28px; margin-bottom: 5px;"
+                                                                autocomplete="off" readonly></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 4th row -->
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-6">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_phone"
+                                                            class="col-sm-s3 col-form-label font_size_filter">Phone:</label>
+                                                        <div class="col-sm-s8">
+                                                            <input type="number" value=""
+                                                                class="form-control item_inputbox" id="id_phone"
+                                                                name="phone" required autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-6">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_mobile"
+                                                            class="col-sm-4 col-form-label font_size_filter">Mobile:</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="number" class="form-control item_inputbox"
+                                                                id="id_mobile" name="mobile" autocomplete="off"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 5th row -->
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-6">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_supplier_email"
+                                                            class="col-sm-s3 col-form-label font_size_filter">Email:</label>
+                                                        <div class="col-sm-s8">
+                                                            <input type="email" value=""
+                                                                class="form-control item_inputbox"
+                                                                id="id_supplier_email" name="supplier_email"
+                                                                autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-6">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_supplier_fax"
+                                                            class="col-sm-4 col-form-label font_size_filter">Fax:</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="number" value=""
+                                                                class="form-control item_inputbox" id="id_supplier_fax"
+                                                                name="supplier_fax" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div style="display: flex;">
+                        <div class="col-sm-6">
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem; height: 434px;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-info">Department Information</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row row_item_setup">
+                                            <div style="display: flex;">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <div class="col-sm-12">
+                                                                    <input type="search"
+                                                                        class="form-control item_inputbox"
+                                                                        style="text-align: left; background:#fffab6;"
+                                                                        id="deptSearch" placeholder="Searching"
+                                                                        autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="deptPer_TB" style="overflow-x: auto; margin-top: 0.4rem;">
+                                            <table id="dept_data" class="table table-striped"
+                                                style="width: 100%; border: 1px solid rgb(211, 211, 211);">
+                                                <thead style="text-align: center; background: #0f6a8d; color: #fff;">
+                                                    <tr style="font-size: 0.7rem; font-weight: bold;">
+                                                        <th style="width: 20%; vertical-align: middle; border-width: thin;"
+                                                            rowspan="2">Dept. No</th>
+                                                        <th style="width: 50%; vertical-align: middle; border-width: thin;"
+                                                            rowspan="2">Dept. Name</th>
+                                                        <th colspan="2" style="width: 30%; border-width: thin;">Tariff
+                                                        </th>
+                                                    </tr>
+                                                    <tr style="font-size: 0.7rem; font-weight: bold;">
+                                                        <th style="width: 15%; border-width: thin;">(%)</th>
+                                                        <th style="width: 15%; border-width: thin;">Amt.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!--  -->
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="col-sm-6">
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem; height: 434px;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-warning">Item Information</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row row_item_setup">
+                                            <div style="display: flex;">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <div class="col-sm-12">
+                                                                    <input type="search"
+                                                                        class="form-control item_inputbox"
+                                                                        style="text-align: left; background:#fffab6;"
+                                                                        id="itemSearch" placeholder="Searching"
+                                                                        autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="itemPer_TB" style="overflow-x: auto; margin-top: 0.4rem;">
+                                            <table id="items_data" class="table table-striped"
+                                                style="width: 100%; border: 1px solid rgb(211, 211, 211);">
+                                                <thead style="text-align: center; background: #0f6a8d; color: #fff;">
+                                                    <tr style="font-size: 0.7rem; font-weight: bold;">
+                                                        <th style="width: 20%; vertical-align: middle; border-width: thin;"
+                                                            rowspan="2">Item No</th>
+                                                        <th style="width: 50%; vertical-align: middle; border-width: thin;"
+                                                            rowspan="2">Item Name</th>
+                                                        <th colspan="2" style="width: 30%; border-width: thin;">Tariff
+                                                        </th>
+                                                    </tr>
+                                                    <tr style="font-size: 0.7rem; font-weight: bold;">
+                                                        <th style="width: 15%; border-width: thin;">(%)</th>
+                                                        <th style="width: 15%; border-width: thin;">Amt.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!--  -->
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- submit button -->
+                    <div class="submit_button" style="margin-top: 1rem; margin-bottom: 1rem;">
+                        <button type="submit" class="btn btn-success btn-sm"style="margin-right: 10px;">
+                            Save & Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</main>
+<!--  -->
+<script>
+    let selectedSupplierId = localStorage.getItem("selectedSupplierId");
+    
+    //<!--  -->
+    document.addEventListener("DOMContentLoaded", function () {
+        const orgDropdown = document.getElementById('id_filter_org');
+        const searchInput = document.getElementById('itemSearch');
+        const searchDeptInput = document.getElementById('deptSearch');
+
+        // for Items
+        function fetchData() {
+            const orgId = orgDropdown.value;
+            const searchQuery = searchInput.value;
+
+            fetch(`/get_org_wise_item_data/?filter_org=${orgId}&search_query=${searchQuery}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateTable(data);  // Pass the directly received array to the update function
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateTable(items) {
+            const tableBody = document.getElementById('items_data').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';  // Clear existing table rows
+            items.forEach(item => {
+                const row = tableBody.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+                const cell4 = row.insertCell(3);
+
+                // Applling the CSS classes to the cells
+                cell1.className = 'cell1_style';  // Ensure this matches the class name in your CSS file
+                cell2.className = 'cell2_style';  // Ensure this matches the class name in your CSS file
+
+                cell1.innerHTML = `${item.item_no}<input type="hidden" name="item_ids[]" class="per_amt form-control" value="${item.item_id}">`;
+                cell2.innerHTML = `<span style="margin-left: 5px;">${item.item_name}</span>`;
+                cell3.innerHTML = `<input type="number" name="item_pers[]" class="per_amt reset_input form-control item_pers_${item.item_id}" value="">`;
+                cell4.innerHTML = `<input type="number" name="item_amts[]" class="per_amt reset_input form-control item_amts_${item.item_id}" value="">`;
+            });
+        }
+
+        // for department
+        function fetchDeptsData() {
+            const orgId = orgDropdown.value;
+            const deptSearchQuery = searchDeptInput.value;
+
+            fetch(`/get_org_wise_dept_data/?filter_org=${orgId}&search_query=${deptSearchQuery}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateDeptsTable(data);  // Pass the directly received array to the update function
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateDeptsTable(depts) {
+            const deptTableBody = document.getElementById('dept_data').getElementsByTagName('tbody')[0];
+            deptTableBody.innerHTML = '';  // Clear existing table rows
+            depts.forEach(dept => {
+                const row = deptTableBody.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+                const cell4 = row.insertCell(3);
+
+                // Applling the CSS classes to the cells
+                cell1.className = 'cell1_style';
+                cell2.className = 'cell2_style';
+
+                cell1.innerHTML = `${dept.dept_no}<input type="hidden" name="dept_ids[]" class="per_amt form-control" value="${dept.dept_id}">`;
+                cell2.innerHTML = `<span style="margin-left: 5px;">${dept.dept_name}</span>`;
+                cell3.innerHTML = `<input type="number" name="dept_pers[]" class="per_amt dept_reset_input form-control dept_pers_${dept.dept_id}" value="">`;
+                cell4.innerHTML = `<input type="number" name="dept_amts[]" class="per_amt dept_reset_input form-control dept_amts_${dept.dept_id}" value="">`;
+            });
+        }
+
+        // for Items & Depts
+        function handleOrgDropdownChange() {
+            fetchData();
+            fetchDeptsData();
+        }
+
+
+        function handleItemSearch() {
+            fetchData();
+            if (selectedSupplierId) {
+                setTimeout(function() {
+                    fetchItemsPercentageAmt(selectedSupplierId);
+                }, 1000);
+            }
+        }
+
+        function handleDeptSearch() {
+            fetchDeptsData();
+            if (selectedSupplierId) {
+                setTimeout(function() {
+                    fetchDeptsPercentageAmt(selectedSupplierId);
+                }, 1000);
+            }
+        }
+
+        
+        orgDropdown.addEventListener('change', handleOrgDropdownChange);
+        searchInput.addEventListener('keyup', handleItemSearch);
+        searchDeptInput.addEventListener('keyup', handleDeptSearch);
+
+        fetchData();  // Initial fetch when page loads
+        fetchDeptsData();
+    });
+
+    // fetch clients item id wise Percentage & Amt
+    function fetchItemsPercentageAmt(selectedSupplierId) {
+        var orgFilter = $('#id_filter_org').val();
+        var itemIDs = $('.per_amt').map(function() {
+            return $(this).val(); // Get the value of each hidden input field
+        }).get().filter(Boolean); // Filter out empty strings
+    
+        if (selectedSupplierId) {
+            $.ajax({
+                url: "{% url 'get_items_percentage_amt' %}",
+                type: 'GET',
+                data: {
+                    'org_filter': orgFilter,
+                    'items_id': itemIDs,
+                    'suppliers_id': selectedSupplierId,
+                },
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the response data
+                    console.log('response:', response);
+    
+                    // Reset input fields with class "reset_input"
+                    $('.reset_input').val('');
+    
+                    // Update item_pers[] and item_amts[] fields based on response
+                    if (response && response.length > 0) {
+                        response.forEach(item => {
+                            $(`.item_pers_${item.item_id}`).val(item.b2b_item_perc);
+                            $(`.item_amts_${item.item_id}`).val(item.b2b_item_amt);
+                        });
+                    } else {
+                        console.log('No data found for the selected supplier.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching clients Item percentage & Amt list:', status, error);
+                }
+            });
+        }
+    }
+
+    // fetch clients dept id wise Percentage & Amt
+    function fetchDeptsPercentageAmt(selectedSupplierId) {
+        var orgFilter = $('#id_filter_org').val();
+        var deptIDs = $('.per_amt').map(function() {
+            return $(this).val(); // Get the value of each hidden input field
+        }).get().filter(Boolean); // Filter out empty strings
+    
+        if (selectedSupplierId) {
+            $.ajax({
+                url: "{% url 'get_depts_percentage_amt' %}",
+                type: 'GET',
+                data: {
+                    'org_filter': orgFilter,
+                    'dept_id': deptIDs,
+                    'suppliers_id': selectedSupplierId,
+                },
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the response data
+                    console.log('response:', response);
+    
+                    // Reset input fields with class "reset_input"
+                    $('.dept_reset_input').val('');
+    
+                    // Update dept_pers[] and dept_amts[] fields based on response
+                    if (response && response.length > 0) {
+                        response.forEach(dept => {
+                            $(`.dept_pers_${dept.dept_id}`).val(dept.b2b_dept_perc);
+                            $(`.dept_amts_${dept.dept_id}`).val(dept.b2b_dept_amt);
+                        });
+                    } else {
+                        console.log('No data found for the selected supplier.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching clients Depts percentage & Amt list:', status, error);
+                }
+            });
+        }
+    }
+
+    //================================================================
+    $(document).ready(function () {
+        // Function to fetch clients list
+        function fetchClientsList() {
+            var orgFilter = $('#id_filter_org').val();
+            var searchQuery = $('#clientssearch').val();
+
+            // Show the loader
+            $('.loader-section').show();
+
+            // Make the AJAX request
+            $.ajax({
+                url: "{% url 'get_b2b_clients_list' %}",
+                type: 'GET',
+                data: {
+                    'org_filter': orgFilter,
+                    'supp_search_query': searchQuery
+                },
+                dataType: 'json',
+                success: function (response) {
+                    // Hide the loader
+                    $('.loader-section').hide();
+
+                    // Clear the existing table body
+                    $('#client_Tbody').empty();
+
+                    // Populate the table body with the new data
+                    response.data.forEach(function (client) {
+                        var row = $('<tr>').attr("data-supplier-id", client.supplier_id).append(
+                            $('<td>').text(client.supplier_no),
+                            $('<td>').css("text-align", "left").text(client.supplier_name),
+                        ).addClass("client-row");
+                        $('#client_Tbody').append(row);
+                    });
+
+                    // Highlight selected row if applicable
+                    highlightSelectedRowOnInit();
+
+                    // Call handleClientRowSelection after adding rows
+                    handleClientRowSelection();
+
+                    // Check if there is a selected supplier ID in local storage and populate details
+                    //var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+                    if (selectedSupplierId) {
+                        populateSupplierDetails(selectedSupplierId);
+                        setTimeout(function() {
+                            fetchItemsPercentageAmt(selectedSupplierId);
+                            fetchDeptsPercentageAmt(selectedSupplierId);
+                        }, 1000);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Hide the loader
+                    $('.loader-section').hide();
+                    console.error('Error fetching clients list:', status, error);
+                }
+            });
+        }
+
+        // Bind fetchClientsList function to input events
+        $('#id_filter_org, #clientssearch').on('change keyup', fetchClientsList);
+
+        // Bind an event handler to the change event of #id_filter_org
+        $('#id_filter_org').on('change', function () {
+            // Remove the "selected-row" class from all elements with the class ".client-row"
+            $('.client-row').removeClass('selected-row');
+
+            // Clear the supplier details
+            supp_populateTable({});
+
+            // Clear the selected supplier ID from local storage
+            localStorage.removeItem("selectedSupplierId");
+
+            // Check if there is a selected supplier ID in local storage and populate details
+            //var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+            if (selectedSupplierId) {
+                populateSupplierDetails(selectedSupplierId);
+                fetchItemsPercentageAmt(selectedSupplierId);
+                fetchDeptsPercentageAmt(selectedSupplierId);
+            }
+        });
+
+        // Initial fetch
+        fetchClientsList();
+
+        $(function () {
+            $('#Item_prec_form').on('keydown', function (e) {
+                // Check if Enter key is pressed
+                if (e.key === "Enter") {
+                    e.preventDefault(); // Prevent default form submission behavior
+                    return false; // Stop event propagation
+                }
+            });
+            //<!--  -->
+
+            $('#Item_prec_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+        
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")  // Get CSRF token from cookie
+                    },
+                    url: "{% url 'add_update_b2b_item_percentage' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.success) {
+                            toastr.success(resp.msg);
+                            $('.loader-section').show();
+                            setTimeout(function () {
+                                $('.loader-section').hide();
+                            }, 1100);
+                            var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+                            if (selectedSupplierId) {
+                                populateSupplierDetails(selectedSupplierId);
+                                fetchItemsPercentageAmt(selectedSupplierId);
+                                fetchDeptsPercentageAmt(selectedSupplierId);
+                            }
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error("An error occurred while processing the request.");
+                    }
+                });
+            });
+        });
+        
+        // Function to get CSRF token from cookie
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+
+    // Function to handle row selection
+    function handleClientRowSelection() {
+        // Attach click event listener to all client rows
+        $(document).on("click", ".client-row", function () {
+            var clickedClientId = $(this).data("supplier-id"); // Get the supplier ID from the clicked row
+
+            // Remove highlighting from other rows
+            $(".client-row").removeClass("selected-row");
+
+            // Highlight the selected row
+            $(this).addClass("selected-row");
+
+            // Save the selected supplier ID to local storage
+            localStorage.setItem("selectedSupplierId", clickedClientId);
+
+            // Call the function to populate the table with supplier details
+            populateSupplierDetails(clickedClientId);
+
+            // Fetch b2b_item_perc and b2b_item_amt based on the selected supplier
+            fetchItemsPercentageAmt(clickedClientId);
+            fetchDeptsPercentageAmt(clickedClientId);
+        });
+    }
+
+    // Function to populate the table with supplier details
+    function populateSupplierDetails(supplierId) {
+        if (supplierId) {
+            $.ajax({
+                type: "GET",
+                url: "/get_supplier_lists/" + supplierId + "/",
+                dataType: "json",
+                success: function (data) {
+                    supp_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    //toastr.warning("Failed to fetch Supplier details");
+                }
+            });
+        }
+    }
+
+    // Function to populate the table with supplier details
+    function supp_populateTable(data) {
+        // Clear existing supplier details
+        $('#id_supplier_id').val("");
+        $('#id_supplier_no').val("");
+        $('#id_supplier_name').val("");
+        $('#id_company_name').val("");
+        $('#id_address').val("");
+        $('#id_phone').val("");
+        $('#id_mobile').val("");
+        $('#id_supplier_email').val("");
+        $('#id_supplier_fax').val("");
+
+        // Populate with new data if available
+        if (data.hasOwnProperty('supplier_Dtls') && data.supplier_Dtls.length > 0) {
+            var supplier = data.supplier_Dtls[0]; // Assuming only one supplier detail is returned
+            $('#id_supplier_id').val(supplier.supplier_id);
+            $('#id_supplier_no').val(supplier.supplier_no);
+            $('#id_supplier_name').val(supplier.supplier_name);
+            $('#id_company_name').val(supplier.company_name);
+            $('#id_address').val(supplier.address);
+            $('#id_phone').val(supplier.phone);
+            $('#id_mobile').val(supplier.mobile);
+            $('#id_supplier_email').val(supplier.supplier_email);
+            $('#id_supplier_fax').val(supplier.supplier_fax);
+        }
+    }
+
+    // Function to highlight selected row on initialization
+    function highlightSelectedRowOnInit() {
+        //var selectedSupplierId = localStorage.getItem("selectedSupplierId");
+        if (selectedSupplierId) {
+            $(".client-row").each(function () {
+                if ($(this).data("supplier-id").toString() === selectedSupplierId) {
+                    $(this).addClass("selected-row");
+                    return false; // Break the loop once the match is found
+                }
+            });
+        }
+    }
+
+    //==========================================
+    //loader 
+    const loader = document.querySelector(".loader");
+    const loaderBody = document.querySelector(".loader-body");
+    //loader
+    //==========================================
+</script>
+{% endblock %}

@@ -1,0 +1,186 @@
+<div class="nav__menu" id="navbar">
+    <nav class="nav__container">
+        <div>
+            <a class="nav__link__menu__head nav__logo">
+                <i class='bx bxs-disc nav__icon'></i>
+                <span class="nav__logo-name">Apps</span>
+            </a>
+
+            {% if user.is_authenticated %}
+                <div class="nav__list">
+                    <div class="nav__items">
+                        {% for module_id, module_data in grouped_data.items %}
+                            <!-- <h3 class="nav__subtitle">{{ module_data.module_name }}</h3> -->
+                            {% for type_name, type_data in module_data.types.items %}
+                                <div class="nav__dropdown">
+                                    <a class="nav__link__menu">
+                                        <i class='{{type_data.type_icon}} nav__icon'></i>
+                                        <span class="nav__name">{{ type_name }}</span>
+                                        <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                                    </a>
+
+                                    <div class="nav__dropdown-collapse">
+                                        <div class="nav__dropdown-content">
+                                            {% for feature in type_data.features %}
+                                                <a href="{{ feature.feature_page_link }}" class="nav__link">
+                                                    <i class='{{ feature.feature_icon }} nav__icon nav__sub__icon'></i>
+                                                    <span class="nav__name nav__sub__name">{{ feature.feature_name }}</span>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- existing nav bar -->
+<!-- <div class="nav__menu" id="navbar">
+        <nav class="nav__container">
+            <div>
+                <a href="#" class="nav__link nav__logo">
+                    <i class='bx bxs-disc nav__icon'></i>
+                    <span class="nav__logo-name">Apps</span>
+                </a>
+
+                <div class="nav__list">
+                    <div class="nav__items">
+                        <h3 class="nav__subtitle">Home</h3>
+                        <div class="nav__dropdown">
+                            <a href='#' class="nav__link">
+                                <i class='bx bxs-grid nav__icon'></i>
+                                <span class="nav__name">Service</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                    <a href="/accounts/profile/" class="nav__link">
+                                        <i class='bx bx-home nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Module Dashboard</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav__items">
+                        <h3 class="nav__subtitle">POS Billing</h3>
+                        <div class="nav__dropdown">
+                            <a class="nav__link">
+                                <i class='bx bx-detail nav__icon'></i>
+                                <span class="nav__name">POS Service</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                    <a href="/item_pos_billing" class="nav__link">
+                                        <i class='bx bx-credit-card nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Item POS</span>
+                                    </a>
+                                    <a href="/invoice_list" class="nav__link">
+                                        <i class='bx bx-list-ul nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Invoice List</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div> -->
+<!-- POS Billing Report -->
+<!-- <div class="nav__dropdown">
+                            <a class="nav__link">
+                                <i class='bx bxs-report nav__icon'></i>
+                                <span class="nav__name">Reports</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                    <a href="#" class="nav__link">
+                                        <i class='bx bx-folder-minus nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Sales</span>
+                                    </a>
+                                    <a href="#" class="nav__link">
+                                        <i class='bx bx-collection nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Collections</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+<!-- Billing Operation  -->
+<!-- <div class="nav__items">
+                        <h3 class="nav__subtitle">Billing Operation</h3>
+                        <div class="nav__dropdown">
+                            <a class="nav__link">
+                                <i class='bx bx-poll nav__icon'></i>
+                                <span class="nav__name">Operation Service</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                    <a href="/opening_stock" class="nav__link">
+                                        <i class='bx bx-folder-open nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Opening Stock</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+<!-- Security access control -->
+<!-- <div class="nav__items">
+                        <h3 class="nav__subtitle">Security access control</h3>
+                        <div class="nav__dropdown">
+                            <a class="nav__link">
+                                <i class='bx bx-credit-card nav__icon'></i>
+                                <span class="nav__name">Security Services</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                    <a href="/item_setup" class="nav__link">
+                                        <i class='bx bx-edit-alt nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Item Setup</span>
+                                    </a>
+                                    <a href="/type_uom_category" class="nav__link">
+                                        <i class='bx bx-book-alt nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Type & Category Setup</span>
+                                    </a>
+                                    <a href="/supplier_manufacturer_setup" class="nav__link">
+                                        <i class='bx bx-devices nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Supplier & Manufacturer</span>
+                                    </a>
+                                    <a href="/store_setup" class="nav__link">
+                                        <i class='bx bx-store-alt nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Store Setup</span>
+                                    </a>
+                                    <a href="/user_setup" class="nav__link">
+                                        <i class='bx bx-cog nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">User Setup & Access</span>
+                                    </a>
+                                    <a href="/module_feature_setup" class="nav__link">
+                                        <i class='bx bx-reset nav__icon nav__sub__icon'></i>
+                                        <span class="nav__name nav__sub__name">Module & Feature Setup</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div> -->

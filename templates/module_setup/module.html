@@ -1,0 +1,168 @@
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container">
+                <form id="save_modules" action="" method="">
+                    <input type="hidden" name="module_id" value="{% if module.pk %}{{module.pk}}{% endif %}">
+                    <div class="add_edit_head">
+                        <h2>Module Information</h2>
+                    </div>
+                    <!--  -->
+                    <div class="row row_item_setup">
+                        <div class="col-sm-10">
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_category_no">
+                                                        <label for="module_no"
+                                                            class="col-sm-4 col-form-label font_size_filter required">
+                                                            Module No :
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if module.module_no %}{{module.module_no}}{% endif %}"
+                                                                class="form-control item_inputbox" id="module_no"
+                                                                name="module_no" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_category_name">
+                                                        <label for="module_name"
+                                                            class="col-sm-4 col-form-label font_size_filter required">Module
+                                                            Name :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if module.module_name %}{{module.module_name}}{% endif %}"
+                                                                class="form-control item_inputbox" id="module_name"
+                                                                name="module_name" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body item_setup_sub">
+                                                    <div class="row cash_point_row div_id_category_name">
+                                                        <label for="module_code"
+                                                            class="col-sm-4 col-form-label font_size_filter required">Module
+                                                            Code :</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text"
+                                                                value="{% if module.module_code %}{{module.module_code}}{% endif %}"
+                                                                class="form-control item_inputbox" id="module_code"
+                                                                name="module_code" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="item_setupflag div_id_is_active"
+                                        style="display: flex; justify-content: right;">
+                                        <label class="form-check-label text-danger setupflag_label" for="is_active">
+                                            Active?
+                                        </label>
+                                        <input type="hidden" name="is_active" value="0">
+                                        {% if module.is_active == 1 %}
+                                        <input class="form-check-input" type="checkbox" id="is_active" name="is_active"
+                                            value="1" aria-label="..." checked>
+                                        {% else %}
+                                        <input class="form-check-input" type="checkbox" id="is_active" name="is_active"
+                                            value="0" aria-label="...">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- submit button -->
+                    <div class="submit_button">
+                        <button type="button" class="btn btn-danger modulesubmitBtn btn-sm" data-bs-dismiss="modal"
+                            style="margin-right: 10px;">Close</button>
+                        <button type="submit" value="submit" class="btn btn-success modulesubmitBtn btn-sm"
+                            style="margin-right: 10px;">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#save_modules').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'add_module' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg)
+                        //location.reload()
+                        setTimeout(function () { location.reload() }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            })
+        })
+    })
+
+    $('#is_active').on('change', function () {
+        this.value = this.checked ? 1 : 0;
+    }).change();
+
+    // ajax submit module save
+    //$('#').submit(function (e) {
+    //    e.preventDefault();
+     //   $.ajax({
+    //        headers: {
+    //            "X-CSRFToken": '{{csrf_token}}'
+    //        },
+    //        url: "",
+    //        data: new FormData($(this)[0]),
+    //        cache: false,
+    //        contentType: false,
+    //        processData: false,
+    //        method: 'POST',
+    //        type: 'POST',
+    //        dataType: 'json',
+    //        success: function (resp) {
+    //            if (success = resp.msg) {
+    //                toastr.success(resp.msg)
+    //               location.reload()
+    //            } else {
+    //                toastr.error(resp.errmsg);
+    //            }
+    //            //location.reload()
+    //        }
+    //    })
+    //});
+</script>

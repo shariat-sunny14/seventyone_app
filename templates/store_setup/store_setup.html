@@ -1,0 +1,78 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'store_setup_style/css/store_setup_style.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<section>
+    <div class="container-fluid">
+        <!-- Main Heading -->
+        <div class="row">
+            <div class="col col-md-4 col-md-6 dashboar-head">
+                <div class="d-sm-flex align-items-center mb-2">
+                    <div class="col-sm-7" style="display: flex;">
+                        <i class='bx bx-store-alt text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">Store Setup</h1>
+                    </div>
+                    <!--  -->
+                    <div class="container col-sm-5">
+                        <div style="border-radius: 2rem; box-shadow: 0 0.25rem 0.5rem #cdcdcd;">
+                            <div class="row org-filterRow" style="display: flex; justify-content: right;">
+                                <label for="id_org_wise_temp" class="col-sm-4 col-form-label text-info font_size_filter" style="padding-right: 20px; font-weight:bold;">
+                                    Org. Wise Template:
+                                </label>
+                                <div class="col-sm-8" style="margin-bottom: 0.5px; padding-right: 1.2rem; display: flex; align-items: center; justify-content: center; text-align: center;">
+                                    <select id="id_org_wise_temp" name="org_wise_temp" class="org_wise_temp"
+                                        aria-label="Default select example">
+                                        {% for org in org_list %}
+                                        <option value="{{org.org_id}}">
+                                            {{ org.org_name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  -->
+<div id="template-container"></div>
+<!--  -->
+<script>
+    $(document).ready(function () {
+        // Function to handle the initial load and updates
+        function loadTemplate(orgId) {
+            $.ajax({
+                type: 'GET',
+                url: '/load_template/',
+                data: { 'org_id': orgId },
+                success: function (data) {
+                    $('#template-container').html(data.template_content);
+                },
+                error: function (error) {
+                    console.error('Error loading template:', error);
+                }
+            });
+        }
+    
+        // Initial population on page load
+        var defaultOrgId = $('#id_org_wise_temp').val();
+        loadTemplate(defaultOrgId);
+    
+        // Set up the change event handler for org_wise_temp
+        $('.org_wise_temp').change(function () {
+            var orgId = $(this).val();
+            loadTemplate(orgId);
+        });
+    });
+</script>
+{% endblock %}

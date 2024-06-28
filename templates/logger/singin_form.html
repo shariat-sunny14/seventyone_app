@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+
+    <!----===== Boxicons CSS ===== -->
+    <link rel="stylesheet" href="{% static 'assets/boxicons-2.1.4/css/boxicons.min.css' %}">
+
+    <!--========== FAVICON ICONS ==========-->
+    <link rel="shortcut icon" href="{% static 'fav_icon/inventory_fav_icon.png' %}">
+
+    <!--========== Bootstrap link ==========-->
+    <link rel="stylesheet" href="{% static 'assets/bootstrap-5.0.2/dist/css/bootstrap.min.css' %}">
+
+    <!-- jQuery CDN -->
+    <script src="{% static 'assets/jquery_3.7.0/js/jquery.3.7.0.min.js' %}"></script>
+
+    <!-- toastr js -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'assets/toastr/css/toastr.min.css' %}">
+    <!-- JS -->
+    <script src="{% static 'assets/toastr/js/toastr.min.js' %}"></script>
+    
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" type="text/css" href="{% static 'logger_style/singin_form_style.css' %}">
+    <title>Seventy One (Pvt.) Ltd.</title>
+</head>
+<!--  -->
+<body>
+    <div class="background">
+        <!-- <img src="{% static 'images/login_background/login_background_img.jpg' %}" alt=""> -->
+        <div class="main_background">
+            <div class="background_notifyBoard">
+                <div class="notice-info">
+                    <div class="owner-name">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="bar"></div>
+        </div>
+        <div class="page">
+            <div class="page-top-left"></div>
+            <div class="page-top-right"></div>
+            <div class="page-bottom-left"></div>
+            <div class="page-bottom-right"></div>
+            <div class="page-bar"></div>
+            <!-- notificationBoard -->
+            <div class="notificationBoard">
+                <div class="notice-info">
+                    <div class="owner-name">
+                        <label>
+                            <h1
+                                style="width: 260px; font-size: 1.5rem; font-family: cursive; font-weight: bolder; color: #00289f; text-align: center;">
+                                Contact for any query
+                            </h1>
+                        </label>
+                        <div class="owner-info">
+                            <div class="row g-3 col-sm-12 align-items-center">
+                                <div class="col-sm-1">
+                                    <label style="font-size: 1.1rem; color: #00289f;" class="col-form-label"><i
+                                            class='bx bx-user'></i></label>
+                                </div>
+                                <div class="col-sm-11">
+                                    <span style="font-size: 0.95rem; font-family: math; color: #d7d7d7;">
+                                        Shariat Sunny
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row g-3 col-sm-12 align-items-center">
+                                <div class="col-sm-1">
+                                    <label style="font-size: 1.1rem; color: #00289f;"
+                                        class="col-form-label"><i class='bx bx-support'></i></label>
+                                </div>
+                                <div class="col-sm-11">
+                                    <span style="font-size: 0.95rem; font-family: math; color: #d7d7d7;">
+                                        Support By
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row g-3 col-sm-12 align-items-center">
+                                <div class="col-sm-1">
+                                    <label style="font-size: 1.1rem; color: #00289f;"
+                                        class="col-form-label"><i class='bx bx-phone'></i></label>
+                                </div>
+                                <div class="col-sm-11">
+                                    <span style="font-size: 0.95rem; font-family: math; color:#d7d7d7;">
+                                        +8801681-332576
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row g-3 col-sm-12 align-items-center">
+                                <div class="col-sm-1">
+                                    <label style="font-size: 1.1rem; color:#00289f;" class="col-form-label"><i
+                                            class='bx bx-envelope'></i></label>
+                                </div>
+                                <div class="col-sm-11">
+                                    <span style="font-size: 0.95rem; font-family: math; color:#d7d7d7;">
+                                        Shariatsunny1@gmail.com
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row g-3 col-sm-12 align-items-center" style="margin-top: -0.8rem;">
+                                <div class="col-sm-4-mody">
+                                    <label style="font-size: 0.9rem; font-family: math; color: #00289f;"
+                                        class="col-form-label">
+                                        Follow:
+                                    </label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <span style="display: flex; margin-left: -8px; justify-content: space-between;">
+                                        <a href="https://www.facebook.com/Shariatsunny1014?mibextid=ZbWKwL" target="_blank">
+                                            <!--  -->
+                                            <i class='bx bxl-facebook-circle'
+                                                style="margin-top: 4px; font-size: 1.5rem; color: royalblue; background: #fff; border-radius: 12px;"></i>
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/shariatuzzaman-sunny-310446199" target="_blank">
+                                            <!--  -->
+                                            <i class='bx bxl-linkedin'
+                                                style="margin-top: 4px; width: 25px; height: 25px; font-size: 1.3rem; color: royalblue; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-align: center;"></i>
+                                        </a>
+                                        <a href="https://instagram.com/bokhatey?igshid=YTQwZjQ0NmI0OA==" target="_blank">
+                                            <!--  -->
+                                            <i class='bx bxl-instagram-alt'
+                                                style="margin-top: 4px; width: 25px; height: 25px; font-size: 1.3rem; color: rgb(240, 71, 155); background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-align: center;"></i>
+                                        </a>
+                                        <a href="https://twitter.com/ShariatSunny" target="_blank">
+                                            <!--  -->
+                                            <i class='bx bxl-twitter'
+                                                style="margin-top: 4px; width: 25px; height: 25px; font-size: 1.3rem; color: royalblue; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-align: center;"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <img alt="complaint search" src="assets/images/ni2.png"> -->
+            </div>
+            <!--  -->
+            <div class="login_Container">
+                <div class="left">
+                    <img class="login-poster" src="{% static 'images/login_poster/poster.png' %}" alt="">
+                </div>
+                <!--  -->
+                <div class="right">
+                    <h2>Login</h2>
+                    <form action="" method="" id="loginForm">
+                        <!-- username -->
+                        <div class="user-box">
+                            <input type="text" id="id_username" name="username" placeholder="Enter your User Name"
+                                autofocus autocapitalize="none" autocomplete="off" maxlength="150" required>
+                            <label for="id_username">Username</label>
+                            <i class="bx bx-user username_icon"></i>
+                        </div>
+                        <!-- password -->
+                        <div class="user-box">
+                            <input type="password" id="id_password" name="password" class="password"
+                                placeholder="Enter your Password" autocomplete="off" required>
+                            <label for="id_password">Password</label>
+                            <i class="bx bx-hide showHidePw username_icon"></i>
+                        </div>
+                        <!-- organization -->
+                        <div class="user-box">
+                            <select id="id_org_name" name="org_name" aria-label="Default select example">
+                                <option value="" hidden></option>
+                            </select>
+                            <label for="id_org_name">Organization</label>
+                        </div>
+                        <button type="submit"
+                            style="margin-top: 20px; background: none; border: 0; outline: 0; cursor: pointer;">
+                            <a>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Login
+                            </a>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="footer">
+            <p class="text-muted">Copyright &copy;Shariat Sunny 2023. All Rights Reserved. Software Versions: 1.0.0
+            </p>
+        </div>
+        <!-- Footer End -->
+    </div>
+    <script src="{% static 'logger_style/script.js' %}"></script>
+    <script>
+        // login with Ajax
+        $(document).ready(function() {
+            $('#loginForm').submit(function(e) {
+                e.preventDefault(); // Prevent default form submission
+                
+                // Additional JavaScript logic for organization name validation
+                var orgName = document.getElementById('id_org_name');
+                if (!orgName.value.trim()) {
+                    e.preventDefault(); // Prevent form submission
+                    toastr.warning('Organization Name Not Found.');
+                    return false;
+                }
+        
+                // Get form data
+                var formData = new FormData($(this)[0]);
+        
+                // Perform AJAX POST request
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'user_wise_login' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            window.location.href = "/accounts/profile/";
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        var typingTimer; // Timer identifier
+        var doneTypingInterval = 500; // Time in milliseconds, adjust as needed
+
+        $(document).ready(function() {
+            $('#id_username').on('input', function() {
+                clearTimeout(typingTimer);
+                if ($(this).val()) {
+                    typingTimer = setTimeout(fetchOrganizations, doneTypingInterval);
+                }
+            });
+
+            function fetchOrganizations() {
+                var username = $('#id_username').val();
+
+                // Fetch CSRF token
+                var csrftoken = getCookie('csrftoken');
+
+                // Make an AJAX request to fetch organization names based on the username
+                $.ajax({
+                    url: '/fetch_organizations_list/', // Replace with your endpoint to fetch organizations
+                    method: 'POST',
+                    data: {
+                        'username': username
+                    },
+                    dataType: 'json',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken); // Set CSRF token in headers
+                    },
+                    success: function(response) {
+                        var orgSelect = $('#id_org_name');
+                        orgSelect.empty(); // Clear previous options
+
+                        // Append fetched organizations as options to the select field
+                        if (response.organizations && response.organizations.length > 0) {
+                            $.each(response.organizations, function(index, organization) {
+                                orgSelect.append($('<option>', {
+                                    value: organization.org_id,
+                                    text: organization.org_name
+                                }));
+                            });
+                            // Adjust label position when adding options
+                            var $orgLabel = orgSelect.next('label');
+                            $orgLabel.css({ 'top': '-20px', 'left': '0', 'color': '#03e9f4', 'font-size': '12px' });
+                        } 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        // Handle error cases
+                    }
+                });
+            }
+        });
+
+
+        $(document).ready(function() {
+            var $orgName = $('#id_org_name');
+            var $orgLabel = $orgName.next('label');
+        
+            $orgName.focus(function() {
+                $orgLabel.css({ 'top': '-20px', 'left': '0', 'color': '#03e9f4', 'font-size': '12px' });
+            });
+        
+            $orgName.blur(function() {
+                if ($(this).val() === '') {
+                    $orgLabel.css({ 'top': '0px', 'color': '#d8d8d8', 'font-size': '0.85rem' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

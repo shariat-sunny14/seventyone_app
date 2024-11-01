@@ -1,0 +1,329 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'item_barcode_style/css/item_barcode.css' %}">
+<!--========== from type_category js file ==========-->
+<script src="{% static 'item_barcode_style/js/item_barcode.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <i class='bx bx-barcode text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">Item Wise Barcode Print</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <div class="card" style="margin-bottom: 0.5rem;">
+            <div class="card-body">
+                <div class="report-filter">
+                    <!-- Date Range Filter -->
+                    <div class="date-range">
+                        <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                            <div class="date_range-element" style="display:flex">
+                                <div class="row store_row" style="flex-grow: 1;">
+                                    <label for="id_batch_store" class="col-auto col-form-label">
+                                        Store Name:
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <select id="id_batch_store" name="batch_store"
+                                            class="form-select store_Selectbox" aria-label="Default select example"
+                                            required>
+                                            {% for store in store_data %}
+                                            <option id="{{store.store_id}}" value="{{store.store_id}}">
+                                                {{store.store_name}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div class="row store_row" style="flex-grow: 2;">
+                                    <label for="id_item_batch" class="col-auto col-form-label">
+                                        Batch Name:
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <select id="id_item_batch" name="item_batch" class="form-select store_Selectbox"
+                                            aria-label="Default select example" required>
+                                            {% for batch in stock_batch %}
+                                            <option id="{{batch.stock_id}}" value="{{batch.item_batch}}">
+                                                {{batch.item_batch}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--  -->
+                                <div class="row g-3 align-items-center" style="flex-grow: 0;">
+                                    <div class="col-auto">
+                                        <button id="allBarcodePrint" class="btn btn-success invBtn btn-xs text-white"
+                                            style="display: flex; margin-right: 0.5rem; justify-content: center; align-items: center; text-align: center;">
+                                            <i class='bx bx-printer printIcon text-white'
+                                                style="margin-right: 0.5rem;"></i>
+                                            All Print
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <!-- containt start -->
+    <section>
+        <div class="card">
+            <div class="card-body" style="padding: 0.2rem 0.2rem;">
+                <div class="col-xl-12">
+                    <tr>
+                        <th colspan="4" style="text-align:center; background: #fff !important;">
+                            <input type="text" id="id_search_item_bw" name="search_item_bw"
+                                class="form-control search_control item_inputbox"
+                                style="margin-bottom: 0.3rem; background:#fffab6;" placeholder="Searching ..."
+                                autocomplete="off">
+                        </th>
+                    </tr>
+                    <div class="table-body" style="border: 1px solid #3da9b8;">
+                        <table id="stock_batchTB" class="table table-striped" style="width: 100%;">
+                            <thead class="text-center table-header">
+                                <tr style="border-style: hidden!important;">
+                                    <th style="text-align:center; width: 3%;">SL</th>
+                                    <th style="text-align:center; width: 6%;">Item No</th>
+                                    <th style="text-align:center; width: 23%;">Item Name</th>
+                                    <th style="text-align:center; width: 6%;">Type</th>
+                                    <th style="text-align:center; width: 6%;">UoM</th>
+                                    <th style="text-align:center; width: 10%;">Batch</th>
+                                    <th style="text-align:center; width: 10%;">Supplier</th>
+                                    <th style="text-align:center; width: 10%;">Manufacturer</th>
+                                    <th style="text-align:center; width: 10%;">Store Name</th>
+                                    <th style="text-align:center; width: 8%;">Status</th>
+                                    <th style="text-align:center; width: 4%;">
+                                        <input type="checkbox" value="" name="select_all" id="select_all"
+                                            class="form-check-input select_checkbox">
+                                    </th>
+                                    <th style="text-align:center; width: 10%;">Option</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body-row">
+                                <!--  -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- containt end  -->
+    <script>
+        $(document).ready(function () {
+            // When select_all checkbox is clicked
+            $('#select_all').click(function () {
+                // Check or uncheck all item_select checkboxes based on select_all's state
+                $('input[name="item_select"]').prop('checked', this.checked);
+            });
+
+            // When any item_select checkbox is clicked
+            $('input[name="item_select"]').click(function () {
+                // If all item_select checkboxes are checked, check the select_all checkbox; otherwise, uncheck it
+                if ($('input[name="item_select"]:checked').length === $('input[name="item_select"]').length) {
+                    $('#select_all').prop('checked', true);
+                } else {
+                    $('#select_all').prop('checked', false);
+                }
+            });
+        });
+
+
+
+        //<!--  -->
+
+        // Function to fetch and populate table data based on selected store_id
+        const fetchBatchTableData = function (selectedBatchStoreId, selectedBatchId, itemBatchWsearchQuery) {
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get_item_wise_barcode/',
+                    data: {
+                        store_id: selectedBatchStoreId,
+                        item_batch: selectedBatchId,
+                        search_item_bw: itemBatchWsearchQuery
+                    },
+                    success: function (response) {
+                        if (response && response.data) {
+                            const stockBatchData = response.data;
+                            stockBatchData.sort((a, b) => a.total_stockQty - b.total_stockQty);
+                            $('#stock_batchTB tbody').empty();
+                            stockBatchData.forEach(function (data, index) {
+
+                                const statusText = data.status ? 'Printed' : 'Not Print';
+                                const statusBackground = data.status ? 'green' : 'red';
+
+                                $('#stock_batchTB tbody').append(`
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            ${index + 1}
+                                            <input type="number" name="stock_id[]" value="${data.stock_id}" style="display: none;">
+                                        </td>
+                                        <td style="text-align:center;">
+                                            ${data.item_no}
+                                            <input type="number" name="item_id[]" value="${data.item_id}" style="display: none;">
+                                        </td>
+                                        <td style="text-align:left;">
+                                            ${data.item_name}
+                                            <input type="text" name="item_name[]" id="item_name" value="${data.item_name}" style="display: none;">
+                                        </td>
+                                        <td style="text-align:center;">${data.item_type}</td>
+                                        <td style="text-align:center;">${data.item_uom}</td>
+                                        <td style="text-align:center;">${data.item_batch}</td>
+                                        <td style="text-align:center;">${data.item_Supplier}</td>
+                                        <td style="text-align:center;">${data.item_Manufacturer}</td>
+                                        <td style="text-align:center;">
+                                            ${data.store_name}
+                                            <input type="number" name="store_id[]" value="${data.store_id}" style="display: none;">
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <span class="barcode_status" style="background: ${statusBackground};">${statusText}</span>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <input type="checkbox" value="" name="item_select[]" id="item_select" data-checked_id="${data.stock_id}"
+                                                class="form-check-input">
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <button type="button"
+                                                class="btn btn-success printBtn table-row-btn btn-xs text-white view-data"
+                                                data-stock_id="${data.stock_id}">
+                                                <i class='bx bx-printer printIcon text-white'></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }, 100);
+        };
+
+        $(document).ready(function () {
+            $('#id_search_item_bw').on('input', function () {
+                const itemBatchWsearchQuery = $(this).val().trim();
+                const selectedBatchStoreId = $('#id_batch_store').val();
+                const selectedBatchId = $('#id_item_batch').val();
+                fetchBatchTableData(selectedBatchStoreId, selectedBatchId, itemBatchWsearchQuery);
+            });
+
+            $('#id_batch_store, #id_item_batch').change(function () {
+                const selectedBatchStoreId = $('#id_batch_store').val();
+                const selectedBatchId = $('#id_item_batch').val();
+                const itemBatchWsearchQuery = $('#id_search_item_bw').val().trim();
+                fetchBatchTableData(selectedBatchStoreId, selectedBatchId, itemBatchWsearchQuery);
+            });
+
+            // Initial fetch based on default values or stored value
+            const defaultStoreId = $('#id_batch_store').val();
+            const defaultBatchId = $('#id_item_batch').val();
+            fetchBatchTableData(defaultStoreId, defaultBatchId);
+        });
+
+        $(document).on('click', '.printBtn', function () {
+            console.log("Button Clicked");
+        
+            var stockId = $(this).data('stock_id');
+            const item_name = $('#item_name').val();
+            
+            // Make an AJAX call to trigger the barcode printing
+            $.ajax({
+                url: '/print_item_barcode/',
+                method: 'POST',
+                data: {
+                    item_name: item_name,  // Assuming 'item_name' is the expected parameter in the Django view
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                    // Include other data if needed
+                },
+                success: function (response) {
+                    console.log("Success:", response);
+                    // Handle the response or display the PDF
+                    // For example, you can prompt the user to download the generated PDF
+                    var blob = new Blob([response], { type: 'application/pdf' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'report.pdf';
+                    link.click();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</main>
+{% endblock %}
+
+<!-- <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+//barcode
+        $(document).on('click', '.printBtn', function() {
+            const row = $(this).closest('tr');
+            const itemName = row.find('td:nth-child(3)').text(); // Extract item name from the table row
+        
+            if (itemName) {
+                const canvas = document.createElement('canvas');
+                // Set the canvas size based on the print resolution and paper size
+                canvas.width = 203 * 82; // Assuming 203 DPI and 82mm width
+        
+                try {
+                    JsBarcode(canvas, itemName, { format: "CODE128" }); // Generate the barcode using JsBarcode library, specify the format if needed
+        
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write('<html><head><title>Barcode</title></head><body style="margin: 0; padding: 0;">');
+                    printWindow.document.write('<img src="' + canvas.toDataURL() + '">'); // Write the canvas image to the new tab
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+        
+                    // After the content is written, initiate printing (you might need to trigger it with user interaction due to browser security)
+                    printWindow.print();
+                } catch (error) {
+                    console.error('Error generating barcode:', error);
+                }
+            } else {
+                console.error('Item name not found');
+            }
+        });
+        
+        // Function to generate SVG barcode from item name
+        function generateBarcode(itemName) {
+            try {
+                // Create a temporary element to generate the barcode
+                const tempElement = document.createElement('div');
+                JsBarcode(tempElement, itemName); // Generate the barcode using JsBarcode library
+        
+                // Extract the SVG content from the temporary element
+                const svgBarcode = tempElement.querySelector('svg');
+                if (svgBarcode) {
+                    return svgBarcode.outerHTML;
+                } else {
+                    console.error('Failed to generate barcode');
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error generating barcode:', error);
+                return null;
+            }
+        } -->

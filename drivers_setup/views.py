@@ -133,23 +133,22 @@ def addUpdateDriversAPI(request):
     data = request.POST
     driver_id = data.get('driver_id')
     org_id = data.get('org_id')
-    branch_id = data.get('branch_id')
 
     country = data.get('country')
     division = data.get('division')
     district = data.get('district')
     upazila = data.get('upazila')
+    email = data.get('email')
 
 
     try:
         with transaction.atomic():
             organization_instance = organizationlst.objects.get(org_id=org_id)
-            branch_instance = branchslist.objects.get(branch_id=branch_id)
 
-            country_instance = lookup_values.objects.get(lookup_id=country)
-            division_instance = lookup_values.objects.get(lookup_id=division)
-            district_instance = lookup_values.objects.get(lookup_id=district)
-            upazila_instance = lookup_values.objects.get(lookup_id=upazila)
+            country_instance = lookup_values.objects.get(lookup_id=country) if country else None
+            division_instance = lookup_values.objects.get(lookup_id=division) if division else None
+            district_instance = lookup_values.objects.get(lookup_id=district) if district else None
+            upazila_instance = lookup_values.objects.get(lookup_id=upazila) if upazila else None
 
             # Check if driver_id is provided for an update or add operation
             if driver_id and driver_id.isnumeric() and int(driver_id) > 0:
@@ -181,13 +180,12 @@ def addUpdateDriversAPI(request):
             driver_data.driver_no = data.get('driver_no')
             driver_data.driver_name = data.get('driver_name')
             driver_data.org_id = organization_instance
-            driver_data.branch_id = branch_instance
             driver_data.is_active = data.get('is_active', 0)
             driver_data.country = country_instance
             driver_data.division = division_instance
             driver_data.district = district_instance
             driver_data.upazila = upazila_instance
-            driver_data.email = data.get('email')
+            driver_data.email = email
             driver_data.fax = data.get('fax')
             driver_data.website = data.get('website')
             driver_data.hotline = data.get('hotline')
@@ -238,18 +236,16 @@ def addUpdateDriversAPI(request):
 def getDriversOptionsAPI(request):
     if request.method == 'GET':
         id_org = request.GET.get('id_org')
-        id_branch = request.GET.get('id_branch')
 
-        if not id_org or not id_branch:
+        if not id_org:
             return JsonResponse({'error': 'Missing organization or branch ID'}, status=400)
 
         try:
             org_instance = organizationlst.objects.get(pk=id_org)
-            branch_instance = branchslist.objects.get(pk=id_branch)
         except (organizationlst.DoesNotExist, branchslist.DoesNotExist):
             return JsonResponse({'error': 'Invalid organization or branch ID'}, status=404)
 
-        driver_options = drivers_list.objects.filter(is_active=True, org_id=org_instance, branch_id=branch_instance).values('driver_id', 'driver_name')
+        driver_options = drivers_list.objects.filter(is_active=True, org_id=org_instance).values('driver_id', 'driver_name')
         
         return JsonResponse({'drivers_list': list(driver_options)})
 
@@ -264,7 +260,6 @@ def getDriversListsAPI(request):
     # Retrieve filter parameters from the frontend
     is_active = request.GET.get('is_active', None)
     org_id = request.GET.get('org_id', None)
-    branch_id = request.GET.get('branch_id', None)
 
     # Create an empty filter dictionary to store dynamic filter conditions
     filter_conditions = {}
@@ -275,9 +270,6 @@ def getDriversListsAPI(request):
 
     if org_id is not None:
         filter_conditions['org_id'] = org_id
-
-    if branch_id is not None:
-        filter_conditions['branch_id'] = branch_id
 
     # Apply dynamic filters to driverlst
     driver_data = driverlst.filter(**filter_conditions).all()
@@ -306,3 +298,50 @@ def getDriversListsAPI(request):
 
     # Return the filtered data as JSON
     return JsonResponse({'driverlist_val': driverData})
+
+
+@login_required()
+def searchDriversManagerAPI(request):
+    data = []
+
+    org_id_wise_filter = request.GET.get('org_filter', '')
+
+    # Initialize an empty Q object for dynamic filters
+    filter_kwargs = Q()
+
+    # Add org_id filter condition only if org_id_wise_filter is not empty
+    if org_id_wise_filter:
+        filter_kwargs &= Q(org_id=org_id_wise_filter)
+
+    driver_data = drivers_list.objects.filter(is_active=True).filter(filter_kwargs)
+
+    for driver in driver_data:
+        data.append({
+            'driver_id': driver.driver_id,
+            'driver_name': driver.driver_name,
+        })
+
+    return JsonResponse({'data': data})
+
+
+@login_required()
+def selectDriversDetailsManagerAPI(request):
+    if request.method == 'GET' and 'selectedDriver' in request.GET:
+        selected_driver = request.GET.get('selectedDriver')
+
+        try:
+            driverDtls = drivers_list.objects.get(driver_id=selected_driver)
+
+            drivers_details = []
+
+            drivers_details.append({
+                'driver_id': driverDtls.driver_id,
+                'driver_name': driverDtls.driver_name,
+                'phone': driverDtls.phone if driverDtls.phone else '',
+            })
+
+            return JsonResponse({'data': drivers_details})
+        except drivers_list.DoesNotExist:
+            return JsonResponse({'error': 'drivers list not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)

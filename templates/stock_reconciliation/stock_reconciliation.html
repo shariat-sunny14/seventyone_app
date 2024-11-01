@@ -1,0 +1,1039 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'stock_reconciliation/css/stock_reconciliation.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #574597;">
+                <!-- Main Heading -->
+                <div class="row"
+                    style="display: flex; justify-content: center; text-align: center; align-items: center;">
+                    <div class="col col-md-4 col-md-6 dashboar-head">
+                        <div class="d-sm-flex align-items-center mb-2" style="margin-left: 0.5rem;">
+                            <i class='bx bxs-book-content text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Stock Reconciliation</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- containt start -->
+            <section>
+                <div class="row row_item_setup" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center;">
+                    <div class="col-sm-4">
+                        <div class="card main-card">
+                            <div class="card-body card-body_item_setup">
+                                <div class="itemfilter_container">
+                                    <div class="filter_head">
+                                        <h2 class="text-warning">Filtering</h2>
+                                    </div>
+                                    <!--  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body card-body_item_setup"
+                                                    style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);">
+                                                    <div class="form-check form-check-inline inline_item">
+                                                        <input class="form-check-input radio1" type="radio"
+                                                            name="option" value="1" id="allList" checked>
+                                                        <label class="form-check-label" for="allList">All</label>
+                                                    </div>
+                                                    <div class=" form-check form-check-inline inline_item">
+                                                        <input class="form-check-input radio2" type="radio"
+                                                            name="option" value="true" id="activeList">
+                                                        <label class="form-check-label" for="activeList">Approved</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline inline_item">
+                                                        <input class="form-check-input radio3" type="radio"
+                                                            name="option" value="false" id="inactiveList">
+                                                        <label class="form-check-label"
+                                                            for="inactiveList">Pending</label>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="form-check form-check-inline"
+                                                        style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                                        <a onClick="navigateTo('/stock_reconciliation_service/')"
+                                                            class="btn btn-danger text-white btn-xs item_del_btn">
+                                                            Clear
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="container col-sm-12" style="margin-top: 1rem;">
+                                                    <div class="row org-filterRow">
+                                                        <label for="id_org_filter"
+                                                            class="col-org_filter col-form-label font_size_filter">
+                                                            Org Name:
+                                                        </label>
+                                                        <div class="org_bran_selectbox">
+                                                            <select id="id_org_filter" name="org_filter"
+                                                                class="form-select item_inputbox"
+                                                                aria-label="Default select example">
+                                                                {% for org in org_list %}
+                                                                <option value="{{org.org_id}}">
+                                                                    {{ org.org_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="container col-sm-12">
+                                                    <div class="row org-filterRow">
+                                                        <label for="id_branchs_filter"
+                                                            class="col-org_filter col-form-label font_size_filter">
+                                                            Branchs:
+                                                        </label>
+                                                        <div class="org_bran_selectbox">
+                                                            <select id="id_branchs_filter" name="branchs_filter" class="form-control item_inputbox">
+                                                                <!-- branch List -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="container col-sm-12">
+                                                    <div class="row org-filterRow">
+                                                        <label for="id_store_filter"
+                                                            class="col-org_filter col-form-label font_size_filter">
+                                                            Store:
+                                                        </label>
+                                                        <div class="org_bran_selectbox">
+                                                            <select id="id_store_filter" name="store_filter"
+                                                                class="form-select item_inputbox"
+                                                                aria-label="Default select example">
+                                                                <!--  -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="container col-sm-12">
+                                                    <div class="row org-filterRow">
+                                                        <label for="id_from_date"
+                                                            class="col-org_filter col-form-label font_size_filter">
+                                                            From Date:
+                                                        </label>
+                                                        <div class="org_bran_selectbox">
+                                                            <input type="text" id="id_from_date" name="from_date" class="form-control item_inputbox datepicker">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="container col-sm-12" style="margin-bottom: 1rem;">
+                                                    <div class="row org-filterRow">
+                                                        <label for="id_to_date" class="col-org_filter col-form-label font_size_filter">
+                                                            To Date:
+                                                        </label>
+                                                        <div class="org_bran_selectbox">
+                                                            <input type="text" id="id_to_date" name="to_date" class="form-control item_inputbox datepicker">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="card main-card">
+                            <div class="card-body card-body_item_setup">
+                                <div class="itemfilter_container">
+                                    <div class="filter_head">
+                                        <h2 class="text-success">List of Transaction</h2>
+                                    </div>
+                                    <!--  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body card-body_item_setup">
+                                                    <!--  -->
+                                                    <div class="item-table">
+                                                        <table id="listOfTrans" class="table table-striped table-hover"
+                                                            style="width: 100%;">
+                                                            <thead class="text-center table-header_itemlist">
+                                                                <tr>
+                                                                    <th colspan="3"
+                                                                        style="text-align:center; width: 75%;">
+                                                                        Transaction No
+                                                                    </th>
+                                                                    <th class="fixed-column"
+                                                                        style="text-align:center; width: 25%;">
+                                                                        Status
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="4"
+                                                                        style="text-align:center; background: #fff !important;">
+                                                                        <input type="search" id="searchInput"
+                                                                            class="form-control search_control item_inputbox"
+                                                                            style="margin-left: 4px; background:#fffab6;"
+                                                                            placeholder="Searching ..."
+                                                                            autocomplete="off">
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="filter_body" class="table-body-row"
+                                                                style="text-align:center; cursor: pointer;">
+                                                                <!-- load ajax value -->
+                                                            </tbody>
+                                                            <!-- loader start -->
+                                                            <!-- <section class="loader-section">
+                                                            <div class="loader-body">
+                                                                <div class="loader">
+                                                                    <div class="upper ball"></div>
+                                                                    <div class="right ball"></div>
+                                                                    <div class="lower ball"></div>
+                                                                    <div class="left ball"></div>
+                                                                </div>
+                                                            </div>
+                                                        </section> -->
+                                                            <!-- loader end -->
+                                                        </table>
+
+                                                    </div>
+                                                    <!--  -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item set up main entry form -->
+                    <div class="col-sm-8">
+                        <div class="card main-card">
+                            <div class="card-body card-body_item_setup">
+                                <form action="" method="" id="recon_form">
+                                    <input type="hidden" id="id_recon_id" name="recon_id" value="">
+                                    <div class="itemsetup_container">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-primary">Transaction Information</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body card-body_item_setup">
+                                                        <div class="transaction-panel">
+                                                            <!--  -->
+                                                            <div class="col-md-12"
+                                                                style="display: flex; flex-direction: row; margin-bottom: 0.3rem; flex-wrap: nowrap; align-items: center; justify-content: space-between;">
+                                                                <div class="col-md-4-mody">
+                                                                    <select id="id_org_select" name="org_select"
+                                                                        class="form-control item_inputbox">
+                                                                        {% for org in org_list %}
+                                                                        <option value="{{org.org_id}}">
+                                                                            {{ org.org_name }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4-mody">
+                                                                    <select id="id_branchs" name="branchs"
+                                                                        class="form-control item_inputbox">
+                                                                        <!-- branch List -->
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4-mody">
+                                                                    <div class="row cash_point_row"
+                                                                        style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;">
+                                                                        <label for="id_is_approved"
+                                                                            class="col-sm-10 col-form-label font_size_filter">
+                                                                            Approve Approval:
+                                                                        </label>
+                                                                        <div class="col-sm-2">
+                                                                            <input type="checkbox" value="1"
+                                                                                id="id_is_approved" name="is_approved"
+                                                                                class="form-check-input checkbox_manual"
+                                                                                style="margin-top: 0rem; height: 1.5rem; width: 1.5rem;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--  -->
+                                                            <div class="col-md-12"
+                                                                style="display: flex; flex-direction: row; margin-bottom: 0.3rem; flex-wrap: nowrap; align-items: center; justify-content: space-between;">
+                                                                <div class="col-md-4-mody">
+                                                                    <input type="text" id="id_recon_no" name="recon_no" class="form-control item_inputbox" readonly>
+                                                                </div>
+                                                                <div class="col-md-4-mody">
+                                                                    <select id="id_store_value" name="store_value"
+                                                                        class="form-control item_inputbox">
+                                                                        <!-- store option -->
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4-mody">
+                                                                    <select id="id_recon_type" name="recon_type" class="form-control item_inputbox" required>
+                                                                        <option value="" selected disabled>Select Reconciliation Type</option>
+                                                                        <option value="1">Add Reconciliation</option>
+                                                                        <option value="2">Subtract Reconciliation</option>
+                                                                        <option value="3">Damaged Reconciliation</option>
+                                                                        <option value="4">Expiry Stock Out Reconciliation</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--  -->
+                                                            <div class="col-md-12"
+                                                                style="display: flex; flex-direction: row; margin-bottom: 1rem; flex-wrap: nowrap; align-items: center; justify-content: space-between;">
+                                                                <div class="col-md-12">
+                                                                    <textarea type="text" id="id_description"
+                                                                        name="description"
+                                                                        class="form-control item_inputbox"
+                                                                        placeholder="Description"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <!--  -->
+                                                        </div>
+
+                                                        <div class="submitBtn"
+                                                            style="display: flex; justify-content: flex-end; gap: 0.5rem; flex-wrap: wrap; align-items: center; background: #ddd; padding: 8px; border-radius: 0.25rem;">
+                                                            <button type="button"
+                                                                onClick="navigateTo('/stock_reconciliation_service/')"
+                                                                class="btn text-white bg-primary btn-xs addNewBtn"
+                                                                style="padding: 3px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.85rem;">
+                                                                + New
+                                                            </button>
+                                                            <button type="submit" id="addsubmit"
+                                                                class="btn text-white bg-success btn-xs saveBtn"
+                                                                style="padding: 3px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.85rem;">
+                                                                Save
+                                                            </button>
+                                                            <button type="submit" id="approvesubmit"
+                                                                class="btn text-white bg-warning btn-xs approveBtn"
+                                                                style="padding: 3px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.85rem;">
+                                                                Approve
+                                                            </button>
+                                                        </div>
+                                                        <!--  -->
+                                                        <section style="margin-top: 1rem;">
+                                                            <div class="col-xl-12">
+                                                                <div class="table-body item_table_body">
+                                                                    <div class="d-flex w-100" id="transField" style="border: 1px solid #85acb1;">
+                                                                        <table class="table table-striped" style="width: 100%;">
+                                                                            <thead
+                                                                                class="text-center table-header_itemlist">
+                                                                                <tr
+                                                                                    style="border-style: hidden!important;">
+                                                                                    <th
+                                                                                        style="text-align:center; width: 5%;">
+                                                                                        Sl</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 6%;">
+                                                                                        Item No</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 22%;">
+                                                                                        Item Name</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 8%;">
+                                                                                        Type</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 15%;">
+                                                                                        Supplier</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 8%;">
+                                                                                        Stock</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 8%;">
+                                                                                        U. Price</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 10%;">
+                                                                                        Qty</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 10%;">
+                                                                                        Total</th>
+                                                                                    <th
+                                                                                        style="text-align:center; width: 5%;">
+                                                                                        opt.
+                                                                                    </th>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th colspan="10"
+                                                                                        style="text-align:center; background: #fff !important; padding: 6px;">
+                                                                                        <input type="search"
+                                                                                            id="reconItemSearch"
+                                                                                            value=""
+                                                                                            style="background: #ffdbaf;"
+                                                                                            placeholder="Add Items ..."
+                                                                                            class="form-control recon_item item_search_field item_inputbox"
+                                                                                            autocomplete="off">
+                                                                                    </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="transTB" style="font-size: 0.7rem;">
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<!--  -->
+<script>
+    $(document).ready(function() {
+        $('#id_is_approved').change(function() {
+            if ($(this).is(':checked')) {
+                $('#addsubmit').prop('disabled', true);
+            } else {
+                $('#addsubmit').prop('disabled', false);
+            }
+        });
+    });
+    //
+    $(document).ready(function() {
+        let isFetchingDetails = false;  // Flag to prevent multiple API calls
+        let debounceTimer;
+    
+        function fetchReconciliationItems() {
+            var option = $("input[name='option']:checked").val();
+            var search_query = $("#searchInput").val();
+            var org_filter = $("#id_org_filter").val();
+            var branchs_filter = $("#id_branchs_filter").val();
+            var store_filter = $("#id_store_filter").val();
+            var from_date = $("#id_from_date").val();
+            var to_date = $("#id_to_date").val();
+    
+            $.ajax({
+                url: '/get_reconciliation_list/',  // Replace with your actual API URL
+                type: 'GET',
+                data: {
+                    option: option,
+                    search_query: search_query,
+                    org_filter: org_filter,
+                    branchs_filter: branchs_filter,
+                    store_filter: store_filter,
+                    from_date: from_date,
+                    to_date: to_date,
+                },
+                success: function(response) {
+                    console.log('Fetched Data:', response.data); // Log the response data
+                    populateTable(response.data);
+                    handleRowSelection();  // Call this function after the table is populated
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+    
+        function populateTable(data) {
+            var tbody = $("#filter_body");
+            tbody.empty();  // Clear existing rows
+        
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(function(item) {
+                    var isApprovedText = item.is_approved ? 'Approved' : 'Pending';
+                    var rowClass = item.is_approved ? 'approved-item' : ''; // Add a class for approved items
+            
+                    var row = `<tr class="item_editBtn ${rowClass}" data-item-id="${item.recon_id}">
+                                <td colspan="3" style="text-align: left;"><span style="margin-left: 1rem;">${item.recon_no} (${item.recon_date})</span></td>
+                                <td>${isApprovedText}</td>
+                               </tr>`;
+                    tbody.append(row);
+                });
+            } else {
+                tbody.append('<tr><td colspan="4">No data available</td></tr>');
+            }
+        }
+        
+        function handleRowSelection() {
+            // Check if there is a selected item ID in local storage and highlight the row
+            var selectedItemID = localStorage.getItem("selectedItemID");
+            if (selectedItemID) {
+                $(".item_editBtn").removeClass("selected-row");
+                $(".item_editBtn[data-item-id='" + selectedItemID + "']").addClass("selected-row");
+            }
+        
+            // Add an event listener to the item rows
+            $(document).off("click", ".item_editBtn").on("click", ".item_editBtn", function () {
+                var clickedItemID = $(this).data("item-id");
+                $(".item_editBtn").removeClass("selected-row");
+                $(this).addClass("selected-row");
+        
+                // Save the selected item ID to local storage
+                localStorage.setItem("selectedItemID", clickedItemID);
+        
+                // Fetch item details based on recon_id (clickedItemID)
+                if (!isFetchingDetails) {
+                    isFetchingDetails = true;
+                    fetchItemDetails(clickedItemID);
+                }
+        
+                // Check if the clicked item is approved and disable inputs/buttons if so
+                if ($(this).hasClass('approved-item')) {
+                    disableApprovalElements(true);
+                } else {
+                    disableApprovalElements(false);
+                }
+            });
+        }
+        
+        function disableApprovalElements(disable) {
+            $('#id_is_approved').prop('disabled', disable);
+            $('#addsubmit').prop('disabled', disable);
+            $('#approvesubmit').prop('disabled', disable);
+            $('#reconItemSearch').prop('disabled', disable);
+        
+            // Disable each .itemAdd_del_btn button individually
+            $('.itemAdd_del_btn').each(function() {
+                $(this).prop('disabled', disable);
+            });
+        }
+    
+        // Debounced function for fetching reconciliation items
+        function debouncedFetchReconciliationItems() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(fetchReconciliationItems, 300); // Adjust debounce delay as needed
+        }
+    
+        // Initial fetch
+        fetchReconciliationItems();
+    
+        // Bind events
+        $("input[name='option'], #searchInput, #id_org_filter, #id_branchs_filter, #id_store_filter, #id_from_date, #id_to_date").on('change keyup', function() {
+            debouncedFetchReconciliationItems();
+        });
+    
+        // Ensure row selection persists on page load
+        handleRowSelection();
+    
+        function fetchItemDetails(recon_id) {
+            var orgFilter = $('#id_org_filter').val();
+            var storeFilter = $('#id_store_filter').val();
+    
+            $.ajax({
+                url: '/show_reconciliation_details/',  // Replace with your actual API URL for fetching item details
+                type: 'GET',
+                data: {
+                    recon_id: recon_id,
+                    org_id: orgFilter,
+                    store_id: storeFilter,
+                },
+                success: function(response) {
+                    if (response.items) {
+                        // Populate the form fields
+                        $('#id_recon_id').val(recon_id);
+                        $('#id_org_select').val(response.org_id).trigger('change');  // Assuming the response contains org_id
+                        $('#id_branchs').val(response.branch_id).trigger('change');  // Assuming the response contains branch_id
+                        $('#id_is_approved').prop('checked', response.is_approved);  // Assuming the response contains is_approved
+                        $('#id_recon_no').val(response.recon_no);  // Assuming the response contains recon_no
+                        $('#id_store_value').val(response.store_id);  // Assuming the response contains store_id
+                        $('#id_recon_type').val(response.recon_type);  // Assuming the response contains recon_type
+                        $('#id_description').val(response.description);  // Assuming the response contains description
+    
+                        // Populate the item list table
+                        $('#transField table tbody').empty(); // Clear existing rows
+                        response.items.forEach(function(item) {
+                            addItemToTable(item);
+                        });
+                    } else {
+                        console.error('No items found');
+                    }
+                    isFetchingDetails = false; // Reset flag after successful fetch
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching item details:', error);
+                    isFetchingDetails = false; // Reset flag on error
+                }
+            });
+        }
+    
+        function addItemToTable(item) {
+            var tr = $('<tr style="border-style: hidden!important;"></tr>');
+            tr.attr('data-item-name', item.item_name); // Store the item name in a data attribute
+    
+            // Add the row's content
+            tr.append('<td style="text-align:center;">&nbsp;</td>');
+            tr.append('<td style="text-align:center;">' + item.item_no +
+                      '<input type="hidden" value="' + item.item_no + '" class="inputbox_tdrow" name="item_no[]" readonly>' +
+                      '<input type="hidden" value="' + item.item_id + '" class="inputbox_tdrow multiple_input" name="item_id[]" readonly>' +
+                      '<input type="hidden" value="' + item.item_name + '" class="inputbox_tdrow multiple_input" name="item_names[]" readonly></td>');
+            tr.append('<td style="position: relative; text-align: left;" class="posItemsName_id">' + item.item_name + '</td>');
+            tr.append('<td style="text-align:center;">' + item.item_type + 
+                      '<input type="hidden" value="' + item.item_type + '" class="inputbox_tdrow" name="item_type[]" readonly></td>');
+            tr.append('<td style="text-align:center;">' + item.item_Supplier + 
+                      '<input type="hidden" value="' + item.item_Supplier + '" class="inputbox_tdrow" name="item_store_name[]" readonly></td>');
+            tr.append('<td style="text-align:center;">' + item.stock_qty + '</td>');
+            tr.append('<td style="text-align:center;" id="SpriceInput"><input type="number" value="' + item.item_price + 
+                      '" class="form-control text-center pos_salesDisInput item_sales_price" min="0" ' +
+                      'name="item_price[]" autocomplete="off" style="width: 95%;" required></td>');
+            tr.append('<td style="text-align:center;" id="mulInputQty"><input type="number" value="' + item.recon_qty + 
+                      '" class="form-control text-center qty1 pos_salesDisInput" id="recon_stockQty" name="recon_stockQty[]" ' +
+                      'min="1" autocomplete="off" style="width: 95%;"></td>');
+            tr.append('<td style="text-align:center;" class="product_total">0</td>');
+            tr.append('<td style="text-align:center;"><button type="button" class="btn btn-danger text-white btn-xs itemAdd_del_btn delete-button" data-recon_dtl_id="' + item.recondtl_id + '">X</button></td>');
+    
+            // Append the new row to the table
+            $('#transField table tbody').append(tr);
+    
+            // Optionally calculate the total when the row is added
+            calculateTotal(tr);
+    
+            // Attach event listeners to the item price and quantity inputs
+            tr.find('input[name="item_price[]"], input[name="recon_stockQty[]"]').on('input', function() {
+                // Condition to prevent calculation if needed
+                var shouldCalculate = true; // Adjust this condition based on your logic
+    
+                if (shouldCalculate) {
+                    calculateTotal(tr);
+                } else {
+                    // You can add any action if you want something specific to happen when calculation is skipped
+                    console.log('Calculation prevented');
+                }
+            });
+
+            // Disable .itemAdd_del_btn if needed
+            if ($('#id_is_approved').prop('checked')) {
+                tr.find('.itemAdd_del_btn').prop('disabled', true);
+            }
+        }
+    
+        // Function to calculate the total
+        function calculateTotal(tr) {
+            var price = parseFloat(tr.find('input[name="item_price[]"]').val()) || 0;
+            var quantity = parseFloat(tr.find('input[name="recon_stockQty[]"]').val()) || 0;
+            var total = price * quantity;
+    
+            tr.find('.product_total').text(total.toFixed(0)); // Update the total field
+        }
+    });
+
+    //
+    $(document).ready(function() {
+        // Get today's date
+        var today = new Date();
+        var day = String(today.getDate()).padStart(2, '0');
+        var month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
+        var year = today.getFullYear();
+    
+        // Format the date as YYYY-MM-DD
+        var formattedDate = year + '-' + month + '-' + day;
+    
+        // Set the value of the to_date input field to today's date
+        $('#id_to_date').val(formattedDate);
+    
+        // Calculate the date 2 months prior
+        var twoMonthsAgo = new Date();
+        twoMonthsAgo.setMonth(today.getMonth() - 2);
+    
+        var dayTwoMonthsAgo = String(twoMonthsAgo.getDate()).padStart(2, '0');
+        var monthTwoMonthsAgo = String(twoMonthsAgo.getMonth() + 1).padStart(2, '0'); // January is 0
+        var yearTwoMonthsAgo = twoMonthsAgo.getFullYear();
+    
+        // Format the date 2 months prior as YYYY-MM-DD
+        var formattedTwoMonthsAgo = yearTwoMonthsAgo + '-' + monthTwoMonthsAgo + '-' + dayTwoMonthsAgo;
+    
+        // Set the value of the from_date input field to the date 2 months prior
+        $('#id_from_date').val(formattedTwoMonthsAgo);
+    });
+
+    // ajax submit
+    $(function () {
+
+        $('#addsubmit').click(function () {
+            if ($('#transField table tbody tr').length <= 0) {
+                toastr.warning("Add atleast 1 product first!..")
+                return false;
+            }
+        })
+
+        $('#recon_form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save_reconciliation' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg)
+                        location.reload()
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            })
+        })
+    })
+    //
+    $(document).ready(function () {
+        $('.approveBtn').on('click', function (e) {
+            // Check if the checkbox is not checked
+            if (!$('#id_is_approved').is(':checked')) {
+                // Prevent the form from submitting
+                e.preventDefault();
+    
+                // Show an alert message
+                toastr.info('Please approve by checking the approval box before proceeding.');
+            } else {
+                // Proceed with form submission if the checkbox is checked
+                if ($('#transField table tbody tr').length <= 0) {
+                    e.preventDefault(); // Prevent the form from submitting if no products are added
+                    toastr.warning("Add at least 1 product first!");
+                } else {
+                    $('#approvesubmit').trigger('click'); // Trigger the form submission
+                }
+            }
+        });
+    });
+
+    //
+    $(document).ready(function () {
+
+        // Define a function to clear and focus the input field
+        function clearAndFocusInput() {
+            $('#reconItemSearch').val('').focus();
+            $('#reconItemSearch').trigger('input');
+        }
+
+        $('#reconItemSearch').typeahead({
+            source: function (query, result) {
+                var selected_store_id = $('#id_store_value').val();
+                var selectedOrgId = $('#id_org_select').val();
+
+                $.ajax({
+                    url: '/get_reconciliation_items/',
+                    data: {
+                        query: query,
+                        store_id: selected_store_id,
+                        org_id: selectedOrgId,
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        var items = data.data.map(function (item) {
+
+                            return {
+                                name: item.item_name.toString(),
+                                type: item.item_type_name.toString(),
+                                uom: item.item_uom.toString(),
+                                Supplier: item.item_Supplier.toString(),
+                                qty: item.stock_qty.toString(),
+                                price: item.item_price || 'N/A',
+                                itemNo: item.item_no.toString(),
+                                id: item.item_id,
+                            };
+                        });
+
+                        result(items);
+                    }
+                });
+            },
+            items: 150,
+            // Customize the dropdown menu and items
+            displayText: function (item) {
+                const itemId = item.id ? item.id : '';
+                const name = item.name ? item.name : '';
+                const type = item.type ? item.type : '';
+                const uom = item.uom ? item.uom : '';
+                const Supplier = item.Supplier ? item.Supplier : '';
+                const qty = item.qty ? item.qty : '';
+                const price = item.price ? item.price : '';
+                const itemNo = item.itemNo ? item.itemNo : '';
+
+                return `<span style="display: none;">${itemId}</span><span style="display: none;">${itemNo}</span><strong class="itemName"><i class="bx bxs-baguette itemNameIcon"></i><span class="itemNameBody">${name}</span></strong><i class="bx bxs-objects-horizontal-center itemOtherIcon"></i><span class="itemOtherName">${Supplier}</span><i class="bx bxs-layer itemOtherIcon"></i><span class="itemQtyName" style="color: #784900; font-weight: bolder;">${qty}</span>`;
+            },
+
+            highlighter: function (item) {
+                const html = '<div style="display: flex;">' + item + '</div>';
+                return html;
+            },
+            updater: function (item) {
+
+                var selecteditemId = item.id;
+
+                $.ajax({
+                    url: '/select_Reconciliation_value/',
+                    data: {
+                        selectedItem: selecteditemId,
+                        store_id: $('#id_store_value').val(),
+                        org_id: $('#id_org_select').val(),
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function (response) {
+                        var selectedItemDetails = response.data;
+
+                        // Check if any option is selected
+                        if (!selectedItemDetails.length) {
+                            toastr.warning('Item Not Found In The Stock List. Please Stock This Item First & Try Again.');
+                            clearAndFocusInput();
+                            return false; // No option selected, do nothing
+                        }
+
+                        // Assign selected data to the corresponding text input fields
+                        var item_id = selectedItemDetails[0].item_id;
+                        var store_id = selectedItemDetails[0].store_id;
+                        var item_name = selectedItemDetails[0].item_name;
+                        var item_no = selectedItemDetails[0].item_no;
+                        var item_type = selectedItemDetails[0].item_type_name;
+                        var item_Supplier = selectedItemDetails[0].item_Supplier;
+                        var stock_qty = selectedItemDetails[0].stock_qty;
+                        var item_price = selectedItemDetails[0].item_price;
+
+                        // Check if the item has already been added
+                        if ($('#transField table tbody tr[data-item-name="' + item_name + '"]').length > 0) {
+                            toastr.warning('Item Already in the List.');
+                            clearAndFocusInput();
+                            return false;
+                        }
+
+                        // Check if any of the extracted values are undefined
+                        if (
+                            item_id === undefined ||
+                            store_id === undefined ||
+                            item_no === undefined ||
+                            item_name === undefined ||
+                            item_type === undefined ||
+                            item_Supplier === undefined ||
+                            stock_qty === undefined ||
+                            item_price === undefined
+                        ) {
+                            //toastr.error('Undefined values detected. Cannot add the item.');
+                            return false;
+                        }
+
+
+                        // Create a new row for the selected item
+                        tr = $('<tr style="border-style: hidden!important;"></tr>');
+                        tr.attr('data-item-name', item_name); // Store the item name in a data attribute
+
+                        // Add the row's content
+                        tr.append('<td style="text-align:center;">&nbsp;</td>');
+                        // item_no, stock_id, item_name input field
+                        tr.append('<td style="text-align:center;">' + item_no + '<input type="hidden" value="' + item_no + '" class="inputbox_tdrow" name="item_no[]" readonly><input type="hidden" value="' + item_id + '" class="inputbox_tdrow multiple_input" name="item_id[]" readonly><input type="hidden" value="' + item_name + '" class="inputbox_tdrow multiple_input" name="item_names[]" readonly></td>');
+                        tr.append('<td style="position: relative; text-align: left;" class="posItemsName_id">' + item_name + '</td>');
+                        tr.append('<td style="text-align:center;">' + item_type + '<input type="hidden" value="' + item_type + '" class="inputbox_tdrow" name="item_type[]" readonly></td>');
+                        tr.append('<td style="text-align:center;">' + item_Supplier + '<input type="hidden" value="' + item_Supplier + '" class="inputbox_tdrow" name="item_store_name[]" readonly></td>');
+                        tr.append('<td style="text-align:center;">' + stock_qty + '<input type="hidden" value="' + stock_qty + '" class="inputbox_tdrow" id="stock_qty" name="stock_qty[]" readonly></td>');
+                        tr.append('<td style="text-align:center;" id="SpriceInput"><input type="number" value="' + item_price + '" class="form-control text-center pos_salesDisInput item_sales_price" min="0" oninput="validity.valid||(value=\'\');" name="item_price[]" autocomplete="off" style="width: 95%;" required></td>');
+                        tr.append('<td style="text-align:center;" id="mulInputQty"><input type="number" value="1" class="form-control text-center qty1 pos_salesDisInput" id="recon_stockQty" name="recon_stockQty[]" min="1" oninput="validity.valid||(value=\'\');" autocomplete="off" style="width: 95%;"></td>');
+                        tr.append('<td style="text-align:center;" class="product_total"></td>');
+                        tr.append('<td style="text-align:center;"><button type="button" class="btn btn-danger text-white btn-xs itemAdd_del_btn">X</button></td>');
+
+                        // Append the new row to the table
+                        $('#transField table tbody').append(tr);
+
+                        // Clear the selection
+                        $(this).val('').trigger('change');
+
+                        //
+                        $('#transField table tbody').on('input change blur', '.item_w_dis_input', function () {
+                            var value = $(this).val();
+
+                            if (value.trim().length === 0) {
+                                $(this).val('0');
+                            }
+                        }).on('focus', '.item_w_dis_input', function () {
+                            var value = $(this).val();
+                            if (value.trim() === '0') {
+                                $(this).val('');
+                            }
+                        });
+
+
+                        //
+                        $('#transField table tbody').on('input change blur', '.item_sales_price', function () {
+                            var value = $(this).val().trim();
+
+                            if (value.length === 0 || value === '0') {
+                                $(this).val('');
+                                $(this).css('background-color', 'red');
+                            } else {
+                                $(this).css('background-color', '#fff');
+                            }
+
+                        }).on('focus', '.item_sales_price', function () {
+                            var value = $(this).val().trim();
+
+                            if (value === '0') {
+                                $(this).val('');
+                                $(this).css('background-color', 'red');
+                            }
+                        });
+
+                        // Find the input element
+                        var salesQtyInput = tr.find('input[name="recon_stockQty[]"]');
+
+                        // Add an event listener to handle the blur event (when the input loses focus)
+                        salesQtyInput.on('blur', function () {
+                            // Get the current value
+                            var value = $(this).val();
+
+                            // Check if the value is empty
+                            if (value === "") {
+                                // Set the value to 1
+                                $(this).val(1);
+                            }
+                        });
+
+                        // Add an event listener to the delete button
+                        $('#transField table tbody').on('click', '.itemAdd_del_btn', function () {
+                            var positemName = $(this).closest('tr').find('[name="item_names[]"]').val();
+                            $(this).closest('tr').remove();
+                        });
+
+                        clearAndFocusInput();
+                    }
+                });
+
+            },
+
+        });
+    });
+
+    $(document).on('click', '.delete-button', function() {
+        var recondtl_id = $(this).data('recon_dtl_id');
+        var buttonElement = $(this);
+    
+        $.ajax({
+            type: 'DELETE',
+            url: `/delete_recon_dtl_value/${recondtl_id}/`, 
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            success: function(resp) {
+                if (resp.success) {
+                    toastr.success(resp.msg);
+                    buttonElement.closest('tr').remove();
+                } else {
+                    toastr.error(resp.errmsg);
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                alert('Error occurred while deleting: ' + err);
+            }
+        });
+    });
+
+    //
+    $(document).ready(function () {
+
+        $('#id_org_filter').change(function () {
+            OrgWiseBranchOptions();
+        });
+
+        $('#id_org_select').change(function () {
+            OrgWiseUpdateFilterOptions();
+        });
+
+        OrgWiseBranchOptions();
+        OrgWiseUpdateFilterOptions();
+
+        function OrgWiseBranchOptions() {
+            var filterOrgId = $('#id_org_filter').val();
+
+            // Branch option value
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: filterOrgId },
+                success: function (data) {
+                    $('#id_branchs_filter').empty();
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_branchs_filter').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+                    $('#id_branchs_filter').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+
+        function OrgWiseUpdateFilterOptions() {
+            var selectedOrgId = $('#id_org_select').val();
+
+            // Branch option value
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    $('#id_branchs').empty();
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_branchs').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+                    $('#id_branchs').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+
+        //
+        $.ajax({
+            url: "{% url 'get_user_stores' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.stores) {
+                    var select = $('#id_store_filter');
+                    var select_value = $('#id_store_value');
+                    select.empty();
+                    $.each(response.stores, function (index, store) {
+                        select.append($('<option>', {
+                            value: store.store_id,
+                            id: store.store_id,
+                            text: store.store_name
+                        }));
+                        //
+                        select_value.append($('<option>', {
+                            value: store.store_id,
+                            id: store.store_id,
+                            text: store.store_name
+                        }));
+                    });
+
+                    // After populating user stores, trigger the change event for id_store_filter
+                    $('#id_store_filter').trigger('change');
+                    $('#id_store_value').trigger('change');
+                } else {
+                    console.error('Error fetching user stores');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

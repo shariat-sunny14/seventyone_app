@@ -1,0 +1,373 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'deliver_chalan/css/deliver_chalan.css' %}">
+
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<div class="loader"></div>
+<!-- loader end -->
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #459793d7;">
+                <!-- Main Heading -->
+                <div class="row" style="display: flex; justify-content: space-between; text-align: center; align-items: center;">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="margin-left: 15px; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; align-content: center;">
+                        <div class="d-sm-flex align-items-center mb-2">
+                            <i class='bx bx-clipboard text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head" style="font-size: 0.95rem;">Delivery Chalan List</h1>
+                        </div>
+                        <div style="position: absolute; right: 2rem;">
+                            <!--  -->
+                            <button type="button" onClick="navigateTo('/item_pos_billing/')"
+                                class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #459793d7; border-radius: 0.7rem; border: 1.5px solid #fff;">
+                                Billing
+                            </button>
+                            <!--  -->
+                            <button type="button" onClick="navigateTo('/manual_delivery_chalan_service/')"
+                                class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #459793d7; border-radius: 0.7rem; border: 1.5px solid #fff;">
+                                Manual delivery Chalan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section>
+                <div class="card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                    <div class="card-body">
+                        <div class="report-filter">
+                            <!-- Date Range Filter -->
+                            <div class="date-range">
+                                <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                    <div class="col-sm-12"
+                                        style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                        <div class="col-sm-3"
+                                            style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                            <div class="col-auto">
+                                                <label for="id_filter_org" class="col-form-label">Org :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <select id="id_filter_org" name="filter_org"
+                                                    class="form-control item_inputbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                        {{org.org_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-3"
+                                            style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                            <div class="col-auto">
+                                                <label for="id_filter_branch" class="col-form-label">Branch :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <select id="id_filter_branch" name="filter_branch"
+                                                    class="form-control item_inputbox"
+                                                    aria-label="Default select example">
+                                                    <!--  -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <!--  -->
+                                        <div class="col-sm-3"
+                                            style="display:flex; align-items: center; flex-wrap: nowrap; margin-left: 1rem;">
+                                            <div class="col-auto">
+                                                <label for="start_form" class="col-form-label">From :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control item_inputbox datepicker"
+                                                    id="start_form" name="start_form" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-3"
+                                            style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                            <div class="col-auto">
+                                                <label for="end_to" class="col-form-label">To :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control item_inputbox datepicker"
+                                                    id="end_to" name="end_to" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- containt start -->
+            <section>
+                <div class="col-sm-12">
+                    <div class="table-body" style="width: 99%; margin-left: 0.4rem;">
+                        <table id="ChalanList" class="table table-striped" style="width: 100%;">
+                            <thead class="text-center table-header">
+                                <tr style="border-style: hidden!important;">
+                                    <th style="text-align:center;">SL</th>
+                                    <th style="text-align:center;">Invoice Date</th>
+                                    <th style="text-align:center;">Invoice No</th>
+                                    <th style="text-align:center;">Chalan No</th>
+                                    <th style="text-align:center;">Customer Name</th>
+                                    <th style="text-align:center;">Mobile</th>
+                                    <th style="text-align:center;">Adress</th>
+                                    <th style="text-align:center;">Is Item Modified</th>
+                                    <th style="text-align:center;">Is O/S</th>
+                                    <th style="text-align:center;">Direct/Hold</th>
+                                    <th style="text-align:center;">Hold Approve</th>
+                                    <th style="text-align:center;">Is Created</th>
+                                    <th style="text-align:center; width: 15%;">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body-row" id="chalanTBD">
+                                <!-- load table body value with Ajax -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+    <!--  -->
+    <!-- containt end  -->
+    <script>
+        $(document).ready(function () {
+            function fetchFilteredData() {
+                var orgId = $('#id_filter_org').val();
+                var branchId = $('#id_filter_branch').val();
+                var startDate = $('#start_form').val();
+                var endDate = $('#end_to').val();
+        
+                // Check if all the required fields have values
+                if (orgId && branchId && startDate && endDate) {
+                    // Build the data object
+                    var data = {
+                        filter_org: orgId,
+                        filter_branch: branchId,
+                        start_form: startDate,
+                        end_to: endDate
+                    };
+        
+                    $.ajax({
+                        url: "{% url 'fetch_delivery_chalan_data' %}", // Your backend URL
+                        type: "GET",
+                        data: data,
+                        success: function (response) {
+                            // Clear the current table body
+                            $('#chalanTBD').empty();
+                            
+                            // Destroy DataTable if initialized
+                            if ($.fn.DataTable.isDataTable('#ChalanList')) {
+                                $('#ChalanList').DataTable().clear().destroy();
+                            }
+        
+                            // Append new rows
+                            if (response.data.length > 0) {
+                                $.each(response.data, function (index, chalan) {
+                                    var isItemModify = chalan.is_modified ? 'Yes' : 'No';
+                                    var isModicolorClass = chalan.is_modified ? 'green-text' : 'orange-text';
+                                    var isOutSourceing = chalan.is_out_sourceing ? 'Yes' : 'No';
+                                    var outSouColorClass = chalan.is_out_sourceing ? 'green-text' : 'orange-text';
+                                    var isDirectSales = chalan.is_direct_sales ? 'Hold' : 'Direct';
+                                    var isDirectSalesClass = chalan.is_direct_sales ? 'green-text' : 'orange-text';
+                                    var isHoldApprove = chalan.is_hold_approve ? 'Yes' : 'No';
+                                    var isHoldApproveClass = chalan.is_hold_approve ? 'green-text' : 'orange-text';
+                                    var isCreated = chalan.is_created ? 'Yes' : 'No';
+                                    var isCreatedColor = chalan.is_created ? 'green' : 'red';
+        
+                                    var row = `<tr>
+                                        <td style="text-align:center; border-style: hidden;">${index + 1}</td>
+                                        <td style="text-align:center; border-style: hidden;">${chalan.create_date}</td>
+                                        <td style="text-align:center; border-style: hidden;">${chalan.invoice_no}</td>
+                                        <td style="text-align:center; border-style: hidden;">${chalan.chalan_no}</td>
+                                        <td style="text-align:center; border-style: hidden;">${chalan.customer_name}</td>
+                                        <td style="text-align:center; border-style: hidden;">${chalan.mobile}</td>
+                                        <td style="text-align:center; border-style: hidden;">${chalan.address}</td>
+                                        <td style="text-align:center; border-style: hidden;" class="${isModicolorClass}">${isItemModify}</td>
+                                        <td style="text-align:center; border-style: hidden;" class="${outSouColorClass}">${isOutSourceing}</td>
+                                        <td style="text-align:center; border-style: hidden;" class="${isDirectSalesClass}">${isDirectSales}</td>
+                                        <td style="text-align:center; border-style: hidden;" class="${isHoldApproveClass}">${isHoldApprove}</td>
+                                        <td style="text-align:center; border-style: hidden; color: ${isCreatedColor}; font-size: 12px; font-weight: bold;">${isCreated}</td>
+                                        <td style="text-align:center; border-style: hidden;">
+                                            <button type="button" class="btn btn-warning printBtn table-row-btn btn-xs text-white update-data" data-id="${chalan.inv_id}">
+                                                <i title='Print Invoice Receipt' class='bx bxs-edit printIcon text-white'></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-chalan" data-is_modify="${chalan.is_modified}" data-is_create="${chalan.is_created}" data-id="${chalan.inv_id}">
+                                                <i title='Print Invoice Chalan' class='bx bx-printer printIcon text-white'></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger printBtn table-row-btn btn-xs text-white view-chalan" data-id="${chalan.inv_id}" disabled>
+                                                H. Appr.
+                                            </button>
+                                        </td>
+                                    </tr>`;
+        
+                                    $('#chalanTBD').append(row);
+                                });
+        
+                                // Reinitialize DataTable after rows are appended
+                                $('#ChalanList').DataTable({
+                                    "searching": true,
+                                    "ordering": false
+                                });
+                            } else {
+                                $('#chalanTBD').append('<tr><td colspan="12" style="text-align:center;">No records found</td></tr>');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("Error: " + error);
+                        }
+                    });
+                } else {
+                    // If any of the fields is missing, clear the table and display a message
+                    $('#chalanTBD').empty();
+                    $('#chalanTBD').append('<tr><td colspan="12" style="text-align:center;">Please select all filters</td></tr>');
+                }
+            }
+        
+            // Trigger AJAX request on change of dropdown or date inputs
+            $('#id_filter_org, #id_filter_branch, #start_form, #end_to').change(function () {
+                fetchFilteredData();
+            });
+        
+            // Fetch data on page load
+            fetchFilteredData();
+        });
+
+        $(function () {
+            // Get present date
+            const currentDate = new Date();
+
+            // Set today's date in the input fields
+            $('#start_form, #end_to').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: currentDate,
+            });
+
+            // Set the present date in the input fields
+            $('#start_form').datepicker('setDate', currentDate);
+            $('#end_to').datepicker('setDate', currentDate);
+        });
+
+        //
+        $(document).ready(function () {
+
+            $('#id_filter_org').change(function () {
+                OrgWiseUpdateFilterOptions();
+            });
+
+            OrgWiseUpdateFilterOptions();
+
+            function OrgWiseUpdateFilterOptions() {
+                var selectedOrgId = $('#id_filter_org').val();
+
+                // Branch option value
+                $.ajax({
+                    url: '/get_branch_options/',
+                    method: 'GET',
+                    data: { org_id: selectedOrgId },
+                    success: function (data) {
+                        $('#id_filter_branch').empty();
+                        $.each(data.branch_list, function (index, branch) {
+                            $('#id_filter_branch').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                        });
+                        $('#id_filter_branch').trigger('change');
+                        $("#id_invBtn").click();
+                    },
+                    error: function (error) {
+                        console.error('Error fetching branch options:', error);
+                    }
+                });
+            }
+        });
+
+        // loader scrt
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+
+            loader.classList.add("loader-hidden");
+
+            loader.addEventListener("transitionend", () => {
+                // document.body.removeChild("loader");
+            });
+        });
+
+
+        $(function () {
+            $(document).on('click', '.update-data', function (e) {
+                e.preventDefault(); // Prevent the default action of the click event
+                var invsID = $(this).attr('data-id');
+                var updateChalanUrl = "{% url 'update_delivery_chalan' 0 %}".replace('0', invsID);
+                navigateTo(updateChalanUrl);
+            });
+
+            $(document).on('click', '.view-chalan', function () {
+                var org_id = $('#id_filter_org').val();
+                var isCreateID = $(this).attr('data-is_create');
+                var isModifyID = $(this).attr('data-is_modify');
+                var dataId = $(this).attr('data-id'); // Store the data-id in a variable
+            
+                if (isCreateID === 'true') {
+                    lineloaderstart();
+                    var chalanUrl = "{% url 'chalan_modal' %}?id=" + dataId + "&org_id=" + org_id;
+                    modal_lg("Chalan Receipt", chalanUrl);
+                    lineloaderstop();
+                } else {
+                    toastr.warning("Delivery Chalan is Not Created.. Please Create First !..");
+                }
+            
+                // Remove any previous hide event to prevent multiple triggers
+                $('#modal_lg').off('hide.bs.modal');
+            
+                // Attach hide event handler for the first modal
+                $('#modal_lg').one('hide.bs.modal', function () {
+                    if (isModifyID === 'true') {
+                        if (isCreateID === 'true') {
+                            lineloaderstart();
+                            
+                            // Open the Chalan Modify modal
+                            var chalanModifyUrl = "{% url 'chalan_modal_modified_items' %}?id=" + dataId;
+                            modal_lg("Chalan Modify Receipt", chalanModifyUrl);
+                            lineloaderstop();
+            
+                            // Detach event to prevent reopening the modal in a loop
+                            $('#modal_lg').off('hide.bs.modal');
+            
+                            // Optionally, perform any action after the second modal closes
+                            $('#modal_lg').one('hide.bs.modal', function () {
+                                console.log('Modified items modal closed.');
+                            });
+                        } else {
+                            toastr.warning("Delivery Chalan is Not Created.. Please Create First !..");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</main>
+{% endblock %}

@@ -11,13 +11,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from others_setup.models import item_type
 from store_setup.models import store
 from organizations.models import branchslist, organizationlst
 from item_setup.models import items
 from opening_stock.models import opening_stock
 from item_pos.models import invoicedtl_list
-from stock_list.models import stock_lists
+from stock_list.models import in_stock, stock_lists
 from purchase_order.models import purchase_order_list, purchase_orderdtls
 from stock_list.stock_qty import get_available_qty
 from user_setup.models import store_access
@@ -127,29 +128,42 @@ def managePurchaseOrderAPI(request):
 
 @login_required()
 def getPOEntrylistAPI(request):
-    item_with_grandQty = []
     selected_type_id = request.GET.get('selectedTypeId')
     selected_id_org = request.GET.get('id_org')
     selected_supplier_id = request.GET.get('filter_suppliers')
+    query = request.GET.get('query', '')  # Fetch the query term
 
-    item_data = items.objects.filter(is_active=True)
+    # Base query with filters applied more efficiently
+    filters = {'is_active': True}
 
-    if selected_type_id and selected_type_id != '1':  # '1' represents the option 'All Item Type'
-        item_data = item_data.filter(type_id=selected_type_id)
+    if selected_type_id and selected_type_id != '1':
+        filters['type_id'] = selected_type_id
 
     if selected_id_org:
-        item_data = item_data.filter(org_id=selected_id_org)
+        filters['org_id'] = selected_id_org
+
+    # Fetch the data using select_related and prefetch_related for optimization
+    item_data = items.objects.filter(**filters).select_related(
+        'org_id', 'type_id'
+    ).prefetch_related('item_supplierdtl__supplier_id')
 
     if selected_supplier_id and selected_supplier_id != '1':
         item_data = item_data.filter(item_supplierdtl__supplier_id=selected_supplier_id)
 
-    item_data = item_data.all()
+    # Filter items based on the query (item_name contains query term)
+    if query:
+        item_data = item_data.filter(Q(item_name__icontains=query) | Q(item_no__icontains=query))
 
-    for item in item_data:
-        item_with_grandQty.append({
-            'item_id': item.item_id,
-            'item_name': item.item_name,
-        })
+    # Using values to avoid object instantiation
+    item_data = item_data.values('item_id', 'item_name')
+
+    # Paginate the results
+    paginator = Paginator(item_data, 200)  # 200 items per page
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # Prepare response
+    item_with_grandQty = list(page_obj)  # Convert page_obj to list
 
     return JsonResponse({'data': item_with_grandQty})
 
@@ -168,7 +182,7 @@ def get_user_stores(request):
 def getPOReOrderItemListAPI(request):
     selected_store_id = request.GET.get('store_id')
 
-    stock_data = stock_lists.objects.filter(is_approved=True, store_id=selected_store_id).values('item_id').annotate(
+    stock_data = in_stock.objects.filter(store_id=selected_store_id).values('item_id').annotate(
         total_stock_qty=Sum('stock_qty')
     )
 

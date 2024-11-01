@@ -18,7 +18,7 @@
                 border-right: none;
                 border-top-left-radius: 0.3rem;
                 border-top-right-radius: 0.3rem;
-                background: #455697;">
+                background: #459793e0;">
                 <!-- Main Heading -->
                 <div class="row">
                     <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
@@ -26,9 +26,9 @@
                             <i class='bx bx-folder-open text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Opening Stock List</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/add_opening_stock_service'">
+                        <div class="add-moduleBtn" onClick="navigateTo('/add_opening_stock_service/')">
                             <button id="addmodulesetup" class="btn btn-primary text-white btn-xs moduleBtn"
-                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e;">
+                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #459793e0;">
                                 Open New Stock
                             </button>
                         </div>
@@ -434,7 +434,7 @@
             } else {
                 var poId = $(this).attr('data-id');
                 var updatePurchaseOrderUrl = "{% url 'edit_opening_stock' 0 %}".replace('0', poId);
-                window.location.href = updatePurchaseOrderUrl;
+                navigateTo(updatePurchaseOrderUrl);
             }
         });
 

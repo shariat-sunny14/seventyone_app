@@ -145,6 +145,13 @@ h6 {
 }
 
 @media (min-width: 576px) {
+    .col-sm-8mody {
+        flex: 0 0 auto;
+        width: 58%;
+    }
+}
+
+@media (min-width: 576px) {
     .col_sm_label {
         flex: 0 0 auto;
         width: 20%;
@@ -169,6 +176,20 @@ h6 {
     .col-sm-1_manual {
         flex: 0 0 auto;
         width: 5%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-remarks {
+        flex: 0 0 auto;
+        width: 9%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-remarks-txt {
+        flex: 0 0 auto;
+        width: 91%;
     }
 }
 
@@ -356,6 +377,15 @@ h6 {
 .table_border {
     width: 99.5%;
     height: 100vh;
+    overflow: auto;
+    border: 1px solid #71bac4;
+    margin-left: 3px;
+    margin-bottom: 0.192rem;
+}
+
+.lptb_border {
+    width: 99.5%;
+    height: 60vh;
     overflow: auto;
     border: 1px solid #71bac4;
     margin-left: 3px;
@@ -760,11 +790,16 @@ textarea.form-control {
 }
 
 .item_add_clear_btn {
-    margin-top: 2.8px;
-    padding: 0.09rem 0.6rem;
+    display: flex;
+    margin-top: -1px;
+    padding: 0.3rem 0.6rem;
     font-size: 0.8rem;
     font-weight: bold;
     margin-left: -0.5rem;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 /*  */
@@ -773,6 +808,7 @@ textarea.form-control {
     display: flex;
     justify-content: right;
 }
+
 /* ======================= */
 datalist {
     position: absolute;
@@ -866,31 +902,31 @@ option:hover {
 
 .dropdown-menu {
     position: absolute;
-    top: 2.2rem!important;
+    top: 2.2rem !important;
     /* border-top-left-radius: 0!important; */
     /* border-top-right-radius: 0!important; */
     display: none;
-    min-width: 38rem!important;
-    padding: 0!important;
+    min-width: 38rem !important;
+    padding: 0 !important;
     margin: 0;
-    font-size: 0.8rem!important;
+    font-size: 0.8rem !important;
     color: #212529;
     text-align: left;
     list-style: none;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 0.25rem;
     z-index: 1000;
 }
 
 .dropdown-item {
-    overflow: hidden!important;
-    text-overflow: ellipsis!important;
-    white-space: nowrap!important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
     width: 38rem;
-    border-bottom: 1px solid #f3f3f3!important;
-    background: darkseagreen!important;
+    border-bottom: 1px solid #f3f3f3 !important;
+    background: darkseagreen !important;
 }
 
 .credit_balance {
@@ -903,15 +939,16 @@ option:hover {
     font-size: 1rem;
     align-items: center;
     justify-content: center;
-    box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.3); */
 }
 
 .pur-submissionBtn {
     width: 99.5%;
     margin-left: 3px;
     padding: 2px;
-    border: 1px solid #71bac4;
+    /* border: 1px solid #71bac4; */
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    /* background: #99b3b4; */
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3);
+    background: #ededed;
+    /* box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3); */
 }

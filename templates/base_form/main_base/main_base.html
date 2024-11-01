@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--========== FAVICON ICONS ==========-->
-    <link rel="shortcut icon" href="{% static 'fav_icon/inventory_fav_icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'fav_icon/favicon.ico' %}">
 
     <!----===== Boxicons CSS ===== -->
     <link rel="stylesheet" href="{% static 'assets/boxicons-2.1.4/css/boxicons.min.css' %}">
@@ -78,7 +78,7 @@
     <link rel="stylesheet" type="text/css"
         href="{% static 'base_form_style/main_base_style/css/main_base_style.css' %}">
 
-    <title>Seventy One (Pvt.) Ltd.</title>
+    <title>TBOX</title>
 
     {% block extra_link %} {% endblock %}
 </head>
@@ -151,12 +151,14 @@
                 <h1></h1>
             </div>
             <ul>
+                <!--  -->
                 <li>
                     <a href="/accounts/profile/" class="nav__link" style="padding: 0; border-bottom: 0;">
                         <span class="icon"><i class='bx bx-home' aria-hidden="true"></i></span>
                         <span class="title">Home</span>
                     </a>
                 </li>
+                <!--  -->
                 <li>
                     {% if user.is_authenticated %}
                     <a href="#" class="useInfoChanging_by_user" data-id="{{ user.user_id }}">
@@ -165,6 +167,7 @@
                     </a>
                     {% endif %}
                 </li>
+                <!--  -->
                 <li>
                     {% if user.is_authenticated %}
                     <a href="#" class="passwordChanging_by_user" data-id="{{ user.user_id }}">
@@ -173,10 +176,18 @@
                     </a>
                     {% endif %}
                 </li>
+                <!--  -->
                 <li>
                     <a href="{% url 'logout' %}">
                         <span class="icon"><i class='bx bx-log-out bx-flip-horizontal' aria-hidden="true"></i></span>
                         <span class="title">Sign Out</span>
+                    </a>
+                </li>
+                <!--  -->
+                <li>
+                    <a href="{% url 'logout_all_users' %}">
+                        <span class="icon"><i class='bx bx-bolt-circle bx-flip-horizontal' aria-hidden="true"></i></span>
+                        <span class="title">Sys Down For 6hrs</span>
                     </a>
                 </li>
             </ul>

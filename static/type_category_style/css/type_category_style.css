@@ -5,17 +5,16 @@
 
 .dashboar-head {
     width: 100%;
-    border-bottom: 1px solid white;
     margin-top: 0.5em;
     margin-bottom: 0.5rem;
 }
 
 .req-head-icon {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .req-head {
-    font-size: 18px;
+    font-size: 15px;
     margin-left: 10px;
     font-size: 14px;
 }
@@ -262,8 +261,11 @@ h6 {
 .container-sm,
 .container-xl,
 .container-xxl {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    width: 100%;
+    padding-right: 0rem;
+    padding-left: 0rem;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .org-filterRow {
@@ -329,7 +331,7 @@ h6 {
 
 /* table */
 .type_type {
-    height: 380px;
+    height: 100vh;
     overflow: auto;
     border: 1px solid #71bac4;
 }

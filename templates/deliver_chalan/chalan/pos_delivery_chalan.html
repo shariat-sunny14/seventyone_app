@@ -1,0 +1,257 @@
+{% load humanize %}
+{% load static %}
+<style>
+    .sub-title2 {
+        margin-top: -8px;
+    }
+
+    .sub-title3 {
+        margin-top: -8px;
+    }
+
+    tbody, td, tfoot, th, thead, tr {
+        border-color: #b7b7b7;
+        border-style: dashed;
+        border-width: 0;
+    }
+</style>
+<div class="container-fluid">
+    <div id="pos_del_outprint" class="pos_chalan-body">
+        <section>
+            <table class="table" style="width: 100%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                <tr>
+                    <center>
+                        <label class="com-name">
+                            <!-- Company Name Here -->
+                        </label>
+                    </center>
+                    <center class="sub-title1">
+                        <small>
+                            <span class="com-address">
+                                <span class="com-address-title">Address: </span>
+                                <span class="com-address-name"></span>
+                            </span>
+                        </small>
+                    </center>
+                    <center class="sub-title3">
+                        <small>
+                            <span class="com-hotline">
+                                <span class="com-hotline-title">Hotline: </span>
+                                <span class="com-hotline-name"></span>
+                                <span class="com-fax-title">Fax: </span>
+                                <span class="com-fax-name"></span>
+                            </span>
+                        </small>
+                    </center>
+                </tr>
+                <tr>
+
+                </tr>
+            </table>
+            <!--  -->
+            <div class="rec-type">
+                <table class="table" style="width: 100%; border-style: hidden!important;">
+                    <tr style="display:flex;">
+                        <td style="text-align:left; width: 33.33%; border-style: hidden!important;">
+
+                        </td>
+                        <td style="text-align:center; width: 33.33%; border-style: hidden!important;">
+                            <center><label class="deli_receipt-name">Delivery Chalan</label></center>
+                        </td>
+                        <td style="text-align:left; width: 33.33%; border-style: hidden!important;">
+                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--  -->
+            <div class="lh-1">
+                <div class="pos-info-body">
+                    <div class="pos-info-header">
+                        <!--  -->
+                        <div class="col-sm-12" style="display: flex; margin-top: 5px; margin-left: 0.5rem; padding: 3px; margin-bottom: 5px; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Invoice : {{ transaction.inv_id }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Date : {{ transaction.invoice_date }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Customer : {{ transaction.customer_name }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Mobile : {{ transaction.mobile_number }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">House No : {{ transaction.house_no }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Area : {{ transaction.area }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Sector No : {{ transaction.sector_no }}</span>
+                            </div>
+                            <div class="col-sm-6" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Road No : {{ transaction.road_no }}</span>
+                            </div>
+                            <div class="col-sm-12" style="padding: 3px 3px 3px 12px;">
+                                <span class="col-sm-12">Address : {{ transaction.address }}</span>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <div class="lh-1">
+                <div class="pos-info-body">
+                    <div class="row col-sm-12 pos-info-header">
+                        <!--  -->
+                        <div class="row col-sm-12">
+                            <div class="row col-sm-12" style="margin-top: 5px; margin-left: 0.5rem; padding: 3px; margin-bottom: 5px;">
+                                <span style="padding: 3px 3px 3px 12px;">Driver Name : {{ sales.driver_name }}</span>
+                                <span style="padding: 3px 3px 3px 12px;">Mobile Number : {{ sales.driver_mobile }}</span>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <table class="table receipt-table" style="width: 100%;" id="receipt-items">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 8%;">SL</th>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 70%;">Item Name</th>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 10%;">Qty</th>
+                    </tr>
+                </thead>
+                <tbody id="sales-items-tbody" style="border-bottom: hidden!important; font-size: 11px;">
+                    {% for item in salesItems %}
+                    <tr>
+                        <td class="mul-items-othrs">&nbsp;</td>
+                        <td class="mul-items-names">{{item.item_id.item_name}}</td>
+                        <td class="mul-items-othrs"><input type="hidden" name="total_qty_count" value="{{item.qty_cancelQty}}">{{item.qty_cancelQty}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table" style="width: 100%; margin-bottom: 1rem !important;">
+                <tbody style="border-bottom: hidden!important; border-left: hidden !important; border-right: hidden !important;">
+                    <tr style="border-top: 1px solid #c5c1c1 !important; border-style: dashed;">
+                        <td colspan="2" style="text-align:right; font-size: 11px; font-weight: bolder;">Total Qty.:</td>
+                        <td class="mul-items-othrs" style="width: 11%; font-weight: bolder;">{{grand_total_qty|floatformat:0}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="signature" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
+                <section style="position: relative; right: 0; bottom: 0; text-align: center; font-size: 0.7rem; font-weight: bolder; border-top: 1px solid; width: 35%;">
+                    <span>Signature</span>
+                </section>
+            </div>
+        </section>
+        <!--  -->
+    </div>
+    <hr>
+    <div class="clear-fix py-3"></div>
+    <!--  -->
+    <div class="d-flex w-100 justify-content-end">
+        <button class="btn btn-light bg-gradient border rounded-0 btn-sm me-1" type="button" id="pos_chalan_print">
+            <i class='bx bxs-printer'></i>
+            Print
+        </button>
+        <button class="btn btn-secondary bg-gradient border rounded-0 btn-sm" type="button" data-bs-dismiss="modal">
+            <i class='bx bx-window-close'></i>
+            Close
+        </button>
+    </div>
+    <!--  -->
+</div>
+<script>
+    //<!--  -->
+    $(document).ready(function () {
+        let companyInfo;
+
+        // Make Ajax request to get user information
+        $.ajax({
+            type: 'GET',
+            url: '/get_user_org_informations/',
+            success: function (response) {
+                companyInfo = response;
+                updateCompanyInfoUI();
+            },
+            error: function (error) {
+                console.error('Error fetching user information:', error);
+            }
+        });
+
+        function updateCompanyInfoUI() {
+            if (companyInfo) {
+                $('.com-name').text(companyInfo.org_name);
+                $('.com-address-name').text(companyInfo.address);
+                $('.email-address-name').text(companyInfo.email);
+                $('.website-name').text(companyInfo.website);
+                $('.com-hotline-name').text(`${companyInfo.phone}, ${companyInfo.hotline}`);
+                $('.com-fax-name').text(companyInfo.fax);
+
+                if (companyInfo.org_logo) {
+                    $('.com-receipt-logo').attr('src', companyInfo.org_logo);
+                }
+            } else {
+                console.error('Company information is not available.');
+            }
+        }
+
+        // Print functionality
+        $(function () {
+            $('#pos_chalan_print').click(function () {
+                var head = $('head').clone();
+                var p = $('#pos_del_outprint').clone();
+                var el = $("<div>");
+
+                head.append('<style>body{background-color:unset !important;}</style>');
+                head.append('<style>.footer { position: relative; bottom: -5rem; text-align: left; width: 100%; }</style>');
+                head.append('<style>.pos_chalan-body { position: relative; }</style>');
+
+                const footerText = 'TBOX, Contact: +8801309-994317,';
+                const now = new Date();
+                const formattedDateTime = now.toLocaleString();
+
+                var signature =
+                    `<div class="signature">
+                        <section style="position: absolute; right: 1rem; bottom: 2rem; text-align: center; font-size: 0.7rem; font-weight: bolder; border-top: 1px solid; width: 35%;">
+                            <span>Signature</span>
+                        </section>
+                    </div>`;
+
+                var footerContent = 
+                    `<div class="footer chalanFooter">
+                        <span class="software-woner-title">Software By: </span>
+                        <span class="software-woner-name">${footerText}</span>
+                        <span class="printed-on-title">- Printed on: </span>
+                        <span class="printed-on-date">${formattedDateTime}</span>
+                    </div>`;
+                
+                el.append(head);
+                el.append('<div class="pos_chalan-body">' + p.html() + footerContent +'</div>');
+                //el.append(signature);
+                //el.append(footerContent);
+
+                var nw = window.open('', '_blank', "width=800,height=800,left=300, top=200");
+                nw.document.write(el.html());
+                nw.document.close();
+
+                // Close the window after printing or canceling
+                nw.onafterprint = function () {
+                    nw.close();
+                };
+
+                setTimeout(() => {
+                    nw.print();
+                }, 300);
+            });
+        });
+    });
+</script>
+
+<!--  -->

@@ -354,6 +354,8 @@ def selectBranchListAPI(request, branch_id):
             'branch_no': branch_list.branch_no,
             'branch_name': branch_list.branch_name,
             'bran_org_id': branch_list.org_id.org_id,
+            'is_main_branch': branch_list.is_main_branch,
+            'is_sub_branch': branch_list.is_sub_branch,
             'is_active': branch_list.is_active,
             'country': branch_list.country,
             'division': branch_list.division,
@@ -420,6 +422,8 @@ def branchAddUpdateAPI(request):
             branch_data.branch_no = data.get('branch_no')
             branch_data.branch_name = data.get('branch_name')
             branch_data.org_id = org_instance
+            branch_data.is_main_branch = data.get('main_branch', 0)
+            branch_data.is_sub_branch = data.get('sub_branch', 0)
             branch_data.is_active = data.get('is_active', 0)
             branch_data.country = data.get('branch_country')
             branch_data.division = data.get('branch_division')

@@ -20,9 +20,8 @@
                                 <!--  -->
                                 <div class="col-md-7" style="display: flex; justify-content: right;">
                                     <!--  -->
-                                    <button type="button" onClick="location.href='/item_pos_billing'"
-                                        class="btn bg-warning bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
-                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem;">
+                                    <button type="button" onClick="navigateTo('/item_pos_billing/')" class="btn bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
+                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem; border: 1.5px solid #fff;">
                                         Billing
                                     </button>
                                 </div>
@@ -34,6 +33,9 @@
             <!--  -->
             <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
                 <form action="" id="update_invDtl">
+                    <input type="hidden" id="id_org_id_itmcan" name="org_id_itmcan" value="0">
+                    <input type="hidden" id="id_branch_id_itmcan" name="branch_id_itmcan" value="0">
+                    <input type="hidden" id="id_supplier_id_itmcan" name="supplier_id_itmcan" value="0">
                     <section>
                         <div class="card main_pos_card">
                             <div class="row cash_point_row">
@@ -87,7 +89,7 @@
                                                         <div class="card-body pos_card_body">
                                                             <div class="row cash_point_row">
                                                                 <!--  -->
-                                                                <div class="invoice_status">
+                                                                <div class="invoice_status" style="margin-top: 17px;">
                                                                     <h2 class="invoice_statusDtl"></h2>
                                                                 </div>
                                                             </div>
@@ -176,12 +178,22 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="id_carrying_cost_tot" class="col-sm-2 col-form-label">Carrying Cost:</label>
+                                            <label for="id_carrying_cost_seller_itmcon" class="col-sm-2 col-form-label">Carrying Cost Seller:</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
-                                                    name="carrying_cost_tot">
+                                                    name="carrying_cost_seller_itmcon">
                                                 <span class="form-control paymentDtl pos_inputbox"
-                                                    id="id_carrying_cost_tot">0.00</span>
+                                                    id="id_carrying_cost_seller_itmcon">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_buyer_itmcon" class="col-sm-2 col-form-label">Carrying Cost Buyer:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="carrying_cost_buyer_itmcon">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_carrying_cost_buyer_itmcon">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -202,6 +214,16 @@
                                                     name="due_collection">
                                                 <span class="form-control paymentDtl pos_inputbox"
                                                     id="due_collection">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_adjust_amount_bill_itmcon" class="col-sm-2 col-form-label">Adjust Amount:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="adjust_amount_bill_itmcon">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_adjust_amount_bill_itmcon">0.00</span>
                                             </div>
                                         </div>
                                     </div>
@@ -243,15 +265,6 @@
                                             </div>
                                         </div>
                                         <!--  -->
-                                        <div class="row cash_point_row">
-                                            <label for="refund_amt" class="col-sm-2 col-form-label">Refund Amt.:</label>
-                                            <div class="col-sm-8">
-                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
-                                                    name="refund_amt">
-                                                <span class="form-control paymentDtl pos_inputbox"
-                                                    id="refund_amt">0.00</span>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -292,11 +305,11 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="id_carrying_cost_item_wise" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
+                                            <label for="id_carrying_cost_overall_itmcon" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox"
-                                                    value="0" name="carrying_cost_item_wise">
-                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_item_wise">0.00</span>
+                                                    value="0" name="carrying_cost_overall_itmcon">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_overall_itmcon">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -310,12 +323,32 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
+                                            <label for="id_grand_adjust_overall_itmcon" class="col-sm-2 col-form-label">Total Adjust Amt:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="grand_adjust_overall_itmcon">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_grand_adjust_overall_itmcon">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
                                             <label for="total_pay_amt" class="col-sm-2 col-form-label">Total Pay Amt:</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
                                                     name="total_pay_amt">
                                                 <span class="form-control paymentDtl pos_inputbox"
                                                     id="total_pay_amt">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="refund_amt" class="col-sm-2 col-form-label">Refund Amt.:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="refund_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="refund_amt">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -341,7 +374,7 @@
                                     <tr style="border-style: hidden!important;">
                                         <td style="text-align:right; width: 100%;">
                                             <button type="button" style="text-align:center; width: 20%;" id="resetButton"
-                                                onClick="location.href='/due_refund_cancel_services'"
+                                                onClick="navigateTo('/due_refund_cancel_services/')"
                                                 class="btn btn-danger col-sm-4 text-white btn-xs item_payment_btn">
                                                 Clear
                                             </button>
@@ -405,10 +438,20 @@
 
                 var invoiceData = "Invoice Date: " + invoice.invoice_date + "\n";
                 invoiceData += "Invoice ID: " + invoice.inv_id + "\n";
+                invoiceData += "Org Name: " + invoice.org_name + "\n";
+                invoiceData += "Branch Name: " + invoice.branch_name + "\n";
+                invoiceData += "Clients Name: " + invoice.supplier_name + "\n";
                 invoiceData += "Customer Name: " + invoice.customer_name + "\n";
                 invoiceData += "Gender: " + invoice.gender + "\n";
                 invoiceData += "Mobile Number: " + invoice.mobile_number;
 
+                var orgData = invoice.org_id;
+                var branchData = invoice.branch_id;
+                var supplierData = invoice.supplier_id;
+
+                $("#id_org_id_itmcan").val(orgData);
+                $("#id_branch_id_itmcan").val(branchData);
+                $("#id_supplier_id_itmcan").val(supplierData);
                 $(".invDetails").val(invoiceData);
 
                 
@@ -421,16 +464,16 @@
                 
                 collection_amt = collections.collection_amt_sum
                 due_collection_amt = collections.due_collection_amt_sum
+                adjust_collection_amt = collections.adjust_collection_amt
                 refund_amt = collections.refund_amt_sum
-                grand_pay_amount = collection_amt + due_collection_amt - refund_amt
+                grand_pay_amount = (collection_amt + due_collection_amt)
                 grand_net_due_amt = collections.net_due_amt
-                totat_carrying_cost_amt = collections.carrying_cost
 
-                $('input[name="carrying_cost_item_wise"]').val(totat_carrying_cost_amt);
-                $('#id_carrying_cost_item_wise').text(totat_carrying_cost_amt.toFixed(0));
+                $('input[name="adjust_amount_bill_itmcon"]').val(adjust_collection_amt);
+                $('#id_adjust_amount_bill_itmcon').text(adjust_collection_amt.toFixed(0));
 
-                $('input[name="carrying_cost_tot"]').val(totat_carrying_cost_amt);
-                $('#id_carrying_cost_tot').text(totat_carrying_cost_amt.toFixed(0));
+                $('input[name="grand_adjust_overall_itmcon"]').val(adjust_collection_amt);
+                $('#id_grand_adjust_overall_itmcon').text(adjust_collection_amt.toFixed(0));
 
                 $('input[name="collection_amt"]').val(collection_amt);
                 $('#collection_amt').text(collection_amt.toFixed(0));
@@ -465,8 +508,15 @@
             for (var i = 0; i < data.invoicedtl_data.length; i++) {
                 var item = data.invoicedtl_data[i];
 
-                var cancel_item_w_dis = ((item.item_w_dis / item.qty) * item.canncelled_qty)
-                var totalAmount = (((item.sales_rate * item.qty) - item.item_w_dis) - ((item.sales_rate * item.canncelled_qty) - cancel_item_w_dis)).toFixed(0);
+                var sales_rate = parseFloat(item.sales_rate.toFixed(2))
+                var qty = parseFloat(item.qty.toFixed(2))
+                var item_w_dis = parseFloat(item.item_w_dis.toFixed(2)) 
+                var canncelled_qty = parseFloat(item.canncelled_qty.toFixed(2))
+                var max_qty = qty - canncelled_qty
+                var total_max_qty = parseFloat(max_qty.toFixed(2))
+
+                var cancel_item_w_dis = ((item_w_dis / qty) * canncelled_qty)
+                var totalAmount = (((sales_rate * qty) - item_w_dis) - ((sales_rate * canncelled_qty) - cancel_item_w_dis)).toFixed(0);
 
                 // Now you can use 'item' and 'invoice' as needed
                 console.log("Item:", item);
@@ -479,6 +529,8 @@
                 var cancel_vat = item.cancel_vat
                 var cancel_gross_dis = item.cancel_gross_dis
                 var item_wise_ccost = item.item_wise_ccost
+                var total_buyer_carrying = item.total_buyer_carrying
+                var total_seller_carrying = item.total_seller_carrying
 
                 grand_total_bill += parseFloat(total_bills);
                 grand_vat_tax += parseFloat(total_vat_tax);
@@ -486,7 +538,8 @@
                 total_cancel_bill += parseFloat(cancel_bill);
                 total_cancel_vat += parseFloat(cancel_vat);
                 total_cancel_gross_dis += parseFloat(cancel_gross_dis);
-                total_item_wise_ccost += parseFloat(item_wise_ccost);
+                total_buyer_carrying = parseFloat(total_buyer_carrying);
+                total_seller_carrying = parseFloat(total_seller_carrying);
 
                 grand_bill = grand_total_bill - total_cancel_bill
 
@@ -494,7 +547,16 @@
 
                 grand_net_disc = grand_discount - total_cancel_gross_dis
 
-                net_grand_bill = grand_bill + grand_net_vat_tax + total_item_wise_ccost - grand_net_disc
+                net_grand_bill = grand_bill + grand_net_vat_tax + total_buyer_carrying - grand_net_disc
+
+                $('input[name="carrying_cost_seller_itmcon"]').val(total_seller_carrying);
+                $('#id_carrying_cost_seller_itmcon').text(total_seller_carrying.toFixed(0));
+
+                $('input[name="carrying_cost_buyer_itmcon"]').val(total_buyer_carrying);
+                $('#id_carrying_cost_buyer_itmcon').text(total_buyer_carrying.toFixed(0));
+
+                $('input[name="carrying_cost_overall_itmcon"]').val(total_buyer_carrying);
+                $('#id_carrying_cost_overall_itmcon').text(total_buyer_carrying.toFixed(0));
 
                 $('input[name="actual_amount"]').val(grand_total_bill);
                 $('#actual_amount').text(grand_total_bill.toFixed(0));
@@ -544,10 +606,10 @@
                 row.append("<td style='text-align:center;'>" + item.item_w_dis + "<input type='hidden' value='" + item.item_w_dis + "' name='item_w_dis[]' class='form-control pos_inputbox'><input type='hidden' value='" + item.gross_dis + "' name='gross_dis[]' class='form-control pos_inputbox'><input type='hidden' value='" + item.vat_tax + "' name='vat_tax[]' class='form-control pos_inputbox'></td>");
                 row.append("<td style='text-align:center;'>" + item.canncelled_qty + "<input type='hidden' value='" + item.canncelled_qty + "' name='qty_cancelled[]' class='form-control pos_inputbox'></td>");
                 row.append("<td style='text-align:center;'><input type='checkbox' value='' id='" + checkboxId + "' name='is_cancel[]' class='form-check-input input-gap' " + (isChecked ? 'checked' : '') + " " + isDisabled + "></td>");
-                row.append("<td style='text-align:center;'><input type='number' id='" + inputId + "' value='' max='" + (item.qty - item.canncelled_qty) + "' name='cancel_qty[]' class='form-control text-center inv_can_inputbox' placeholder='max " + (item.qty - item.canncelled_qty) + "' disabled></td>"); // Can Qty column
+                row.append("<td style='text-align:center;'><input type='number' id='" + inputId + "' value='' max='" + total_max_qty + "' name='cancel_qty[]' class='form-control text-center inv_can_inputbox' step='0.01' placeholder='max " + total_max_qty + "' disabled></td>"); // Can Qty column
                 row.append("<td style='text-align:center;'>" + totalAmount + "</td>");
                 row.append("<td style='text-align:center;'><input value='" + item.cancel_reason + "' name='cancel_reason[]' class='form-control text-danger text-left pos_inputbox' style='margin-left: -3px;' autocomplete='off'></td>");
-                row.append("<td style='text-align:center;'><input type='number' value='" + item.canncelled_qty + "' id='id_net_cancelQty' name='net_cancelQty[]' class='form-control text-left pos_inputbox' style='display:none;'></td>");
+                row.append("<td style='text-align:center;'><input type='number' value='" + canncelled_qty + "' id='id_net_cancelQty' name='net_cancelQty[]' class='form-control text-left pos_inputbox' step='0.01' hidden></td>");
 
                 tableBody.append(row);
                 
@@ -555,14 +617,14 @@
 
                 // individual input checkbox checked
                 $('input[name="cancel_qty[]"]').on('input', function () {
-                    var maxValue = parseInt($(this).attr('max'));
-                    var enteredValue = parseInt($(this).val());
+                    var maxValue = parseFloat($(this).attr('max'));
+                    var enteredValue = parseFloat($(this).val());
                 
                     // Get the row containing the input field
                     var row = $(this).closest('tr');
                     var checkbox = row.find('input[type="checkbox"]');
-                    var qty = parseInt(row.find('td:eq(6)').text()); // Qty in the seventh column
-                    var cancelledQty = parseInt(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
+                    var qty = parseFloat(row.find('td:eq(6)').text()); // Qty in the seventh column
+                    var cancelledQty = parseFloat(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
                 
                     if (maxValue > 0) {
                         if (isNaN(enteredValue) || enteredValue < 0) {
@@ -585,12 +647,13 @@
                         var salesRate = parseFloat(row.find('td:eq(5)').text()); // Assuming sales rate is in the sixth column
                 
                         // Calculate total amount based on entered value and sales rate
-                        var item_w_dis = parseInt(row.find('td:eq(7)').text());
+                        var item_w_dis = parseFloat(row.find('td:eq(7)').text());
                         var remaining_item_w_dis = ((item_w_dis / qty) * (qty - cancelledQty - enteredValue)).toFixed(0);
                         var newTotalAmount = ((salesRate * (qty - cancelledQty - enteredValue)) - remaining_item_w_dis).toFixed(0);
                 
                         var sum = enteredValue + cancelledQty;
-                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum);
+                        var total_sum = parseFloat(sum.toFixed(2));
+                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(total_sum);
                 
                         // Update the totalAmount cell in the row
                         row.find('td:eq(11)').text(newTotalAmount);
@@ -624,8 +687,8 @@
                     if (allChecked) {
                         $('input[name="is_cancel[]"]:checked').each(function () {
                             var row = $(this).closest('tr');
-                            var qty = parseInt(row.find('td:eq(6)').text());
-                            var cancelledQty = parseInt(row.find('td:eq(8)').text());
+                            var qty = parseFloat(row.find('td:eq(6)').text());
+                            var cancelledQty = parseFloat(row.find('td:eq(8)').text());
                             if (qty !== cancelledQty) {
                                 allMeetCondition = false;
                                 return false; // Exit the loop early if a checkbox doesn't meet the condition
@@ -699,15 +762,16 @@
                 function recalculateTotalAmount(inputField) {
                     var row = inputField.closest('tr');
                     var salesRate = parseFloat(row.find('td:eq(5)').text()); // Assuming sales rate is in the sixth column
-                    var qty = parseInt(row.find('td:eq(6)').text()); // Qty in the seventh column
-                    var item_w_dis = parseInt(row.find('td:eq(7)').text());
-                    var cancelledQty = parseInt(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
-                    var enteredValue = parseInt(inputField.val()) || 0;
+                    var qty = parseFloat(row.find('td:eq(6)').text()); // Qty in the seventh column
+                    var item_w_dis = parseFloat(row.find('td:eq(7)').text());
+                    var cancelledQty = parseFloat(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
+                    var enteredValue = parseFloat(inputField.val()) || 0;
                     var isChecked = row.find('input[type="checkbox"]').prop('checked');
 
                     if (isChecked) {
                         var sum = enteredValue + cancelledQty;
-                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum); // Display the sum
+                        var total_sum = parseFloat(sum.toFixed(2));
+                        row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(total_sum); // Display the sum
                     } else {
                         row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(cancelledQty); // Display the cancelQty
                     }
@@ -732,14 +796,15 @@
                     $('input[name="is_cancel[]"]:checked').each(function () {
                         var row = $(this).closest('tr');
                         var salesRate = parseFloat(row.find('td:eq(5)').text());
-                        var qty = parseInt(row.find('td:eq(6)').text());
-                        var item_w_dis = parseInt(row.find('td:eq(7)').text());
-                        var cancelledQty = parseInt(row.find('td:eq(8)').text());
-                        var enteredValue = parseInt(row.find('input[name="cancel_qty[]"]').val()) || 0;
+                        var qty = parseFloat(row.find('td:eq(6)').text());
+                        var item_w_dis = parseFloat(row.find('td:eq(7)').text());
+                        var cancelledQty = parseFloat(row.find('td:eq(8)').text());
+                        var enteredValue = parseFloat(row.find('input[name="cancel_qty[]"]').val()) || 0;
                 
                         if (isChecked) {
                             var sum = enteredValue + cancelledQty;
-                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum); // Display the sum
+                            var total_sum = parseFloat(sum.toFixed(2));
+                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(total_sum); // Display the sum
                         } else {
                             row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(cancelledQty); // Display the cancelQty
                         }
@@ -754,9 +819,9 @@
                         $('input[name="is_cancel[]"]:checked').each(function () {
                             var row = $(this).closest('tr');
                             var salesRate = parseFloat(row.find('td:eq(5)').text()); // Assuming sales rate is in the sixth column
-                            var qty = parseInt(row.find('td:eq(6)').text()); // Qty in the seventh column
-                            var item_w_dis = parseInt(row.find('td:eq(7)').text());
-                            var cancelledQty = parseInt(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
+                            var qty = parseFloat(row.find('td:eq(6)').text()); // Qty in the seventh column
+                            var item_w_dis = parseFloat(row.find('td:eq(7)').text());
+                            var cancelledQty = parseFloat(row.find('td:eq(8)').text()); // Cancelled Qty in the eighth column
                             var enteredValue = 0; // Set to 0 when is_cancel_all is unchecked
                             
                             var remaining_item_w_dis = ((item_w_dis / qty) * (qty - cancelledQty - enteredValue)).toFixed(0);
@@ -765,7 +830,8 @@
 
 
                             var sum = enteredValue + cancelledQty;
-                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(sum);
+                            var total_sum = parseFloat(sum.toFixed(2));
+                            row.find('td:eq(13)').find('input[name="net_cancelQty[]"]').val(total_sum);
                         });
                     }
                 }

@@ -140,15 +140,14 @@
                                         <div class="card main-card">
                                             <div class="card-body card-body_org_setup">
                                                 <div class="row row_item_setup">
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-6">
                                                         <div class="card main-card">
                                                             <div class="card-body item_setup_sub">
                                                                 <div class="row cash_point_row">
-                                                                    <label for="id_branch_no"
-                                                                        class="col-sm-bran col-form-label font_size_filter required">
+                                                                    <label for="id_branch_no" class="col-sm-bran col-form-label font_size_filter required">
                                                                         Bran. No:
                                                                     </label>
-                                                                    <div class="col-sm-8">
+                                                                    <div class="col-sm-6">
                                                                         <input type="text"
                                                                             class="form-control item_inputbox"
                                                                             id="id_branch_no" name="branch_no"
@@ -159,19 +158,57 @@
                                                         </div>
                                                     </div>
                                                     <!--  -->
-                                                    <div class="col-sm-4">
-                                                        <div class="card main-card">
-                                                            <div class="card-body item_setup_sub">
-                                                                <div class="item_setupflag div_id_is_active"
-                                                                    style="display: flex; justify-content: right;">
-                                                                    <label
-                                                                        class="form-check-label text-danger setupflag_label"
-                                                                        for="id_branch_is_active">
-                                                                        Active?
-                                                                    </label>
-                                                                    <input class="form-check-input" type="checkbox"
-                                                                        id="id_branch_is_active" name="is_active" value="1"
-                                                                        aria-label="...">
+                                                    <div class="col-sm-6" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-items: center;">
+                                                        <div class="col-sm-5" style="margin-right: 0.5rem;">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="item_setupflag div_id_is_active"
+                                                                        style="display: flex; justify-content: right;">
+                                                                        <label
+                                                                            class="form-check-label setupflag_label"
+                                                                            for="id_main_branch">
+                                                                            Is Main Branch:
+                                                                        </label>
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="id_main_branch" name="main_branch" value="1"
+                                                                            aria-label="...">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-4">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="item_setupflag div_id_is_active"
+                                                                        style="display: flex; justify-content: right;">
+                                                                        <label
+                                                                            class="form-check-label setupflag_label"
+                                                                            for="id_sub_branch">
+                                                                            Is Sub Branch:
+                                                                        </label>
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="id_sub_branch" name="sub_branch" value="1"
+                                                                            aria-label="...">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-3">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="item_setupflag div_id_is_active"
+                                                                        style="display: flex; justify-content: right;">
+                                                                        <label
+                                                                            class="form-check-label text-danger setupflag_label"
+                                                                            for="id_branch_is_active">
+                                                                            Active?
+                                                                        </label>
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="id_branch_is_active" name="is_active" value="1"
+                                                                            aria-label="...">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -591,12 +628,12 @@
 
                                 <!-- submit button -->
                                 <div class="submit_button">
-                                    <button type="button" class="btn btn-primary btn-sm" onClick="location.href='/organizations_list'"
+                                    <button type="button" class="btn btn-primary btn-sm" onClick="navigateTo('/organizations_list/')"
                                         style="margin-right: 10px;">
                                         Add New
                                     </button>
                                     <button type="button" class="btn btn-danger btn-sm" style="margin-right: 10px;"
-                                        onclick="$('#store_form')[0].reset();">
+                                        onclick="clearbranchForm();">
                                         Clear
                                     </button>
                                     <button type="submit" value="submit" class="btn btn-success btn-sm"
@@ -625,6 +662,8 @@
                 var branch_no = branch_data.branch_no;
                 var branch_name = branch_data.branch_name;
                 var branch_orgName = branch_data.bran_org_id;
+                var is_main_branch = branch_data.is_main_branch;
+                var is_sub_branch = branch_data.is_sub_branch;
                 var is_active = branch_data.is_active;
                 var country = branch_data.country;
                 var division = branch_data.division;
@@ -640,9 +679,13 @@
                 var description = branch_data.description;
 
                 // Get the checkbox input element by its ID
+                var is_main_branchCheckbox = document.getElementById("id_main_branch");
+                var is_sub_branchCheckbox = document.getElementById("id_sub_branch");
                 var is_activeBranchCheckbox = document.getElementById("id_branch_is_active");
 
                 // Set the checked attribute based on the is_active value
+                is_main_branchCheckbox.checked = is_main_branch;
+                is_sub_branchCheckbox.checked = is_sub_branch;
                 is_activeBranchCheckbox.checked = is_active;
 
                 $("#id_branch_id").val(branch_id);
@@ -838,7 +881,7 @@
                             toastr.success(resp.msg);
                             loadBranchlist();
                             showOrgLoader();
-                            $('#branch_form')[0].reset();
+                            clearbranchForm();
                             // Clear the displayed image by setting its src to an empty string
                             $('#selected_branchlogo').attr('src', '{% static "images/profile_img/user.png" %}');
                             // Hide loader
@@ -982,5 +1025,14 @@
     
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    // clear form and img
+    function clearbranchForm() {
+        // Reset the form with ID 'branch_form'
+        $('#branch_form')[0].reset();
+        $('#id_branch_id').val('');
+        // Set the source of the image with ID 'selected_branchlogo' to the default image path
+        $('#selected_branchlogo').attr('src', '{% static "images/profile_img/user.png" %}');
     }
 </script>

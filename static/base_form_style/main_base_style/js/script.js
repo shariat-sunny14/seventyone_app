@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const menuLinks = document.querySelectorAll(".nav__link");
     const menuLinkMenus = document.querySelectorAll(".nav__link__menu");
 
-    function setActiveLink() {
+    window.setActiveLink = function () {
         const currentPath = window.location.pathname;
         menuLinks.forEach(link => {
             const parentDropdown = link.closest('.nav__dropdown');
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Check and set the active link based on localStorage on page load
-    const activeLink = localStorage.getItem("activeLink");
+    const activeLink = localStorage.getItem("aactiveLink");
     if (activeLink && activeLink !== window.location.pathname) {
         // Update the URL without reloading the page
         window.history.pushState(null, null, activeLink);
@@ -115,6 +115,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Listen for manual URL changes (such as typing in the URL bar)
     window.addEventListener("load", setActiveLink);
 });
+
+function navigateTo(url) {
+    localStorage.setItem("activeLink", url);
+    window.history.pushState(null, null, url);
+    setActiveLink(); // Update active link before changing location
+    location.href = url; // Trigger page load after setting active link
+}
 
 /*==================== LINK ACTIVE END ====================*/
 

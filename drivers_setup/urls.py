@@ -8,4 +8,6 @@ urlpatterns = [
     path('get_drivers_options/', views.getDriversOptionsAPI, name='get_drivers_options'),
     path('get_drivers_list/', views.getDriversListsAPI, name='get_drivers_list'),
     path('edit_drivers_setup/', views.editDriverSetupManageAPI, name='edit_drivers_setup'),
+    path('search_get_drivers_list_pos/', views.searchDriversManagerAPI, name='search_get_drivers_list_pos'),
+    path('select_drivers_details_pos/', views.selectDriversDetailsManagerAPI, name='select_drivers_details_pos'),
 ]

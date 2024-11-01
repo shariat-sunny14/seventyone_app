@@ -11,8 +11,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db.models import Q, F, Sum, ExpressionWrapper, fields, FloatField
 from django.db import transaction
-from django.contrib import messages
-from item_setup.models import items
+from django.db.models import Prefetch
+from django.core.paginator import Paginator
+from item_setup.models import item_supplierdtl, items
 from store_setup.models import store
 from organizations.models import branchslist, organizationlst
 from django.contrib.auth.decorators import login_required
@@ -20,7 +21,7 @@ from stock_list.stock_qty import get_available_qty
 from .forms import OpeningStockForm, OpeningStockdtlForm
 from . models import opening_stock, opening_stockdtl
 from item_pos.models import invoicedtl_list
-from stock_list.models import stock_lists
+from stock_list.models import in_stock, stock_lists
 from others_setup.models import item_type
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -130,29 +131,42 @@ def manage_Opening_StockAPI(request):
 # get opening stock list
 @login_required()
 def get_Opening_Stock_listAPI(request):
-    item_with_grandQty = []
     selected_type_id = request.GET.get('selectedTypeId')
     selected_id_org = request.GET.get('id_org')
     selected_supplier_id = request.GET.get('filter_suppliers')
+    query = request.GET.get('query', '')  # Fetch the query term
 
-    item_data = items.objects.filter(is_active=True)
+    # Base query with filters applied more efficiently
+    filters = {'is_active': True}
 
-    if selected_type_id and selected_type_id != '1':  # '1' represents the option 'All Item Type'
-        item_data = item_data.filter(type_id=selected_type_id)
+    if selected_type_id and selected_type_id != '1':
+        filters['type_id'] = selected_type_id
 
     if selected_id_org:
-        item_data = item_data.filter(org_id=selected_id_org)
+        filters['org_id'] = selected_id_org
+
+    # Fetch the data using select_related and prefetch_related for optimization
+    item_data = items.objects.filter(**filters).select_related(
+        'org_id', 'type_id'
+    ).prefetch_related('item_supplierdtl__supplier_id')
 
     if selected_supplier_id and selected_supplier_id != '1':
         item_data = item_data.filter(item_supplierdtl__supplier_id=selected_supplier_id)
 
-    item_data = item_data.all()
+    # Filter items based on the query (item_name contains query term)
+    if query:
+        item_data = item_data.filter(Q(item_name__icontains=query) | Q(item_no__icontains=query))
 
-    for item in item_data:
-        item_with_grandQty.append({
-            'item_id': item.item_id,
-            'item_name': item.item_name,
-        })
+    # Using values to avoid object instantiation
+    item_data = item_data.values('item_id', 'item_name')
+
+    # Paginate the results
+    paginator = Paginator(item_data, 200)  # 200 items per page
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # Prepare response
+    item_with_grandQty = list(page_obj)  # Convert page_obj to list
 
     return JsonResponse({'data': item_with_grandQty})
 
@@ -164,36 +178,34 @@ def get_OSItem_details(request, op_st_id=None):
         selected_item_id = request.GET.get('selectedItem')
         selected_id_org = request.GET.get('id_org')
 
-        # Get the list of main stores ordered by store_no
-        store_data = store.objects.filter(is_main_store=True).order_by('store_no')
+        # Fetch only the main store directly
+        main_store = store.objects.filter(is_main_store=True).first()
+
+        if not main_store:
+            return JsonResponse({'error': 'Main store not found'}, status=404)
 
         try:
-            selected_item = items.objects.get(item_id=selected_item_id)
+            # Use select_related to optimize related field fetching (type_id and item_uom_id)
+            selected_item = items.objects.select_related('type_id', 'item_uom_id').get(item_id=selected_item_id)
 
-            # Check if there is a main store
-            main_store = store_data.first()
+            # Fetch available quantity
+            available_qty = get_available_qty(item_id=selected_item, store_id=main_store, org_id=selected_id_org)
 
-            if main_store:
+            # Prepare item details
+            item_details = [{
+                'item_id': selected_item.item_id,
+                'item_no': selected_item.item_no,
+                'type_name': selected_item.type_id.type_name if selected_item.type_id else '',
+                'uom_name': selected_item.item_uom_id.item_uom_name if selected_item.item_uom_id else '',
+                'sales_price': selected_item.sales_price,
+                'grandQty': available_qty,
+                'item_name': selected_item.item_name,
+            }]
 
-                item_details = []
+            print("item_details:", item_details)
 
-                available_qty = get_available_qty(item_id=selected_item, store_id=main_store, org_id=selected_id_org)
-                
-                print('available_qty', available_qty)
-                
-                item_details.append({
-                    'item_id': selected_item.item_id,
-                    'item_no': selected_item.item_no,
-                    'type_name': selected_item.type_id.type_name if selected_item.type_id else '',
-                    'uom_name': selected_item.item_uom_id.item_uom_name if selected_item.item_uom_id else '',
-                    'sales_price': selected_item.sales_price,
-                    'grandQty': available_qty,
-                    'item_name': selected_item.item_name,
-                })
+            return JsonResponse({'data': item_details})
 
-                return JsonResponse({'data': item_details})
-            else:
-                return JsonResponse({'error': 'Main store not found'}, status=404)
         except items.DoesNotExist:
             return JsonResponse({'error': 'Item not found'}, status=404)
     else:
@@ -299,6 +311,8 @@ def Addopening_stock(request):
     item_qtys = request.POST.getlist('item_qty[]')
     item_batchs = request.POST.getlist('item_batchs[]')
     item_prices = data.getlist('item_price[]')
+    item_exp_dates = data.getlist('item_exp_dates[]')
+    is_approved = data['is_approved']
 
     store_instance = store.objects.get(store_id=store_id)
 
@@ -338,7 +352,7 @@ def Addopening_stock(request):
                         openingStock = opening_stock(
                             store_id=store_instance,
                             transaction_date=data['transaction_date'],
-                            is_approved=data['is_approved'],
+                            is_approved=is_approved,
                             is_approved_by=user_instance,
                             approved_date=data['approved_date'],
                             remarks=data['remarks'],
@@ -349,13 +363,18 @@ def Addopening_stock(request):
                         openingStock.save()
 
                         # Create opening_stockdtl instances for each item
-                        for item_id, item_price, qty, batch in zip(item_ids, item_prices, item_qtys, item_batchs):
+                        for item_id, item_price, qty, batch, exp_dates in zip(item_ids, item_prices, item_qtys, item_batchs, item_exp_dates):
                             item_instance = items.objects.get(item_id=item_id)
+
+                            # Handle null or empty expiration dates
+                            if exp_dates in [None, '']:
+                                exp_dates = None  # Set to None for empty values
 
                             openingStockDtl = opening_stockdtl(
                                 op_item_qty=qty,
                                 unit_price=item_price,
                                 item_batch=batch,
+                                item_exp_date=exp_dates,
                                 item_id=item_instance,
                                 op_st_id=openingStock,
                                 store_id=store_instance,
@@ -371,6 +390,8 @@ def Addopening_stock(request):
                                 op_stdtl_id=openingStockDtl,
                                 stock_qty=qty,
                                 item_batch=batch,
+                                item_exp_date=exp_dates,
+                                recon_type=True, #recon_type=True is adding item in stock list
                                 item_id=item_instance,
                                 store_id=store_instance,
                                 is_approved=openingStock.is_approved,
@@ -378,6 +399,22 @@ def Addopening_stock(request):
                                 ss_creator=request.user
                             )
                             stock_data.save()
+
+                            # Check if item and store combination exists in in_stock
+                            approved_status = openingStock.is_approved
+
+                            if approved_status == '1':
+                                in_stock_obj, created = in_stock.objects.get_or_create(
+                                    item_id=item_instance,
+                                    store_id=store_instance,
+                                    defaults={
+                                        'stock_qty': qty,
+                                    }
+                                )
+                                if not created:
+                                    # If the record exists, update the stock_qty
+                                    in_stock_obj.stock_qty += float(qty)
+                                    in_stock_obj.save()
 
                         resp['status'] = 'success'
                         return JsonResponse({'success': True, 'msg': 'Successful'})
@@ -409,7 +446,9 @@ def editUpdate_openingStockAPI(request):
         item_qtys = data.getlist('item_qty[]')
         item_batchs = data.getlist('item_batchs[]')
         item_prices = data.getlist('item_price[]')
+        item_exp_dates = data.getlist('item_exp_dates[]')
         is_approved_by_user = data.get('is_user_id_by')
+        is_approved = data['is_approved']
 
         try:
             # Check if the user exists
@@ -447,7 +486,7 @@ def editUpdate_openingStockAPI(request):
             openingStock.id_org = org_instance
             openingStock.branch_id = branch_instance
             openingStock.store_id = store_instance
-            openingStock.is_approved = data['is_approved']
+            openingStock.is_approved = is_approved
             openingStock.is_approved_by = user_instance
             openingStock.approved_date = data['approved_date']
             openingStock.remarks = data['remarks']
@@ -455,8 +494,12 @@ def editUpdate_openingStockAPI(request):
             openingStock.save()
 
             # Update or create without_GRNdtl instances for each item
-            for item_id, item_price, qty, batch in zip(item_ids, item_prices, item_qtys, item_batchs):
+            for item_id, item_price, qty, batch, exp_dates in zip(item_ids, item_prices, item_qtys, item_batchs, item_exp_dates):
                 item_instance = items.objects.get(item_id=item_id)
+
+                # Handle null or empty expiration dates
+                if exp_dates in [None, '']:
+                    exp_dates = None  # Set to None for empty values
 
                 openingStockkDtl, created = opening_stockdtl.objects.update_or_create(
                     op_st_id=openingStock,
@@ -465,6 +508,7 @@ def editUpdate_openingStockAPI(request):
                         'op_item_qty': qty,
                         'unit_price': item_price,
                         'item_batch': batch,
+                        'item_exp_date': exp_dates,
                         'store_id': store_instance,
                         'is_approved': openingStock.is_approved,
                         'approved_date': openingStock.approved_date,
@@ -483,15 +527,32 @@ def editUpdate_openingStockAPI(request):
                     defaults={
                         'stock_qty': qty,
                         'item_batch': batch,
+                        'item_exp_date': exp_dates,
                         'store_id': store_instance,
+                        'recon_type': True, #recon_type=True is adding item in stock list
                         'is_approved': openingStock.is_approved,
                         'approved_date': openingStock.approved_date,
                         'ss_modifier': request.user
                     }
                 )
-
-                # Save the stock_lists instance
+                # Save the in_stock instance
                 stock_data.save()
+
+                # Check if item and store combination exists in in_stock
+                approved_status = openingStock.is_approved
+
+                if approved_status == '1':
+                    in_stock_obj, created = in_stock.objects.get_or_create(
+                        item_id=item_instance,
+                        store_id=store_instance,
+                        defaults={
+                            'stock_qty': qty,
+                        }
+                    )
+                    if not created:
+                        # If the record exists, update the stock_qty
+                        in_stock_obj.stock_qty += float(qty)
+                        in_stock_obj.save()
 
             resp['success'] = True
             return JsonResponse({'success': True, 'msg': 'Successful'})
@@ -560,16 +621,19 @@ def reportOpeningStockAPI(request, op_st_id=None):
 def delete_ops_dtls(request, op_stdtl_id):
     if request.method == 'DELETE':
         try:
-            # Get the ops_dtlsID instance using op_stdtl_id
+            # Get the opening_stockdtl instance using op_stdtl_id
             ops_dtlsID = opening_stockdtl.objects.get(op_stdtl_id=op_stdtl_id)
-
-            # Delete records related to the specified wo_grndtl
-            # Make sure to use the correct model relationships
+            # Get all stock_list entries related to this ops_dtlsID
             stock_data = stock_lists.objects.filter(op_stdtl_id=ops_dtlsID)
+            # Delete the stock_list entries
             stock_data.delete()
+
+            # Finally, delete the opening_stockdtl entry
             ops_dtlsID.delete()
 
-            return JsonResponse({'success': True, 'msg': f'Successfully deleted'})
+            return JsonResponse({'success': True, 'msg': 'Successfully deleted'})
         except opening_stockdtl.DoesNotExist:
-            return JsonResponse({'success': False, 'errmsg': f'opening stockdtl id {op_stdtl_id} not found.'})
+            return JsonResponse({'success': False, 'errmsg': f'opening_stockdtl id {op_stdtl_id} not found.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'errmsg': f'Error occurred while deleting: {str(e)}'})
     return JsonResponse({'success': False, 'errmsg': 'Invalid request method.'})

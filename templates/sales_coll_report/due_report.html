@@ -16,9 +16,19 @@
             <!-- Main Heading -->
             <div class="row">
                 <div class="col col-md-4 col-md-6 dashboar-head">
-                    <div class="d-sm-flex align-items-center mb-2">
+                    <div class="d-sm-flex align-items-center mb-2" style="height: 2rem;">
                         <i class='bx bx-spreadsheet text-success req-head-icon'></i>
                         <h1 class="h3 text-success req-head">Due Reports</h1>
+                        <!--  -->
+                        <div style="position: absolute; right: 2rem;">
+                            <!--  -->
+                            <button type="button" onClick="navigateTo('/item_pos_billing/')"
+                                class="btn btn-success bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                style="display: flex; font-size: 0.8rem; font-weight: bolder; box-shadow: 4px 5px 10px 0px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff; height: 1.7rem; padding: 0.5rem 1.3rem; flex-direction: row; flex-wrap: nowrap; align-items: center;">
+                                Billing
+                            </button>
+                            <!--  -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,14 +37,14 @@
     <!--  -->
     <section>
         <div class="card" style="align-items: start; margin-bottom: 0.5rem;">
-            <div class="card-body">
+            <div class="card-body col-sm-12">
                 <div class="report-filter">
                     <!-- Date Range Filter -->
                     <div class="date-range">
-                        <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                        <div class="row date_range-body col-sm-range" style="display:flex; font-size: 0.8rem;">
                             <div class="date_range-element col-sm-12" style="display:flex">
                                 <!--  -->
-                                <div class="row g-3 col-sm-5 align-items-center">
+                                <div class="row g-3 col-sm-4 align-items-center">
                                     <div class="col-auto">
                                         <label for="id_filter_org" class="col-form-label">Org :</label>
                                     </div>
@@ -381,7 +391,7 @@
 
                 //<!-- footer start -->
                 // Generate the content for the footer
-                const footerText = 'Software By: Shariat Sunny';
+                const footerText = 'Software By: TBOX, Contact: +8801309-994317,';
 
                 // Calculate the width and height for the footer
                 const footerWidth = maxHeaderWidth; // Use the same width as the header

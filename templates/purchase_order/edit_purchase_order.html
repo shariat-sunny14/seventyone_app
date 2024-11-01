@@ -28,7 +28,7 @@
                             <i class='bx bx-blanket text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Edit/Update Purchase Order</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/purchase_order_list'">
+                        <div class="add-moduleBtn" onClick="navigateTo('/purchase_order_list/')">
                             <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn"
                                 style="font-weight: bolder; background: #0397c4; box-shadow: 4px 2px 5px 2px #43507e;">
                                 Purchase Order List
@@ -1347,7 +1347,7 @@
                         toastr.success(resp.msg);
                         setTimeout(function () { 
                             location.reload();
-                            window.location.href = "{% url 'purchase_order_list' %}";
+                            navigateTo("{% url 'purchase_order_list' %}");
                         }, 300);
                     } else {
                         toastr.error(resp.errmsg);

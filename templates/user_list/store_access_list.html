@@ -134,11 +134,15 @@
         // Event delegation for click event on dynamic elements with class "org-span"
         $('#orgTableBody').on('click', '.org-span', function () {
             var orgId = $(this).data('org_id');
-            // Call your Ajax function here using the orgId
-            // For example, you can use jQuery's $.ajax function
+            var userId = $('input[name="user_id"]').val(); // Get the user_id from the hidden input field
+            
+            // Call your Ajax function here using the orgId and userId
             $.ajax({
                 url: '/get_orgid_wise_store_value/' + orgId + '/',  // Include the org_id in the URL
                 method: 'GET',
+                data: {
+                    user_id: userId  // Pass the user_id as a query parameter
+                },
                 success: function (data) {
                     updateTemplateWithData(data);
                     checkDefaultStores(data);
@@ -283,13 +287,23 @@
                     // Set checkbox status based on storeFound
                     checkbox.prop('checked', storeFound);
         
-                    // Check the radio button if is_default is true
-                    if (storeFound && storeacc_data.find(store => parseInt(store.store_id) === storeId).is_default) {
-                        checkbox.closest('tr').find('input[type="radio"]').prop('checked', true);
+                    // Check or uncheck the radio button based on is_default
+                    var radioButton = checkbox.closest('tr').find('input[type="radio"]');
+                    if (storeFound) {
+                        var isDefault = storeacc_data.find(store => parseInt(store.store_id) === storeId).is_default;
+                        radioButton.prop('checked', isDefault);
+                    } else {
+                        // Uncheck radio button if store is not found
+                        radioButton.prop('checked', false);
                     }
                 });
             } else {
+                // If storeacc_data is not defined or not an array, log an error
                 console.error('storeacc_data is not defined or is not an array');
+                
+                // Uncheck all checkboxes and radio buttons
+                $('input[name="store_ids[]"]').prop('checked', false);
+                $('input[type="radio"]').prop('checked', false);
             }
         }
 

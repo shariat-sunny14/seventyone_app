@@ -5,8 +5,7 @@ User = get_user_model()
 
 # Create your models here.
 class store(models.Model):
-    store_id = models.BigAutoField(
-        primary_key=True, default=123100000000, editable=False)
+    store_id = models.BigAutoField(primary_key=True, default=123100000000, editable=False)
     store_no = models.CharField(max_length=50, null=True, blank=True)
     store_name = models.CharField(max_length=150, null=True, blank=True)
     org_id = models.ForeignKey(organizationlst, null=True, blank=True, related_name='org_id2store', on_delete=models.DO_NOTHING)

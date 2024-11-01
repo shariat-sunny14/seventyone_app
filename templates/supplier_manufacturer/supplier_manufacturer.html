@@ -583,7 +583,7 @@
                                                         New
                                                     </button>
                                                     <button type="button" class="btn btn-danger btn-sm"
-                                                        style="margin-right: 10px;" onclick="$('#supp_form')[0].reset();">
+                                                        style="margin-right: 10px;" onclick="resetForm();">
                                                         Clear
                                                     </button>
                                                     <button type="submit" value="submit" class="btn btn-success btn-sm"
@@ -848,7 +848,7 @@
                                 toastr.success(resp.msg);
                                 loadsupplier();
                                 showLoader();
-                                $('#supp_form')[0].reset();
+                                resetForm();
                                 // Hide loader
                                 setTimeout(function () {
                                     hideLoader();
@@ -931,6 +931,11 @@
         });
         //loader
         //==========================================
+
+        function resetForm() {
+            $('#supp_form')[0].reset();
+            $('#id_supplier_id').val('');
+        }
     </script>
 </main>
 {% endblock %}

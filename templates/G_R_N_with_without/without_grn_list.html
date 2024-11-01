@@ -18,7 +18,7 @@
                 border-right: none;
                 border-top-left-radius: 0.3rem;
                 border-top-right-radius: 0.3rem;
-                background: #455697;">
+                background: #639745d8;">
                 <!-- Main Heading -->
                 <div class="row">
                     <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
@@ -26,11 +26,19 @@
                             <i class='bx bxl-trello text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Good Receive Note Without (GRN) List</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/add_receive_stock_withoutgrn'">
-                            <button id="addmodulesetup" class="btn btn-success text-white btn-xs moduleBtn"
-                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e;">
-                                Receive New Stock
-                            </button>
+                        <div style="width: 30%; display: flex; flex-direction: row; flex-wrap: wrap; align-content: center; align-items: center; justify-content: space-evenly;">
+                            <div style="width: 10%; float: right; display: flex; justify-content: center; text-align: center; align-items: center; flex-direction: row; flex-wrap: nowrap;">
+                                <button type="button" onClick="navigateTo('/item_pos_billing/')" class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                    style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #639745d8; border-radius: 0.7rem; border: 1.5px solid #fff; font-size: 0.8rem; padding: 0.275rem 1.5rem; margin-right: 4rem;">
+                                    Billing
+                                </button>
+                            </div>
+                            <div style="width: 10%; float: right; display: flex; justify-content: center; text-align: center; align-items: center; flex-direction: row; flex-wrap: nowrap;">
+                                <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn" onClick="navigateTo('/add_receive_stock_withoutgrn/')"
+                                    style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #639745d8; border-radius: 0.7rem; border: 1.5px solid #fff; font-size: 0.8rem;">
+                                    Receive New Stock
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,28 +140,34 @@
             <!--  -->
             <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
                 <div class="module-table">
-                    <table id="WOGRN_table" class="table table-striped table-hover" style="width: 100%; border: 1px solid #6aa2a8;">
-                        <thead class="text-center table-header_itemlist">
+                    <table id="WOGRN_table" class="table table-striped table-hover" style="width: 100%; border: 1px solid #639745a9;">
+                        <thead class="text-center table-header_itemlist" style="background: #639745a9;">
                             <tr>
                                 <th style="text-align:center; width: 6%;">
                                     Sl
                                 </th>
-                                <th style="text-align:center; width: 15%;">
+                                <th style="text-align:center; width: 10%;">
                                     WO GRN ID
                                 </th>
                                 <th style="text-align:center; width: 20%;">
                                     Store Name
                                 </th>
-                                <th style="text-align:center; width: 10%;">
+                                <th style="text-align:center; width: 8%;">
+                                    Invoice No
+                                </th>
+                                <th style="text-align:center; width: 8%;">
+                                    Invoice Date
+                                </th>
+                                <th style="text-align:center; width: 8%;">
                                     Create Date
                                 </th>
-                                <th style="text-align:center; width: 10%;">
+                                <th style="text-align:center; width: 8%;">
                                     Approved Date
                                 </th>
                                 <th style="text-align:center; width: 15%;">
                                     Approved by
                                 </th>
-                                <th style="text-align:center; width: 10%;">
+                                <th style="text-align:center; width: 8%;">
                                     Status
                                 </th>
                                 <th style="text-align:center; width: 8%;">
@@ -295,6 +309,8 @@
                                             <td style="text-align:center;">${index + 1}</td>
                                             <td style="text-align:center;">${poDtls.wo_grn_no}</td>
                                             <td style="text-align:left;">${poDtls.store_name}</td>
+                                            <td style="text-align:left;">${poDtls.invoice_no}</td>
+                                            <td style="text-align:left;">${poDtls.invoice_date}</td>
                                             <td style="text-align:center;">${poDtls.transaction_date}</td>
                                             <td style="text-align:center;">${poDtls.approved_date}</td>
                                             <td style="text-align:center;">${poDtls.is_approved_by_first} ${poDtls.is_approved_by_last}</td>
@@ -355,7 +371,7 @@
             } else {
                 var wogrnId = $(this).attr('data-id');
                 var updateWithoutGRNUrl = "{% url 'edit_receive_stock_withoutgrn' 0 %}".replace('0', wogrnId);
-                window.location.href = updateWithoutGRNUrl;
+                navigateTo(updateWithoutGRNUrl);
             }
         });
 

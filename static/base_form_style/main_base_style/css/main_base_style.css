@@ -192,7 +192,8 @@ img {
     /*#e2e2e2 ---- #2A2D35 ---- var(--container-color)*/
     box-shadow: 1px 0 0 rgba(22, 8, 43, 0.1);
     z-index: var(--z-fixed);
-    transition: .4s;
+    transition: width 0.5s ease;
+    transition-delay: 0.20s;
 }
 
 .nav__container {
@@ -509,6 +510,15 @@ div.dataTables_wrapper div.dataTables_filter input {
     }
 }
 
+@media print {
+    .signature {
+        page-break-inside: avoid;
+        position: relative;
+        top: 5rem;
+        bottom: 1rem;
+    }
+}
+
 .block_body h1 {
     margin-left: 10px;
 }
@@ -576,7 +586,7 @@ p {
 .modal_body:target {
     visibility: visible;
     opacity: 1;
-    z-index: 3;
+    z-index: 10;
 }
 
 .modalcontent {
@@ -977,8 +987,48 @@ input::-webkit-inner-spin-button {
     left: -10px;
 }
 
+.pos_paid-due-status {
+    width: 100%;
+    font-size: 0.85rem;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.deli_receipt-name {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10rem;
+    height: 25px;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 13px;
+    font-weight: bolder;
+}
+
+.pos-info-body {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #c5c1c1;
+    border-left: 0;
+    border-right: 0;
+    font-size: 11px;
+}
+
+.pos-info-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 .paid-due-status {
-    width: 56%;
+    width: 100%;
     display: flex;
     align-items: stretch;
     text-align: center;
@@ -1000,13 +1050,18 @@ input::-webkit-inner-spin-button {
 }
 
 .sub-title1 {
-    margin-top: -9px;
-    margin-left: 4rem;
-    width: 75%;
+    display: flex;
+    width: 100%;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
     text-align: center;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-top: -9px;
 }
 
 .sub-title_address {

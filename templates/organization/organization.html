@@ -556,7 +556,7 @@
 
                                 <!-- submit button -->
                                 <div class="submit_button">
-                                    <button type="button" class="btn btn-primary btn-sm" onClick="location.href='/organizations_list'"
+                                    <button type="button" class="btn btn-primary btn-sm" onClick="navigateTo('/organizations_list/')"
                                         style="margin-right: 10px;">
                                         Add New
                                     </button>
@@ -814,7 +814,7 @@
     function clearFormAndImage() {
         // Reset the form with ID 'org_form'
         $('#org_form')[0].reset();
-        
+        $('#id_org_id').val('');
         // Set the source of the image with ID 'selected_logo' to the default image path
         $('#selected_logo').attr('src', '{% static "images/profile_img/user.png" %}');
     }

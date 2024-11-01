@@ -472,7 +472,7 @@ textarea.form-control {
 
 /* table */
 .type_type {
-    height: 696.5px;
+    height: 100vh;
     overflow: auto;
     border: 1px solid #71bac4;
 }

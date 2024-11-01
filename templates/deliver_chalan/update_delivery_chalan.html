@@ -1,0 +1,916 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'deliver_chalan/css/deliver_chalan.css' %}">
+
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<!-- <div class="loader"></div> -->
+<!-- loader end -->
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #459793d7;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 2.5rem; width: 100%; margin-left: 1rem;">
+                            <div class="col-md-4" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; align-items: center;">
+                                <i class='bx bx-clipboard text-white req-head-icon'></i>
+                                <h1 class="h3 text-white req-head">Create & Print Delivery Chalan</h1>
+                            </div>
+                            <!--  -->
+                            <div class="col-md-8-modfy" style="display: flex; justify-content: right;">
+                                <!--  -->
+                                <button type="button" onClick="navigateTo('/item_pos_billing/')"
+                                    class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                    style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #459793d7; border-radius: 0.7rem; border: 1.5px solid #fff; height: 1.8rem;">
+                                    Billing
+                                </button>
+                                <!--  -->
+                                <button type="button" onClick="navigateTo('/delivery_chalan_services/')"
+                                    class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                    style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #459793d7; border-radius: 0.7rem; border: 1.5px solid #fff; height: 1.8rem;">
+                                    Chalan List
+                                </button>
+                                <!--  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                <div class="card main_pos_card">
+                    <div class="row cash_point_row">
+                        <div class="col-sm-8">
+                            <div class="card pos_card">
+                                <div class="card-body pos_card_body">
+                                    <div class="row cash_point_row">
+                                        <div class="col-sm-6">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_org"
+                                                            class="col-sm-2 col-form-label">
+                                                            Organization:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_org" name="org" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="cash_point"
+                                                            class="col-sm-2 col-form-label">
+                                                            Cash Point:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="cash_point" name="cash_point" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="customer_name"
+                                                            class="col-sm-2 col-form-label">
+                                                            Customer's:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="customer_name" name="customer_name" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_road_no"
+                                                            class="col-sm-2 col-form-label">
+                                                            Road No.:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_road_no" name="road_no" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_address"
+                                                            class="col-sm-2 col-form-label">
+                                                            Address:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <textarea id="id_address" name="address" class="form-control reg_wise_disable pos_inputbox" disabled></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_branchs"
+                                                            class="col-sm-2 col-form-label">
+                                                            Branchs:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_branchs" name="branchs" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="gender"
+                                                            class="col-sm-2 col-form-label">Gender:</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="gender" name="gender" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="mobile_number"
+                                                            class="col-sm-2 col-form-label">
+                                                            Mobile:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="number" id="mobile_number" name="mobile_number" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_area"
+                                                            class="col-sm-2 col-form-label">
+                                                            Area:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_area" name="area" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="col-sm-4">
+                            <div class="card pos_card">
+                                <div class="card-body pos_card_body">
+                                    <div class="row cash_point_row">
+                                        <div class="col-sm-12">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_emergency_person"
+                                                            class="col-sm-2 col-form-label">
+                                                            Emergency Person:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_emergency_person" name="emergency_person" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_emergency_mobile"
+                                                            class="col-sm-2 col-form-label">
+                                                            Emergency Mobile:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_emergency_mobile" name="emergency_mobile" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_house_no"
+                                                            class="col-sm-2 col-form-label">
+                                                            House No.:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_house_no" name="house_no" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="row cash_point_row">
+                                                        <label for="id_sector_no"
+                                                            class="col-sm-2 col-form-label">
+                                                            Sector No.:
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="id_sector_no" name="sector_no" class="form-control reg_wise_disable pos_inputbox" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+            </section>
+            <!--  -->
+            <section>
+                <form action="" method="" id="updateChalanForm">
+                    <!--  -->
+                    <section id="b2b_clients_info" style="margin-top: 0.5rem; margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                        <div class="card main_pos_card">
+                            <div class="row cash_point_row">
+                                <div class="col-sm-12">
+                                    <div class="card pos_card">
+                                        <div class="card-body pos_card_body">
+                                            <div class="row cash_point_row">
+                                                <div class="col-sm-4"
+                                                    style="border-right: 1px solid rgba(0,0,0,.125);">
+                                                    <div class="card pos_card">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <!--  -->
+                                                                <div class="col-sm-12">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_carriers" class="col-sm-2 col-form-label" style="display: flex; font-size: 11.5px; flex-direction: row; justify-content: flex-end;">
+                                                                            Carriers:
+                                                                        </label>
+                                                                        <div class="col-md-cary">
+                                                                            <input type="search" class="form-control pos_inputbox" autocomplete="off" style="margin-top: 0px; height: 2rem; background: #fffab6;"
+                                                                                id="id_carriers" placeholder="Search Carrier's/Driver Name ...">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-8">
+                                                    <div class="card pos_card">
+                                                        <div class="card-body pos_card_body">
+                                                            <div class="row cash_point_row">
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_driver_name" class="col-sm-2 col-form-label">
+                                                                            Carrier's Name:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="number" id="id_driver_id" name="driver_id" hidden>
+                                                                            <input type="text" class="form-control pos_inputbox" autocomplete="off" id="id_driver_name" name="driver_name">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_driver_mobile" class="col-sm-2 col-form-label">
+                                                                            Carrier's Mobile:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text" class="form-control pos_inputbox" autocomplete="off" id="id_driver_mobile" name="driver_mobile">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--  -->
+                    <input type="number" id="id_inv_id" name="inv_id" value="{{ chalan_data.inv_id }}" hidden>
+                    <input type="number" id="id_chalan_id" name="chalan_id" hidden>
+                    <input type="number" id="id_org_id" name="org_id" hidden>
+                    <input type="checkbox" id="chalan_out_sourceing" name="chalan_out_sourceing" value="1" hidden>
+                    <input type="checkbox" id="chalan_direct_or_hold" name="chalan_direct_or_hold" value="1" hidden>
+                    <input type="checkbox" id="chalan_hold_approve" name="chalan_hold_approve" value="1" hidden>
+                    <div class="table-body" style="width: 99%; margin-left: 0.4rem;">
+                        <table id="chalanDtlList" class="table table-striped" style="width: 100%;">
+                            <thead class="text-center table-header">
+                                <tr style="border-style: hidden!important;">
+                                    <th style="text-align:center; width: 5%;">SL</th>
+                                    <th style="text-align:center; width: 6%;">Item No</th>
+                                    <th style="text-align:center; width: 16%;">Item Name</th>
+                                    <th style="text-align:center; width: 15%;">Store Name</th>
+                                    <th style="text-align:center; width: 6%;">Sales Qty</th>
+                                    <th style="text-align:center; width: 6%;">Delivered Qty</th>
+                                    <th style="text-align:center; width: 6%;">Pending Qty</th>
+                                    <th style="text-align:center; width: 8%;">Delivery Qty</th>
+                                    <th style="text-align:center; width: 7%;">Out Sourceing</th>
+                                    <th style="text-align:center; width: 5%;">Hold Sales</th>
+                                    <!-- <th style="text-align:center; width: 6%;">Hold Approve</th> -->
+                                    <th style="text-align:center; width: 5%;">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body-row" id="chalandtlTb">
+                                <!-- load table body value with Ajax -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <section style="margin-top: 1rem; margin-bottom: 1rem;">
+                        <div class="payment-submitBtn" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: center; justify-content: flex-end; align-items: center;">
+                            <button type="submit" style="text-align: center; height: 2.2rem; width: 9rem; font-size: 0.9rem; margin-right: 1.4rem;" class="btn btn-success col-sm-4 text-white btn-xs item_payment_btn">
+                                Save & Print
+                            </button>
+                        </div>
+                    </section>
+                </form>
+                <!--  -->
+                <!--  -->
+                <div class="lh-1" style="margin-top: 2rem; border-top: 1px solid rgba(0, 0, 0, .125);">
+                    <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem; margin-top: 2rem; margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="border: 1px solid rgba(0, 0, 0, .125);
+                            margin-bottom: 0.5rem;
+                            border-left: none;
+                            border-right: none;
+                            border-top-left-radius: 0.3rem;
+                            border-top-right-radius: 0.3rem;
+                            background: #455f97;">
+                            <!-- Main Heading -->
+                            <div class="row" style="display: flex; justify-content: space-between; text-align: center; align-items: center;">
+                                <div class="col col-md-4 col-md-6 dashboar-head" style="margin-left: 15px;">
+                                    <div class="d-sm-flex align-items-center mb-2">
+                                        <i class='bx bx-history text-white req-head-icon'></i>
+                                        <h1 class="h3 text-white req-head" style="font-size: 0.95rem;">Delivery Chalan History List</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <section style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                            <table id="deliveredDtlList" class="table table-striped" style="width: 100%;">
+                                <thead class="text-center table-header">
+                                    <tr style="border-style: hidden!important;">
+                                        <th style="text-align:center; width: 5%;">SL</th>
+                                        <th style="text-align:center; width: 6%;">Item No</th>
+                                        <th style="text-align:center; width: 15%;">Item Name</th>
+                                        <th style="text-align:center; width: 35%;">Delivered Store Name</th>
+                                        <th style="text-align:center; width: 6%;">Delivered Qty</th>
+                                        <th style="text-align:center; width: 7%;">Out Sourceing</th>
+                                        <th style="text-align:center; width: 5%;">Hold Sales</th>
+                                        <th style="text-align:center; width: 6%;">Hold Approve</th>
+                                        <th style="text-align:center; width: 3%;">Opt</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-row" id="deliverydtlTb" style="border-bottom: hidden!important;">
+                                    <!-- load table body value with Ajax -->
+        
+                                </tbody>
+                            </table>
+                        </section>
+                    </section>
+                </div>
+            </section>
+        </section>
+    </section>
+    <!--  -->
+    <!-- containt end  -->
+     <script>
+        // driver searching
+        $(document).ready(function () {
+            // Define a function to clear and focus the input field
+            function clearDriversInput() {
+                $('#id_carriers').val('').focus();
+            }
+
+            $('#id_carriers').typeahead({
+                source: function (query, result) {
+                    var selected_id_org = $('#id_org_id').val();
+                    $.ajax({
+                        url: '/search_get_drivers_list_pos/',
+                        data: {
+                            query: query,
+                            org_filter: selected_id_org,
+                        },
+                        dataType: "json",
+                        type: "GET",
+                        success: function (data) {
+                            result($.map(data.data, function (drivers) {
+                                return { name: drivers.driver_name.toString(), id: drivers.driver_id }; // Return an object with name and id
+                            }));
+                        }
+                    });
+                },
+                updater: function (drivers) {
+                    var selectedDriverId = drivers.id;
+
+                    $.ajax({
+                        url: '/select_drivers_details_pos/',
+                        data: { selectedDriver: selectedDriverId }, // Send the selected item ID to retrieve details
+                        dataType: "json",
+                        type: "GET",
+                        success: function (response) {
+                            var selectedDriverDtl = response.data;
+
+                            // Assign selected data to the corresponding text input fields
+                            $('#id_driver_id').val(selectedDriverDtl[0].driver_id);
+                            $('#id_driver_name').val(selectedDriverDtl[0].driver_name);
+                            $('#id_driver_mobile').val(selectedDriverDtl[0].phone);
+
+                            clearDriversInput();
+                        }
+                    });
+
+                    // Return the selected item name to fill the input field
+                    return drivers.name;
+                },
+                items: 50, // Specify the number of items to display
+                displayText: function (item) {
+                    return item.name; // Adjust this if you want to customize the display text
+                },
+            });
+        });
+        //
+        $(document).ready(function () {
+            var invId = $('#id_inv_id').val();
+            if (invId) {
+                fetchChalanData(invId);
+            }
+        
+            $('#id_inv_id').change(function () {
+                var invId = $(this).val();
+                fetchChalanData(invId);
+            });
+        
+            function fetchChalanData(invId) {
+                if (invId) {
+                    $.ajax({
+                        url: "{% url 'get_delivery_chalan_data' %}",
+                        data: {
+                            'inv_id': invId
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.error) {
+                                toastr.warning(data.error);
+                            } else {
+                                // Populate the table body with chalan details
+                                $('#id_chalan_id').val(data.chalan_id);
+                                $('#id_org_id').val(data.org_id);
+                                $('#id_org').val(data.org_name);
+                                $('#id_branchs').val(data.branch_id);
+                                $('#cash_point').val(data.store_id);
+                                $('#customer_name').val(data.customer_name);
+                                $('#id_road_no').val(data.road_no);
+                                $('#id_address').val(data.address);
+                                $('#gender').val(data.gender);
+                                $('#mobile_number').val(data.mobile_number);
+                                $('#id_area').val(data.area);
+                                $('#id_emergency_person').val(data.emergency_person);
+                                $('#id_emergency_mobile').val(data.emergency_phone);
+                                $('#id_house_no').val(data.house_no);
+                                $('#id_sector_no').val(data.sector_no);
+                                $('#id_driver_id').val(data.driver_id);
+                                $('#id_driver_name').val(data.driver_name);
+                                $('#id_driver_mobile').val(data.driver_mobile);
+        
+                                // Clear table body
+                                var chalanDtlBody = $('#chalandtlTb');
+                                chalanDtlBody.empty(); // Clear existing rows
+
+                                var deliveredDtlBody = $('#deliverydtlTb');
+                                deliveredDtlBody.empty(); // Clear existing rows
+
+                                // Initialize a map for item-wise deliver qty sums
+                                var itemDeliverQtyMap = {};
+
+                                // Calculate item-wise total delivered quantities
+                                $.each(data.chalan_details, function (index, detail) {
+                                    if (itemDeliverQtyMap[detail.item_id]) {
+                                        itemDeliverQtyMap[detail.item_id] += detail.total_deliver_qty;
+                                    } else {
+                                        itemDeliverQtyMap[detail.item_id] = detail.total_deliver_qty;
+                                    }
+                                });
+
+                                // Populate chalan details
+                                $.each(data.chalan_details, function (index, detail) {
+                                    var optionBtn = detail.is_extra_item 
+                                        ? `<button type="button" class="btn btn-danger text-white btn-xs" data-id="${detail.chanaldtl_id}">X</button>` 
+                                        : `<button type="button" class="btn btn-success text-white btn-xs duplicateRow"><i class="bx bx-list-plus"></i></button>`;
+                                    var isExtraItemColor = detail.is_extra_item ? 'color: red; font-size: 12px; font-weight: bold;' : '';
+                                    var itemSalesQty = detail.is_extra_item ? '' : detail.sales_qty;
+                                    var totalPending = parseFloat((detail.sales_qty - itemDeliverQtyMap[detail.item_id]).toFixed(2));
+                                    var storeOptions = '';
+                                    $.each(detail.stores, function (i, store) {
+                                        storeOptions += `<option value="${store.store_id}">${store.store_name} &nbsp;&nbsp;&nbsp; Stock Qty: ${store.stock_qty}</option>`;
+                                    });
+
+                                    // Check if sales_qty is equal to delivered quantity
+                                    var deliveryQtyValue = itemDeliverQtyMap[detail.item_id];
+                                    var isDeliveryQtyDisabled = detail.sales_qty === deliveryQtyValue;
+
+                                    // Format the sales_qty value to 2 decimal places as a string
+                                    var formattedSalesQty = detail.sales_qty.toFixed(2);
+                                    // Format the delivered_qty value to 2 decimal places as a string
+                                    var formattedDeliverQty = itemDeliverQtyMap[detail.item_id].toFixed(2);
+
+                                    var deliveryQty = formattedSalesQty - formattedDeliverQty;
+
+                                    // Append the row to the table
+                                    chalanDtlBody.append(`
+                                        <tr class="chalan-row" data-sales-qty="${formattedSalesQty}" data-item-id="${detail.item_id}" data-deliver-qty="${formattedDeliverQty}">
+                                            <td style="text-align:center; border-style: hidden; ${isExtraItemColor};">${index + 1}</td>
+                                            <td style="text-align:center; border-style: hidden; ${isExtraItemColor};">
+                                                ${detail.item_no}
+                                                <input type="number" id="id_chanaldtl_id" name="chanaldtl_id[]" value="${detail.chanaldtl_id}" ${isDeliveryQtyDisabled ? 'disabled' : ''} hidden>
+                                                <input type="number" id="id_invdtl_id" name="invdtl_id[]" value="${detail.invdtl_id}" ${isDeliveryQtyDisabled ? 'disabled' : ''} hidden>
+                                                <input type="number" id="id_item_id" name="item_id[]" value="${detail.item_id}" ${isDeliveryQtyDisabled ? 'disabled' : ''} hidden>
+                                            </td>
+                                            <td style="text-align:left; border-style: hidden; ${isExtraItemColor};">${detail.item_name}</td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <select id="id_store_name_${index}" name="store_name[]" class="form-control item_inputbox" style="${isExtraItemColor}" ${isDeliveryQtyDisabled ? 'disabled' : ''}>
+                                                    ${storeOptions}
+                                                </select>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="text" id="" name="sales_qtys[]" value="${detail.sales_qty}" style="border: none; background: none; outline: 0; width: 40%; text-align: center; ${isExtraItemColor}" disabled>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="number" name="deliverQty[]" value="${itemDeliverQtyMap[detail.item_id]}" class="form-control reg_wise_disable pos_inputbox updateDeliveryQtyInput" style="text-align:center; ${isExtraItemColor}" max="${formattedSalesQty}" required disabled>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <!-- pending qty -->
+                                                ${totalPending}
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="number" id="id_delivery_qty_${index}" name="delivery_qty[]" value="${deliveryQty}" class="form-control reg_wise_disable pos_inputbox delivery_qty_input" data-index="${index}" style="text-align:center;" step="0.01" max="${formattedSalesQty}" ${isDeliveryQtyDisabled ? 'disabled' : ''} required>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="checkbox" name="out_sourceing[]" value="0" class="form-check-input" hidden ${isDeliveryQtyDisabled ? 'disabled' : ''} checked>
+                                                <input type="checkbox" name="out_sourceing[]" value="1" class="form-check-input" style="margin-top: 0rem; width: 1.2rem; height: 1.2rem; cursor: pointer; border-color: royalblue;" ${isDeliveryQtyDisabled ? 'disabled' : ''} ${isDeliveryQtyDisabled ? 'disabled' : ''} disabled>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="checkbox" name="hold_sales[]" value="0" class="form-check-input" hidden checked>
+                                                <input type="checkbox" name="hold_sales[]" value="1" class="form-check-input" style="margin-top: 0rem; width: 1.2rem; height: 1.2rem; cursor: pointer; border-color: royalblue;" ${isDeliveryQtyDisabled ? 'disabled' : ''} ${isDeliveryQtyDisabled ? 'disabled' : ''} disabled>
+                                            </td>
+                                            <!-- <td style="text-align:center; border-style: hidden;">
+                                                <input type="checkbox" name="hold_approve[]" value="0" class="form-check-input" hidden checked>
+                                                <input type="checkbox" name="hold_approve[]" value="1" class="form-check-input" style="margin-top: 0rem; width: 1.2rem; height: 1.2rem; cursor: pointer; border-color: royalblue;" ${isDeliveryQtyDisabled ? 'disabled' : ''} ${isDeliveryQtyDisabled ? 'disabled' : ''} disabled>
+                                            </td> -->
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <button type="button" class="btn btn-success text-white btn-xs duplicateRow" ${isDeliveryQtyDisabled ? 'disabled' : ''}><i class="bx bx-list-plus"></i></button>
+                                            </td>
+                                        </tr>
+                                    `);
+                                });
+
+                                // Populate delivery details
+                                $.each(data.chalan_details, function (index, detail) {                                
+                                    // Filter out only the stores where delivery happened
+                                    var deliverStores = detail.delivery_details.map(d => d.deliver_store).join(', ');
+                                
+                                    // Default values for checkboxes
+                                    let isOutSourcingChecked = false;
+                                    let isDirectOrHoldChecked = false;
+                                    let isHoldApproveChecked = false;
+                                
+                                    // Check the delivery details for checkbox statuses
+                                    $.each(detail.delivery_details, function (i, deliveryDetail) {
+                                        isOutSourcingChecked = isOutSourcingChecked || deliveryDetail.is_out_ourceing;
+                                        isDirectOrHoldChecked = isDirectOrHoldChecked || deliveryDetail.is_direct_or_hold;
+                                        isHoldApproveChecked = isHoldApproveChecked || deliveryDetail.is_hold_approve;
+                                    });
+
+                                    // Determine if the delete button should be enabled or disabled
+                                    const isDeleteEnabled = detail.delivery_details.some(
+                                        deliveryDetail => deliveryDetail.chanaldtl_id !== undefined && deliveryDetail.chanaldtl_id !== null
+                                    );
+                                
+                                    deliveredDtlBody.append(`
+                                        <tr class="delivery-row">
+                                            <td style="text-align:center; border-style: hidden;">${index + 1}</td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                ${detail.item_no}
+                                                <input type="number" name="item_id[]" value="${detail.item_id}" hidden>
+                                            </td>
+                                            <td style="text-align:left; border-style: hidden;">${detail.item_name}</td>
+                                            <td style="text-align:center; border-style: hidden;">${deliverStores}</td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="number" name="delivered_qty[]" value="${itemDeliverQtyMap[detail.item_id]}" class="form-control reg_wise_disable pos_inputbox" style="text-align:center;" readonly>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="checkbox" name="id_out_sourceing[]" ${isOutSourcingChecked ? 'checked' : ''} class="form-check-input" style="width: 1.2rem; height: 1.2rem;" disabled>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="checkbox" name="id_hold_sales[]" ${isDirectOrHoldChecked ? 'checked' : ''} class="form-check-input" style="width: 1.2rem; height: 1.2rem;" disabled>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <input type="checkbox" name="id_hold_approve[]" ${isHoldApproveChecked ? 'checked' : ''} class="form-check-input" style="width: 1.2rem; height: 1.2rem;" disabled>
+                                            </td>
+                                            <td style="text-align:center; border-style: hidden;">
+                                                <button type="button" class="btn btn-danger text-white btn-xs delete-chalanDtl" data-invdtl_id="${detail.invdtl_id}" ${isDeleteEnabled ? '' : 'disabled'}>X</button>
+                                            </td>
+                                        </tr>
+                                    `);
+                                });
+
+                                // Out Sourceing logic
+                                $(document).on('change', 'input[name="out_sourceing[]"][value="1"]', function () {
+                                    // If any "out_sourceing[]" checkbox with value="1" is checked, check the main checkbox
+                                    if ($('input[name="out_sourceing[]"][value="1"]:checked').length > 0) {
+                                        $('#chalan_out_sourceing').prop('checked', true);
+                                    } else {
+                                        // If all "out_sourceing[]" checkboxes with value="1" are unchecked, uncheck the main checkbox
+                                        $('#chalan_out_sourceing').prop('checked', false);
+                                    }
+                                });
+                                
+                                // Hold Sales logic
+                                $(document).on('change', 'input[name="hold_sales[]"][value="1"]', function () {
+                                    // If any "hold_sales[]" checkbox with value="1" is checked, check the main checkbox
+                                    if ($('input[name="hold_sales[]"][value="1"]:checked').length > 0) {
+                                        $('#chalan_direct_or_hold').prop('checked', true);
+                                    } else {
+                                        // If all "hold_sales[]" checkboxes with value="1" are unchecked, uncheck the main checkbox
+                                        $('#chalan_direct_or_hold').prop('checked', false);
+                                    }
+                                });
+                                
+                                // Hold Approve logic
+                                $(document).on('change', 'input[name="hold_approve[]"][value="1"]', function () {
+                                    // If any "hold_approve[]" checkbox with value="1" is checked, check the main checkbox
+                                    if ($('input[name="hold_approve[]"][value="1"]:checked').length > 0) {
+                                        $('#chalan_hold_approve').prop('checked', true);
+                                    } else {
+                                        // If all "hold_approve[]" checkboxes with value="1" are unchecked, uncheck the main checkbox
+                                        $('#chalan_hold_approve').prop('checked', false);
+                                    }
+                                });
+
+                                //========================================================
+                                $(document).on('change', 'input[name="out_sourceing[]"]', function () {
+                                    if ($(this).val() === "1") {
+                                        if ($(this).is(':checked')) {
+                                            // If the "1" checkbox is checked, uncheck the "0" checkbox
+                                            $(this).closest('tr').find('input[name="out_sourceing[]"][value="0"]').prop('checked', false);
+                                        } else {
+                                            // If the "1" checkbox is unchecked, check the "0" checkbox
+                                            $(this).closest('tr').find('input[name="out_sourceing[]"][value="0"]').prop('checked', true);
+                                        }
+                                    } else if ($(this).val() === "0") {
+                                        if ($(this).is(':checked')) {
+                                            // If the "0" checkbox is checked, uncheck the "1" checkbox
+                                            $(this).closest('tr').find('input[name="out_sourceing[]"][value="1"]').prop('checked', false);
+                                        }
+                                    }
+                                });
+                                
+                                // Ensure the logic is applied on dynamically added rows
+                                $(document).on('change', 'input[name="hold_sales[]"], input[name="hold_approve[]"]', function () {
+                                    var checked = $(this).is(':checked');
+                                    var value = $(this).val();
+                                
+                                    if (value === "1") {
+                                        if (checked) {
+                                            $(this).closest('tr').find(`input[name="${$(this).attr('name')}"][value="0"]`).prop('checked', false);
+                                        } else {
+                                            $(this).closest('tr').find(`input[name="${$(this).attr('name')}"][value="0"]`).prop('checked', true);
+                                        }
+                                    } else if (value === "0" && checked) {
+                                        $(this).closest('tr').find(`input[name="${$(this).attr('name')}"][value="1"]`).prop('checked', false);
+                                    }
+                                });
+                                //========================================================
+        
+                                // Attach input event listener to validate delivery_qty_input fields
+                                $(document).on('input', '.delivery_qty_input', function () {
+                                    var currentRow = $(this).closest('tr');
+                                    var itemId = currentRow.data('item-id');
+                                    
+                                    // Sum up total sales quantity across all rows for the same item
+                                    var totalSalesQty = 0;
+                                    var totalDataDeliveredQty = 0;
+                                    
+                                    $('.chalan-row[data-item-id="' + itemId + '"]').each(function () {
+                                        var rowSalesQty = parseFloat($(this).data('sales-qty')) || 0;
+                                        totalSalesQty += rowSalesQty;
+                                        
+                                        var rowDataDeliveredQty = parseFloat($(this).data('deliver-qty')) || 0;
+                                        totalDataDeliveredQty += rowDataDeliveredQty;
+                                    });
+                                
+                                    // Maximum allowable quantity (totalSalesQty - totalDataDeliveredQty)
+                                    var totalMaxQty = totalSalesQty - totalDataDeliveredQty;
+                                
+                                    // Calculate the current delivery quantity from the inputs
+                                    var totalDeliveryQty = 0;
+                                    $('.chalan-row[data-item-id="' + itemId + '"]').each(function () {
+                                        var rowDeliveryQty = parseFloat($(this).find('.delivery_qty_input').val()) || 0;
+                                        totalDeliveryQty += rowDeliveryQty;
+                                    });
+                                
+                                    // If totalDeliveryQty exceeds totalMaxQty, adjust the value
+                                    if (totalDeliveryQty > totalMaxQty) {
+                                        toastr.warning('Delivery quantity cannot exceed available quantity!');
+                                        var remainingQty = totalMaxQty - (totalDeliveryQty - parseFloat($(this).val()));
+                                        $(this).val(remainingQty.toFixed(2) > 0 ? remainingQty.toFixed(2) : 0); // Set to remaining valid quantity or 0
+                                    }
+                                
+                                    // Update the deliveredQty sum display (optional)
+                                    $('#total-delivered-qty-' + itemId).text(totalDataDeliveredQty.toFixed(2));  // Assuming you want to display total delivered quantity
+                                });
+        
+                                // Attach click event handler for duplicating rows
+                                $(document).on('click', '.duplicateRow', function () {
+                                    var row = $(this).closest('tr').clone(); // Clone the current row
+                                    var newIndex = $('#chalandtlTb tr').length; // Get the new row index
+                                
+                                    // Update IDs of cloned elements to ensure uniqueness
+                                    row.find('input, select').each(function () {
+                                        var currentId = $(this).attr('id');
+                                
+                                        // Check if the element has an 'id' before trying to replace
+                                        if (currentId) {
+                                            var newId = currentId.replace(/\d+$/, newIndex); // Replace the numeric part of the ID
+                                            $(this).attr('id', newId);
+                                        }
+                                
+                                        // Clear the value of the cloned 'delivery_qty' input field
+                                        if ($(this).attr('name') === 'delivery_qty[]') {
+                                            $(this).val(''); // Set value to empty
+                                        }
+                                
+                                        // Clear the value of the cloned 'deliverQty' input field
+                                        if ($(this).attr('name') === 'deliverQty[]') {
+                                            $(this).val(''); // Set value to empty
+                                        }
+                                
+                                        // Clear the value of the cloned 'sales_qtys' input field
+                                        if ($(this).attr('name') === 'sales_qtys[]') {
+                                            $(this).val(''); // Set value to empty
+                                        }
+                                
+                                        // Set chanaldtl_id[] to null for the duplicated row
+                                        if ($(this).attr('name') === 'chanaldtl_id[]') {
+                                            $(this).val(''); // Clear chanaldtl_id to signify a new item
+                                            $(this).attr('value', ''); // Also clear the 'value' attribute explicitly
+                                        }
+                                
+                                        if ($(this).attr('name') === 'deliver_store[]') {
+                                            $(this).val(''); // Set value to empty for the new row
+                                        }
+                                    });
+                                
+                                    // Remove the 'data-sales-qty' attribute for the new row
+                                    row.removeAttr('data-sales-qty');
+                                
+                                    // Replace the duplicate button with a delete button and apply red background
+                                    row.find('.duplicateRow').replaceWith(`
+                                        <button type="button" class="btn btn-danger text-white btn-xs item_del_btn">X</button>
+                                    `);
+                                
+                                    // Apply red background color to the cloned row and select elements
+                                    row.css({
+                                        color: 'red',
+                                        fontSize: '12px',
+                                        fontWeight: 'bold'
+                                    });
+                                
+                                    // Apply the same style to the <select> element inside the row
+                                    row.find('select').css({
+                                        color: 'red',
+                                        fontSize: '12px',
+                                        fontWeight: 'bold'
+                                    });
+                                
+                                    // Insert the cloned row immediately after the current row
+                                    $(this).closest('tr').after(row);
+                                });
+        
+                                // Attach event listener for deleting rows
+                                $(document).on('click', '.item_del_btn', function () {
+                                    $(this).closest('tr').remove(); // Remove the clicked row
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Function to get the CSRF token from cookies
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            const csrftoken = getCookie('csrftoken');
+
+            // Attach the CSRF token in the AJAX header
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!(/^GET|HEAD|OPTIONS|TRACE$/i.test(settings.type)) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+
+            // Form submission with AJAX
+            $('#updateChalanForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent default form submission
+                var formData = $(this).serialize(); // Serialize the form data
+                var org_id = $('#id_org_id').val();
+
+                $.ajax({
+                    url: "{% url 'save_update_delivery_chalan' %}",  // Your Django URL for updating chalan
+                    type: "POST",
+                    data: formData,  // Send serialized form data
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            var isModified = response.is_modified;
+                            toastr.success('Chalan updated successfully!');
+                    
+                            // Open the modal with the updated chalan data
+                            var chalanUrl = "{% url 'chalan_modal' %}?id=" + response.inv_id + "&org_id=" + org_id;
+                            modal_lg("Delivery Chalan", chalanUrl);
+                    
+                            // Attach the hide.bs.modal event once the modal is opened
+                            $('#modal_lg').on('hide.bs.modal', function () {
+                                // Check if the invoice is modified
+                                if (isModified === true) {  // isModified is likely a boolean, not a string
+                                    lineloaderstart();
+                    
+                                    // Open the Chalan Modify modal after the original modal closes
+                                    var chalanModifyUrl = "{% url 'chalan_modal_modified_items' %}?id=" + response.inv_id;
+                                    modal_lg("Chalan Modify Receipt", chalanModifyUrl);
+                                    
+                                    lineloaderstop();
+                    
+                                    // After the modify modal closes, navigate to a different page
+                                    $('#modal_lg').on('hide.bs.modal', function () {
+                                        navigateTo("{% url 'delivery_chalan_services' %}");
+                                    });
+                                } else {
+                                    navigateTo("{% url 'delivery_chalan_services' %}");
+                                }
+                            });
+                        } else {
+                            toastr.error(response.errmsg || 'Failed to update chalan.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('Error occurred while updating the chalan.');
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+            //
+            $(document).on('click', '.delete-chalanDtl', function() {
+                var invdtl_id = $(this).data('invdtl_id');
+            
+                $.ajax({
+                    type: 'DELETE',
+                    url: `/delete_chalan_details_items_wise/${invdtl_id}/`,
+                    headers: {
+                        "X-CSRFToken": '{{ csrf_token }}'
+                    },
+                    //data: {
+                    //    'inv_id': invoiceId
+                    //},
+                    success: function(resp) {
+                        if (resp.success) {
+                            toastr.success(resp.msg);
+                            var invId = $('#id_inv_id').val();
+                            fetchChalanData(invId);
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    },
+                    error: function(xhr, errmsg, err) {
+                        alert('Error occurred while deleting: ' + err);
+                    }
+                });
+            });
+        });
+     </script>
+</main>
+{% endblock %}

@@ -2,7 +2,6 @@
 {% load static %}
 {% load humanize %}
 
-{% block title %} Dashboard {% endblock %}
 {% block extra_link %}
 <!--========== CSS ==========-->
 <link rel="stylesheet" href="{% static 'invoice_list_style/css/invoice_list_style.css' %}">
@@ -23,57 +22,102 @@
                 border-right: none;
                 border-top-left-radius: 0.3rem;
                 border-top-right-radius: 0.3rem;
-                background: #455697;">
+                background: #459753;">
                 <!-- Main Heading -->
-                <div class="row"
-                    style="display: flex; justify-content: center; text-align: center; align-items: center;">
-                    <div class="col col-md-4 col-md-6 dashboar-head">
+                <div class="row" style="display: flex; justify-content: space-between; text-align: center; align-items: center;">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="margin-left: 15px;">
                         <div class="d-sm-flex align-items-center mb-2">
                             <i class='bx bx-list-ul text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Invoice List</h1>
                         </div>
                     </div>
-                    <!-- Date Range Filter -->
-                    <div class="date-range">
-                        <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
-                            <div class="date_range-element" style="display:flex">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-auto">
-                                        <label for="inv_start" class="text-white col-form-label">From :</label>
-                                    </div>
-                                    <div class="col-auto">
-                                        <input type="text" class="form-control item_inputbox datepicker" id="inv_start"
-                                            name="inv_start" autocomplete="off" required>
-                                    </div>
-                                </div>
-                                <!--  -->
-                                <div class="row g-3 align-items-center" style="margin-left: 15px;">
-                                    <div class="col-auto">
-                                        <label for="inv_end" class="text-white col-form-label">To :</label>
-                                    </div>
-                                    <div class="col-auto">
-                                        <input type="text" class="form-control item_inputbox datepicker" id="inv_end"
-                                            name="inv_end" autocomplete="off" required>
-                                    </div>
-                                </div>
-                                <!--  -->
-                                <div class="row g-3 align-items-center" style="margin-left: 15px;">
-                                    <div class="col-auto">
-                                        <button type="button" class="btn btn-success invBtn btn-xs text-white"
-                                            style="margin-left: 1rem; margin-right: 1rem; box-shadow: 4px 2px 5px 2px #43507e;">
-                                            Preview
-                                        </button>
-                                        <button id="generatePDF" class="btn btn-info invBtn btn-xs text-white"
-                                            style="margin-right: 0.5rem; box-shadow: 4px 2px 5px 2px #43507e;">
-                                            Print Report
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col col-md-4 col-md-6" style="margin-right: 15px; display: flex; justify-content: flex-end;">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary invBtn btn-xs text-white" onClick="navigateTo('/item_pos_billing/')"
+                                style="margin-left: 1rem; margin-right: 0.5rem; box-shadow: 4px 2px 5px 2px #3b7444;">
+                                Billing
+                            </button>
+                            <!--  -->
+                            <button type="button" id="id_invBtn" class="btn btn-warning invBtn btn-xs text-white"
+                                style="margin-left: 0.5rem; margin-right: 1rem; box-shadow: 4px 2px 5px 2px #3b7444;">
+                                Preview
+                            </button>
+                            <button id="generatePDF" class="btn btn-info invBtn btn-xs text-white"
+                                style="margin-right: 0.5rem; box-shadow: 4px 2px 5px 2px #3b7444;">
+                                Print Report
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--  -->
+            <section>
+                <div class="card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                    <div class="card-body">
+                        <div class="report-filter">
+                            <!-- Date Range Filter -->
+                            <div class="date-range">
+                                <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                    <div class="col-sm-12" style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                        <div class="col-sm-3" style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                            <div class="col-auto">
+                                                <label for="id_filter_org" class="col-form-label">Org :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <select id="id_filter_org" name="filter_org"
+                                                    class="form-control item_inputbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                        {{org.org_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-3" style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                            <div class="col-auto">
+                                                <label for="id_filter_branch" class="col-form-label">Branch :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <select id="id_filter_branch" name="filter_branch"
+                                                    class="form-control item_inputbox"
+                                                    aria-label="Default select example">
+                                                    <!--  -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <!--  -->
+                                        <div class="col-sm-3" style="display:flex; align-items: center; flex-wrap: nowrap; margin-left: 1rem;">
+                                            <div class="col-auto">
+                                                <label for="inv_start" class="col-form-label">From :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="inv_start"
+                                                    name="inv_start" autocomplete="off" required>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-3" style="display:flex; align-items: center; flex-wrap: nowrap;">
+                                            <div class="col-auto">
+                                                <label for="inv_end" class="col-form-label">To :</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="inv_end"
+                                                    name="inv_end" autocomplete="off" required>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- containt start -->
             <section>
                 <div class="col-sm-12">
@@ -113,17 +157,93 @@
     <!--  -->
     <!-- containt end  -->
     <script>
+        $(document).ready(function () {
+
+            $('#id_filter_org').change(function () {
+                OrgWiseUpdateFilterOptions();
+            });
+
+            $('#id_filter_branch').change(function () {
+                // Trigger the click event on the #id_invBtn button
+                $('#id_invBtn').click();
+            });
+    
+            OrgWiseUpdateFilterOptions();
+    
+            function OrgWiseUpdateFilterOptions() {
+                var selectedOrgId = $('#id_filter_org').val();
+    
+                // Branch option value
+                $.ajax({
+                    url: '/get_branch_options/',
+                    method: 'GET',
+                    data: { org_id: selectedOrgId },
+                    success: function (data) {
+                        $('#id_filter_branch').empty();
+                        $.each(data.branch_list, function (index, branch) {
+                            $('#id_filter_branch').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                        });
+                        $('#id_filter_branch').trigger('change');
+                        $("#id_invBtn").click();
+                    },
+                    error: function (error) {
+                        console.error('Error fetching branch options:', error);
+                    }
+                });
+            }
+        });
+
         $(function () {
             $(document).on('click', '.view-data', function () {
+                var org_id = $('#id_filter_org').val();
                 lineloaderstart();
-                uni_modal("Invoice Receipt", "{% url 'receipt_modal' %}?id=" + $(this).attr('data-id'));
+                var receiptUrl = "{% url 'receipt_modal' %}?id=" + $(this).attr('data-id') + "&org_id=" + org_id;
+                modal_lg("Invoice Receipt", receiptUrl);
                 lineloaderstop();
             });
 
+
             $(document).on('click', '.view-chalan', function () {
-                lineloaderstart();
-                uni_modal("Chalan Receipt", "{% url 'chalan_modal' %}?id=" + $(this).attr('data-id'));
-                lineloaderstop();
+                var org_id = $('#id_filter_org').val();
+                var isCreateID = $(this).attr('data-is_create');
+                var isModifyID = $(this).attr('data-is_modify');
+                var dataId = $(this).attr('data-id'); // Store the data-id in a variable
+            
+                if (isCreateID === 'true') {
+                    lineloaderstart();
+                    var chalanUrl = "{% url 'chalan_modal' %}?id=" + dataId + "&org_id=" + org_id;
+                    modal_lg("Chalan Receipt", chalanUrl);
+                    lineloaderstop();
+                } else {
+                    toastr.warning("Delivery Chalan is Not Created.. Please Create First !..");
+                }
+            
+                // Remove any previous hide event to prevent multiple triggers
+                $('#modal_lg').off('hide.bs.modal');
+            
+                // Attach hide event handler for the first modal
+                $('#modal_lg').one('hide.bs.modal', function () {
+                    if (isModifyID === 'true') {
+                        if (isCreateID === 'true') {
+                            lineloaderstart();
+                            
+                            // Open the Chalan Modify modal
+                            var chalanModifyUrl = "{% url 'chalan_modal_modified_items' %}?id=" + dataId;
+                            modal_lg("Chalan Modify Receipt", chalanModifyUrl);
+                            lineloaderstop();
+            
+                            // Detach event to prevent reopening the modal in a loop
+                            $('#modal_lg').off('hide.bs.modal');
+            
+                            // Optionally, perform any action after the second modal closes
+                            $('#modal_lg').one('hide.bs.modal', function () {
+                                console.log('Modified items modal closed.');
+                            });
+                        } else {
+                            toastr.warning("Delivery Chalan is Not Created.. Please Create First !..");
+                        }
+                    }
+                });
             });
         })
 
@@ -131,95 +251,108 @@
         // AJAX request
         $(document).ready(function () {
             let sortDirection = 'desc'; // Initial sort direction
-
+        
+            // Function to update the table with the selected filters and sort direction
             $('.invBtn').click(function () {
                 const startDate = $('#inv_start').val();
                 const endDate = $('#inv_end').val();
-
+                const filterOrg = $('#id_filter_org').val();
+                const filterBranch = $('#id_filter_branch').val();
+        
                 // Toggle sorting direction between 'asc' and 'desc' on button click
                 sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-
-                // Call the updateTable function with dates and sort direction
-                updateTable(startDate, endDate, sortDirection);
+        
+                // Call the updateTable function with dates, filters, and sort direction
+                updateTable(startDate, endDate, sortDirection, filterOrg, filterBranch);
             });
-
-            function updateTable(startDate, endDate, sortDir) {
+        
+            function updateTable(startDate, endDate, sortDir, filterOrg, filterBranch) {
+                // Log the full data object being sent in the AJAX request
+                const dataToSend = {
+                    'inv_start': startDate,
+                    'inv_end': endDate,
+                    'org_id': filterOrg,
+                    'branch_id': filterBranch,
+                    'sort_direction': sortDir
+                };
+        
                 $.ajax({
                     headers: {
                         "X-CSRFToken": '{{csrf_token}}'
                     },
                     url: '/get_Invoice_list/',
                     type: 'POST',
-                    data: {
-                        'inv_start': startDate,
-                        'inv_end': endDate,
-                        'sort_direction': sortDir
-                    },
+                    data: dataToSend,  // Send the logged data object
                     dataType: 'json',
                     success: function (response) {
-                        var data = response.data;
-
-                        // Remove the existing DataTable instance
-                        $('#invList').DataTable().destroy();
-
-                        // Sort the data based on item.invoice.inv_id
-                        data.sort((a, b) => {
-                            return sortDir === 'asc' ?
-                                b.invoice.inv_id - a.invoice.inv_id :
-                                b.invoice.inv_id - a.invoice.inv_id;
-                        });
-
-                        var tableBody = $('#invTablebody');
-                        tableBody.empty(); // Clear existing table content
-
-                        data.forEach(function (item, index) {
-                            var row = `<tr style="border-style: hidden!important;">
-                                <td style="text-align:center;">${index + 1}</td>
-                                <td style="text-align:center;">${item.invoice.invoice_date}</td>
-                                <td style="text-align:center;">${item.invoice.inv_id}</td>
-                                <td style="text-align:left;">${item.invoice.customer_name}</td>
-                                <td style="text-align:center;">${item.invoice.mobile_number}</td>
-                                <td style="text-align:center;">${item.grand_total}</td>
-                                <td style="text-align:center;">${item.total_cost_amt}</td>
-                                <td style="text-align:center;">${item.total_discount_sum}</td>
-                                <td style="text-align:center;">${item.grand_vat_tax}</td>
-                                <td style="text-align:center;">${item.grand_cancel_amt}</td>
-                                <td style="text-align:center;">${item.total_net_bill}</td>
-                                <td style="text-align:center;">${item.total_payment_collection}</td>
-                                <td style="text-align:center;">${item.total_refund_amt}</td>
-                                <td style="text-align:center;">${item.total_due_amount}</td>
-                                <td style="text-align:center;">
-                                    <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-data" data-id="${item.invoice.inv_id}">
-                                        <i title='Print Invoice Receipt' class='bx bxs-receipt printIcon text-white'></i>
-                                    </button>
-                                    <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-chalan" data-id="${item.invoice.inv_id}">
-                                        <i title='Print Invoice Chalan' class='bx bx-printer printIcon text-white'></i>
-                                    </button>
-                                </td>
-                            </tr>`;
-
-                            tableBody.append(row);
-                        });
-
-                        // Re-initialize DataTable with the updated data
-                        $('#invList').DataTable({
-                            "searching": true,
-                            "ordering": false,
-                            "scrollX": true,
-                            "scrollY": '100vh',
-                            "paging": true,
-                            lengthMenu: [
-                                [15, 25, 50, 100, -1],
-                                [15, 25, 50, 100, 'All']
-                            ]
-                        });
+                        // Correctly access the invoices array from the response
+                        var data = response.invoices;
+        
+                        if (Array.isArray(data)) {
+                            $('#invList').DataTable().destroy();
+        
+                            // Sort data based on inv_id
+                            data.sort((a, b) => {
+                                return sortDir === 'asc' ?
+                                    a.invoice.inv_id - b.invoice.inv_id :
+                                    b.invoice.inv_id - a.invoice.inv_id;
+                            });
+        
+                            var tableBody = $('#invTablebody');
+                            tableBody.empty(); // Clear existing table content
+        
+                            // Populate the table with sorted data
+                            data.forEach(function (item, index) {
+                                var row = `<tr style="border-style: hidden!important;">
+                                    <td style="text-align:center;">${index + 1}</td>
+                                    <td style="text-align:center;">${item.invoice.invoice_date}</td>
+                                    <td style="text-align:center;">${item.invoice.inv_id}</td>
+                                    <td style="text-align:left;">${item.invoice.customer_name}</td>
+                                    <td style="text-align:center;">${item.invoice.mobile_number}</td>
+                                    <td style="text-align:center;">${item.grand_total}</td>
+                                    <td style="text-align:center;">${item.total_cost_amt ? item.total_cost_amt : ''}</td>
+                                    <td style="text-align:center;">${item.total_discount_sum ? item.total_discount_sum : ''}</td>
+                                    <td style="text-align:center;">${item.grand_vat_tax}</td>
+                                    <td style="text-align:center;">${item.grand_cancel_amt}</td>
+                                    <td style="text-align:center;">${item.total_net_bill}</td>
+                                    <td style="text-align:center;">${item.total_payment_collection}</td>
+                                    <td style="text-align:center;">${item.total_refund_amt}</td>
+                                    <td style="text-align:center;">${item.total_due_amount}</td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-data" data-id="${item.invoice.inv_id}">
+                                            <i title='Print Invoice Receipt' class='bx bxs-receipt printIcon text-white'></i>
+                                        </button>
+                                        <button type="button" class="btn btn-success printBtn table-row-btn btn-xs text-white view-chalan" data-is_modify="${item.invoice.is_modified}" data-is_create="${item.invoice.is_created}" data-id="${item.invoice.inv_id}">
+                                            <i title='Print Invoice Chalan' class='bx bx-printer printIcon text-white'></i>
+                                        </button>
+                                    </td>
+                                </tr>`;
+        
+                                tableBody.append(row);
+                            });
+        
+                            // Re-initialize DataTable
+                            $('#invList').DataTable({
+                                "searching": true,
+                                "ordering": false,
+                                "scrollX": true,
+                                "scrollY": '100vh',
+                                "paging": true,
+                                lengthMenu: [
+                                    [50, 75, 100, 150, -1],
+                                    [50, 75, 100, 150, 'All']
+                                ]
+                            });
+                        } else {
+                            console.error('Data is not in the expected format:', response);
+                        }
                     },
                     error: function (error) {
-                        console.log(error);  // Handle error gracefully
+                        console.log('Error during AJAX call:', error);
                     }
                 });
             }
-
+        
             // Function to retrieve today's date in the required format
             function getTodayDate() {
                 const now = new Date();
@@ -228,11 +361,11 @@
                 const day = String(now.getDate()).padStart(2, '0');
                 return `${year}-${month}-${day}`;
             }
-
+        
             // Set default start and end dates to today's date
             $('#inv_start').val(getTodayDate());
             $('#inv_end').val(getTodayDate());
-
+        
             // Configure datepicker for start and end date inputs
             $('#inv_start, #inv_end').datepicker({
                 dateFormat: 'yy-mm-dd',
@@ -240,9 +373,14 @@
                 changeYear: true,
                 maxDate: new Date(),
             });
-
-            // Initial table load with today's data
-            updateTable(getTodayDate(), getTodayDate());
+        
+            // Automatically load table data when the page is ready
+            const defaultOrg = $('#id_filter_org').val();  // Get default organization
+            const defaultBranch = $('#id_filter_branch').val();  // Get default branch
+        
+            setTimeout(() => {
+                $("#id_invBtn").click();
+            }, 500);
         });
 
 
@@ -351,7 +489,7 @@
 
                 //<!-- footer start -->
                 // Generate the content for the footer
-                const footerText = 'Software By: Shariat Sunny';
+                const footerText = 'Software By: TBOX, Contact: +8801309-994317,';
 
                 // Calculate the width and height for the footer
                 const footerWidth = maxHeaderWidth; // Use the same width as the header

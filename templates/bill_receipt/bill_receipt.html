@@ -1,0 +1,294 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'bill_receipt/css/bill_receipt.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main style="margin-left: 8px;">
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <div class="col-sm-12" style="display:flex;">
+                            <i class='bx bx-shield-alt-2 text-success req-head-icon'></i>
+                            <h1 class="h3 text-success req-head">Select Bill Receipt</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <!--  -->
+    <section>
+        <div class="col-sm-12" style="display:flex; margin-top: 0.5rem;">
+            <div class="col-sm-12">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <form id="bill_receipt">
+                                <input type="hidden" id="id_org_filter" name="org_filter" value="">
+                                <div class="add_edit_head">
+                                    <h2 class="text-primary">Bill Receipt Information</h2>
+                                </div>
+                                <!--  -->
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_store" style="border-bottom: 1px solid rgb(211, 211, 211);">
+                                            <div class="item_setupflag" style="display: flex;">
+                                                <!--  -->
+                                                <div class="col-sm-12" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
+                                                    <div class="container col-sm-4" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                                        <div class="row org-filterRow">
+                                                            <label for="id_org" class="col-sm-3 col-form-label font_size_filter">
+                                                                Org Name:
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <select id="id_org" name="org" class="form-select item_inputbox" aria-label="Default select example">
+                                                                    <!--  -->
+                                                                    {% for org in org_list %}
+                                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                                        {{org.org_name}}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="container col-sm-4"
+                                                        style="margin-top: 1rem; margin-bottom: 1rem;">
+                                                        <div class="row org-filterRow">
+                                                            <label for="bill_receipt" class="col-sm-3 col-form-label font_size_filter">
+                                                                Bill Receipt:
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <select id="bill_receipt" name="bill_receipt" class="form-select item_inputbox" aria-label="Default select example">
+                                                                    <!--  -->
+                                                                    <option value="" selected disabled>Choose Bill Receipt</option>
+                                                                    <option value="receipt">With Head Receipt</option>
+                                                                    <option value="without_head_receipt">Without Head Receipt</option>
+                                                                    <option value="pos_receipt">POS Receipt</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="container col-sm-4"
+                                                        style="margin-top: 1rem; margin-bottom: 1rem;">
+                                                        <div class="row org-filterRow">
+                                                            <label for="deliver_chalan" class="col-sm-4 col-form-label font_size_filter">
+                                                                Delivery Chalan:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select id="deliver_chalan" name="deliver_chalan" class="form-select item_inputbox" aria-label="Default select example">
+                                                                    <!--  -->
+                                                                    <option value="" selected disabled>Choose Delivery Chalan</option>
+                                                                    <option value="delivery_chalan">With Head Chalan</option>
+                                                                    <option value="without_head_chalan">Without Head Chalan</option>
+                                                                    <option value="pos_delivery_chalan">POS Chalan</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-12" style="display: flex; margin-top: 3rem; margin-bottom: 1rem; margin-right: 1rem; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
+                                                        <div class="col-sm-4">
+                                                            <div class="submit_button">
+                                                                <button type="submit" class="btn btn-success btn-sm">
+                                                                    Save & Update
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+    </section>
+    <section>
+        <div class="col-sm-12" style="display:flex; margin-top: 0.5rem;">
+            <div class="col-sm-12">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <div class="add_edit_head">
+                                <h2 class="text-success">Org wise Bill Receipt Info</h2>
+                            </div>
+                            <!--  -->
+                            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                                <div class="module-table">
+                                    <table id="receipt_table" class="table table-striped table-hover" style="width: 100%; border: 1px solid #6aa2a8;">
+                                        <thead class="text-center table-header_itemlist" style="font-size: 0.8rem;">
+                                            <tr>
+                                                <th style="text-align:center;">ID</th>
+                                                <th style="text-align:center;">Organizations</th>
+                                                <th style="text-align:center; width: 30%;">Receipt Name</th>
+                                                <th style="text-align:center;">Delivery Chalan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="receiptTB" style="text-align:center; font-size: 0.85rem;">
+                                            <!-- Rows will be inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        // Add event listener to the organization filter dropdown
+        $('#id_org').change(function () {
+            filterReceipts();
+        });
+    
+        // Initial call to populate the table with all data
+        filterReceipts();
+    
+        function filterReceipts() {
+            // Get the selected organization ID
+            var org_id = $('#id_org').val();
+            
+            // Check if org_id is valid
+            if (org_id) {
+                // Make AJAX request to fetch receipt data
+                $.ajax({
+                    url: '/get_bill_receipt_options/',  // Updated URL to match the API endpoint
+                    type: 'GET',
+                    data: {'org_filter': org_id},  // Use correct parameter name
+                    dataType: 'json',
+                    success: function (data) {
+                        // Update the table with the filtered data
+                        updateTable(data);
+                    },
+                    error: function (error) {
+                        console.error('Error fetching receipt data:', error);
+                    }
+                });
+            }
+        }
+    
+        function updateTable(data) {
+            // Clear existing table rows
+            $('#receiptTB').empty();
+        
+            // Append filtered data to the table
+            $.each(data, function (index, receipt) {
+                // Determine the display text based on receipt_name
+                var receiptNameDisplay;
+                switch (receipt.receipt_name) {
+                    case 'receipt':
+                        receiptNameDisplay = 'With Head Receipt';
+                        break;
+                    case 'without_head_receipt':
+                        receiptNameDisplay = 'Without Head Receipt';
+                        break;
+                    case 'pos_receipt':
+                        receiptNameDisplay = 'POS Receipt';
+                        break;
+                    default:
+                        receiptNameDisplay = 'Unknown Receipt'; // Fallback for unexpected values
+                }
+
+                var chalanNameDisplay;
+                switch (receipt.chalan_name) {
+                    case 'delivery_chalan':
+                        chalanNameDisplay = 'With Head Chalan';
+                        break;
+                    case 'without_head_chalan':
+                        chalanNameDisplay = 'Without Head Chalan';
+                        break;
+                    case 'pos_delivery_chalan':
+                        chalanNameDisplay = 'POS Chalan';
+                        break;
+                    default:
+                        chalanNameDisplay = 'Unknown Chalan'; // Fallback for unexpected values
+                }
+        
+                // Construct the HTML for the row
+                var row = '<tr style="height: 3rem;">' +
+                    '<td>' + receipt.receipt_id + '</td>' +
+                    '<td>' + receipt.org_name + '</td>' +
+                    '<td>' + receiptNameDisplay + '</td>' +
+                    '<td>' + chalanNameDisplay + '</td>' +
+                    '</tr>';
+        
+                // Append the constructed row to the table
+                $('#receiptTB').append(row);
+            });
+        }
+    });
+
+    //
+    $(document).ready(function() {
+        // Retrieve and log the value of the hidden input field
+        var storedOrgId = $('#id_org').val();
+
+        if (storedOrgId) {
+            $('#id_org_filter').val(storedOrgId);
+        } else {
+            console.log('Hidden input field is empty.'); // Debugging line
+        }
+
+        // Update the hidden input field when the dropdown value changes
+        $('#id_org').change(function() {
+            var selectedOrgId = $(this).val();
+            $('#id_org_filter').val(selectedOrgId);
+        });
+    });
+
+    // ajax submission
+    $(document).ready(function () {
+        // Attach the submit handler to the form
+        $("#bill_receipt").submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+    
+            // Get the form data
+            var formData = $(this).serialize();
+    
+            // Make AJAX request
+            $.ajax({
+                url: "{% url 'save_bill_receipt' %}",
+                data: formData,
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }, // Include the CSRF token
+                method: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.msg);
+                        location.reload(true); // Optionally reload page on success
+                    } else {
+                        toastr.warning("Save failed. Error: " + response.errmsg);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX request failed. Status: " + status + ", Error: " + error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

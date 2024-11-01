@@ -221,29 +221,29 @@ h6 {
 }
 
 .client_TB {
-    height: 43.2rem;
+    height: 100vh;
     overflow: auto;
     border: 1px solid #71bac4;
 }
 
 .clientRate_TB {
-    height: 15rem;
+    height: 50vh;
     overflow: auto;
     border: 1px solid #71bac4;
 }
 
 .itemPer_TB {
-    height: 372px;
+    height: 80vh;
     overflow: auto;
 }
 
 .deptPer_TB {
-    height: 372px;
+    height: 80vh;
     overflow: auto; 
 }
 
 .client_ItemTB {
-    height: 15.55rem;
+    height: 50vh;
     overflow: auto;
     border: 1px solid #71bac4;
 }

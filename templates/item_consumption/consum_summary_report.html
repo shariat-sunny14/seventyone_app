@@ -28,12 +28,7 @@
                                     <div class="col-sm-8">
                                         <select id="summary_store" name="summary_store" class="form-select store_Selectbox"
                                             aria-label="Default select example" required>
-                                            <option value="1"> All Store </option>
-                                            {% for store in store_data %}
-                                            <option id="{{store.store_id}}" value="{{store.store_id}}">
-                                                {{store.store_name}}
-                                            </option>
-                                            {% endfor %}
+                                            <!--  -->
                                         </select>
                                     </div>
                                 </div>
@@ -124,6 +119,37 @@
     </section>
 </main>
 <script>
+    //
+    $(document).ready(function () {
+        $.ajax({
+            url: "{% url 'get_user_stores' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.stores) {
+                    var select = $('#summary_store');
+                    select.empty();
+                    $('#summary_store').append('<option value="1" selected>All Store</option>');
+                    $.each(response.stores, function (index, store) {
+                        select.append($('<option>', {
+                            value: store.store_id,
+                            id: store.store_id,
+                            text: store.store_name
+                        }));
+                    });
+
+                    // After populating user stores, trigger the change event for cash_point
+                    $('#summary_store').trigger('change');
+                } else {
+                    console.error('Error fetching user stores');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+    //
     $(document).ready(function () {
         // Function to get today's date in YYYY-MM-DD format
         function getsummaryTodayDate() {
@@ -306,7 +332,7 @@
 
             //<!-- footer start -->
             // Generate the content for the footer
-            const footerText = 'Software By: Shariat Sunny';
+            const footerText = 'Software By: TBOX, Contact: +8801309-994317,';
 
             // Calculate the width and height for the footer
             const footerWidth = maxHeaderWidth; // Use the same width as the header

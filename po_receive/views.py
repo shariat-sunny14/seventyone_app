@@ -18,7 +18,7 @@ from organizations.models import branchslist, organizationlst
 from item_setup.models import items
 from opening_stock.models import opening_stock
 from item_pos.models import invoicedtl_list
-from stock_list.models import stock_lists
+from stock_list.models import in_stock, stock_lists
 from purchase_order.models import purchase_order_list, purchase_orderdtls
 from po_receive.models import po_receive_details
 from stock_list.stock_qty import get_available_qty
@@ -47,6 +47,26 @@ def POReceiveManagerAPI(request):
     }
 
     return render(request, 'po_receive/po_receive_list.html', context)
+
+# show po list modal
+@login_required()
+def openPurchaseOrderListModalManageAPI(request):
+    user = request.user
+
+    if user.is_superuser:
+        # If the user is a superuser, retrieve all organizations
+        org_list = organizationlst.objects.filter(is_active=True).all()
+    elif user.org_id is not None:
+        # If the user has an associated organization, retrieve only that organization
+        org_list = organizationlst.objects.filter(is_active=True, org_id=user.org_id).all()
+    else:
+        # If neither a superuser nor associated with an organization, set organizations to an empty list or handle as needed
+        org_list = []
+    
+    context = {
+        'org_list': org_list,
+    }
+    return render(request, 'po_receive/po_list_viewers.html', context)
 
 # po Received list details
 @login_required()
@@ -113,63 +133,53 @@ def getPurchaseOrderReceivedListAPI(request):
 @login_required()
 def POReceivedItemDetailsListAPI(request, po_id=None):
     # Get all active items
-    item_data = items.objects.filter(is_active=True).all()
+    item_data = items.objects.filter(is_active=True)
 
     # Get the list of main stores ordered by store_no
     store_data = store.objects.filter(is_main_store=1).order_by('store_no')
+
     # Get approved without GRN details
     ops_Data = purchase_order_list.objects.get(pk=po_id) if po_id else None
 
     # Query without_GRNdtl records related to the withgrnData
-    opsdtl_data = purchase_orderdtls.objects.filter(po_id=ops_Data).all()
+    opsdtl_data = purchase_orderdtls.objects.filter(po_id=ops_Data)
 
     # Filter the store_data to exclude the currently selected store
     if ops_Data:
         store_data = store_data.exclude(store_id=ops_Data.store_id.store_id)
+
+    # Batch fetch po_receive_details for all items and the given po_id
+    po_receive_details_data = po_receive_details.objects.filter(
+        item_id__in=item_data, po_id=ops_Data.po_id
+    ).values('item_id').annotate(
+        totalPoRecQty=Sum(ExpressionWrapper(F('receive_qty'), output_field=IntegerField())),
+        totRecBonusQty=Sum(ExpressionWrapper(F('bonus_qty'), output_field=IntegerField()))
+    )
+
+    # Create a dictionary to map item_id to its total quantities
+    po_receive_details_map = {detail['item_id']: detail for detail in po_receive_details_data}
 
     item_with_opsDtls = []
     total_grandQty = 0
     grandPoRecQty = 0
     grandRecBonusQty = 0
 
+    # Loop through items and calculate quantities in bulk
     for item in item_data:
         store_instance = ops_Data.store_id if ops_Data else None
-        po_id_instance = ops_Data.po_id if ops_Data else None
-        PORecQtyDetails = po_receive_details.objects.filter(item_id=item, po_id=po_id_instance).all()
-
-        # po_receive_details rec qty
-        totalPoRecQty = PORecQtyDetails.aggregate(
-            totalPoRecQty=Sum(ExpressionWrapper(
-                F('receive_qty'), output_field=IntegerField())
-            )
-        )['totalPoRecQty']
-
-        if totalPoRecQty is None:
-            totalPoRecQty = 0
-
-        # po_receive_details bonus qty
-        totRecBonusQty = PORecQtyDetails.aggregate(
-            totRecBonusQty=Sum(ExpressionWrapper(
-                F('bonus_qty'), output_field=IntegerField())
-            )
-        )['totRecBonusQty']
-
-        if totRecBonusQty is None:
-            totRecBonusQty = 0
-
-        # 
-        grandPoRecQty += totalPoRecQty
-        grandRecBonusQty += totRecBonusQty
-
         available_qty = get_available_qty(item.item_id, store_instance.store_id, item.org_id)
         total_grandQty += available_qty
 
+        po_details = po_receive_details_map.get(item.item_id, {'totalPoRecQty': 0, 'totRecBonusQty': 0})
+        totalPoRecQty = po_details['totalPoRecQty']
+        totRecBonusQty = po_details['totRecBonusQty']
+
+        grandPoRecQty += totalPoRecQty
+        grandRecBonusQty += totRecBonusQty
+
         # Find the associated grn_dtls for this item
-        ops_dtls = None
-        for dtls in opsdtl_data:
-            if dtls.item_id == item:
-                ops_dtls = dtls
-                break
+        ops_dtls = next((dtls for dtls in opsdtl_data if dtls.item_id == item), None)
+
         if ops_dtls:
             item_with_opsDtls.append({
                 'grandQty': available_qty,
@@ -203,6 +213,8 @@ def recievedPODetailsListAPI(request):
         bonus_qtys = request.POST.getlist('bonus_qty[]')
         is_received_inds = request.POST.getlist('is_received_ind[]')
         received_date_ind = request.POST.get('received_date_ind')
+        item_batchs = request.POST.getlist('item_batchs[]')
+        item_exp_dates = request.POST.getlist('item_exp_dates[]')
 
         with transaction.atomic():
             try:
@@ -221,12 +233,16 @@ def recievedPODetailsListAPI(request):
                 return JsonResponse({'errmsg': 'Purchase order or store not found.'}, status=404)
                 
             # Iterate through the received items and save them
-            for item_id, receive_qty, bonus_qty, is_received_ind in zip(item_ids, received_qtys, bonus_qtys, is_received_inds):
+            for item_id, receive_qty, bonus_qty, is_received_ind, item_batch, item_exp_date in zip(item_ids, received_qtys, bonus_qtys, is_received_inds, item_batchs, item_exp_dates):
                 try:
                     # Retrieve the item instance
                     item_instance = items.objects.get(item_id=item_id)
                     # Calculate total quantity (receive_qty + bonus_qty)
                     total_qty = int(receive_qty) + int(bonus_qty)
+
+                    # Handle null or empty expiration dates
+                    if item_exp_date in [None, '']:
+                        item_exp_date = None  # Set to None for empty values
 
                     # Check if either receive_qty or bonus_qty is greater than 0
                     if int(receive_qty) > 0 or int(bonus_qty) > 0:
@@ -237,6 +253,8 @@ def recievedPODetailsListAPI(request):
                             item_id=item_instance,
                             receive_qty=receive_qty,
                             bonus_qty=bonus_qty,
+                            item_batch=item_batch,
+                            item_exp_date=item_exp_date,
                             is_received=is_received_ind,
                             received_date=received_date_ind,
                             is_received_by=request.user,
@@ -252,12 +270,27 @@ def recievedPODetailsListAPI(request):
                             item_id=item_instance,
                             stock_qty=total_qty,
                             store_id=store_instance,
+                            item_batch=item_batch,
+                            item_exp_date=item_exp_date,
                             is_approved=is_received_ind,
                             approved_date=received_date_ind,
+                            recon_type=True, #recon_type=True is adding item in stock list
                             ss_creator=request.user,
                             ss_modifier=request.user,
                         )
                         stock_data.save()
+
+                        in_stock_obj, created = in_stock.objects.get_or_create(
+                            item_id=item_instance,
+                            store_id=store_instance,
+                            defaults={
+                                'stock_qty': total_qty,
+                            }
+                        )
+                        if not created:
+                            # If the record exists, update the stock_qty
+                            in_stock_obj.stock_qty += float(total_qty)
+                            in_stock_obj.save()
                     
                 except items.DoesNotExist:
                     return JsonResponse({'errmsg': f'Item with ID {item_id} not found.'}, status=404)

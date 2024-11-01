@@ -345,7 +345,7 @@ h6 {
 
 /* table */
 .sup_menu_list {
-    height: 461px;
+    height: 100vh;
     overflow: auto;
     border: 1px solid #71bac4;
 }

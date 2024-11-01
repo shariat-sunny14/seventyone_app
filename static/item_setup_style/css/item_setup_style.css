@@ -5,21 +5,16 @@
 
 .dashboar-head {
     width: 100%;
-    border-bottom: 1px solid white;
     margin-top: 0.5em;
     margin-bottom: 0.5rem;
 }
 
 .req-head-icon {
-    font-size: 25px;
-}
-
-.req-head-icon {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .req-head {
-    font-size: 18px;
+    font-size: 15px;
     margin-left: 10px;
 }
 
@@ -198,7 +193,7 @@ h6 {
 @media (min-width: 576px) {
     .org_bran_selectbox {
         flex: 0 0 auto;
-        width: 80.5%;
+        width: 78.5%;
     }
 }
 
@@ -256,7 +251,7 @@ h6 {
 .container-sm,
 .container-xl,
 .container-xxl {
-    padding-right: 0.5rem;
+    padding-right: 0rem;
     padding-left: 0.5rem;
 }
 

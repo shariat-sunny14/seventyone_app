@@ -1,0 +1,250 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'G_R_N_style/css/G_R_N_with_without.css' %}">
+<style>
+    #LPReport_Tbody tr:nth-child(odd) {
+        background-color: #dfd196; /* Color for odd rows */
+        color: black;
+    }
+    
+    #LPReport_Tbody tr:nth-child(even) {
+        background-color: #c4b889; /* Color for even rows */
+        color: black;
+    }
+</style>
+<!--========== from js file ==========-->
+<script src="{% static 'G_R_N_style/js/G_R_N_with_without.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #978845;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bx-archive text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Local Purchase (LP) List</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section>
+                <div class="card grnwo_card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 1rem; background: whitesmoke;">
+                    <div class="card-body">
+                        <div class="report-filter">
+                            <!-- Date Range Filter -->
+                            <div class="date-range">
+                                <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                    <div class="date_range-element" style="display:flex">
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="display: flex; justify-content: right;">
+                                            <label for="op_start" class="col-auto col-form-label">
+                                                From :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="op_start"
+                                                    name="op_start" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="row store_row col-sm-2" style="display: flex; justify-content: right;">
+                                            <label for="op_end" class="col-auto col-form-label">
+                                                To :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="op_end"
+                                                    name="op_end" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="flex-grow: 1; display: flex; justify-content: right;">
+                                            <label for="id_org_id" class="col-auto col-form-label">
+                                                Org:
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <select id="id_org_id" name="filter_org"
+                                                    class="form-select store_Selectbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                        {{org.org_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                <div class="module-table">
+                    <table id="LPReport_tb" class="table table-striped" style="width: 100%; border: 1px solid #c7b76e; color: #fff; margin-bottom: 0.5rem;">
+                        <thead style="text-align: center; background: #c7b76e; color: black;">
+                            <tr style="font-size: 0.8rem; font-weight: bold;">
+                                <th style="width: 10%; border-bottom: 1px solid #c7b76e;" rowspan="2">Date</th>
+                                <th style="width: 10%; border-bottom: 1px solid #c7b76e;" rowspan="2">Transaction ID</th>
+                                <th style="width: 30%; border-bottom: 1px solid #c7b76e;" colspan="4">Local Purchase Descriptions</th>
+                                <th style="width: 10%; border-bottom: 1px solid #c7b76e;" rowspan="2">Total</th>
+                            </tr>
+                            <tr style="font-size: 0.8rem; font-weight: bold;">
+                                <th style="width: 32%; border-bottom: 1px solid #c7b76e; background: #c7b76e;">Item Details</th>
+                                <th style="width: 5%; border-bottom: 1px solid #c7b76e; background: #c7b76e;">Qty.</th>
+                                <th style="width: 5%; border-bottom: 1px solid #c7b76e; background: #c7b76e;">Rate</th>
+                                <th style="width: 5%; border-bottom: 1px solid #c7b76e; background: #c7b76e;">Dis.(%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="LPReport_Tbody" style="text-align:center; font-size: 0.8rem">
+                            <!--  -->
+                            
+                        </tbody>
+
+                        <!-- loader start -->
+                        <div class="loader"></div>
+                        <!-- loader end -->
+                    </table>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<!-- present date show scriptStart  -->
+<script>
+    $(document).ready(function () {
+        var orgID = $('#id_org_id').val();
+        var opStart = $('#op_start').val();
+        var opEnd = $('#op_end').val();
+    
+        fetchAndDisplayClientsDetailsTrns(orgID, opStart, opEnd);
+    
+        // Event listeners for date input changes
+        $('#op_start, #op_end').on('change', function () {
+            // Update opStart and opEnd with current input values
+            opStart = $('#op_start').val();
+            opEnd = $('#op_end').val();
+    
+            // Fetch and display updated report
+            fetchAndDisplayClientsDetailsTrns(orgID, opStart, opEnd);
+        });
+    
+        function fetchAndDisplayClientsDetailsTrns(orgID, opStart, opEnd) {
+            if (orgID) {
+                $.ajax({
+                    url: "{% url 'local_purchase_details_reports' %}",
+                    type: 'GET',
+                    data: {
+                        'org_id': orgID,
+                        'op_start': opStart,
+                        'op_end': opEnd,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response);
+    
+                        // Clear the existing table body
+                        $('#LPReport_tb tbody').empty();
+    
+                        // Populate the table body with the new data
+                        if (Array.isArray(response)) {
+                            response.forEach(function (transaction, index) {
+                                var itemNames = '', itemQtyUoM = '', itemSalesRate = '', itemDisPer = '';
+    
+                                if (transaction.details_data && Array.isArray(transaction.details_data)) {
+                                    transaction.details_data.forEach(function (detail, idx) {
+                                        itemNames += (idx + 1) + '. ' + detail.item_name + '<br>';
+                                        var qty = parseFloat(detail.qty) || 0;
+                                        var uom = detail.uom || '';
+                                        itemQtyUoM += qty.toFixed(1) + '/' + uom + '<br>';
+                                        var salesRate = parseFloat(detail.sales_rate) || 0;
+                                        itemSalesRate += salesRate.toFixed(1) + '<br>';
+                                        var disPerc = parseFloat(detail.dis_perc) || 0;
+                                        itemDisPer += disPerc.toFixed(1) + '<br>';
+                                    });
+                                }
+    
+                                var branch_trans = transaction.branch ? '<span>' + transaction.branch + '</span>' : '';
+                                var branch_br = transaction.branch ? '<br>' : '';
+    
+                                var row = $('<tr style="font-size: 0.8rem;">');
+                                row.append(
+                                    $('<td style="text-align: center;">').text(transaction.trans_date),
+                                    $('<td style="text-align: center;">').text(transaction.trans_no),
+                                    $('<td style="text-align: left;">').html(
+                                        '<span class="debit-payment-input"><span style="font-weight: bold; text-align: left;">' + branch_trans + '</span><br><br>' + itemNames + '</span>'
+                                    ),
+                                    $('<td style="text-align: center;">').html('<span><br><br>' + branch_br + itemQtyUoM + '</span>'),
+                                    $('<td style="text-align: center;">').html('<span><br><br>' + branch_br + itemSalesRate + '</span>'),
+                                    $('<td style="text-align: center;">').html('<span><br><br>' + branch_br + itemDisPer + '</span>'),
+                                    $('<td>').html('<input type="number" class="debit-payment-input" value="' + transaction.trns_amt + '" style="width: 100%; outline: 0; border: none; text-align: center; font-weight: 500; background: transparent;" readonly>')
+                                );
+                                $('#LPReport_tb tbody').append(row);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX request failed:', error);
+                    }
+                });
+            }
+        }
+    });
+    //
+    window.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+        
+        // Format today’s date as YYYY-MM-DD
+        var formattedDate = today.getFullYear() + '-' +
+                            (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                            today.getDate().toString().padStart(2, '0');
+        
+        // Set both op_start and op_end to today’s date
+        document.getElementById('op_start').value = formattedDate;
+        document.getElementById('op_end').value = formattedDate;
+    });
+
+    //
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+
+        loader.classList.add("loader-hidden");
+
+        loader.addEventListener("transitionend", () => {
+            // document.body.removeChild("loader");
+        });
+    });
+
+    // loader start
+    function startLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+    
+    function endLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+        setTimeout(() => {
+            loader.classList.add("loader-hidden");
+        }, 500);
+    }
+    //loader end
+</script>
+
+{% endblock %}

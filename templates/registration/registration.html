@@ -1,0 +1,445 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'registration/css/registration.css' %}">
+<!--========== from js file ==========-->
+<script src="{% static 'registration/js/registration.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2" style="height: 2rem;">
+                        <i class='bx bxs-user-rectangle text-success req-head-icon'></i>
+                        <h1 class="h3 text-success req-head">Registered Customers List</h1>
+                        <div style="position: absolute; right: 2rem;">
+                            <!--  -->
+                            <button type="button" onClick="navigateTo('/item_pos_billing/')"
+                                class="btn btn-success bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                style="display: flex; font-size: 0.8rem; font-weight: bolder; box-shadow: 4px 5px 10px 0px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff; height: 1.7rem; padding: 0.5rem 1.3rem; flex-direction: row; flex-wrap: nowrap; align-items: center;">
+                                Billing
+                            </button>
+                            <!--  -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-md-12 sub-header">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <div class="date-range-container">
+                            <div class="form-group date-range-content">
+                                <label for="startDate" class="col-sm-4 date-range-label">From Date:</label>
+                                <input type="text" id="startDate" class="form-control datepicker regInput-field"
+                                    placeholder="From Date">
+                            </div>
+                            <div class="form-group date-range-content">
+                                <label for="endDate" class="col-sm-3 date-range-label">To Date:</label>
+                                <input type="text" id="endDate" class="form-control datepicker regInput-field"
+                                    placeholder="To Date">
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="others-container d-flex" style="flex-grow: 1; display: flex; justify-content: right;">
+                            <label for="id_filter_org" class="col-auto date-range-label col-form-label" style="font-size: 0.85rem;">
+                                Org:
+                            </label>
+                            <div class="col-sm-9">
+                                <select id="id_filter_org" name="filter_org"
+                                    class="form-select regInput-field"
+                                    aria-label="Default select example">
+                                    {% for org in org_list %}
+                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                        {{org.org_name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="others-container d-flex">
+                            <div class="sub-headerBtn">
+                                <button type="button" id="addregistration"
+                                    class="btn btn-success text-white btn-xs headerBtn">
+                                    Add New Customers
+                                </button>
+                            </div>
+                            <!-- Modal start-->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <!-- modal body here -->
+                                            <!-- Add your patient form here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal end -->
+                            <div class="sub-headerBtn">
+                                <div class="card-body card-body_item_setup" style="display: flex; justify-content: center; margin-left: 2rem;">
+                                    <div class="form-check form-check-inline inline_item">
+                                        <input class="form-check-input radio2" type="radio" name="option" value="true" id="activeList" checked>
+                                        <label class="form-check-label" for="activeList">Active</label>
+                                    </div>
+                                    <div class="form-check form-check-inline inline_item">
+                                        <input class="form-check-input radio3" type="radio" name="option" value="false" id="inactiveList">
+                                        <label class="form-check-label" for="inactiveList">Inactive</label>
+                                    </div>
+                                    <div class="form-check form-check-inline inline_item">
+                                        <input class="form-check-input radio1" type="radio" name="option" value="1" id="allList">
+                                        <label class="form-check-label" for="allList">All</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <div class="tableBody">
+            <div class="tableContainer">
+                <table id="regTbl" class="table table-striped table-hover" style="width: 150%; border: 1px solid #dfdede;">
+                    <thead class="text-center">
+                        <tr>
+                            <th style="width: 20%; text-align: center;">Name</th>
+                            <th style="width: 10%; text-align: center;">C/N</th>
+                            <th style="width: 8%; text-align: center;">Gender</th>
+                            <th style="width: 8%; text-align: center;">Marital Status</th>
+                            <th style="width: 10%; text-align: center;">Mobile</th>
+                            <th style="width: 8%; text-align: center;">DOB</th>
+                            <th style="width: 8%; text-align: center;">Blood Group</th>
+                            <th style="width: 8%; text-align: center;">Reg. Date</th>
+                            <th style="width: 25%; text-align: center;">Address</th>
+                            <th style="width: 8%; text-align: center;">Status</th>
+                            <th style="width: 22%; text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="regTbody" class="table-body-row" style="text-align:center;">
+                        <!-- Add rows dynamically with JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    $(document).ready(function () {
+        var debounceTimer;
+    
+        // Handle radio button change and filters
+        $('input[name="option"], #startDate, #endDate, #id_filter_org').change(function () {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(filterUsers, 300); // Debounce with a 300ms delay
+        });
+    
+        function filterUsers() {
+            // Get filter values
+            var is_active = $('input[name="option"]:checked').val();
+            var org_id = $('#id_filter_org').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+        
+            // Create an object to hold the parameters
+            var filterParams = {
+                'org_id': org_id,
+                'startDate': startDate,
+                'endDate': endDate,
+            };
+        
+            // Only include is_active if it is not "All" (value="1")
+            if (is_active !== '1') {
+                filterParams['is_active'] = is_active;
+            }
+        
+            // Make AJAX request to filter_users view
+            $.ajax({
+                url: '/get_customer_registration_list/',
+                type: 'GET',
+                data: filterParams,
+                dataType: 'json',
+                success: function (data) {
+                    // Destroy the existing DataTable instance
+                    $('#regTbl').DataTable().destroy();
+        
+                    // Update the table with the filtered data
+                    updateTable(data.regs_data);
+        
+                    // Re-initialize DataTable after updating the table data
+                    $('#regTbl').DataTable({
+                        "ordering": false,
+                    });
+                }
+            });
+        }
+    
+        function updateTable(regsData) {
+            // Clear existing table rows
+            $('#regTbody').empty();
+    
+            // Append filtered data to the table
+            $.each(regsData, function (index, reg) {
+                var row = `
+                    <tr>
+                        <td style="text-align:left;">
+                            <img src="${reg.customer_img || "{% static 'images/profile_img/user.png' %}"}" alt="" class="user-img_table">
+                            ${reg.full_name}
+                        </td>
+                        <td>${reg.customer_no}</td>
+                        <td>${reg.gender}</td>
+                        <td>${reg.marital_status}</td>
+                        <td>${reg.mobile_number}</td>
+                        <td>${reg.dateofbirth}</td>
+                        <td>${reg.blood_group}</td>
+                        <td>${reg.reg_date}</td>
+                        <td>${reg.address}</td>
+                        <td class="status_active_inactive" data-is-active="${reg.is_active}">
+                            ${reg.is_active ? 'Active' : 'Inactive'}
+                        </td>
+                        <td style="text-align:center;">
+                            <div style="display: flex; text-align: center; justify-content: center; align-items: center;">
+                                <div class="statusBtn">
+                                    <button title="Edit" class="btn btn-secondary text-white btn-xs editregistration statusDtlBtn" data-id="${reg.reg_id}">
+                                        <i class='bx bxs-edit statusDtlIcon'></i>
+                                    </button>
+                                </div>
+            
+                                ${reg.is_active ? `
+                                <div class="statusBtn">
+                                    <button id="inactive" title="Set Inactive" class="btn btn-danger inactiveReg text-white btn-xs statusDtlBtn" data-id="${reg.reg_id}">
+                                        <i class='bx bx-toggle-left statusDtlIcon'></i>
+                                    </button>
+                                </div>` : `
+                                <div class="statusBtn">
+                                    <button id="active" title="Set Active" class="btn btn-success activeReg text-white btn-xs statusDtlBtn" data-id="${reg.reg_id}">
+                                        <i class='bx bx-toggle-right statusDtlIcon'></i>
+                                    </button>
+                                </div>`}
+
+                                <div class="statusBtn">
+                                    <button title="Adjustment Reports" class="btn btn-warning text-white btn-xs statusDtlBtn" style="line-height: 1.5; font-size: 0.9rem; font-weight: bold;" data-id="${reg.reg_id}">
+                                        Ad. R
+                                    </button>
+                                </div>
+            
+                                <div class="statusBtn">
+                                    <button title="Summary Reports" class="btn btn-info text-white btn-xs statusDtlBtn summary-report" data-id="${reg.reg_id}">
+                                        <i class='bx bx-notepad statusDtlIcon'></i>
+                                    </button>
+                                </div>
+
+                                <div class="statusBtn">
+                                    <button title="Details Reports" class="btn btn-primary text-white btn-xs statusDtlBtn details-report" data-id="${reg.reg_id}">
+                                        <i class='bx bx-label statusDtlIcon'></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            
+                // Append the constructed row to the table
+                $('#regTbody').append(row);
+            });
+    
+            // Update status labels
+            updateStatusElements();
+        }
+    
+        // Update active/inactive labels
+        function updateStatusElements() {
+            $('.status_active_inactive').each(function () {
+                var is_active = $(this).data('is-active').toString().toLowerCase().trim();
+                if (is_active === "true") {
+                    $(this).text("Active").addClass("active");
+                } else {
+                    $(this).text("Inactive").addClass("inactive");
+                }
+            });
+        }
+    
+        // Trigger the initial change event
+        $('input[name="option"]').change();
+    });
+
+
+    // Function to format date as YYYY-MM-DD
+    function formatDate(date) {
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        let year = date.getFullYear();
+        return year + '-' + month + '-' + day;
+    }
+
+    // Set today's date
+    let today = new Date();
+
+    // Create a new date object for 1 year ago
+    let lastYear = new Date();
+    lastYear.setFullYear(today.getFullYear() - 1);
+
+    // Set start date input to 1 year ago and end date input to today's date
+    document.getElementById('startDate').value = formatDate(lastYear);
+    document.getElementById('endDate').value = formatDate(today);
+
+    //=================================================================================
+    // Utility function to add years to a date
+    function addYears(date, years) {
+        date.setFullYear(date.getFullYear() + years);
+        return date;
+    }
+
+    // Utility function to format a date in 'yyyy-MM-dd' format
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Set the current date in 'YYYY-MM-DD' format
+    const startDate = addYears(new Date(), -1);
+    const endDate = addYears(new Date(), 0);
+
+    $(document).ready(function () {
+        $(document).on('click', '#addregistration', function () {
+            lineloaderstart();
+            modal_xl("Add New Registration", "{% url 'add_registration_modal' %}");
+            lineloaderstop();
+        });
+
+        $(document).on('click', '.editregistration', function () {
+            lineloaderstart();
+            modal_xl("edit Registration", "{% url 'edit_registration_modal' %}?reg_id=" + $(this).attr('data-id'));
+            lineloaderstop();
+        });
+
+        $(document).on('click', '.activeReg', function () {
+            lineloaderstart();
+            modal_md("Active Reg Registration", "{% url 'active_registration' %}?reg_id=" + $(this).attr('data-id'));
+            lineloaderstop();
+        });
+
+        $(document).on('click', '.inactiveReg', function () {
+            lineloaderstart();
+            modal_md("Inactive Reg Registration", "{% url 'inactive_registration' %}?reg_id=" + $(this).attr('data-id'));
+            lineloaderstop();
+        });
+    });
+
+
+    // loader start
+    function startLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+
+    function endLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+        setTimeout(() => {
+            loader.classList.add("loader-hidden");
+        }, 500);
+    }
+    //loader end
+
+    // image load in the page
+    function displaySelectedImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+    
+                img.onload = function () {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+    
+                    var maxWidth = 300;
+                    var maxHeight = 300;
+    
+                    var width = img.width;
+                    var height = img.height;
+    
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        } else {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+    
+                        canvas.width = width;
+                        canvas.height = height;
+    
+                        ctx.drawImage(img, 0, 0, width, height);
+    
+                        // Create or select the element with ID 'selected_image'
+                        var selectedImage = document.getElementById('selected_image');
+                        if (!selectedImage) {
+                            selectedImage = new Image();
+                            selectedImage.id = 'selected_image';
+                            document.body.appendChild(selectedImage); // Append the image to the body or any other appropriate container
+                        }
+    
+                        // Set the image source to the resized image
+                        selectedImage.src = canvas.toDataURL('image/jpeg');
+    
+                        // Check if image size exceeds 300x300 after resizing
+                        if (width > maxWidth || height > maxHeight) {
+                            toastr.warning('Image size should be within 300x300 pixels.');
+                        }
+                    } else {
+                        // If the image is within the size limit, set the image source directly
+                        var selectedImage = document.getElementById('selected_image');
+                        if (selectedImage) {
+                            selectedImage.src = img.src;
+                        }
+                    }
+                };
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $(document).on('click', '.summary-report', function (e) {
+            e.preventDefault(); // Prevent the default action of the click event
+            var regID = $(this).attr('data-id');
+            var regSummaryReportUrl = "{% url 'client_summary_registration_reports' 0 %}".replace('0', regID);
+            
+            // Open the page in a new tab
+            window.open(regSummaryReportUrl, '_blank');
+        });
+
+        //
+        $(document).on('click', '.details-report', function (e) {
+            e.preventDefault(); // Prevent the default action of the click event
+            var regID = $(this).attr('data-id');
+            var regSummaryReportUrl = "{% url 'client_details_registration_reports' 0 %}".replace('0', regID);
+            
+            // Open the page in a new tab
+            window.open(regSummaryReportUrl, '_blank');
+        });
+    });
+</script>
+{% endblock %}

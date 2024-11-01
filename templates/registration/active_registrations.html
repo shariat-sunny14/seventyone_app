@@ -1,0 +1,59 @@
+{% load static %}
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container" style="border: 0;">
+                <form id="active_form" enctype="multipart/form-data">
+                    <input type="hidden" id="id_reg_id" name="reg_id" value="{% if reg_data.pk %}{{reg_data.pk}}{% endif %}">
+                    <!--  -->
+                    <div class="alert_box">
+                        <div class="icon" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: center; justify-content: space-evenly; align-items: center; color: green; border: 3px solid green;">
+                            <i class='bx bx-user' style="font-size: 4.5rem;"></i>
+                        </div>
+                        <header style="color: green;">Confirm</header>
+                        <p>Are you sure want to permanently Active this Customers?</p>
+                        <div class="btns">
+                            <button id="addUserBtn" name="submit" type="submit" class="btn btn-success">
+                                Active Customers
+                            </button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#active_form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'active_reg_submission' %}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg);
+                        location.reload();
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,906 @@
+{% load humanize %}
+{% load static %}
+<style>
+    .sub-title2 {
+        margin-top: -8px;
+    }
+
+    .sub-title3 {
+        margin-top: -8px;
+    }
+
+    tbody,
+    td,
+    tfoot,
+    th,
+    thead,
+    tr {
+        border-color: black;
+        border-style: solid;
+        border-width: 0;
+    }
+
+    @media (min-width: 576px) {
+        .col-sm-3-add {
+            flex: 0 0 auto;
+            width: 12.2%;
+            margin-left: 0.25rem;
+            margin-right: 0.46rem;
+        }
+    }
+    
+    .lh-1 {
+        line-height: 0.6rem !important;
+    }
+</style>
+<div class="container-fluid">
+    <div id="outprint" class="receipt-body">
+        <section class="main-body"> <!-- style="margin-top: 7.5rem;" -->
+            <div class="header-body"> <!-- style="display: none;" -->
+                <table class="table org-infoTB" style="width: 100%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                    <tr>
+                        <div class="receipt-logo">
+                            <!-- <img class="com-receipt-logo" alt="logo"> -->
+                        </div>
+                    </tr>
+                    <tr>
+                        <center>
+                            <label class="com-name">
+                                <!-- Company Name Here -->
+                            </label>
+                        </center>
+                        <center class="sub-title1">
+                            <small>
+                                <span class="com-address">
+                                    <span class="com-address-title"> </span>
+                                    <span class="com-address-name"></span>
+                                </span>
+                            </small>
+                        </center>
+                        <center class="sub-title2">
+                            <small>
+                                <span class="email-address-title"></span>
+                                <span class="com-address email-address-name"></span>
+                                <span class="website-title"></span>
+                                <span class="website-name"></span>
+                            </small>
+                        </center>
+                        <center class="sub-title3">
+                            <small>
+                                <span class="com-hotline">
+                                    <span class="com-hotline-title"></span>
+                                    <span class="com-hotline-name"></span>
+                                    <span class="com-fax-title"></span>
+                                    <span class="com-fax-name"></span>
+                                </span>
+                            </small>
+                        </center>
+                    </tr>
+                    <tr>
+    
+                    </tr>
+                </table>
+            </div>
+            <!-- <div class="lh-1"></div> -->
+            <!-- <hr> -->
+            <input type="hidden" id="regis_id" name="reg_id" value="{{ transaction.reg_id }}">
+            <input type="hidden" id="id_org_id" name="org_id" value="{{ transaction.org_id }}">
+            <div class="rec-type">
+                <table class="table" style="width: 100%; border-style: hidden!important;">
+                    <tr style="display:flex;">
+                        <td style="text-align:left; width: 33.33%; border-style: hidden!important;">
+
+                        </td>
+                        <td style="text-align:center; width: 33.33%; border-style: hidden!important;">
+                            <center><label class="receipt-name">Customer Copy</label></center>
+                        </td>
+                        <td style="text-align:left; width: 33.33%; border-style: hidden!important;">
+                            <label class="invoice_id">
+                                <span class="rec-align">
+                                    <span class="barcodeImg">
+                                        <img name="barcode" jsbarcode-value="{{transaction.inv_id}}">
+                                    </span>
+                                </span>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="lh-1">
+                <div style="width: 100%; display: flex; border: 1px solid black; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; align-content: center;">
+                    <table class="table customer_info1" style="width: 33.33%;">
+                        <tbody>
+                            <tr style=" border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Customer's:</td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <input type="text" id="id_customer_name" value="{{ transaction.customer_name }}" hidden>
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                    text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.customer_name }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    House:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.house_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Road:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.road_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Sector:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.sector_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table customer_info1" style="width: 33.33%;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Gender:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.gender }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Mobile:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.mobile_number }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Area:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.area }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Floor:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.floor_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table customer_info1" style="width: 33.33%;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Inv. No:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.inv_id }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Inv. Date:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.invoice_date }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Emer. Per:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.emergency_person }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Emer. Ph.:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.emergency_phone }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table customer_info1" style="width: 100%;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3-add"
+                                    style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Address:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.address }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--  -->
+            <div style="margin-top: 0.3rem;">
+                <table class="table sales_info receipt-table" style="width: 100%;" id="receipt-items">
+                    <thead style="line-height: 1;">
+                        <tr style="border-width: 1px !important;">
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 5%; border-width: 1px !important;">SL</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 42%; border-width: 1px !important;">Item Name</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 10.8%; border-width: 1px !important;">Qty</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 13%; border-width: 1px !important;">Sales Rate</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 11.3%; border-width: 1px !important;">Dis.</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 25%; border-width: 1px !important;">Total Amt.</th>
+                        </tr>
+                    </thead>
+                    <tbody style="line-height: 1;">
+                        {% if transaction.is_modified_item == 1 %}
+                            {% for item in salesItems %}
+                            <tr style="border-width: 1px !important;">
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">&nbsp;</td>
+                                <td class="mul-items-names" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{item.item_name}}
+                                </td>
+                                <td class="mul-items-othrs" style="text-align: left; border-width: 1px !important;">
+                                    <span style="margin-left: 0.3rem; font-size: 0.7rem; font-weight: bold;">{{item.qty_cancelQty}} {{item.Item_uom}}</span>
+                                </td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{item.sales_rate}}
+                                </td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{item.item_wise_disc|floatformat:"3"}}
+                                </td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{ item.total_amount|floatformat:"0" }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            {% for item in salesItems %}
+                            <tr style="border-width: 1px !important;">
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">&nbsp;</td>
+                                <td class="mul-items-names" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{item.item_id.item_name}}
+                                </td>
+                                <td class="mul-items-othrs" style="text-align: left; border-width: 1px !important;">
+                                    <span style="margin-left: 0.3rem; font-size: 0.7rem; font-weight: bold;">{{item.qty_cancelQty}} {{item.Item_uom}}</span>
+                                </td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{item.sales_rate}}
+                                </td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{item.item_wise_disc|floatformat:"3"}}
+                                </td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    {{ item.total_amount|floatformat:"0" }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!--  -->
+        <section>
+            <div class="lh-1">
+                <div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center; align-items: center; border: 1px solid black; border-top: hidden;">
+                    <div style="width: 75%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                        <table class="table" style="width: 75%;">
+                            <tbody>
+                                <tr style="border-style: hidden!important;">
+    
+                                </tr>
+                                <!--  -->
+                                <tr style="border-style: hidden!important;">
+                                    <td style="text-align:right; width: 30%; font-size: 12px; font-weight: bold;">
+    
+                                    </td>
+                                    <td class="status-DP">
+                                        <input type="hidden" class="form-control paid-due-status" value=""
+                                            name="duePaidStatus">
+                                        <span class="form-control paid-due-status" id="duePaidStatus"></span>
+                                    </td>
+                                    <td style="text-align:left; width: 30%; font-size: 11px;">
+    
+                                    </td>
+                                </tr>
+                                <!--  -->
+                                <tr style="border-style: hidden!important;">
+    
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row col-sm-12" style="margin-left: 0.5rem; padding: 3px; font-size: 0.7rem; font-weight: bold;">
+                            <span style="padding: 3px;">Remarks : {{ transaction.remarks }}</span>
+                            <span style="padding: 3px;">In Word : {{ numbers_as_words }}</span>
+                            <span style="padding: 3px;">Note :</span>
+                            <span style="padding: 3px;">**Goods sold without a receipt are not returned</span>
+                            <span style="padding: 3px; text-align: center; margin-top: 1rem; margin-bottom: 0.5rem;">ধন্যবাদ, আবার আসবেন</span>
+                        </div>
+                    </div>
+                    <!-- payment table -->
+                    <div style="width: 55%; border-left: 1px solid;">
+                        <table class="table payment-table"
+                            style="width: 100%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                            <tbody>
+                                <tr style="border-style: hidden!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Total Amt. :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.7rem; font-weight: bold;">
+                                        {{ grand_total|floatformat:"1" }}
+                                    </td>
+                                </tr>
+                                <tr style="border-style: hidden!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Discount Amt. (-):
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.7rem; font-weight: bold;">
+                                        {{ grand_gross_dis }}
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Total VAT amt (+):
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.7rem; font-weight: bold;">
+                                        {{ grand_gross_vat_tax }}
+                                    </td>
+                                </tr>
+                                <!--  -->
+                                <tr style="border-style: hidden!important; border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Carrying Cost :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.8rem; font-weight: bold;">
+                                        {{total_cost_buyer_amt|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <!--  -->
+                                <tr>
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Net Total Amt. :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.8rem; font-weight: bold;">
+                                        {{ net_total_amt }}
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Paid Amt. :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.8rem; font-weight: bold;">
+                                        {{ total_collection_amt|floatformat:1 }}
+                                    </td>
+                                </tr>
+                                <tr style="border-style: hidden!important; border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Refund Amt. :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.7rem; font-weight: bold;">
+                                        {{refund_amt_sum|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Net Paid Amt. :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.8rem; font-weight: bold;">
+                                        {{total_net_collection|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Due Amt. :
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.8rem; font-weight: bold;">
+                                        <input type="hidden" id="duePaidVal" name="duePaidVal"
+                                            value="{{ net_due_amt }}">
+                                        {{ net_due_amt }}
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid #c5c1c1!important; border-bottom: hidden!important;">
+                                    <td style="text-align:right; width: 55%; font-size: 0.7rem; font-weight: bold;">
+                                        Total Balance:
+                                    </td>
+                                    <td style="text-align:center; width: 40%; font-size: 0.85rem; font-weight: bold;">
+                                        <span class="total_balance" id="id_balances"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--  -->
+    <hr>
+    <div class="clear-fix py-3"></div>
+    <!--  -->
+    <div class="d-flex w-100 justify-content-end">
+        <button class="btn btn-light bg-gradient border rounded-0 btn-sm me-1" type="button" id="pdf_receipt">
+            <i class='bx bxs-file-pdf'></i>
+            Save PDF
+        </button>
+        <!--  -->
+        <button class="btn btn-light bg-gradient border rounded-0 btn-sm me-1" type="button" id="receipt_print">
+            <i class='bx bxs-printer'></i>
+            Print
+        </button>
+        <!--  -->
+        <button class="btn btn-secondary bg-gradient border rounded-0 btn-sm" type="button" data-bs-dismiss="modal">
+            <i class='bx bx-window-close'></i>
+            Close
+        </button>
+    </div>
+    <!--  -->
+</div>
+<!-- *************************** jspdf & html2canvas ***************************** -->
+<script src="{% static 'assets/jspdf_umd_2.5.1/jspdf.umd.min.js' %}"></script>
+<!--  -->
+<script src="{% static 'assets/html2canvas/html2canvas.min.js' %}"></script>
+<!-- *************************** jspdf & html2canvas ***************************** -->
+<script>
+    //
+    $(document).ready(function () {
+        // Check for existence of reg_id and org_id
+        var regisID = $('#regis_id').val();
+        var orgID = $('#id_org_id').val();
+    
+        function fetchAndDisplayClientsTrns(regisID, orgID) {
+            if (regisID && orgID) {
+                $.ajax({
+                    url: "{% url 'get_clients_trans_summary_report' %}",
+                    type: 'GET',
+                    data: {
+                        reg_id: regisID,
+                        org_id: orgID
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var total_OP_DebitAmt = 0;
+                        var total_OP_CreditAmt = 0;
+                        var total_trns_DebitAmt = 0;
+                        var total_trns_CreditAmt = 0;
+                        var balance = 0;
+    
+                        if (Array.isArray(response.combined_data)) {
+                            response.combined_data.forEach(function (transaction) {
+                                // Accumulate totals
+                                total_OP_DebitAmt += parseFloat(transaction.op_debit_amt || 0);
+                                total_OP_CreditAmt += parseFloat(transaction.op_credit_amt || 0);
+                                total_trns_DebitAmt += parseFloat(transaction.trns_debit_amt || 0);
+                                total_trns_CreditAmt += parseFloat(transaction.trns_credit_amt || 0);
+                            });
+    
+                            // Calculate balance
+                            balance = (total_OP_DebitAmt + total_trns_DebitAmt) - (total_OP_CreditAmt + total_trns_CreditAmt);
+                            $('#id_balances').text(balance.toFixed(2));  // Setting balance in the input field
+                        } else {
+                            // No transaction data, set balance to 0
+                            $('#id_balances').text('0.00');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching transactions:', status, error);
+                    }
+                });
+            } else {
+                console.warn('Required IDs are missing.');
+            }
+        }
+    
+        // Only fetch and display if both IDs are present
+        if (regisID && orgID) {
+            fetchAndDisplayClientsTrns(regisID, orgID);
+        } else {
+            $('#id_balances').val(0.00);  // Default to 0 if IDs are missing
+        }
+    });
+    
+    // ================================ Save PDF ================================
+    document.getElementById('pdf_receipt').addEventListener('click', function () {
+        // Retrieve the customer name value from the input field
+        var customer_name = document.getElementById('id_customer_name').value || '';  // Fallback to '' if input is empty
+    
+        const footerText = 'TBOX, Contact: +8801309-994317,';
+        const now = new Date();
+        const formattedDateTime = now.toLocaleString();
+    
+        var footerContent =
+            `<div class="footer chalanFooter">
+                <span class="software-woner-title">Software By: </span>
+                <span class="software-woner-name">${footerText}</span>
+                <span class="printed-on-title"> - Printed on: </span>
+                <span class="printed-on-date">${formattedDateTime}</span>
+            </div>`;
+    
+        // Append the footer content to the body if it doesn't already exist
+        if (!document.querySelector('.footer')) {
+            document.body.insertAdjacentHTML('beforeend', footerContent);
+        }
+    
+        // Create a new style element and add the required styles
+        const style = document.createElement('style');
+        style.innerHTML = `
+            /* Global reset to remove default styles */
+            body {
+                background-color: unset !important;
+            }
+    
+            /* Specific styles for .org-infoTB table */
+            tbody, th, td, thead, tfoot, tr {
+                border-style: hidden !important;
+            }
+    
+            .table {
+                margin-bottom: 0rem;
+                overflow: hidden !important;
+            }
+
+            .sales_info {
+                border: 1px solid black !important;
+            }
+
+            .sales_info tbody, 
+            .sales_info td, 
+            .sales_info tfoot, 
+            .sales_info th, 
+            .sales_info thead, 
+            .sales_info tr {
+                border-right: 1px solid black !important;
+                border-bottom: 1px solid black !important;
+                overflow: hidden !important;
+                line-height: 1.5 !important; /* Adjust line-height for better layout */
+            }
+    
+            /* Specific styles for .customer_info1 */
+            .customer_info1 tbody, 
+            .customer_info1 td, 
+            .customer_info1 tfoot, 
+            .customer_info1 th, 
+            .customer_info1 thead, 
+            .customer_info1 tr {
+                margin: 0 !important;
+                padding: 0 !important;
+                line-height: 1.5 !important;
+                border-style: hidden !important;
+            }
+    
+            /* Footer positioning */
+            .footer {
+                position: fixed;
+                bottom: -2rem !important;  /* Stick the footer to the bottom */
+                left: 0;
+                right: 0;
+                text-align: left;
+                width: 100%;
+                padding: 10px 0;
+                background-color: #f8f9fa;
+                border-top: 1px solid #ddd;
+                font-size: 10px !important;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                margin-top: 2rem !important;
+            }
+    
+            /* Make footer content inline */
+            .footer span {
+                margin-right: 5px;  /* Space between the spans */
+            }
+    
+            /* Receipt body */
+            .receipt-body {
+                position: relative;
+                padding: 0.8rem !important;
+            }
+        `;
+        // Append the style to the head of the document
+        document.head.appendChild(style);
+    
+        // Convert #outprint content to canvas using html2canvas with custom dimensions
+        html2canvas(document.querySelector('#outprint'), {
+            scale: 1.5,  // Increase the scale to improve resolution
+            useCORS: true,  // Enable CORS for cross-origin images if needed
+        }).then(function (canvas) {
+            const { jsPDF } = window.jspdf;
+    
+            // Create a new jsPDF document with custom size (9 inches wide x 10 inches tall)
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'in',  // Use inches for units
+                format: [9, 10],  // PDF size: 9 inches wide and 10 inches tall
+            });
+    
+            const imgWidth = 9;  // PDF width
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;  // Maintain aspect ratio
+            const imgHeightMax = 1;
+    
+            const pageHeight = doc.internal.pageSize.height;  // Get the PDF page height
+            const reservedSpace = 0.5;  // 0.5 inches of space (equals 3rem)
+            const usableHeight = pageHeight - reservedSpace;  // Height minus reserved bottom space
+    
+            let position = 0;  // Vertical position where content will be placed
+    
+            // Split content across multiple pages if it exceeds the usable page height
+            while (position < imgHeight) {
+                const imgData = canvas.toDataURL('image/png', 1.0);  // Use 1.0 for lossless quality
+    
+                // Add the image for the current page, keeping space at the bottom
+                doc.addImage(imgData, 'PNG', 0, position > 0 ? -position : 0, imgWidth, imgHeight - imgHeightMax);
+    
+                // Add the footer to the current page
+                doc.setFontSize(10);
+                doc.text(`${footerText} - Printed on: ${formattedDateTime}`, 0.5, usableHeight + 0.25);  // Footer inline, within usable space
+    
+                // If the content exceeds the usable height, create a new page
+                if (position + usableHeight < imgHeight) {
+                    doc.addPage();
+                }
+    
+                // Move position for the next page
+                position += usableHeight;
+            }
+    
+            // Save the generated PDF with the customer name in the filename
+            doc.save(`${customer_name} Receipts Copy.pdf`);
+    
+            // Remove the dynamically added style element after generating the PDF
+            document.head.removeChild(style);
+        });
+    });
+
+    // ================================ Print Receipt ================================
+    //<!--  -->
+    $(document).ready(function () {
+        let companyInfo;
+
+        // Make Ajax request to get user information
+        $.ajax({
+            type: 'GET',
+            url: '/get_user_org_informations/',
+            success: function (response) {
+                // Store the companyInfo data
+                companyInfo = response;
+
+                // Now that you have the data, update the HTML
+                updateCompanyInfoUI();
+            },
+            error: function (error) {
+                console.error('Error fetching user information:', error);
+            }
+        });
+
+        // Function to update the HTML with companyInfo
+        function updateCompanyInfoUI() {
+            // Check if companyInfo is defined
+            if (companyInfo) {
+                // Update the HTML content
+                $('.com-name').text(companyInfo.org_name);
+                $('.com-address-title').text('Address: ');
+                $('.com-address-name').text(companyInfo.address);
+                $('.email-address-title').text('Email: ');
+                $('.email-address-name').text(companyInfo.email);
+                $('.website-title').text('Website: ');
+                $('.website-name').text(companyInfo.website);
+                $('.com-hotline-title').text('Hotline: ');
+                $('.com-fax-title').text('Fax: ');
+                $('.com-hotline-name').text(`${companyInfo.phone}, ${companyInfo.hotline}`);
+                $('.com-fax-name').text(companyInfo.fax);
+
+
+                // Display the organization logo
+                if (companyInfo.org_logo) {
+                    $('.com-receipt-logo').attr('src', companyInfo.org_logo);
+                }
+            } else {
+                // Handle the case where companyInfo is not available
+                console.error('Company information is not available.');
+            }
+        }
+
+        $('#receipt_print').click(function () {
+            var head = $('head').clone();
+            var p = $('#outprint').clone();
+            var el = $("<div>");
+
+            // Append necessary styles to the head
+            head.append(`
+                <style>
+                    /* Global reset to remove default styles */
+                    body {
+                        background-color: unset !important;
+                    }
+
+                    tbody,
+                    td,
+                    tfoot,
+                    th,
+                    thead,
+                    tr {
+                        border-color: black;
+                        border-style: solid;
+                        border-width: 0;
+                    }
+
+                    .customer_info1 tbody, 
+                    .customer_info1 td, 
+                    .customer_info1 tfoot, 
+                    .customer_info1 th, 
+                    .customer_info1 thead, 
+                    .customer_info1 tr {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        line-height: 1.5 !important;
+                    }
+
+                    .main-body {
+                        margin-top: 7.7rem;
+                    }
+
+                    .header-body {
+                        display: none;
+                    }
+                    
+                    .footer {
+                        position: fixed;
+                        bottom: -0.25rem;
+                        text-align: left;
+                        width: 100%;
+                    }
+
+                    .receipt-body {
+                        position: relative;
+                    }
+                </style>
+            `);
+
+            const footerText = 'TBOX, Contact: +8801309-994317,';
+            const now = new Date();
+            const formattedDateTime = now.toLocaleString();
+
+            // Define the page number as 1 (you can change this logic to handle multiple pages)
+            const pageNumber = 1;
+
+            var footerContent =
+                `<div class="footer chalanFooter">
+                    <span class="software-woner-title">Software By: </span>
+                    <span class="software-woner-name">${footerText}</span>
+                    <span class="printed-by-title">- Printed By: </span>
+                    <span class="printed-by-name">${companyInfo.first_name} ${companyInfo.last_name}</span>
+                    <span class="printed-on-title">- Printed on: </span>
+                    <span class="printed-on-date">${formattedDateTime}</span>
+                    <span class="printed-page-title">- Page </span>
+                    <span class="printed-page-no">${pageNumber}</span>
+                </div>`;
+
+            el.append(head);
+            el.append('<div class="receipt-body">' + p.html() + '</div>'); // Append the main content
+            el.append(footerContent); // Append the footer
+
+            var nw = window.open('', '_blank', "width=800,height=800,left=300,top=200");
+            nw.document.write('<html>' + el.html() + '</html>'); // Write the complete HTML structure
+            nw.document.close();
+
+            // Set up the afterprint function to close the window after printing
+            nw.onafterprint = function () {
+                nw.close();
+            };
+
+            // Trigger the print function after a short delay to ensure the content loads properly
+            setTimeout(() => {
+                nw.print();
+            }, 300);
+        });
+    });
+
+    // Function to generate barcode images
+    function generateBarcodeImages() {
+        var elements = document.querySelectorAll(".barcodeImg img");
+        for (var i = 0; i < elements.length; i++) {
+            var img = elements[i];
+            var id = "barcode" + i; // Generate unique ID for each barcode
+            img.id = id;
+            var value = img.getAttribute("jsbarcode-value");
+            JsBarcode("#" + id, value, {
+                format: "CODE128",
+                lineColor: "#000000",
+                width: 1,
+                height: 28,
+                displayValue: false,
+                fontSize: 10,
+                fontOptions: "lighter",
+            });
+        }
+    }
+
+    // Function to clear barcode images
+    function clearBarcodeImages() {
+        var elements = document.querySelectorAll(".barcodeImg img");
+        for (var i = 0; i < elements.length; i++) {
+            var img = elements[i];
+            var id = img.id;
+            JsBarcode("#" + id, ""); // Clear the barcode by setting an empty string
+        }
+    }
+
+    // Call generateBarcodeImages() to generate barcode images and clearBarcodeImages() to clear them.
+    generateBarcodeImages();
+
+    // To clear the barcode images when needed:
+    // clearBarcodeImages();
+
+    // Due Paid Status
+
+    $(function () {
+        var due_amt = $('#duePaidVal').val()
+        if ((due_amt) > 0) {
+            due_value = "Due";
+        } else if ((due_amt) < 0) {
+            due_value = "Need Refund";
+        } else {
+            due_value = "Paid";
+        }
+        $('#duePaidStatus').text(due_value).toLocaleString('en-US')
+        $('[name="duePaidStatus"]').val(due_value)
+        //console.log("Due Value:" + due_amt)
+    });
+</script>
+
+<!--  -->

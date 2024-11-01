@@ -71,6 +71,27 @@ h6 {
     }
 }
 
+@media (min-width: 576px) {
+    .col-org-branch {
+        flex: 0 0 auto;
+        width: 39.5%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sale-org {
+        flex: 0 0 auto;
+        width: 39%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-range {
+        flex: 0 0 auto;
+        width: 74.6%;
+    }
+}
+
 .table-body {
     /* height: 500px;
     overflow: auto; */
@@ -432,7 +453,6 @@ tr {
 }
 
 .row>* {
-    padding-right: calc(var(--bs-gutter-x) * .0);
     padding-left: calc(var(--bs-gutter-x) * .4);
 }
 

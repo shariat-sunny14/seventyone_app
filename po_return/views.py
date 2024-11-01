@@ -18,7 +18,7 @@ from organizations.models import branchslist, organizationlst
 from item_setup.models import items
 from opening_stock.models import opening_stock
 from item_pos.models import invoicedtl_list
-from stock_list.models import stock_lists
+from stock_list.models import in_stock, stock_lists
 from purchase_order.models import purchase_order_list, purchase_orderdtls
 from po_receive.models import po_receive_details
 from po_return.models import po_return_details
@@ -146,7 +146,7 @@ def purchaseOrderReturnAPI(request, po_id=None):
         # po_receive_details rec qty
         totalPoRecQty = PORecQtyDetails.aggregate(
             totalPoRecQty=Sum(ExpressionWrapper(
-                F('receive_qty'), output_field=IntegerField())
+                F('receive_qty'), output_field=FloatField())
             )
         )['totalPoRecQty']
 
@@ -156,7 +156,7 @@ def purchaseOrderReturnAPI(request, po_id=None):
         # po_returned_details qty
         totalPoReturnQty = POReturnQtyDetails.aggregate(
             totalPoReturnQty=Sum(ExpressionWrapper(
-                F('return_qty'), output_field=IntegerField())
+                F('return_qty'), output_field=FloatField())
             )
         )['totalPoReturnQty']
 
@@ -216,6 +216,8 @@ def savePurchaseOrderReturnedAPI(request):
         current_store_id = request.POST.get('current_store')
         item_ids = request.POST.getlist('item_id[]')
         return_qtys = request.POST.getlist('return_qty[]')
+        item_batchs = request.POST.getlist('item_batchs[]')
+        item_exp_dates = request.POST.getlist('item_exp_dates[]')
         is_returned_inds = request.POST.getlist('is_returned_ind[]')
         returned_date_ind = request.POST.get('returned_date_ind')
 
@@ -236,7 +238,7 @@ def savePurchaseOrderReturnedAPI(request):
                 return JsonResponse({'errmsg': 'Purchase order or store not found.'}, status=404)
                 
             # Iterate through the received items and save them
-            for item_id, return_qty, is_returned_ind in zip(item_ids, return_qtys, is_returned_inds):
+            for item_id, return_qty, is_returned_ind, item_batch, item_exp_date in zip(item_ids, return_qtys, is_returned_inds, item_batchs, item_exp_dates):
                 try:
                     # Retrieve the item instance
                     item_instance = items.objects.get(item_id=item_id)
@@ -247,6 +249,8 @@ def savePurchaseOrderReturnedAPI(request):
                             store_id=store_instance,
                             item_id=item_instance,
                             return_qty=return_qty,
+                            item_batch=item_batch,
+                            item_exp_date=item_exp_date,
                             is_returned=is_returned_ind,
                             returned_date=returned_date_ind,
                             is_returned_by=request.user,
@@ -254,6 +258,36 @@ def savePurchaseOrderReturnedAPI(request):
                             ss_modifier=request.user,
                         )
                         po_reteru_detail.save()
+
+                        # Update or create stock_lists
+                        stock_data = stock_lists(
+                            po_id=po_instance,
+                            poretdtl_id=po_reteru_detail,
+                            item_id=item_instance,
+                            stock_qty=return_qty,
+                            store_id=store_instance,
+                            item_batch=item_batch,
+                            item_exp_date=item_exp_date,
+                            is_approved=is_returned_ind,
+                            approved_date=returned_date_ind,
+                            recon_type=False, #recon_type=False, cause this stock list another module no need to effect
+                            ss_creator=request.user,
+                            ss_modifier=request.user,
+                        )
+                        stock_data.save()
+
+                        # stock minus in the in_stock models
+                        in_stock_obj, created = in_stock.objects.get_or_create(
+                            item_id=item_instance,
+                            store_id=store_instance,
+                            defaults={
+                                'stock_qty': return_qty,
+                            }
+                        )
+                        if not created:
+                            # If the record exists, update the stock_qty
+                            in_stock_obj.stock_qty -= float(return_qty)
+                            in_stock_obj.save()
 
                 except items.DoesNotExist:
                     return JsonResponse({'errmsg': f'Item with ID {item_id} not found.'}, status=404)
@@ -315,7 +349,7 @@ def POReturnedReportAPI(request, po_id=None):
         # po_receive_details rec qty
         totalPoRecQty = PORecQtyDetails.aggregate(
             totalPoRecQty=Sum(ExpressionWrapper(
-                F('receive_qty'), output_field=IntegerField())
+                F('receive_qty'), output_field=FloatField())
             )
         )['totalPoRecQty']
 
@@ -325,7 +359,7 @@ def POReturnedReportAPI(request, po_id=None):
         # po_returned_details qty
         totalPoReturnQty = POReturnQtyDetails.aggregate(
             totalPoReturnQty=Sum(ExpressionWrapper(
-                F('return_qty'), output_field=IntegerField())
+                F('return_qty'), output_field=FloatField())
             )
         )['totalPoReturnQty']
 

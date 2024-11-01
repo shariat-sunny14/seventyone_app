@@ -1,0 +1,462 @@
+{% load humanize %}
+{% load static %}
+<style>
+    .sub-title2 {
+        margin-top: -8px;
+    }
+
+    .sub-title3 {
+        margin-top: -8px;
+    }
+
+    tbody, td, tfoot, th, thead, tr {
+        border-color: black;
+        border-style: solid;
+        border-width: 0;
+    }
+
+    @media (min-width: 576px) {
+        .col-sm-3-add {
+            flex: 0 0 auto;
+            width: 12.2%;
+            margin-left: 0.25rem;
+            margin-right: 0.46rem;
+        }
+    }
+    
+    .lh-1 {
+        line-height: 0.6rem !important;
+    }
+
+</style>
+<div class="container-fluid">
+    <div id="chalan_outprint" class="chalan-body">
+        <section style="margin-top: 7.5rem;">
+            <!--  -->
+            <div class="rec-type">
+                <table class="table" style="width: 100%; border-style: hidden!important;">
+                    <tr style="display:flex;">
+                        <td style="text-align:left; width: 33.33%; border-style: hidden!important;">
+                            <center><label class="receipt-name" style="border: 0;">D. Copy</label></center>
+                        </td>
+                        <td style="text-align:center; width: 33.33%; border-style: hidden!important;">
+                            <center><label class="receipt-name">Delivery Chalan</label></center>
+                        </td>
+                        <td style="text-align:left; width: 33.33%; border-style: hidden!important;">
+                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--  -->
+            <div class="lh-1">
+                <div style="width: 100%; display: flex; border: 1px solid black; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; align-content: center;">
+                    <table class="table customer_info1" style="width: 33.33%;">
+                        <tbody>
+                            <tr style=" border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Customer's:</td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <input type="text" id="id_customer_name" value="{{ transaction.customer_name }}" hidden>
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                    text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.customer_name }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    House:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.house_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Road:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.road_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Sector:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.sector_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table customer_info1" style="width: 33.33%;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Gender:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.gender }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Mobile:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.mobile_number }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Area:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                                text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.area }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Floor:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.floor_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table customer_info1" style="width: 33.33%;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Inv. No:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.inv_id }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Inv. Date:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.invoice_date }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Emer. Per:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.emergency_person }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-5" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Emer. Ph.:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.emergency_phone }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table customer_info1" style="width: 100%;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-3-add"
+                                    style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Address:
+                                </td>
+                                <td class="col-sm-9" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                            text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ transaction.address }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--  -->
+            <div class="lh-1">
+                <div style="width: 100%; margin-top: 0.3rem; display: flex; border: 1px solid black; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; align-content: center;">
+                    <table class="table" style="width: 60%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-4" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Driver Name:</td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                        text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ sales.driver_name }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <table class="table" style="width: 40%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                        <tbody>
+                            <tr style="border-style: hidden!important;">
+                                <td class="col-sm-4" style="text-align:right; font-size: 0.8rem; font-weight: bold;">
+                                    Mobile:
+                                </td>
+                                <td class="col-sm-8" style="font-size: 0.8rem;">
+                                    <span style="display: flex; margin-left: 10px; justify-content: left;align-items: center;
+                                        text-align: left;flex-direction: row;flex-wrap: nowrap;">
+                                        {{ sales.driver_mobile }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--  -->
+            <div style="width: 100%; margin-top: 0.3rem; margin-bottom: 1.5rem !important; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; align-content: center;">
+                <table class="table receipt-table" style="width: 100%;" id="receipt-items">
+                    <thead>
+                        <tr style="border-width: 1px !important;">
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 8%; border-width: 1px !important;">SL</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 70%; border-width: 1px !important;">Item Name</th>
+                            <th scope="col" style="text-align:center; font-size: 0.8rem; width: 10%; border-width: 1px !important;">Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-items-tbody">
+                        {% for store_name, items in grouped_salesItems.items %}
+                            <tr>
+                                <td style="font-size: 0.85rem; font-weight: bold; text-align: center; border: 1px solid black;" colspan="3">------ {{ store_name }} ------</td>
+                            </tr>
+                            {% for item in items %}
+                            <tr>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">{{ forloop.counter }}</td>
+                                <td class="mul-items-names" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">{{ item.item_name }}</td>
+                                <td class="mul-items-othrs" style="font-size: 0.7rem; font-weight: bold; border-width: 1px !important;">
+                                    <input type="hidden" name="total_qty_count" value="{{ item.total_deliver_qty }}">
+                                    {{ item.total_deliver_qty }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table" style="width: 100%;">
+                    <tbody style="border-top: hidden !important; border-bottom: 1px solid black !important; border-left: 1px solid black !important; border-right: 1px solid black !important;">
+                        <tr style="border-top: 1px solid #c5c1c1 !important; border-style: dashed;">
+                            <td colspan="2" style="text-align:right; font-size: 0.8rem; font-weight: bolder;">Total Qty.:</td>
+                            <td class="mul-items-othrs" style="width: 11%; font-size: 0.8rem; font-weight: bolder;">{{grand_total_qty|floatformat:0}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--  -->
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; width: 100%; justify-content: space-between;">
+                <div class="signature" style="width: 35%;">
+                    <section style="position: relative; right: 0; bottom: 0; text-align: center; font-size: 0.7rem; font-weight: bolder; border-top: 1px solid; width: 100%;">
+                        <span>Customer Signature</span>
+                    </section>
+                </div>
+                <!--  -->
+                <div class="signature" style="width: 35%;">
+                    <section style="position: relative; right: 0; bottom: 0; text-align: center; font-size: 0.7rem; font-weight: bolder; border-top: 1px solid; width: 100%;">
+                        <span>Signature</span>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <!--  -->
+    </div>
+    <hr>
+    <div class="clear-fix py-3"></div>
+    <!--  -->
+    <div class="d-flex w-100 justify-content-end">
+        <button class="btn btn-light bg-gradient border rounded-0 btn-sm me-1" type="button" id="chalan_print">
+            <i class='bx bxs-printer'></i>
+            Print
+        </button>
+        <button class="btn btn-secondary bg-gradient border rounded-0 btn-sm" type="button" data-bs-dismiss="modal">
+            <i class='bx bx-window-close'></i>
+            Close
+        </button>
+    </div>
+    <!--  -->
+</div>
+<script>
+    //<!--  -->
+    $(document).ready(function () {
+        let companyInfo;
+    
+        // Make Ajax request to get user information
+        $.ajax({
+            type: 'GET',
+            url: '/get_user_org_informations/',
+            success: function (response) {
+                // Store the companyInfo data
+                companyInfo = response;
+    
+                // Now that you have the data, update the HTML
+                updateCompanyInfoUI();
+            },
+            error: function (error) {
+                console.error('Error fetching user information:', error);
+            }
+        });
+    
+        // Function to update the HTML with companyInfo
+        function updateCompanyInfoUI() {
+            // Check if companyInfo is defined
+            if (companyInfo) {
+                // Update the HTML content
+                $('.com-name').text(companyInfo.org_name);
+                $('.com-address-name').text(companyInfo.address);
+                $('.email-address-name').text(companyInfo.email);
+                $('.website-name').text(companyInfo.website);
+                $('.com-hotline-name').text(`${companyInfo.phone}, ${companyInfo.hotline}`);
+                $('.com-fax-name').text(companyInfo.fax);
+    
+                // Display the organization logo
+                if (companyInfo.org_logo) {
+                    $('.com-receipt-logo').attr('src', companyInfo.org_logo);
+                }
+            } else {
+                // Handle the case where companyInfo is not available
+                console.error('Company information is not available.');
+            }
+        }
+    
+        $('#chalan_print').click(function () {
+            var head = $('head').clone();
+            var p = $('#chalan_outprint').clone();
+            var el = $("<div>");
+    
+            // Append necessary styles to the head
+            head.append(`
+                <style>
+                    /* Global reset to remove default styles */
+                    body {
+                        background-color: unset !important;
+                    }
+
+                    tbody,
+                    td,
+                    tfoot,
+                    th,
+                    thead,
+                    tr {
+                        border-color: black;
+                        border-style: solid;
+                        border-width: 0;
+                    }
+
+                    .customer_info1 tbody, 
+                    .customer_info1 td, 
+                    .customer_info1 tfoot, 
+                    .customer_info1 th, 
+                    .customer_info1 thead, 
+                    .customer_info1 tr {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        line-height: 1.5 !important;
+                    }
+                    
+                    .footer {
+                        position: fixed;
+                        bottom: -0.25rem;
+                        text-align: left;
+                        width: 100%;
+                    }
+
+                    .receipt-body {
+                        position: relative;
+                    }
+                </style>
+            `);
+
+
+            const footerText = 'TBOX, Contact: +8801309-994317,';
+            const now = new Date();
+            const formattedDateTime = now.toLocaleString();
+    
+            // Define the page number as 1 (you can change this logic to handle multiple pages)
+            const pageNumber = 1;
+    
+            var footerContent =
+                `<div class="footer chalanFooter">
+                    <span class="software-woner-title">Software By: </span>
+                    <span class="software-woner-name">${footerText}</span>
+                    <span class="printed-by-title">- Printed By: </span>
+                    <span class="printed-by-name">${companyInfo.first_name} ${companyInfo.last_name}</span>
+                    <span class="printed-on-title">- Printed on: </span>
+                    <span class="printed-on-date">${formattedDateTime}</span>
+                    <span class="printed-page-title">- Page </span>
+                    <span class="printed-page-no">${pageNumber}</span>
+                </div>`;
+
+            var signature =
+                `<div class="signature">
+                    <section style="position: absolute; right: 1rem; bottom: 0px; text-align: center; font-size: 0.7rem; font-weight: bolder; border-top: 1px solid; width: 35%;">
+                        <span>Signature</span>
+                    </section>
+                </div>`;
+    
+            el.append(head);
+            el.append('<div class="chalan-body">' + p.html() + '</div>'); // Append the main content
+            el.append(footerContent); // Append the footer
+    
+            var nw = window.open('', '_blank', "width=800,height=800,left=300,top=200");
+            nw.document.write('<html>' + el.html() + '</html>'); // Write the complete HTML structure
+            nw.document.close();
+    
+            // Set up the afterprint function to close the window after printing
+            nw.onafterprint = function () {
+                nw.close();
+            };
+    
+            // Trigger the print function after a short delay to ensure the content loads properly
+            setTimeout(() => {
+                nw.print();
+            }, 300);
+        });
+    });
+</script>
+
+<!--  -->

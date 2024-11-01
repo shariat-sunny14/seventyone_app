@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'crispy_forms',
@@ -70,10 +71,25 @@ INSTALLED_APPS = [
     'credit_management',
     'b2b_clients_management',
     'drivers_setup',
+    'post_order_update',
+    'stock_reconciliation',
+    'bank_setup',
+    'bank_statement',
+    'registrations',
+    'bill_templates',
+    'select_bill_receipt',
+    'store_transfers',
+    'deliver_chalan',
+    'clients_transection',
+    'local_purchase',
+    'local_purchase_return',
+    'manual_return_receive',
+    'item_barcode'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,10 +144,10 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'seventyoneappweb',
-#         'USER': 'sunny1410',
-#         'PASSWORD': 'mydbadmin#2024',
-#         'HOST': 'seventyoneappweb.cfgqcy6qygpj.ap-south-1.rds.amazonaws.com',
+#         'NAME': 'techrootdbweb',
+#         'USER': 'postgres',
+#         'PASSWORD': 'rootpower2024',
+#         'HOST': 'techrootdbweb.c1aieumqgo6u.ap-southeast-1.rds.amazonaws.com',
 #         'PORT': '5432',
 #         'OPTIONS': {
 #             'sslmode': 'require',
@@ -176,15 +192,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    # Add more directories if needed
-]
+STATIC_ROOT = BASE_DIR / 'static'
 
-# Managing media
-MEDIA_ROOT = BASE_DIR/'media'
+# Enable Whitenoise to compress static files and serve them
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# Media files settings
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Add the following line to allow Whitenoise to serve media files
+WHITENOISE_ALLOW_ALL_ORIGINS = True
+
+# Disable this header
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

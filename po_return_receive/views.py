@@ -18,7 +18,7 @@ from organizations.models import branchslist, organizationlst
 from item_setup.models import items
 from opening_stock.models import opening_stock
 from item_pos.models import invoicedtl_list
-from stock_list.models import stock_lists
+from stock_list.models import in_stock, stock_lists
 from purchase_order.models import purchase_order_list, purchase_orderdtls
 from po_receive.models import po_receive_details
 from po_return.models import po_return_details
@@ -232,6 +232,8 @@ def savePOReturnReceivedAPI(request):
         current_store_id = request.POST.get('current_store')
         item_ids = request.POST.getlist('item_id[]')
         retn_rec_qtys = request.POST.getlist('retn_rec_qty[]')
+        item_batchs = request.POST.getlist('item_batchs[]')
+        item_exp_dates = request.POST.getlist('item_exp_dates[]')
         is_retn_rec_inds = request.POST.getlist('is_retn_rec_ind[]')
         retn_rec_date_ind = request.POST.get('retn_rec_date_ind')
 
@@ -252,7 +254,7 @@ def savePOReturnReceivedAPI(request):
                 return JsonResponse({'errmsg': 'Purchase order or store not found.'}, status=404)
                 
             # Iterate through the received items and save them
-            for item_id, retn_rec_qty, is_retn_rec_ind in zip(item_ids, retn_rec_qtys, is_retn_rec_inds):
+            for item_id, retn_rec_qty, is_retn_rec_ind, item_batch, item_exp_date in zip(item_ids, retn_rec_qtys, is_retn_rec_inds, item_batchs, item_exp_dates):
                 try:
                     # Retrieve the item instance
                     item_instance = items.objects.get(item_id=item_id)
@@ -263,6 +265,8 @@ def savePOReturnReceivedAPI(request):
                             store_id=store_instance,
                             item_id=item_instance,
                             ret_rec_qty=retn_rec_qty,
+                            item_batch=item_batch,
+                            item_exp_date=item_exp_date,
                             is_return_received=is_retn_rec_ind,
                             return_received_date=retn_rec_date_ind,
                             is_return_received_by=request.user,
@@ -278,12 +282,27 @@ def savePOReturnReceivedAPI(request):
                             item_id=item_instance,
                             stock_qty=retn_rec_qty,
                             store_id=store_instance,
+                            item_batch=item_batch,
+                            item_exp_date=item_exp_date,
                             is_approved=is_retn_rec_ind,
                             approved_date=retn_rec_date_ind,
+                            recon_type=True, #recon_type=True is adding item in stock list
                             ss_creator=request.user,
                             ss_modifier=request.user,
                         )
                         stock_data.save()
+
+                        in_stock_obj, created = in_stock.objects.get_or_create(
+                            item_id=item_instance,
+                            store_id=store_instance,
+                            defaults={
+                                'stock_qty': retn_rec_qty,
+                            }
+                        )
+                        if not created:
+                            # If the record exists, update the stock_qty
+                            in_stock_obj.stock_qty += float(retn_rec_qty)
+                            in_stock_obj.save()
 
                 except items.DoesNotExist:
                     return JsonResponse({'errmsg': f'Item with ID {item_id} not found.'}, status=404)

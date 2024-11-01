@@ -16,9 +16,19 @@
             <!-- Main Heading -->
             <div class="row">
                 <div class="col col-md-4 col-md-6 dashboar-head">
-                    <div class="d-sm-flex align-items-center mb-2">
+                    <div class="d-sm-flex align-items-center mb-2" style="height: 2rem;">
                         <i class='bx bx-collection text-success req-head-icon'></i>
                         <h1 class="h3 text-success req-head">Collections Report</h1>
+                        <!--  -->
+                        <div style="position: absolute; right: 2rem;">
+                            <!--  -->
+                            <button type="button" onClick="navigateTo('/item_pos_billing/')"
+                                class="btn btn-success bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                style="display: flex; font-size: 0.8rem; font-weight: bolder; box-shadow: 4px 5px 10px 0px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff; height: 1.7rem; padding: 0.5rem 1.3rem; flex-direction: row; flex-wrap: nowrap; align-items: center;">
+                                Billing
+                            </button>
+                            <!--  -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,14 +37,14 @@
     <!--  -->
     <section>
         <div class="card" style="align-items: start; margin-bottom: 0.5rem;">
-            <div class="card-body">
+            <div class="card-body col-sm-12">
                 <div class="report-filter">
                     <!-- Date Range Filter -->
                     <div class="date-range">
-                        <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                        <div class="row date_range-body col-sm-range" style="display:flex; font-size: 0.8rem;">
                             <div class="date_range-element col-sm-12" style="display:flex">
                                 <!--  -->
-                                <div class="row g-3 col-sm-5 align-items-center">
+                                <div class="row g-3 col-sm-4 align-items-center">
                                     <div class="col-auto">
                                         <label for="id_filter_org" class="col-form-label">Org :</label>
                                     </div>
@@ -129,7 +139,7 @@
                                         <th style="text-align:center;">Tot. Coll.</th>
                                         <th style="text-align:center;">Adjust Amt.</th>
                                         <th style="text-align:center;">Refund Amt.</th>
-                                        <th style="text-align:center;">Net Coll.</th>
+                                        <th style="text-align:center; width: 8%;">Net Coll.</th>
                                     </tr>
                                     <tr style="border-style: hidden!important;">
                                         <th style="text-align:center;">(A)</th>
@@ -215,15 +225,85 @@
 
                 // Add another row for total values
                 var otherRow = '<tr>' +
-                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Other Expense:</td>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Other Expense (-):</td>' +
                     '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.total_other_exp_amt + '</td>' +
                     '</tr>';
                 tbody.append(otherRow);
+
+                // Add mobile bank wise collection row for total values
+                var mobilebankRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Mobile Bank Collection:</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.grand_mobile_bank_coll + '</td>' +
+                    '</tr>';
+                    //data.total_mobilebank_amt
+                tbody.append(mobilebankRow);
+
+                // Add mobile bank wise collection row for total values
+                var bankdepositRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Bank Deposit Collection (-):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.grand_total_bank_coll + '</td>' +
+                    '</tr>';
+                    //data.total_bankdepositRow_amt
+                tbody.append(bankdepositRow);
+
+                // Local Purchase On Cash for total values
+                var lpRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Local Purchase On Cash (-):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.grand_total_amt + '</td>' +
+                    '</tr>';
+                    //data.total_bankdepositRow_amt
+                tbody.append(lpRow);
+
+                // Local Purchase return On Cash for total values
+                var lprRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Local Purchase Return On Cash (+):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.grand_ret_total_amt + '</td>' +
+                    '</tr>';
+                    //data.total_bankdepositRow_amt
+                tbody.append(lprRow);
+
+                // Manual Return Receive wise collection row for total values
+                var MrrRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Manual Return Recieved (-):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.grand_mrr_total_amt + '</td>' +
+                    '</tr>';
+                    //data.total_bankdepositRow_amt
+                tbody.append(MrrRow);
+
+                // others branch collection receive row for total values
+                var otherbrnchrecRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Daily collection received from Sub Branch: (+):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.dep_rec_sub_branch + '</td>' +
+                    '</tr>';
+                    //data.total_bankdepositRow_amt
+                tbody.append(otherbrnchrecRow);
 
                 // Add another row for total values
                 var grandCollRow = '<tr>' +
                     '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Net Collection:</td>' +
                     '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.grand_total_collection + '</td>' +
+                    '</tr>';
+                tbody.append(grandCollRow);
+
+                // others branch payment to main branch wise collection row for total values
+                var othBranchtomainbranchRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Daily collection Deposit from Main Branch: (-):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.deposit_main_branch + '</td>' +
+                    '</tr>';
+                    //data.total_bankdepositRow_amt
+                tbody.append(othBranchtomainbranchRow);
+
+                // Add another row for Bank Deposit
+                var grandCollRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Daily Collection Bank Deposit (-):</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.total_daily_deposit + '</td>' +
+                    '</tr>';
+                tbody.append(grandCollRow);
+
+                // Add another row for Cash on Hand
+                var grandCollRow = '<tr>' +
+                    '<td style="text-align:right; font-size: 0.75rem; font-weight: bold;" colspan="15">Total Cash on Hands:</td>' +
+                    '<td style="text-align:center; font-size: 0.75rem; font-weight: bold;">' + data.total_cash_on_hand + '</td>' +
                     '</tr>';
                 tbody.append(grandCollRow);
             }
@@ -247,6 +327,7 @@
                     success: function(response) {
                         // Call updateTable function with API response data
                         updateTable(response);
+                        endLoader();
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
@@ -265,6 +346,7 @@
         
             // Add event listeners for date input changes
             $('#start_from, #end_from, #id_filter_org, #id_filter_branch').change(function() {
+                startLoader();
                 // Get the values of start_from and end_from when date inputs change
                 var startsFrom = $('#start_from').val();
                 var endsFrom = $('#end_from').val();
@@ -276,6 +358,23 @@
             });
         });
 
+
+        // loader start
+        function startLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+        
+        function endLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+            setTimeout(() => {
+                loader.classList.add("loader-hidden");
+            }, 500);
+        }
+        //loader end
+
+        //======================================================================================
 
         // get branch option org wise
         $(document).ready(function () {
@@ -415,7 +514,7 @@
 
                 //<!-- footer start -->
                 // Generate the content for the footer
-                const footerText = 'Software By: Shariat Sunny';
+                const footerText = 'Software By: TBOX, Contact: +8801309-994317,';
 
                 // Calculate the width and height for the footer
                 const footerWidth = maxHeaderWidth; // Use the same width as the header
@@ -515,7 +614,7 @@
                             12: { halign: 'center' },
                             13: { halign: 'center' },
                             14: { halign: 'center' },
-                            15: { halign: 'center', fontStyle: 'bold' },
+                            15: { cellWidth: 20, halign: 'center', fontStyle: 'bold' },
                             // Add more column styles as needed
                         },
 

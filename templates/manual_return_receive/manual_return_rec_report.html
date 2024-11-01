@@ -1,0 +1,643 @@
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<title>Manual Return Receive Report</title>
+<!--========== CSS ==========-->
+<!--========== Bootstrap link ==========-->
+<link rel="stylesheet" href="{% static 'assets/bootstrap-5.0.2/dist/css/bootstrap.min.css' %}">
+<!-- datatable -->
+<link rel="stylesheet" href="{% static 'assets/DataTables_1.13.6/css/dataTables.dataTables.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/DataTables_1.13.6/css/dataTables.bootstrap5.css' %}">
+<!-- ajax googleapis libs jquery -->
+<script src="{% static 'assets/ajax_googleapis_2.1.1/js/ajax.googleapis.jquery.min.js' %}"></script>
+<!-- Barcode CDN -->
+<script src="{% static 'assets/jsbarcode.3.8.0/js/JsBarcode.all.min.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'purchase_order/css/purchase_order.css' %}">
+{% endblock %}
+<style>
+    tbody,
+    td,
+    tfoot,
+    th,
+    thead,
+    tr {
+        border-width: 1;
+        border: 1px solid;
+    }
+
+    tr:nth-child(even) {
+        background: None !important;
+    }
+
+    hr {
+        margin: 0.3rem 0;
+        color: inherit;
+        background-color: currentColor;
+        border: 0;
+        opacity: .25;
+    }
+
+    .com-name {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+        font-family: cursive;
+        font-weight: bold;
+    }
+
+    .com-address {
+        margin-top: 10px;
+        font-size: 9px;
+        font-family: serif;
+    }
+
+    .com-address-title {
+        font-size: 10px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .com-address-name {
+        font-size: 9px;
+        font-family: serif;
+    }
+
+    .email-address-title {
+        font-size: 10px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .website-title {
+        font-size: 10px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .website-name {
+        font-size: 9px;
+        font-family: serif;
+    }
+
+    .com-hotline {
+        margin-top: 10px;
+        font-size: 9px;
+        font-family: serif;
+    }
+
+    .com-hotline-title {
+        font-size: 10px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .com-hotline-name {
+        font-size: 9px;
+        font-family: serif;
+    }
+
+    .com-fax-title {
+        font-size: 10px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .com-fax-name {
+        font-size: 9px;
+        font-family: serif;
+    }
+
+    .software-woner-title {
+        font-size: 9px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .printed-by-title {
+        font-size: 9px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .printed-on-title {
+        font-size: 9px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .printed-page-title {
+        font-size: 9px;
+        font-family: serif;
+        font-weight: bold;
+    }
+
+    .software-woner-name {
+        font-size: 8.5px;
+        font-family: serif;
+    }
+
+    .printed-by-name {
+        font-size: 8.5px;
+        font-family: serif;
+    }
+
+    .printed-on-date {
+        font-size: 8.5px;
+        font-family: serif;
+    }
+
+    .printed-page-no {
+        font-size: 8.5px;
+        font-family: serif;
+    }
+
+    .mul-items-othrs {
+        text-align: center;
+        font-size: 10px;
+    }
+
+    .mul-items-names {
+        text-align: left;
+        font-size: 10px;
+    }
+
+    .receipt-name {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 10rem;
+        height: 25px;
+        border: 1px solid #c5c1c1;
+        border-radius: 20px;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        font-size: 15px;
+        font-weight: bolder;
+    }
+
+    .invoice_id {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .barcodeImg {
+        position: absolute;
+        top: 5rem;
+        right: 2rem;
+        display: flex;
+        margin-top: 4px;
+        margin-left: 21px;
+    }
+
+    .rec-type {
+        display: flex;
+        margin-top: -15px;
+    }
+
+    /* .rec-align {
+        font-size: 9px;
+        margin-top: 2px;
+    } */
+
+    .receipt-logo {
+        position: relative;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        text-align: left;
+        width: 5%;
+        border-radius: 50%;
+    }
+
+    .receipt-img {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        top: -8px;
+        left: -6px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .com-receipt-logo {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        top: 0rem;
+        left: 3rem;
+    }
+
+    .paid-due-status {
+        width: 56%;
+        display: flex;
+        align-items: stretch;
+        text-align: center;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: center;
+        background: #9b99998a;
+        font-weight: bolder;
+        border-bottom: 3px solid #8d8a8a;
+        border-right: 3px solid #8d8a8a;
+    }
+
+    .status-DP {
+        text-align: center;
+        font-size: 11px;
+        display: flex;
+        justify-content: center;
+        border-style: hidden !important;
+    }
+
+    .sub-title1 {
+        margin-top: -9px;
+        width: 100%;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        text-align: center;
+    }
+
+    .sub-title2 {
+        margin-top: -7px;
+    }
+
+    .sub-title3 {
+        margin-top: -3px;
+    }
+</style>
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section style="margin-top: 1.5rem;">
+        <div class="container-fluid">
+            <div id="outprint">
+                <section>
+                    <table class="table"
+                        style="width: 100%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                        <tr>
+                            <div class="receipt-logo">
+                                <img class="com-receipt-logo" src="{{ lp_Data.id_org.org_logo.url }}" alt="logo">
+                            </div>
+                        </tr>
+                        <tr>
+                            <center>
+                                <label class="com-name">
+                                    <!-- Company Name Here -->
+                                    {{ lp_Data.id_org.org_name }}
+                                </label>
+                            </center>
+                            <center class="sub-title1">
+                                <small>
+                                    <span class="com-address">
+                                        <span class="com-address-title">Address: </span>
+                                        <span class="com-address-name">{{ lp_Data.id_org.address }}</span>
+                                    </span>
+                                </small>
+                            </center>
+                            <center class="sub-title2">
+                                <small>
+                                    <span class="email-address-title">Email: </span>
+                                    <span class="com-address email-address-name">{{ lp_Data.id_org.email }}</span>
+                                    <span class="website-title">Website: </span>
+                                    <span class="website-name">{{ lp_Data.id_org.website }}</span>
+                                </small>
+                            </center>
+                            <center class="sub-title3">
+                                <small>
+                                    <span class="com-hotline">
+                                        <span class="com-hotline-title">Hotline: </span>
+                                        <span class="com-hotline-name">
+                                            {{ lp_Data.id_org.phone }}, 
+                                            {{ lp_Data.id_org.hotline }}
+                                        </span>
+                                        <span class="com-fax-title">Fax: </span>
+                                        <span class="com-fax-name">{{ lp_Data.id_org.fax }}</span>
+                                    </span>
+                                </small>
+                            </center>
+                            <center class="sub-title3" style="margin-top: 0px;">
+                                <small>
+                                    <span class="com-branch">
+                                        <span class="com-branch-title"
+                                            style="font-size: 0.75rem; font-weight: bolder;">
+                                            {{ lp_Data.branch_id.branch_name }}
+                                        </span>
+                                    </span>
+                                </small>
+                            </center>
+                            <center class="sub-title3" style="margin-top: 0.1rem;">
+                                <small>
+                                    <span class="com-hotline">
+                                        <span class="com-hotline-title" style="font-size: 0.98rem;">
+                                            Manual Return Receive Report
+                                        </span>
+                                    </span>
+                                </small>
+                            </center>
+                        </tr>
+                    </table>
+                </section>
+                <hr>
+                <!--  -->
+                <section>
+                    <div class="requisition-info" style="margin-left: 7.2px; width: 98.9%; border: 1px solid;">
+                        <div class="row col-sm-12" style="font-size: 0.75rem; margin-top: 0.5rem;">
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Requisition No:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.manu_ret_rec_no }}</span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Approved Date:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.approved_date }}</span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Approved By:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.is_approved_by.first_name }} {{ lp_Data.is_approved_by.last_name }}</span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Exp. Date:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.expected_date }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="row col-sm-12" style="font-size: 0.75rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Clients Name:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.cus_clients_name }}</span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Client Phone:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.cus_mobile_number }}</span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Client Address:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">{{ lp_Data.cus_address }}</span>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-3" style="display: flex;">
+                                <label class="col-sm-4" style="text-align: right; font-weight: bolder;">Order Type:</label>
+                                <div class="col-sm-8">
+                                    <span style="margin-left: 10px;">
+                                        {% if lp_Data.is_credit == 1 %}
+                                            {{ "Credit" }}
+                                        {% elif lp_Data.is_cash == 1 %}
+                                            {{ "Cash" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <!--  -->
+                        </div>
+                        <!--  -->
+                    </div>
+                </section>
+                <!--  -->
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section>
+        <span class="barcodeImg">
+            <img name="barcode" jsbarcode-value="{{ lp_Data.lp_no }}">
+        </span>
+    </section>
+    <!--  -->
+    <hr>
+    <!--  -->
+    <section style="margin-bottom: 10rem;">
+        <div class="row row_item_setup">
+            <div class="col-sm-12">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <!--  -->
+                        <section>
+                            <div id="POEdit_TB">
+                                <table class="table" style="width: 100%; text-align:center;">
+                                    <thead class="text-center por_tb_header">
+                                        <tr style="border: 1px solid;">
+                                            <th style="text-align:center; width: 3%;">Sl</th>
+                                            <th style="text-align:center;">Item No</th>
+                                            <th style="text-align:center; width: 25%;">Item Name</th>
+                                            <th style="text-align:center; width: 8%;">Stock Qty</th>
+                                            <th style="text-align:center;">Pur. Qty</th>
+                                            <th style="text-align:center; width: 10%;">Price</th>
+                                            <th style="text-align:center; width: 10%;">Dis Per (%)</th>
+                                            <th style="text-align:center; width: 10%;">Batch No</th>
+                                            <th style="text-align:center; width: 10%;">Expiry Date</th>
+                                            <th style="text-align:center; width: 8%;">Tot. Amt.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="GRNtbody_dtl">
+                                        {% for dtl in item_with_lpDtls %}
+                                        <tr>
+                                            <td class="serial-number inputbox_tdrow" style="text-align:center;">
+                                                {{ forloop.counter }}
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="text" class="inputbox_tdrow" id="item_no" value="{{ dtl.lp_dtls.item_id.item_no }}"
+                                                    name="item_no[]" readonly>
+                                                <input type="hidden" class="inputbox_tdrow" id="item_id" value="{{ dtl.lp_dtls.item_id.item_id }}"
+                                                    name="item_id[]" readonly>
+                                                <input type="hidden" class="inputbox_tdrow" id="items_name" value="{{ dtl.lp_dtls.item_id.item_name }}"
+                                                    name="items_name[]" readonly>
+                                            </td>
+                                            <td style="position: relative; margin-top: 2.5px; text-align: left;" class="inputbox_tdrow items_name_id">
+                                                {{ dtl.lp_dtls.item_id.item_name }}
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="number" value="{{ dtl.grandQty|floatformat:'0' }}" class="inputbox_tdrow" id="stock_qty"
+                                                    name="stock_qty[]" readonly>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="number" value="{{ dtl.lp_dtls.manu_ret_rec_qty }}" class="inputbox_tdrow"
+                                                    id="item_qty" name="item_qty[]" autocomplete="off" step="0.01" readonly>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="number" value="{{ dtl.lp_dtls.unit_price }}" class="inputbox_tdrow" id="item_price"
+                                                    name="item_price[]" autocomplete="off" step="0.01" readonly>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="number" value="{{ dtl.lp_dtls.dis_percentage }}" class="inputbox_tdrow" id="dis_percentage"
+                                                    name="dis_percentage[]" autocomplete="off" step="0.01" readonly>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="text" class="inputbox_tdrow" value="{{ dtl.lp_dtls.item_batch }}"
+                                                    id="item_batchs" name="item_batchs[]" autocomplete="off" readonly>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <input type="text" class="inputbox_tdrow" value="{{ dtl.lp_dtls.item_exp_date|date:'Y-m-d' }}"
+                                                    name="item_exp_dates[]" autocomplete="off" readonly>
+                                            </td>
+                                            <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <td colspan="9"
+                                                style="text-align:right; font-size: 0.77rem; font-weight: bolder;">
+                                                Total Amount :
+                                            </td>
+                                            <td style="text-align:center; font-size: 0.75rem; font-weight: bolder;"
+                                                id="grand_totalamt" class="total_amount_rep"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section
+        style="position: fixed; right: 1rem; text-align: center; font-size: 1rem; font-weight: bolder; border-top: 1px solid; width: 15%;">
+        <span>Signature</span>
+        <!--  -->
+    </section>
+</main>
+<section style="position: absolute; right: 1rem; text-align: center; top: 0; font-size: 1rem; width: 10%;">
+    <!-- <hr> -->
+    <div class="clear-fix py-3"></div>
+    <!--  -->
+    <div class="d-flex w-100 justify-content-end">
+        <button class="btn btn-primary bg-gradient border rounded-0 btn-sm me-1 printPOBtn" type="button"
+            onclick="printReceipt()" id="receipt_print">
+            <i class='bx bxs-printer'></i>
+            Print
+        </button>
+    </div>
+    <!--  -->
+</section>
+<!--  -->
+<script>
+    function Calculate() {
+        var grand_totalAmount = 0;
+        $('#POEdit_TB table tbody tr').each(function () {
+            var itemQty = parseFloat($(this).find('[name="item_qty[]"]').val()) || 0;
+            var itemPrice = parseFloat($(this).find('[name="item_price[]"]').val()) || 0;
+
+            var totalAmount = itemQty * itemPrice;
+
+            // Get the discount percentage for the current row
+            var dis_percent = parseFloat($(this).find('[name="dis_percentage[]"]').val()) || 0;
+            var total_dis_percent = dis_percent / 100;
+            var total_dis_amt = totalAmount * total_dis_percent;
+    
+            // Calculate the total amount after discount for the current row
+            var row_totalAmount = totalAmount - total_dis_amt;
+    
+            // Check if the calculated amount is valid
+            if (isNaN(row_totalAmount)) {
+                row_totalAmount = 0;
+            }
+    
+            // Update the total for the current row in the .total_amt element
+            $(this).find('.total_amt').text(row_totalAmount.toLocaleString('en-US'));
+    
+            // Add the row's total amount to the grand total
+            grand_totalAmount += row_totalAmount;
+        });
+
+        // Set the grand total in the grand_totalamt field
+        $('.total_amount_rep').text(grand_totalAmount.toLocaleString('en-US'));
+    }
+
+    $(document).ready(function () {
+        Calculate();
+    });
+
+    // Function to generate barcode images
+    function generateBarcodeImages() {
+        var elements = document.querySelectorAll(".barcodeImg img");
+        for (var i = 0; i < elements.length; i++) {
+            var img = elements[i];
+            var id = "barcode" + i; // Generate unique ID for each barcode
+            img.id = id;
+            var value = img.getAttribute("jsbarcode-value");
+            JsBarcode("#" + id, value, {
+                format: "CODE128",
+                lineColor: "#000000",
+                width: 1,
+                height: 38,
+                displayValue: false,
+                fontSize: 10,
+                fontOptions: "lighter",
+            });
+        }
+    }
+
+    // Function to clear barcode images
+    function clearBarcodeImages() {
+        var elements = document.querySelectorAll(".barcodeImg img");
+        for (var i = 0; i < elements.length; i++) {
+            var img = elements[i];
+            var id = img.id;
+            JsBarcode("#" + id, ""); // Clear the barcode by setting an empty string
+        }
+    }
+
+    // Call generateBarcodeImages() to generate barcode images and clearBarcodeImages() to clear them.
+    generateBarcodeImages();
+
+    //
+    function printReceipt() {
+        const footerText = 'TBOX, Contact: +8801309-994317,';
+        const now = new Date();
+        const formattedDateTime = now.toLocaleString();
+        const pageNumber = 1; // Update this dynamically if needed
+
+        // Append your footer content
+        const footerContent =
+            `<div class="footer">
+                <span class="software-woner-title">Software By: </span>
+                <span class="software-woner-name">${footerText}</span>
+                <span class="printed-by-title">- Printed By: </span>
+                <span class="printed-by-name"></span>
+                <span class="printed-on-title">- Printed on: </span>
+                <span class="printed-on-date">${formattedDateTime}</span>
+                <span class="printed-page-title">- Page </span>
+                <span class="printed-page-no">${pageNumber}</span>
+            </div>`;
+
+        var printContents = document.querySelector('main').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        // Append footer content to the end of the print contents
+        printContents += footerContent;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+    //<!--  -->
+    //
+</script>
+{% endblock %}

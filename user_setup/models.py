@@ -8,23 +8,16 @@ User = get_user_model()
 
 
 class access_list(models.Model):
-    access_id = models.BigAutoField(
-        primary_key=True, default=20000000001, editable=False)
-    user_id = models.ForeignKey(User, null=True, blank=True,
-                                related_name='user_id2access_list', on_delete=models.DO_NOTHING, editable=False)
-    feature_id = models.ForeignKey(feature_list, null=True, blank=True,
-                                   related_name='feature_id2access_list', on_delete=models.DO_NOTHING, editable=False)
+    access_id = models.BigAutoField(primary_key=True, default=20000000001, editable=False)
+    user_id = models.ForeignKey(User, null=True, blank=True, related_name='user_id2access_list', on_delete=models.DO_NOTHING, editable=False)
+    feature_id = models.ForeignKey(feature_list, null=True, blank=True, related_name='feature_id2access_list', on_delete=models.DO_NOTHING, editable=False)
     is_active = models.BooleanField(default=False)
-    ss_creator = models.ForeignKey(
-        User, null=True, blank=True, related_name='ss_creator2access_list', on_delete=models.DO_NOTHING, editable=False)
+    ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2access_list', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
-    ss_created_session = models.BigIntegerField(
-        null=True, blank=True, default=2000000000000, editable=False)
-    ss_modifier = models.ForeignKey(
-        User, null=True, blank=True, related_name='ss_modifier2access_list', on_delete=models.DO_NOTHING)
+    ss_created_session = models.BigIntegerField( null=True, blank=True, default=2000000000000, editable=False)
+    ss_modifier = models.ForeignKey(User, null=True, blank=True, related_name='ss_modifier2access_list', on_delete=models.DO_NOTHING)
     ss_modified_on = models.DateTimeField(auto_now=True)
-    ss_modified_session = models.BigIntegerField(
-        null=True, blank=True, default=101110000000, editable=False)
+    ss_modified_session = models.BigIntegerField(null=True, blank=True, default=101110000000, editable=False)
 
     def save(self, *args, **kwargs):
         access_data = access_list.objects.all()
@@ -49,16 +42,12 @@ class store_access(models.Model):
     org_id = models.ForeignKey(organizationlst, null=True, blank=True, related_name='org_id2store_access', on_delete=models.DO_NOTHING)
     store_id = models.ForeignKey(store, null=True, blank=True, related_name='store_id2store_access', on_delete=models.DO_NOTHING)
     is_default = models.BooleanField(default=False)
-    ss_creator = models.ForeignKey(
-        User, null=True, blank=True, related_name='ss_creator2store_access', on_delete=models.DO_NOTHING, editable=False)
+    ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2store_access', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
-    ss_created_session = models.BigIntegerField(
-        null=True, blank=True, default=2220000000000, editable=False)
-    ss_modifier = models.ForeignKey(
-        User, null=True, blank=True, related_name='ss_modifier2store_access', on_delete=models.DO_NOTHING)
+    ss_created_session = models.BigIntegerField(null=True, blank=True, default=2220000000000, editable=False)
+    ss_modifier = models.ForeignKey(User, null=True, blank=True, related_name='ss_modifier2store_access', on_delete=models.DO_NOTHING)
     ss_modified_on = models.DateTimeField(auto_now=True)
-    ss_modified_session = models.BigIntegerField(
-        null=True, blank=True, default=333110000000, editable=False)
+    ss_modified_session = models.BigIntegerField(null=True, blank=True, default=333110000000, editable=False)
 
     def save(self, *args, **kwargs):
         access_data = store_access.objects.all()
@@ -82,16 +71,12 @@ class lookup_values(models.Model):
     identify_code = models.CharField(max_length=50, null=True, blank=True)
     name = models.CharField(max_length=150, null=True, blank=True)
     is_active = models.BooleanField(default=False)
-    ss_creator = models.ForeignKey(
-        User, null=True, blank=True, related_name='ss_creator2lookup_values', on_delete=models.DO_NOTHING, editable=False)
+    ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2lookup_values', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
-    ss_created_session = models.BigIntegerField(
-        null=True, blank=True, default=1100100010000, editable=False)
-    ss_modifier = models.ForeignKey(
-        User, null=True, blank=True, related_name='ss_modifier2lookup_values', on_delete=models.DO_NOTHING)
+    ss_created_session = models.BigIntegerField(null=True, blank=True, default=1100100010000, editable=False)
+    ss_modifier = models.ForeignKey(User, null=True, blank=True, related_name='ss_modifier2lookup_values', on_delete=models.DO_NOTHING)
     ss_modified_on = models.DateTimeField(auto_now=True)
-    ss_modified_session = models.BigIntegerField(
-        null=True, blank=True, default=1200200020000, editable=False)
+    ss_modified_session = models.BigIntegerField(null=True, blank=True, default=1200200020000, editable=False)
 
     def save(self, *args, **kwargs):
         lookup_data = lookup_values.objects.all()

@@ -76,12 +76,38 @@ h6 {
 
 /* cash point start */
 @media (min-width: 576px) {
+    .col-sm-2-mody {
+        display: flex;
+        flex: 0 0 auto;
+        width: 40%;
+        font-size: 11.5px;
+        justify-content: right;
+    }
+}
+
+@media (min-width: 576px) {
     .col-sm-2 {
         display: flex;
         flex: 0 0 auto;
-        width: 29%;
+        width: 30%;
         font-size: 11.5px;
         justify-content: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-1 {
+        flex: 0 0 auto;
+        width: 14.5%;
+        font-size: 11.5px;
+        text-align: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-10 {
+        flex: 0 0 auto;
+        width: 84.5%;
     }
 }
 
@@ -89,7 +115,7 @@ h6 {
     .col-sm-client-label {
         display: flex;
         flex: 0 0 auto;
-        width: 20.8%;
+        width: 23.8%;
         font-size: 11.5px;
         justify-content: right;
     }
@@ -109,6 +135,27 @@ h6 {
         width: 9.98%;
         font-size: 11.5px;
         justify-content: right;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-2-modfy {
+            flex: 0 0 auto;
+            width: 11%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-10-modfy {
+            flex: 0 0 auto;
+            width: 82%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-cary {
+            flex: 0 0 auto;
+            width: 68%;
     }
 }
 
@@ -138,7 +185,7 @@ h6 {
 @media (min-width: 768px) {
     .col-md-11-modfy {
         flex: 0 0 auto;
-        width: 85%;
+        width: 88%;
     }
 }
 
@@ -180,6 +227,15 @@ h6 {
     margin-top: 2px;
     padding: 0.175rem 0.25rem 0.175rem 0.175rem;
     font-size: 11.5px;
+}
+
+.notAppCheckbox {
+    display: flex;
+    width: 10%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;    
 }
 
 .pos-control {
@@ -235,7 +291,7 @@ h6 {
     border-radius: 4.5px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    z-index: 1;
+    z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -313,6 +369,11 @@ h6 {
     font-size: 0.8rem;
 }
 
+.newItemAddBtm {
+    margin-top: 2px;
+    padding: 0.125rem 0.55rem;
+    font-size: 0.8rem;
+}
 /* cash point end */
 
 
@@ -382,7 +443,7 @@ table.dataTable tbody td {
 
 /* payment mode */
 .table>tbody {
-    vertical-align: sub;
+    vertical-align: middle;
     font-size: 11px;
 }
 
@@ -409,14 +470,13 @@ tfoot,
 th,
 thead,
 tr {
-    border-style: dashed;
-    border-bottom-color: #c5c1c1;
+    border-style: solid;
 }
 
 
 .item_payment_btn {
     margin-top: 0.6px;
-    padding: 0.3rem 1.5rem;
+    padding: 0.25rem 0.8rem; /* 0.3rem 1.5rem */
     font-size: 12px;
     font-weight: bold;
     margin-left: 0.5rem;
@@ -486,24 +546,180 @@ option:hover {
 
 
 /* auto serial */
-#addPosItem_Tbl {
-    counter-reset: serial-number;
-    /* Set the serial number counter to 0 */
-}
-
-#addPosItem_Tbl td:first-child:before {
-    counter-increment: serial-number;
-    /* Increment the serial number counter */
-    content: counter(serial-number);
-    /* Display the counter */
-}
 
 /* 2nd table */
 
 
+/* favorite list style start */
+.favlist-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    background: #455697;
+    color: #fff;
+}
+
+.fav-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 0.9rem;
+    font-weight: bolder;
+}
+
+.favlist-body {
+    flex-grow: 1;
+    /* padding: 0rem 0.5rem 1rem 0.5rem; */
+    overflow-y: auto;
+}
+
+.fav-search-input {
+    margin-top: 2px;
+    padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+    font-size: 13px;
+}
+
+.myFavBtn {
+    display: flex;
+    margin-left: 0.3rem;
+    background: #323b5ee8;
+    padding: 1px;
+    border-radius: .15rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.btn-close:hover,
+.btn-close:focus {
+    filter: brightness(0) invert(1);
+    outline: none;
+    box-shadow: none;
+}
+
+.vertical-text {
+    width: 100%;
+    height: 100%;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.fav-table-header th {
+    color: #fff;
+    font-size: 11px;
+    border-style: none;
+}
+
+
+.btn:focus {
+    border-color: none;
+    outline: none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    box-shadow: 6px 6px 9px 0px var(--body-button-shadow);
+}
+
+.form-select:focus {
+    border-color: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.favItemTbody {
+    text-align: center;
+    cursor: pointer;
+    font-size: 11.5px !important;
+    border-style: solid !important;
+    /* border-bottom: 1px solid #c5c1c1; */
+}
+
+#favItemTB tr:nth-child(even) {
+    background-color: #e3e9ff;
+}
+
+#favItemTB tr:nth-child(odd) {
+    background-color: #d4dcff;
+}
+
+#favItemTB tr:hover {
+    color: #fff;
+    background: #657be0;
+}
+
+.addFavBtn {
+    display: flex;
+    border: 1px solid green;
+    color: green;
+    padding: 0.099rem .6rem .0rem .6rem;
+    margin-left: 0.5rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.addFavBtn:hover {
+    color: #fff;
+    background: green;
+}
+
+.addFavIcon {
+    font-size: 1.3rem;
+}
+
+.delFavListBtn {
+    display: flex;
+    color: rgb(211, 0, 0);
+    border: 1px solid rgb(204, 2, 2);
+    padding: 0.1rem .5rem 0.15rem .5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+
+.delBtn {
+    margin-top: 1px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.delFavListBtn:hover {
+    background: rgb(204, 2, 2);
+    color: rgb(224, 224, 224);
+}
+
+/* favorite list style end */
+
 /* auto serial end*/
 
 .itemAdd_del_btn {
+    position: relative;
+    margin-top: 0.6px;
+    margin-bottom: 2px;
+    padding: 0.03rem 0.35rem;
+    font-weight: bold;
+    margin-left: 0.15rem;
+    margin-right: 0.2rem;
+    z-index: 0;
+    font-size: 0.8rem;
+}
+
+.posupItemdelBtn {
     position: relative;
     margin-top: 0.6px;
     margin-bottom: 2px;
@@ -553,7 +769,7 @@ option:hover {
 
 
 /* auto serial */
-#mul_item_tbl {
+/* #mul_item_tbl {
     counter-reset: rowNumber;
 }
 
@@ -565,7 +781,7 @@ option:hover {
     content: counter(rowNumber);
     min-width: 1em;
     margin-right: 0.5em;
-}
+} */
 
 /* receipt items auto serial*/
 #receipt-items {
@@ -617,7 +833,7 @@ option:hover {
     position: absolute;
     left: 4px;
     display: flex;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     background-color: #e4e4e4ab;
     align-items: center;
@@ -730,11 +946,9 @@ option:hover {
     top: 0 !important;
     left: 0 !important;
     display: none;
-
 }
 
 .dropdown-menu {
-    /* width: 93%; */
     padding: 2px 2px 2px !important;
     margin: 0;
     font-size: 0.8rem !important;
@@ -746,7 +960,8 @@ option:hover {
     border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 0.25rem;
     z-index: 1;
-    overflow: hidden;
+    max-height: 400px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .dropdown-item {
@@ -771,6 +986,24 @@ option:hover {
     border-right: 5px solid transparent;
     border-left-color: royalblue !important;
     border-right-color: royalblue !important;
+}
+
+/* Optional scrollbar styles */
+.dropdown-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 4px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #555; 
 }
 
 .itemName {
@@ -843,7 +1076,7 @@ option:hover {
 .form-check-inline {
     display: inline-block;
     margin-top: 0.23rem;
-    margin-left: 0.7rem;
+    margin-left: 0.4rem;
     margin-right: 0rem;
 }
 
@@ -886,6 +1119,116 @@ textarea.form-control {
     padding-bottom: 0rem !important;
 }
 
-hr {
-    margin: 0.6rem 0;
+.due_invDBtn {
+    margin-top: 2px;
+    margin-left: 1rem;
+    padding: 0.175rem 0.475rem 0.175rem 0.475rem;
+    font-size: 11.5px;
+}
+
+
+/* =================================== item setup pos ====================================== */
+.add_edit_head {
+    position: relative;
+    display: flex;
+    margin-top: -17px;
+    margin-left: 25px;
+    width: 40%;
+    height: 33px;
+    background: #fff;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.add_edit_head h2 {
+    position: absolute;
+    display: flex;
+    font-size: 14px;
+    color: rgb(126, 126, 126);
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.card-body_item_setup {
+    flex: 1 1 auto;
+    padding: 0.5rem 0.5rem;
+}
+
+.item_setup_sub {
+    flex: 1 1 auto;
+    padding: 0rem 0rem;
+}
+
+.itemsetup_container {
+    position: relative;
+    margin-top: 5px;
+    border: 1px solid rgb(211, 211, 211);
+    /* background: rgba(216, 216, 216, 0.767); */
+}
+
+.row_item_setup {
+    --bs-gutter-x: 0.1rem;
+}
+.row_item_setup {
+    --bs-gutter-x: 0rem;
+}
+
+.main-card {
+    border: 0;
+}
+
+.font_size_filter {
+    display: flex;
+    padding-right: 8px;
+    font-size: 0.8rem;
+    justify-content: right;
+}
+
+.item_inputbox {
+    position: relative;
+    margin-top: 2px;
+    padding: 0.175rem 0.25rem 0.175rem 0.75rem;
+    font-size: 0.76rem;
+    z-index: 1;
+}
+
+@media (min-width: 576px) {
+    .col-sm-s1 {
+        flex: 0 0 auto;
+        width: 14%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-s10 {
+        flex: 0 0 auto;
+        width: 86%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-6SI {
+            flex: 0 0 auto;
+            width: 57%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-12sI {
+            flex: 0 0 auto;
+            width: 99.2%;
+    }
+}
+
+
+.submit_button {
+    position: relative;
+    display: flex;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    justify-content: right;
 }

@@ -1,0 +1,2803 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'item_pos_style/css/item_pos_style.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<section>
+    <div class="loader-body">
+        <div class="loader">
+            <div class="upper ball"></div>
+            <div class="right ball"></div>
+            <div class="lower ball"></div>
+            <div class="left ball"></div>
+        </div>
+    </div>
+</section>
+<!-- loader end -->
+<main>
+    <section style="display: flex; background: #f6f6f6bf;">
+        <!-- main pos body -->
+        <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+            <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+                <div style="border: 1px solid rgba(0, 0, 0, .125);
+                    margin-bottom: 0.5rem;
+                    border-left: none;
+                    border-right: none;
+                    border-top-left-radius: 0.3rem;
+                    border-top-right-radius: 0.3rem;
+                    background: #455697;">
+                    <!-- Main Heading -->
+                    <div class="row">
+                        <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                            <div class="d-sm-flex align-items-center mb-2"
+                                style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                                <i class='bx bx-credit-card text-white req-head-icon'></i>
+                                <h1 class="h3 text-white req-head">Add New Bill</h1>
+                                <!--  -->
+                                <div class="col-md-11-modfy"
+                                    style="display: flex; margin-left: 3rem; justify-content: right;">
+                                    <!--  -->
+                                    <button type="button" onClick="navigateTo('/due_refund_cancel_services/')"
+                                        class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                        style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff;">
+                                        Cancel & Due Collection
+                                    </button>
+                                    <!--  -->
+                                    <button type="button" onClick="navigateTo('/sales_report_services/')"
+                                        class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                        style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff;">
+                                        My Sales
+                                    </button>
+                                    <!--  -->
+                                    <button type="button" onClick="navigateTo('/collections_reports/')"
+                                        class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                        style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff;">
+                                        My Collection
+                                    </button>
+                                    <!--  -->
+                                    <button type="button" onClick="navigateTo('/due_reports/')"
+                                        style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff;"
+                                        class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn">
+                                        Due Sales
+                                    </button>
+                                    <!--  -->
+                                    <button type="button" onClick="navigateTo('/invoice_list/')"
+                                        class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                        style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 0.7rem; border: 1.5px solid #fff;">
+                                        Invoice List
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <section style="display: flex; width: 100%;">
+                    <!--  -->
+                    <!-- favorite list navbar -->
+                    <section id="id_myfavBtn" style="display: block;">
+                        <div style="height: 99%;">
+                            <button class="btn text-white vertical-text myFavBtn" type="button">
+                                Favorite List
+                            </button>
+                        </div>
+                    </section>
+                    <section id="id_myfavList"
+                        style="width: 30%; display: none; margin-left: 0.3rem; margin-bottom: 0.5rem; background: rgb(212, 220, 255); border: 1px solid rgb(182 196 255); border-radius: 0.25rem;">
+                        <!--  -->
+                        <section>
+                            <div style="height: 100%;">
+                                <div class="favlist-header">
+                                    <h5 class="fav-title" id="id_fav_title">Favorite List</h5>
+                                    <button type="button" class="btn-close text-white"></button>
+                                </div>
+                                <div class="favlist-body">
+                                    <div class="fav-itemTable">
+                                        <table id="listOfItem" class="table table-striped table-hover"
+                                            style="width: 100%;">
+                                            <thead class="text-center fav-table-header" style="border-style: none;">
+                                                <tr>
+                                                    <th colspan="3"
+                                                        style="text-align:center; background: #d4dcff !important;">
+                                                        <input type="search" id="searchfavlist"
+                                                            class="form-control search_control fav-search-input"
+                                                            style="background:#fffab6;" placeholder="Searching Item ..."
+                                                            autocomplete="off">
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="favItemTB" class="table-body-row favItemTbody" style="border-style: none !important;">
+                                                <!-- load ajax value -->
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                    <!--  -->
+                    <!-- form body -->
+                    <section style="width: 100%; margin-left: 0.5rem; margin-right: 0.5rem;">
+                        <form action="" id="pos-form">
+                            <!-- billing mode radio button -->
+                            <section style="margin-bottom: 0.2rem;">
+                                <div class="card main_pos_card">
+                                    <div class="row cash_point_row">
+                                        <div class="col-sm-12">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <div class="col-sm-6"
+                                                            style="border-right: 1px solid rgba(0,0,0,.125);">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <!--  -->
+                                                                        <div class="radioBtnAlign">
+                                                                            <div class="form-check form-check-manual"
+                                                                                style="margin-right: 1rem;">
+                                                                                <input class="form-check-input"
+                                                                                    type="radio" value="1"
+                                                                                    name="general_bill"
+                                                                                    id="id_general_bill"
+                                                                                    onclick="resetInputFields();"
+                                                                                    checked>
+                                                                                <label class="form-check-label"
+                                                                                    for="id_general_bill">
+                                                                                    General Billing
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-manual">
+                                                                                <input class="form-check-input"
+                                                                                    type="radio" value="0"
+                                                                                    name="b2b_clients"
+                                                                                    id="id_b2b_clients">
+                                                                                <label class="form-check-label"
+                                                                                    for="id_b2b_clients">
+                                                                                    B2B Clients
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-6">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <!--  -->
+                                                                        <div class="radioBtnAlign">
+                                                                            <div class="form-check form-check-manual"
+                                                                                style="margin-right: 1rem;">
+                                                                                <input class="form-check-input"
+                                                                                    type="radio" value="1"
+                                                                                    name="non_register"
+                                                                                    id="id_non_register" checked>
+                                                                                <label class="form-check-label"
+                                                                                    for="id_non_register">
+                                                                                    Non Register
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-manual">
+                                                                                <input class="form-check-input"
+                                                                                    type="radio" value="0"
+                                                                                    name="register" id="id_register">
+                                                                                <label class="form-check-label"
+                                                                                    for="id_register">
+                                                                                    Register
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- billing register buyer && B2B client searching -->
+                            <section style="margin-bottom: 0.2rem;">
+                                <div class="col-sm-12" style="display: flex;">
+                                    <!--  -->
+                                    <div class="col-sm-6">
+                                        <div id="client_searchBody" style="display: none; margin-right: 0.3rem;">
+                                            <div class="card main_pos_card">
+                                                <div class="row cash_point_row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card pos_card">
+                                                            <div class="card-body pos_card_body">
+                                                                <div class="row cash_point_row">
+                                                                    <!--  -->
+                                                                    <div class="card pos_card" id="client_searchInput"
+                                                                        style="display: none;">
+                                                                        <div class="card-body pos_card_body">
+                                                                            <div class="row cash_point_row">
+                                                                                <!--  -->
+                                                                                <div
+                                                                                    style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center; align-items: center;  margin-bottom: 0.2rem;">
+                                                                                    <div class="col-sm-10">
+                                                                                        <fieldset>
+                                                                                            <input type="text"
+                                                                                                class="form-control pos_inputbox"
+                                                                                                id="clients_name"
+                                                                                                placeholder="Search B2B Clients"
+                                                                                                style="background: #fffab6;">
+                                                                                        </fieldset>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!--  -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="col-sm-6" style="margin-left: 0.4rem;">
+                                        <div id="reg_searchBody" style="display: none;">
+                                            <div class="card main_pos_card">
+                                                <div class="row cash_point_row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card pos_card">
+                                                            <div class="card-body pos_card_body">
+                                                                <div class="row cash_point_row">
+                                                                    <!--  -->
+                                                                    <div class="card pos_card" id="reg_searchInput"
+                                                                        style="display: none;">
+                                                                        <div class="card-body pos_card_body">
+                                                                            <div class="row cash_point_row">
+                                                                                <!--  -->
+                                                                                <div
+                                                                                    style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center; align-items: center;  margin-bottom: 0.2rem;">
+                                                                                    <div class="col-sm-10">
+                                                                                        <input type="text"
+                                                                                            class="form-control pos_inputbox"
+                                                                                            id="register_customer"
+                                                                                            placeholder="Search by CN / Name / Phone No"
+                                                                                            style="background: #fffab6;">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!--  -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                </div>
+                            </section>
+                            <!-- B2B Clients Information -->
+                            <section id="b2b_clients_info" style="margin-bottom: 0.2rem; display: none;">
+                                <div class="card main_pos_card">
+                                    <div class="row cash_point_row">
+                                        <div class="col-sm-12">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <div class="col-sm-6"
+                                                            style="border-right: 1px solid rgba(0,0,0,.125);">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <!--  -->
+                                                                        <div class="col-sm-4">
+                                                                            <div class="row cash_point_row">
+                                                                                <label for="id_client_no" title="Client No"
+                                                                                    class="col-sm-2 col-form-label">
+                                                                                    Cl. No:
+                                                                                </label>
+                                                                                <div class="col-sm-8">
+                                                                                    <input type="hidden" class="form-control pos_inputbox" id="id_reg_id" name="reg_id" readonly>
+                                                                                    <input type="hidden" class="form-control pos_inputbox" id="id_supplier_id" name="supplier_id" readonly>
+                                                                                    <input type="text" class="form-control pos_inputbox" autocomplete="off"
+                                                                                        id="id_client_no" placeholder="Client No" readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-8">
+                                                                            <div class="row cash_point_row">
+                                                                                <label for="id_client_name" title="Client Name"
+                                                                                    class="col-sm-client-label col-form-label">
+                                                                                    Cl. Name:
+                                                                                </label>
+                                                                                <div class="col-sm-client-input">
+                                                                                    <input type="text" class="form-control pos_inputbox" autocomplete="off" id="id_client_name"
+                                                                                        name="client_name" placeholder="Client Name" readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-6">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <!--  -->
+                                                                        <div class="col-sm-5">
+                                                                            <div class="row cash_point_row">
+                                                                                <label for="id_contact"
+                                                                                    class="col-sm-2 col-form-label">
+                                                                                    Contact:
+                                                                                </label>
+                                                                                <div class="col-sm-8">
+                                                                                    <input type="number"
+                                                                                        class="form-control pos_inputbox"
+                                                                                        autocomplete="off"
+                                                                                        id="id_contact" name="contact"
+                                                                                        readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <div class="col-sm-7">
+                                                                            <div class="row cash_point_row">
+                                                                                <label for="id_client_address"
+                                                                                    class="col-sm-client-label col-form-label">
+                                                                                    Address:
+                                                                                </label>
+                                                                                <div class="col-sm-client-input">
+                                                                                    <textarea type="text"
+                                                                                        class="form-control pos_inputbox"
+                                                                                        style="height: 1.55rem;"
+                                                                                        autocomplete="off"
+                                                                                        id="id_client_address"
+                                                                                        name="client_address"
+                                                                                        readonly></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!--  -->
+                            <section>
+                                <div class="card main_pos_card">
+                                    <div class="row cash_point_row">
+                                        <div class="col-sm-8">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <div class="col-sm-6">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_org"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Organization:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <select id="id_org" name="org"
+                                                                                class="form-select pos_inputbox">
+                                                                                {% for org in org_list %}
+                                                                                <option value="{{ org.org_id }}"
+                                                                                    id="{{ org.org_id }}">
+                                                                                    {{ org.org_name }}
+                                                                                </option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="cash_point"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Cash Point:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <select id="cash_point" name="cash_point" class="form-select pos_inputbox">
+                                                                                <!--  -->
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="customer_name"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Customer's:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                value="" id="customer_name"
+                                                                                name="customer_name" autocomplete="off"
+                                                                                required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_road_no"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Road No.:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                id="id_road_no" autocomplete="off"
+                                                                                name="road_no">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_address"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Address:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <textarea type="text"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                id="id_address" name="address"
+                                                                                autocomplete="off"
+                                                                                style="height: 1.55rem;"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_branchs"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Branchs:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <select id="id_branchs" name="branchs"
+                                                                                class="form-select pos_inputbox">
+                                                                                <!-- branch List -->
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="gender"
+                                                                            class="col-sm-2 col-form-label">Gender:</label>
+                                                                        <div class="col-sm-8">
+                                                                            <select id="gender" name="gender" class="form-select reg_wise_disable pos_inputbox"
+                                                                                aria-label="Default select example">
+                                                                                <option value="" selected disabled>
+                                                                                    Choose Gender ...
+                                                                                </option>
+                                                                                <option value="Male">Male</option>
+                                                                                <option value="Female">Female</option>
+                                                                                <option value="Others">Others</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="mobile_number"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Mobile:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="number"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                autocomplete="off" id="mobile_number"
+                                                                                name="mobile_number" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_area"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Area:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                autocomplete="off" id="id_area"
+                                                                                name="area">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_drivers"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Carriers:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <select id="id_drivers" name="drivers_name"
+                                                                                class="form-select pos_inputbox"
+                                                                                required>
+                                                                                <!-- drivers List -->
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="col-sm-4">
+                                            <div class="card pos_card">
+                                                <div class="card-body pos_card_body">
+                                                    <div class="row cash_point_row">
+                                                        <div class="col-sm-12">
+                                                            <div class="card pos_card">
+                                                                <div class="card-body pos_card_body">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="referral_person"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Ref. Person:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text"
+                                                                                class="form-control pos_inputbox"
+                                                                                id="referral_person"
+                                                                                name="referral_person"
+                                                                                autocomplete="off">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_house_no"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            House No.:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                autocomplete="off" id="id_house_no"
+                                                                                name="house_no">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_sector_no"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Sector No.:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text"
+                                                                                class="form-control reg_wise_disable pos_inputbox"
+                                                                                id="id_sector_no" name="sector_no"
+                                                                                autocomplete="off">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    {% for sale in sale_data %}
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="last_inv_no"
+                                                                            class="col-sm-2 col-form-label">
+                                                                            Last Invoice:
+                                                                        </label>
+                                                                        <div class="col-sm-6">
+                                                                            <input type="text"
+                                                                                class="form-control pos_inputbox"
+                                                                                value="{{sale.inv_id}}" id="last_inv_no"
+                                                                                readonly>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <button type="button"
+                                                                                class="btn btn-primary text-white btn-xs last_invshowprntBtm view-data"
+                                                                                data-id="{{ sale.inv_id }}"
+                                                                                data-not-allow="{{ sale.is_carrcost_notapp|lower }}">Print</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endfor %}
+                                                                    <!-- Credit Balance -->
+                                                                    <div class="row cash_point_row" id="id_sales_type"
+                                                                        style="display: none;">
+                                                                        <label for="referral_person"
+                                                                            class="col-sm-2 text-danger col-form-label"
+                                                                            style="font-weight: bolder;">
+                                                                            Credit Bal. :
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <!--  -->
+                                                                            <input type="number" id="credit_balance"
+                                                                                name="credit_balance" value=""
+                                                                                class="form-control pos_inputbox"
+                                                                                style="display: none;">
+                                                                            <span id="id_credit_balance" class="form-control item_inputbox text-success credit_balance">0.00</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </section>
+                            <section>
+                                <div class="col-xl-12">
+                                    <div class="table-body item_table_body">
+                                        <table id="item_add" class="table table-striped" style="width: 100%;">
+                                            <tbody class="table-body-row" style="text-align:center;" id="POSaddItemTB">
+                                                <tr style="border-style: hidden!important;">
+                                                    <td
+                                                        style="display: flex; text-align: left; justify-content: center; border-style: none; flex-direction: row; flex-wrap: wrap; align-content: center; align-items: center;">
+                                                        <div class="col-sm-12 div_id_pos_item_name"
+                                                            style="display: flex; justify-content: center; align-items: center;">
+                                                            <div class="col-sm-8">
+                                                                <!--  -->
+                                                                <div class="col-sm-12">
+                                                                    <!--  -->
+                                                                    <div class="item_search-body">
+                                                                        <div class="search-icon">
+                                                                            <i class='bx bx-search'
+                                                                                style="margin-top: 3px; color: aliceblue;"></i>
+                                                                        </div>
+                                                                        <!--  -->
+                                                                        <!-- searching item list for pos -->
+                                                                        <input type="search" id="positem_name"
+                                                                            placeholder="Search..." value=""
+                                                                            class="pos-control pos_item input_datalist pos_searchBox"
+                                                                            autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--  -->
+                                                            <div class="col-sm-4">
+                                                                <select id="id_filter_suppliers" name="filter_suppliers"
+                                                                    class="form-select pos_inputbox">
+                                                                    <!--  -->
+
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                            <!--  -->
+                            <section>
+                                <div class="col-xl-12">
+                                    <div class="table-body item_table_body">
+                                        <div class="d-flex w-100" id="POS-field">
+                                            <table class="table table-striped" style="width: 100%;" id="mul_item_tbl">
+                                                <thead class="text-center table-header_itemlist">
+                                                    <tr style="border-style: hidden!important;">
+                                                        <th style="text-align:center; width: 3%;"></th>
+                                                        <th style="text-align:center; width: 3%;">Sl</th>
+                                                        <th style="text-align:center;">Item No</th>
+                                                        <th style="text-align:center; width: 25%;">Item Name</th>
+                                                        <th style="text-align:center;">Type</th>
+                                                        <th style="text-align:center;">UoM</th>
+                                                        <th style="text-align:center; width: 10%;">Supplier</th>
+                                                        <th style="text-align:center;">Extd. Stock</th>
+                                                        <th style="text-align:center;">Stock</th>
+                                                        <th style="text-align:center; width: 8%;">S.Rate</th>
+                                                        <th style="text-align:center; width: 8%;">Discount</th>
+                                                        <th style="text-align:center; width: 6%;">Qty</th>
+                                                        <th style="text-align:center; width: 8%;">Total</th>
+                                                        <th style="text-align:center; width: 3%;">
+                                                            opt.
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="mytbody">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!--  -->
+                            <section style="margin-bottom: 10px;">
+                                <div class="row cash_point_row">
+                                    <div class="col-sm-8">
+                                        <div class="card main_pos_card">
+                                            <div class="card-body pos_card_body">
+                                                <div class="col-xl-12">
+                                                    <div class="table-body item_table_body">
+                                                        <table id="" class="table  paymode_table" style="width: 100%;">
+                                                            <table id="" class="table  paymode_table"
+                                                                style="width: 100%;">
+                                                                <tbody>
+                                                                    <tr style="border-style: hidden!important;">
+                                                                        <td class="col-sm-12"
+                                                                            style="display: flex; text-align:center; width: 100%; border-style: hidden!important;">
+                                                                            <label for="discount_amt"
+                                                                                class="col-sm-4 dis-label">
+                                                                                Discount Amt:
+                                                                            </label>
+                                                                            <div class="col-sm-4" id="dis_input">
+                                                                                <input type="number"
+                                                                                    class="form-control disc_input pos_inputbox"
+                                                                                    name="discount_amt"
+                                                                                    id="discount_amt" value="0">
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <label for="discount_perc"
+                                                                                class="col-sm-4 dis-perc"
+                                                                                style="text-align:center;width: 5%;">%</label>
+                                                                            <div class="col-sm-4">
+                                                                                <input type="number"
+                                                                                    class="form-control disc_input pos_inputbox"
+                                                                                    name="discount_perc"
+                                                                                    id="discount_perc" value=""
+                                                                                    readonly>
+                                                                            </div>
+                                                                        </td>
+                                                                        <!--  -->
+                                                                        <!--  -->
+                                                                        <td style="text-align:center;width: 10%;">
+                                                                            Tot Item:
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 15%;">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="tot_count_serial"
+                                                                                    name="tot_count_serial"
+                                                                                    style="text-align:center" readonly>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 8%;">
+                                                                            Tot Qty:
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 15%;">
+                                                                            <div class="col-sm-12" id="auto_sumQty">
+                                                                                <input type="text"
+                                                                                    class="form-control sum_qty_total pos_inputbox"
+                                                                                    name="sum_qty" id="sum_qty"
+                                                                                    style="text-align:center" value=""
+                                                                                    readonly>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <!--  -->
+                                                            <table id="" class="table  paymode_table"
+                                                                style="width: 100%;">
+                                                                <tbody>
+                                                                    <tr style="display: flex; margin-right: 0px;">
+                                                                        <td class="remarks-label"
+                                                                            style="width: 11.5%; margin-right: 10px; border-style: hidden!important;">
+                                                                            Remarks:
+                                                                        </td>
+                                                                        <td
+                                                                            style="text-align:center; width: 87%; border-style: hidden!important;">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text"
+                                                                                    style="width: 100.3%; margin-left: 3px;"
+                                                                                    id="remarks" name="remarks"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <!--  -->
+                                                            <table id="" class="table paymode_table"
+                                                                style="width: 100%;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="text-align:center;width: 20%;">Pay
+                                                                            Mode
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">
+                                                                            Collection Mode
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 20%;">Pay
+                                                                            Amt
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">Given
+                                                                            Amt
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">Change
+                                                                            Amt
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">Opt.
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tbody>
+                                                                    <tr style="border-style: hidden!important;">
+                                                                        <td style="text-align:center;width: 20%;">
+                                                                            <div class="col-sm-12">
+                                                                                <select id="pay_mode" name="pay_mode" class="form-select pos_inputbox" aria-label="Default select example">
+                                                                                    <option value="1">Cash</option>
+                                                                                    <option value="2">Check</option>
+                                                                                    <option value="3">Debit Card</option>
+                                                                                    <option value="4">Credit Card</option>
+                                                                                    <option value="5">Bkash</option>
+                                                                                    <option value="6">Nagad</option>
+                                                                                    <option value="7">Upay</option>
+                                                                                    <option value="8">UCash</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            <div class="col-sm-12">
+                                                                                <select id="Collection_mode"
+                                                                                    name="Collection_mode"
+                                                                                    class="form-select pos_inputbox"
+                                                                                    aria-label="Default select example">
+                                                                                    <option value="1">Collection
+                                                                                    </option>
+                                                                                    <option value="4"
+                                                                                        id="adjustOption_pos">
+                                                                                        Adjust Credit</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            <div class="col-sm-12" id="payment_input">
+                                                                                <input type="number"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="payment_amt" name="payment_amt"
+                                                                                    value="0" style="text-align:center"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">
+                                                                            <div class="col-sm-12" id="given_input">
+                                                                                <input type="number"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="given_amt" name="given_amt"
+                                                                                    style="text-align:center"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">
+                                                                            <div class="col-sm-12 change_amt_status">
+                                                                                <input type="number"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="change_amt" name="change_amt"
+                                                                                    style="text-align:center" readonly
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 10%;">
+                                                                            <button type="button" onclick="calcFun()"
+                                                                                class="btn btn-primary text-white btn-xs calcBtn">Calc</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <!--  -->
+                                                            </table>
+                                                            <!--  -->
+                                                            <table id="otherType" class="table paymode_table"
+                                                                style="width: 100%; display: none;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="text-align:center;width: 20%;">
+                                                                            CQ/CC/DC/DD/MB/OP</td>
+                                                                        <td style="text-align:center;width: 20%;">Mobile
+                                                                            Number</td>
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            Reference
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 20%;">Bank
+                                                                            Name
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tbody>
+                                                                    <tr style="border-style: hidden!important;">
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="card_info" name="card_info"
+                                                                                    style="text-align:center"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="number"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="pay_mob_number"
+                                                                                    name="pay_mob_number"
+                                                                                    style="text-align:center"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="pay_reference"
+                                                                                    name="pay_reference"
+                                                                                    style="text-align:center"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="text-align:center; width: 20%;">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text"
+                                                                                    class="form-control pos_inputbox"
+                                                                                    id="bank_name" name="bank_name"
+                                                                                    style="text-align:center"
+                                                                                    autocomplete="off">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <!--  -->
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <!--  -->
+                                    <div class="col-sm-4">
+                                        <div class="card main_pos_card">
+                                            <div class="card-body pos_card_body" style="margin-top: 5px;">
+                                                <div class="row cash_point_row">
+                                                    <label for="total_bills" class="col-sm-2-mody col-form-label">
+                                                        Total Bill:
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="hidden"
+                                                            class="form-control paymentDtl pos_inputbox"
+                                                            id="total_bills" name="actual_amount" value="0">
+                                                        <span class="form-control paymentDtl pos_inputbox"
+                                                            id="actual_amount">0.00</span>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row" id="vatCal">
+                                                    <label for="total_vat" class="col-sm-2-mody col-form-label">
+                                                        Total VAT (%):
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="number" placeholder="Enter Vat Tax (%)" style="background: #fffab6;"
+                                                            class="form-control paymentDtl pos_inputbox" value=""
+                                                            id="total_vat" name="total_vat">
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row">
+                                                    <label for="id_total_vat" class="col-sm-2-mody col-form-label">
+                                                        Total VAT amt (+):
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="hidden"
+                                                            class="form-control paymentDtl pos_inputbox" value="0"
+                                                            id="id_total_vat" name="vat_amount">
+                                                        <span class="form-control paymentDtl pos_inputbox"
+                                                            id="vat_amount">0.00</span>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row">
+                                                    <label for="tot_dis_minus" class="col-sm-2-mody col-form-label">
+                                                        Total Discount (-):
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="hidden"
+                                                            class="form-control paymentDtl pos_inputbox" value="0"
+                                                            id="tot_dis_minus" name="total_discount">
+                                                        <span class="form-control paymentDtl pos_inputbox"
+                                                            id="total_discount">0.00</span>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row">
+                                                    <label for="payable_bill" class="col-sm-2-mody  col-form-label">
+                                                        Total Amount:
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="hidden"
+                                                            class="form-control paymentDtl pos_inputbox"
+                                                            id="payable_bill" value="0" name="total_amount">
+                                                        <span class="form-control paymentDtl pos_inputbox"
+                                                            id="total_amount">0.00</span>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row">
+                                                    <label for="id_receivable_amt" class="col-sm-2-mody col-form-label">
+                                                        Total Pay Amt:
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="hidden"
+                                                            class="form-control paymentDtl pos_inputbox" value="0"
+                                                            id="id_receivable_amt" name="receivable_amt">
+                                                        <span class="form-control paymentDtl pos_inputbox"
+                                                            id="receivable_amt">0.00</span>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row">
+                                                    <label for="due_value"
+                                                        class="col-sm-2-mody text-danger col-form-label">
+                                                        Due Amount:
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <input type="hidden" style="color: #dc3545 !important;"
+                                                            class="form-control paymentDtl pos_inputbox" id="due_value"
+                                                            value="0" name="due_amount" readonly>
+                                                        <span class="form-control paymentDtl pos_inputbox" style="color: #dc3545 !important;"
+                                                            id="due_amount">0.00</span>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row" id="carryin_cost">
+                                                    <label for="rent_other_expense"
+                                                        class="col-sm-2-mody col-form-label required">
+                                                        Carrying Cost:
+                                                    </label>
+                                                    <div class="col-sm-7"
+                                                        style="display: flex; flex-direction: row; align-items: center;">
+                                                        <input type="number" style="height: 1.51rem;"
+                                                            class="form-control paymentDtl pos_inputbox" id="rent_other_expense" name="rent_other_expense"
+                                                            placeholder="Cost .." title="Carrying Cost" autocomplete="off" required>
+                                                        <!--  -->
+                                                        <div class="form-check form-check-inline" style="width: 35%;">
+                                                            <label class="form-check-label" for="id_buyer"
+                                                                style="font-size: 11.5px;">Buyer</label>
+                                                            <input class="form-check-input" type="radio" name="buyer"
+                                                                id="id_buyer" value="1" checked>
+                                                        </div>
+                                                        <div class="form-check form-check-inline" style="width: 35%;">
+                                                            <label class="form-check-label" for="id_seller"
+                                                                style="font-size: 11.5px;">Seller</label>
+                                                            <input class="form-check-input" type="radio" name="seller"
+                                                                id="id_seller" value="0">
+                                                        </div>
+                                                        <!--  -->
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="row cash_point_row" id="carryin_cost_not_apply"
+                                                    style="padding: 5px; display: flex; justify-content: flex-start; align-items: center;">
+                                                    <label for="id_notapp_carr_cost"
+                                                        class="col-sm-7 col-form-label required"
+                                                        style="font-size: 11.5px; display: flex; flex-direction: row; justify-content: flex-end;">
+                                                        Not Applicable Carrying Cost:
+                                                    </label>
+                                                    <div class="notAppCheckbox"
+                                                        style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: flex-start;">
+                                                        <div class="form-check" style="margin-left: 0.5rem;">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="notapp_carr_cost" id="id_notapp_carr_cost"
+                                                                style="cursor: pointer;" value="1">
+                                                        </div>
+                                                        <!--  -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section style="margin-top: 1rem; margin-bottom: 1rem;">
+                                <div class="payment-submitBtn">
+                                    <button type="button" style="text-align:center; width: 5rem;" id="resetButton"
+                                        onclick="resetAndRemoveRows()"
+                                        class="btn btn-danger col-sm-4 text-white btn-xs item_payment_btn">
+                                        Clear
+                                    </button>
+                                    <button type="button" style="text-align:center; width: 8rem;"
+                                        onClick="navigateTo('/item_pos_billing/')"
+                                        class="btn btn-primary col-sm-4 text-white btn-xs item_payment_btn">
+                                        New Invoice
+                                    </button>
+                                    <button type="submit" style="text-align:center; width: 8rem;" id="check_out"
+                                        class="btn btn-success col-sm-4 text-white btn-xs item_payment_btn">
+                                        Save & Print
+                                    </button>
+                                </div>
+                            </section>
+                        </form>
+                    </section>
+                </section>
+                <!--  -->
+            </section>
+        </section>
+    </section>
+</main>
+<!--  -->
+<script>
+    //
+    //
+    document.getElementById('searchfavlist').addEventListener('input', function () {
+        const searchQuery = this.value.toLowerCase();
+        loadFavoriteItems(searchQuery);
+    });
+
+    function loadFavoriteItems(searchQuery = '') {
+        fetch(`/get_fav_item_list/?search=${encodeURIComponent(searchQuery)}`)
+            .then(response => response.json())
+            .then(data => {
+                const favItemTB = document.getElementById('favItemTB');
+                favItemTB.innerHTML = ''; // Clear existing rows
+
+                data.fav_items.forEach(item => {
+                    const row = document.createElement('tr');
+
+                    const deleteCell = document.createElement('td');
+                    deleteCell.style.width = '10%';
+                    deleteCell.style.textAlign = 'center';
+                    deleteCell.style.borderStyle = 'none';
+                    deleteCell.innerHTML = `<button type='button' id='${item.fav_id}' class='btn btn-xs delFavListBtn'><i class='bx bx-trash delBtn'></i></button>`;
+
+                    const nameCell = document.createElement('td');
+                    nameCell.style.width = '80%';
+                    nameCell.style.textAlign = 'left';
+                    nameCell.style.borderStyle = 'none';
+                    nameCell.textContent = item.item_name;
+
+                    const checkboxCell = document.createElement('td');
+                    checkboxCell.style.width = '10%';
+                    checkboxCell.style.textAlign = 'center';
+                    checkboxCell.style.borderStyle = 'none';
+                    checkboxCell.innerHTML = `<input type='checkbox' id='${item.item_id}' class='form-check-input' style='width: 1.2rem; height: 1.2rem; cursor: pointer; border-color: royalblue;'>`;
+
+                    row.appendChild(deleteCell);
+                    row.appendChild(nameCell);
+                    row.appendChild(checkboxCell);
+
+                    favItemTB.appendChild(row);
+
+                    // Add event listener to delete button
+                    deleteCell.querySelector('button').addEventListener('click', function () {
+                        deleteFavoriteItem(item.fav_id, row);
+                    });
+
+                    // Add event listener to checkbox
+                    checkboxCell.querySelector('input').addEventListener('change', function () {
+                        if (this.checked) {
+                            addItemToTable(item.item_id); // Use item.item_id here
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching favorite items:', error);
+            });
+    }
+
+    function addItemToTable(itemId) {
+        $.ajax({
+            url: '/select_item_value/',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                selectedItem: itemId,
+                store_id: $('#cash_point').val(), // Assuming you're using a field with this ID for the store ID
+                b2b_client_supp_id: $('#id_supplier_id').val(),
+                org_id: $('#id_org').val(),
+            },
+            success: function (response) {
+                if (response.data && response.data.length > 0) {
+                    const item = response.data[0]; // Get the first item in the response data array
+
+                    const positem_name = item.item_name; // Extract the item name
+                    const extended_stock = parseFloat(item.extended_stock) || 0;
+                    const stock_qty = parseFloat(item.stock_qty) || 0;
+
+                    var itemPrice = (item.item_price !== '' && item.item_price != null) ? item.item_price : 0;
+
+                    // Calculate the total available stock
+                    var extended_and_stock_qty = extended_stock + stock_qty;
+
+                    // Check if the stock is zero
+                    if (extended_and_stock_qty === 0) {
+                        toastr.warning('Item Stock Is "0" Zero. Not Allowed');
+                        return false;
+                    }
+
+                    // Check if the item has already been added
+                    if ($('#POS-field table tbody tr[data-item-name="' + positem_name + '"]').length > 0) {
+                        toastr.warning('Item Already in the List.');
+                        return false;
+                    }
+
+                    // Add the item to the table (existing logic)
+                    const tableBody = document.querySelector('#POS-field table tbody');
+
+                    // Create a new row for the selected item
+                    const tr = document.createElement('tr');
+                    tr.style.borderStyle = 'hidden';
+                    tr.setAttribute('data-item-name', item.item_name); // Store the item name in a data attribute
+
+                    // Add the row's content (as shown in your previous code)
+                    tr.innerHTML = `
+                        <td style="text-align:center;"><button type='button' class='btn btn-xs addFavBtn favListSubmit'><i class='bx bxs-chevrons-left addFavIcon' title='Add to Favorite List'></i></button></td>
+                        <td style="text-align:center;">&nbsp;</td>
+                        <td style="text-align:center;">${item.item_no}<input type="hidden" value="${item.item_no}" class="inputbox_tdrow" name="item_no[]" readonly><input type="hidden" value="${item.item_id}" class="inputbox_tdrow multiple_input" name="item_id[]" readonly><input type="hidden" value="${item.item_name}" class="inputbox_tdrow multiple_input" name="positem_name[]" readonly></td>
+                        <td style="position: relative; text-align: left;" class="posItemsName_id">${item.item_name}</td>
+                        <td style="text-align:center;">${item.item_type_name}<input type="hidden" value="${item.item_type_name}" class="inputbox_tdrow" name="item_type[]" readonly><input type="hidden" value="${item.store_id}" class="inputbox_tdrow multiple_input" name="store_id[]" readonly></td>
+                        <td style="text-align:center;">${item.item_uom}<input type="hidden" value="${item.item_uom}" class="inputbox_tdrow" name="item_batch[]" readonly></td>
+                        <td style="text-align:center;">${item.item_Supplier}<input type="hidden" value="${item.item_Supplier}" class="inputbox_tdrow" name="item_store_name[]" readonly></td>
+                        <td style="text-align:center;">${item.extended_stock}<input type="hidden" value="${item.extended_stock}" class="inputbox_tdrow" id="extended_stock" name="extended_stock[]" readonly></td>
+                        <td style="text-align:center;">${item.stock_qty}<input type="hidden" value="${item.stock_qty}" class="inputbox_tdrow" id="stock_qty" name="stock_qty[]" readonly></td>
+                        <td style="text-align:center;" id="SpriceInput"><input type="number" value="${itemPrice}" class="form-control text-center pos_salesDisInput item_sales_price" min="0" oninput="validity.valid||(value='');" name="item_price[]" autocomplete="off" style="width: 95%;" required></td>
+                        <td style="text-align:center;" class="item_w_dis"><input type="number" value="0" class="form-control text-center pos_salesDisInput item_w_dis_input" name="item_w_dis[]" max="numberHere" min="0" oninput="validity.valid||(value='');" autocomplete="off" style="width: 95%;"><input type="hidden" value="0" class="form-control text-center pos_inputbox" name="gross_dis[]" style="width: 95%;"><input type="hidden" value="0" class="form-control text-center pos_inputbox" name="gross_vat_tax[]" style="width: 95%;"></td>
+                        <td style="text-align:center;" id="mulInputQty"><input type="number" value="1" class="form-control text-center qty1 pos_salesDisInput" max="${item.extended_stock + item.stock_qty}" id="sales_qty" name="sales_qty[]" min="1" oninput="validity.valid||(value='');" autocomplete="off" style="width: 95%;"></td>
+                        <td style="text-align:center;" class="product_total"></td>
+                        <td style="text-align:center;"><button type="button" class="btn btn-danger text-white btn-xs itemAdd_del_btn">X</button></td>
+                    `;
+
+                    // Append the new row to the table
+                    tableBody.appendChild(tr);
+
+                    // After appending the row, call the calc function
+                    calc();
+
+                    // Update serial numbers for all rows
+                    updateSerialNumbers();
+
+                    $('#POS-field table tbody').on('input change blur', '.item_w_dis_input', function () {
+                        var value = $(this).val();
+            
+                        if (value.trim().length === 0) {
+                            $(this).val('0');
+                        }
+                        calc();
+                    }).on('focus', '.item_w_dis_input', function () {
+                        var value = $(this).val();
+                        if (value.trim() === '0') {
+                            $(this).val('');
+                        }
+                    });
+
+                } else {
+                    toastr.warning('Item Not Found In The Stock List. Please Stock This Item First & Try Again.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching item details:', error);
+            }
+        });
+
+        // Function to update the serial numbers
+        function updateSerialNumbers() {
+            $('#POS-field table tbody tr').each(function (index) {
+                $(this).find('td:nth-child(2)').text(index + 1); // Update the serial number column
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        loadFavoriteItems();
+
+        // Event delegation for dynamically created elements
+        $('#POS-field table tbody').on('input change blur', '.item_w_dis_input', function () {
+            var value = $(this).val();
+
+            if (value.trim().length === 0) {
+                $(this).val('0');
+            }
+
+            calc();
+        }).on('focus', '.item_w_dis_input', function () {
+            var value = $(this).val();
+            if (value.trim() === '0') {
+                $(this).val('');
+            }
+        });
+
+        // Handling blur events for item_sales_price
+        $('#POS-field table tbody').on('input change blur', '.item_sales_price', function () {
+            var value = $(this).val().trim();
+
+            if (value.length === 0 || value === '0') {
+                $(this).val('0');
+                $(this).css('background-color', 'red');
+            } else {
+                $(this).css('background-color', '#fff');
+            }
+
+            calc();
+        }).on('focus', '.item_sales_price', function () {
+            var value = $(this).val().trim();
+
+            if (value === '0') {
+                $(this).val('');
+                $(this).css('background-color', 'red');
+            }
+        });
+
+        // Handling blur event for sales_qty to set default value
+        $('#POS-field table tbody').on('blur', 'input[name="sales_qty[]"]', function () {
+            var value = $(this).val();
+            if (value === "") {
+                $(this).val(1);
+            }
+            calc();
+        });
+
+        // Event delegation for the delete button
+        $('#POS-field table tbody').on('click', '.itemAdd_del_btn', function () {
+            $(this).closest('tr').remove();
+            calc();
+        });
+    });
+
+    //
+    function deleteFavoriteItem(fav_id, row) {
+        fetch(`/delete_fav_item/${fav_id}/`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),  // Get the CSRF token
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the row from the table
+                    row.remove();
+                } else {
+                    console.error('Failed to delete favorite item:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting favorite item:', error);
+            });
+    }
+
+    // Helper function to get the CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadFavoriteItems(); // Load favorite items on page load
+    });
+
+    //
+    function fetchAndDisplayCreditTransactions(supplierId, branchId) {
+        if (supplierId || branchId) {
+            $.ajax({
+                url: "{% url 'get_credit_transactions' %}",
+                type: 'GET',
+                data: {
+                    'supplier_id': supplierId,
+                    'branch_id': branchId,
+                },
+                dataType: 'json',
+                success: function (response) {
+
+                    var totalDebitAmt = 0;
+                    var totalCreditAmt = 0;
+
+                    // Populate the table body with the new data
+                    response.forEach(function (transaction, index) {
+
+                        // Add debit payment to totalDebitAmt
+                        if (!isNaN(transaction.debit_payment)) {
+                            totalDebitAmt += parseFloat(transaction.debit_payment);
+                        }
+
+                        // Add credit payment to totalCreditAmt
+                        if (!isNaN(transaction.credit_payment)) {
+                            totalCreditAmt += parseFloat(transaction.credit_payment);
+                        }
+                    });
+
+                    // Calculate the balance
+                    var balance = totalDebitAmt - totalCreditAmt;
+
+                    $('#id_credit_balance').text(balance.toFixed(0));
+                    $('#credit_balance').val(balance.toFixed(0));
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching credit transactions:', status, error);
+                }
+            });
+        }
+    }
+
+    //register customer searching
+    $(document).ready(function () {
+        // Define a function to clear and focus the input field
+        function clearRegCustomerInput() {
+            $('#register_customer').val('').focus();
+        }
+    
+        $('#register_customer').typeahead({
+            source: function (query, result) {
+                var selected_id_org = $('#id_org').val();
+                $.ajax({
+                    url: '/search_registration_for_billing/',
+                    data: {
+                        query: query,
+                        org_filter: selected_id_org,
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        result($.map(data.data, function (register) {
+                            return { 
+                                name: register.full_name.toString(),
+                                customerNo: register.customer_no.toString(),
+                                mobileNumber: register.mobile_number.toString(),
+                                id: register.reg_id,
+                            };
+                        }));
+                    }
+                });
+            },
+            updater: function (register) {
+                var selectedRegisterId = register.id;
+    
+                $.ajax({
+                    url: '/select_registrations_details/',
+                    data: { selectedRegister: selectedRegisterId }, // Send the selected item ID to retrieve details
+                    dataType: "json",
+                    type: "GET",
+                    success: function (response) {
+                        var selectedRegisterDtl = response.data;
+    
+                        // Assign selected data to the corresponding text input fields
+                        $('#id_reg_id').val(selectedRegisterDtl.reg_id);
+                        $('#customer_name').val(selectedRegisterDtl.full_name);
+                        $('#mobile_number').val(selectedRegisterDtl.mobile_number);
+                        $('#gender').val(selectedRegisterDtl.gender);
+                        $('#id_address').val(selectedRegisterDtl.address);
+    
+                        clearRegCustomerInput();
+                    }
+                });
+    
+                // Return the selected item name to fill the input field
+                return register.name;
+            },
+            items: 50, // Specify the number of items to display
+            displayText: function (item) {
+                return item.name; // Adjust this if you want to customize the display text
+            },
+            matcher: function (item) {
+                // Custom matcher to filter based on name, customerNo, or mobileNumber
+                var query = this.query.toLowerCase();
+                return item.name.toLowerCase().includes(query) ||
+                       item.customerNo.toLowerCase().includes(query) ||
+                       item.mobileNumber.toLowerCase().includes(query);
+            }
+        });
+    });
+
+    // client seraching
+    $(document).ready(function () {
+        // Define a function to clear and focus the input field
+        function clearB2bClientInput() {
+            $('#clients_name').val('').focus();
+        }
+
+        $('#clients_name').typeahead({
+            source: function (query, result) {
+                var selected_id_org = $('#id_org').val();
+                $.ajax({
+                    url: '/search_b2b_clients_for_billing/',
+                    data: {
+                        query: query,
+                        org_filter: selected_id_org,
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        result($.map(data.data, function (b2bClient) {
+                            return { name: b2bClient.supplier_name.toString(), id: b2bClient.supplier_id }; // Return an object with name and id
+                        }));
+                    }
+                });
+            },
+            updater: function (b2bClient) {
+                var selectedb2bClientId = b2bClient.id;
+
+                $.ajax({
+                    url: '/select_b2b_clients_details/',
+                    data: { selectedb2bClient: selectedb2bClientId }, // Send the selected item ID to retrieve details
+                    dataType: "json",
+                    type: "GET",
+                    success: function (response) {
+                        var selectedb2bClientDtl = response.data;
+
+                        // Assign selected data to the corresponding text input fields
+                        $('#id_supplier_id').val(selectedb2bClientDtl[0].supplier_id);
+                        $('#id_client_no').val(selectedb2bClientDtl[0].supplier_no);
+                        $('#id_client_name').val(selectedb2bClientDtl[0].supplier_name);
+                        $('#customer_name').val(selectedb2bClientDtl[0].supplier_name);
+                        $('#id_contact').val(selectedb2bClientDtl[0].phone);
+                        $('#mobile_number').val(selectedb2bClientDtl[0].phone);
+                        $('#id_client_address').val(selectedb2bClientDtl[0].address);
+                        $('#id_address').val(selectedb2bClientDtl[0].address);
+
+                        clearB2bClientInput();
+
+                        var supplierId = selectedb2bClientId;
+                        var branchId = $('#id_branchs').val();
+                        if (supplierId || branchId) {
+                            fetchAndDisplayCreditTransactions(supplierId, branchId);
+                        }
+                    }
+                });
+
+                // Return the selected item name to fill the input field
+                return b2bClient.name;
+            },
+            items: 50, // Specify the number of items to display
+            displayText: function (item) {
+                return item.name; // Adjust this if you want to customize the display text
+            },
+        });
+    });
+    //======================================================================
+
+    // det drivers list
+    $(document).ready(function () {
+        // Initial population of driver options based on the selected organization and branch
+        updateDriversOptions();
+
+        // Add change event listener to the organization and branch dropdowns
+        $('#id_org').change(function () {
+            updateDriversOptions();
+        });
+
+        $('#id_branchs').change(function () {
+            updateDriversOptions();
+        });
+
+        function updateDriversOptions() {
+            var selectedOrgId = $('#id_org').val();
+            var selectedBranchID = $('#id_branchs').val();
+
+            if (selectedOrgId && selectedBranchID) {
+                $.ajax({
+                    url: '/get_drivers_options/',  // Replace with your actual URL for fetching driver options
+                    method: 'GET',
+                    data: {
+                        id_org: selectedOrgId,
+                        id_branch: selectedBranchID
+                    },
+                    success: function (data) {
+                        // Clear existing options
+                        $('#id_drivers').empty();
+
+                        // Add default option
+                        $('#id_drivers').append('<option value="" selected disabled>Choose Carriers ...</option>');
+
+                        // Add fetched driver options
+                        $.each(data.drivers_list, function (index, driver) {
+                            $('#id_drivers').append('<option value="' + driver.driver_id + '">' + driver.driver_name + '</option>');
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error fetching drivers options:', error);
+                    }
+                });
+            } else {
+                // Clear the drivers dropdown if either organization or branch is not selected
+                $('#id_drivers').empty();
+            }
+        }
+    });
+
+
+    //
+    $(document).ready(function () {
+
+        $('#id_org').change(function () {
+            OrgWiseUpdateFilterOptions();
+        });
+
+        OrgWiseUpdateFilterOptions();
+
+        function OrgWiseUpdateFilterOptions() {
+            var selectedOrgId = $('#id_org').val();
+
+            // Branch option value
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    $('#id_branchs').empty();
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_branchs').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+                    $('#id_branchs').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+
+            // supplier options update Function
+            $.ajax({
+                url: '/get_list_of_supplier/',
+                method: 'GET',
+                data: { org_id: selectedOrgId },
+                success: function (data) {
+                    //<!--  -->
+                    $('#id_filter_suppliers').empty();
+                    $('#id_filter_suppliers').append('<option value="1" selected>All Supplier</option>');
+                    $.each(data.supp_list, function (index, supp) {
+                        $('#id_filter_suppliers').append('<option value="' + supp.supplier_id + '" id="' + supp.supplier_id + '">' + supp.supplier_name + '</option>');
+                    });
+                    $('#id_filter_suppliers').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching suppliers:', error);
+                }
+            });
+        }
+
+        //
+        $.ajax({
+            url: "{% url 'get_user_stores' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.stores) {
+                    var select = $('#cash_point');
+                    select.empty();
+                    $.each(response.stores, function (index, store) {
+                        select.append($('<option>', {
+                            value: store.store_id,
+                            id: store.store_id,
+                            text: store.store_name
+                        }));
+                    });
+
+                    // After populating user stores, trigger the change event for cash_point
+                    $('#cash_point').trigger('change');
+                } else {
+                    console.error('Error fetching user stores');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // Function to run when the document is fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        // radio button 
+        // client
+        var generalRadioButton = document.getElementById('id_general_bill');
+        var clientRadioButton = document.getElementById('id_b2b_clients');
+
+        // registration
+        var registerRadioButton = document.getElementById('id_register');
+        var nonRegRadioButton = document.getElementById('id_non_register');
+        // ==============================================
+
+        // client search body
+        var clientSearchBody = document.getElementById('client_searchBody');
+        var clientSalesTypeBody = document.getElementById('id_sales_type');
+
+        // client Search Input
+        var clientSearchInput = document.getElementById('client_searchInput');
+        var b2bClientsInfo = document.getElementById('b2b_clients_info');
+        // ==============================================
+
+        var regSearchBody = document.getElementById('reg_searchBody');
+        var regSearchInput = document.getElementById('reg_searchInput');
+        // ==============================================
+
+
+        //Clients body display block
+        clientRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                clientSearchBody.style.display = 'block';
+                clientSearchInput.style.display = 'block';
+                b2bClientsInfo.style.display = 'block';
+                clientSalesTypeBody.style.display = 'flex';
+            }
+        });
+
+        //Clients body display none
+        generalRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                clientSearchBody.style.display = 'none';
+                clientSearchInput.style.display = 'none';
+                b2bClientsInfo.style.display = 'none';
+                clientSalesTypeBody.style.display = 'none';
+            }
+        });
+
+
+        //register body display block
+        registerRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                regSearchBody.style.display = 'block';
+                regSearchInput.style.display = 'block';
+            }
+        });
+
+
+        //register body display none
+        nonRegRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                regSearchBody.style.display = 'none';
+                regSearchInput.style.display = 'none';
+            }
+        });
+        
+        // Call the function for register and non-register radio buttons
+        toggleReadonlyState('id_register', true);   // Makes the elements readonly when "register" is checked
+        toggleReadonlyState('id_non_register', false);  // Removes readonly when "non-register" is checked
+
+        //============================ button click wise value change ============================
+        //client genaral butthon
+        clientRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the value of the General Billing radio button to 0
+                generalRadioButton.value = "0";
+                clientRadioButton.value = "1";
+            }
+        });
+
+        generalRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the value of the B2B Clients radio button to 1
+                clientRadioButton.value = "0";
+                generalRadioButton.value = "1";
+            }
+        });
+
+        //register non register butthon
+        registerRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the value of the General Billing radio button to 0
+                nonRegRadioButton.value = "0";
+                registerRadioButton.value = "1";
+            }
+        });
+
+        nonRegRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the value of the B2B Clients radio button to 1
+                registerRadioButton.value = "0";
+                nonRegRadioButton.value = "1";
+            }
+        });
+
+        //saller buyer butthon
+
+        var buyerRadioButton = document.getElementById('id_buyer');
+        var sellerRadioButton = document.getElementById('id_seller');
+
+        sellerRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the value of the General Billing radio button to 0
+                buyerRadioButton.value = "0";
+                sellerRadioButton.value = "1";
+                calc();
+            }
+        });
+
+        buyerRadioButton.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the value of the B2B Clients radio button to 1
+                sellerRadioButton.value = "0";
+                buyerRadioButton.value = "1";
+                calc();
+            }
+        });
+    });
+
+    // Function to toggle the readonly state of elements
+    function toggleReadonlyState(radioBtnId, shouldBeReadonly) {
+        // Select the radio button and all elements that should be made readonly
+        var radioButton = document.getElementById(radioBtnId);
+        var readonlyElements = document.querySelectorAll('.reg_wise_disable');
+
+        // Add event listener to the radio button
+        radioButton.addEventListener('change', function () {
+            readonlyElements.forEach(function (element) {
+                if (radioButton.checked && shouldBeReadonly) {
+                    element.setAttribute('readonly', true);
+                } else {
+                    element.removeAttribute('readonly');
+                }
+            });
+        });
+    }
+
+
+    // Item form reset
+    function resetInputFields() {
+        $('#id_supplier_id').val('');
+        $('#id_client_no').val('');
+        $('#id_client_name').val('');
+        $('#customer_name').val('');
+        $('#id_contact').val('');
+        $('#mobile_number').val('');
+        $('#id_client_address').val('');
+        $('#id_address').val('');
+        $('#credit_balance').val('');
+        $('#id_credit_balance').text('0.00');
+    }
+
+    // id_non_register, id_register, id_general_bill, id_b2b_clients, id_buyer, id_seller click to change
+    function toggleCheck(primaryId, secondaryId) {
+        document.getElementById(primaryId).addEventListener('change', function () {
+            document.getElementById(secondaryId).checked = false;
+        });
+
+        document.getElementById(secondaryId).addEventListener('change', function () {
+            document.getElementById(primaryId).checked = false;
+        });
+    }
+
+    toggleCheck('id_non_register', 'id_register');
+    toggleCheck('id_general_bill', 'id_b2b_clients');
+    toggleCheck('id_buyer', 'id_seller');
+    //toggleCheck('id_is_cash', 'id_is_credit');
+    //<!--  -->
+
+    $(document).ready(function () {
+        // Define a function to clear and focus the input field
+        function clearAndFocusInput() {
+            $('#positem_name').val('').focus();
+            $('#positem_name').trigger('input');
+        }
+
+        // favorite function start
+        // Function to get CSRF token from the cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Get the CSRF token
+        const csrfToken = getCookie('csrftoken');
+
+        // Add event listener for the favorite icon click
+        $('#POS-field').on('click', '.favListSubmit', function (e) {
+            e.preventDefault();
+            var row = $(this).closest('tr');
+            var item_id = row.find('input[name="item_id[]"]').val();
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: '/save_favorite_item/',  // URL for saving favorite item
+                type: 'POST',
+                data: {
+                    'item_id': item_id,
+                    'csrfmiddlewaretoken': csrfToken,
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        loadFavoriteItems();
+                        toastr.success(response.message);
+                    } else if (response.status === 'exists') {
+                        toastr.warning(response.message);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('Failed to add item to favorites.');
+                }
+            });
+        });
+        // Add event listener for the favorite icon click end
+        // favorite function start end
+
+        $('#positem_name').typeahead({
+            source: function (query, result) {
+                var selected_store_id = $('#cash_point').val();
+                var selected_supplier_id = $('#id_filter_suppliers').val();
+                var b2bClientSuppId = $('#id_supplier_id').val();
+                var selectedOrgId = $('#id_org').val();
+
+                $.ajax({
+                    url: '/get_item_list/',
+                    data: {
+                        query: query,
+                        store_id: selected_store_id,
+                        filter_suppliers: selected_supplier_id,
+                        b2b_client_supp_id: b2bClientSuppId,
+                        org_id: selectedOrgId,
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        var items = data.data.map(function (item) {
+                            return {
+                                name: item.item_name.toString(),
+                                type: item.item_type_name.toString(),
+                                uom: item.item_uom.toString(),
+                                Supplier: item.item_Supplier.toString(),
+                                qty: item.stock_qty.toString(),
+                                price: item.item_price || 'N/A',
+                                itemNo: item.item_no.toString(),
+                                id: item.item_id,
+                            };
+                        });
+
+                        result(items);
+
+                        // Adjust widths after results are rendered
+                        adjustWidthsBasedOnFavListState(); 
+                        //results are rendered
+                    }
+                });
+            },
+            items: 150,
+            displayText: function (item) {
+                const itemId = item.id ? item.id : '';
+                const name = item.name ? item.name : '';
+                const type = item.type ? item.type : '';
+                const uom = item.uom ? item.uom : '';
+                const Supplier = item.Supplier ? item.Supplier : '';
+                const qty = item.qty ? item.qty : '';
+                const price = item.price ? item.price : '';
+                const itemNo = item.itemNo ? item.itemNo : '';
+
+                return `
+                    <span style="display: none;">${itemId}</span>
+                    <span style="display: none;">${itemNo}</span>
+                    <strong class="itemName">
+                        <i class="bx bxs-baguette itemNameIcon"></i>
+                        <span class="itemNameBody">${name}</span>
+                    </strong>
+                    <i class="bx bxs-objects-horizontal-center itemOtherIcon"></i>
+                    <span class="itemOtherName">${type}</span>
+                    <i class="bx bxs-objects-horizontal-center itemOtherIcon"></i>
+                    <span class="itemOtherName">${uom}</span>
+                    <i class="bx bxs-objects-horizontal-center itemOtherIcon"></i>
+                    <span class="itemOtherName">${Supplier}</span>
+                    <i class="bx bxs-layer itemOtherIcon"></i>
+                    <span class="itemQtyName" style="color: #784900; font-weight: bolder;">${qty}</span>
+                    <i class="bx bx-dollar itemOtherIcon"></i>
+                    <span class="itemPriceName" style="color: #00076c; font-weight: bolder;">${price}</span>
+                `;
+            },
+            highlighter: function (item) {
+                return `<div style="display: flex;">${item}</div>`;
+            },
+            updater: function (item) {
+
+                var selecteditemId = item.id;
+
+                $.ajax({
+                    url: '/select_item_value/',
+                    data: {
+                        selectedItem: selecteditemId,
+                        store_id: $('#cash_point').val(), // Pass the store_id with the selected item ID
+                        b2b_client_supp_id: $('#id_supplier_id').val(),
+                        org_id: $('#id_org').val(),
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function (response) {
+                        var selectedItemDetails = response.data;
+
+                        // Check if any option is selected
+                        if (!selectedItemDetails.length) {
+                            toastr.warning('Item Not Found In The Stock List. Please Stock This Item First & Try Again.');
+                            clearAndFocusInput();
+                            return false; // No option selected, do nothing
+                        }
+
+                        // Assign selected data to the corresponding text input fields
+                        var store_id = selectedItemDetails[0].store_id;
+                        var item_id = selectedItemDetails[0].item_id;
+                        var positem_name = selectedItemDetails[0].item_name;
+                        var item_no = selectedItemDetails[0].item_no;
+                        var item_type = selectedItemDetails[0].item_type_name;
+                        var item_uom = selectedItemDetails[0].item_uom;
+                        var item_Supplier = selectedItemDetails[0].item_Supplier;
+                        var extended_stock = selectedItemDetails[0].extended_stock;
+                        var stock_qty = selectedItemDetails[0].stock_qty;
+                        var item_price = selectedItemDetails[0].item_price;
+
+                        var extended_and_stock_qty = ((extended_stock) + (stock_qty));
+                        var favIcon = "<button type='button' class='btn btn-xs addFavBtn favListSubmit'><i class='bx bxs-chevrons-left addFavIcon' title='Add to Favorite List'></i></button>";
+
+                        if (extended_and_stock_qty === 0) {
+                            toastr.warning('Item Stock Is "0" Zero. Not Allow');
+                            clearAndFocusInput();
+                            return false;
+                        }
+
+                        // Check if the item has already been added
+                        if ($('#POS-field table tbody tr[data-item-name="' + positem_name + '"]').length > 0) {
+                            toastr.warning('Item Already in the List.');
+                            clearAndFocusInput();
+                            return false;
+                        }
+
+                        // Check if any of the extracted values are undefined
+                        if (
+                            item_id === undefined ||
+                            store_id === undefined ||
+                            item_no === undefined ||
+                            positem_name === undefined ||
+                            item_type === undefined ||
+                            item_uom === undefined ||
+                            item_Supplier === undefined ||
+                            extended_stock === undefined ||
+                            stock_qty === undefined ||
+                            item_price === undefined
+                        ) {
+                            //toastr.error('Undefined values detected. Cannot add the item.');
+                            return false;
+                        }
+
+                        var itemPrice = (item.item_price !== '' && item.item_price != null) ? item.item_price : 0;
+
+                        // Create a new row for the selected item
+                        tr = $('<tr style="border-style: hidden!important;"></tr>');
+                        tr.attr('data-item-name', positem_name); // Store the item name in a data attribute
+
+                        // Add the row's content
+                        tr.append('<td style="text-align:center;">' + favIcon + '</td>');
+                        tr.append('<td style="text-align:center;">&nbsp;</td>');
+                        // item_no, stock_id, positem_name input field
+                        tr.append('<td style="text-align:center;">' + item_no + '<input type="hidden" value="' + item_no + '" class="inputbox_tdrow" name="item_no[]" readonly><input type="hidden" value="' + item_id + '" class="inputbox_tdrow multiple_input" name="item_id[]" readonly><input type="hidden" value="' + positem_name + '" class="inputbox_tdrow multiple_input" name="positem_name[]" readonly></td>');
+                        tr.append('<td style="position: relative; text-align: left;" class="posItemsName_id">' + positem_name + '</td>');
+                        tr.append('<td style="text-align:center;">' + item_type + '<input type="hidden" value="' + item_type + '" class="inputbox_tdrow" name="item_type[]" readonly><input type="hidden" value="' + store_id + '" class="inputbox_tdrow multiple_input" name="store_id[]" readonly></td>');
+                        tr.append('<td style="text-align:center;">' + item_uom + '<input type="hidden" value="' + item_uom + '" class="inputbox_tdrow" name="item_batch[]" readonly></td>');
+                        tr.append('<td style="text-align:center;">' + item_Supplier + '<input type="hidden" value="' + item_Supplier + '" class="inputbox_tdrow" name="item_store_name[]" readonly></td>');
+                        tr.append('<td style="text-align:center;">' + extended_stock + '<input type="hidden" value="' + extended_stock + '" class="inputbox_tdrow" id="extended_stock" name="extended_stock[]" readonly></td>');
+                        tr.append('<td style="text-align:center;">' + stock_qty + '<input type="hidden" value="' + stock_qty + '" class="inputbox_tdrow" id="stock_qty" name="stock_qty[]" readonly></td>');
+                        tr.append('<td style="text-align:center;" id="SpriceInput"><input type="number" value="' + itemPrice + '" class="form-control text-center pos_salesDisInput item_sales_price" min="0" oninput="validity.valid||(value=\'\');" name="item_price[]" autocomplete="off" style="width: 95%;" required></td>');
+                        //individual discount and also gross discount distribussion //individual gross vat tax amount distribussion
+                        tr.append('<td style="text-align:center;" class="item_w_dis"><input type="number" value="0" class="form-control text-center pos_salesDisInput item_w_dis_input" name="item_w_dis[]" max="numberHere" min="0" oninput="validity.valid||(value=\'\');" autocomplete="off" style="width: 95%;"><input type="hidden" value="0" class="form-control text-center pos_inputbox" name="gross_dis[]" style="width: 95%;"><input type="hidden" value="0" class="form-control text-center pos_inputbox" name="gross_vat_tax[]" style="width: 95%;"></td>');
+                        tr.append('<td style="text-align:center;" id="mulInputQty"><input type="number" value="1" class="form-control text-center qty1 pos_salesDisInput" max="' + extended_and_stock_qty * 1 + '" id="sales_qty" name="sales_qty[]" min="1" oninput="validity.valid||(value=\'\');" autocomplete="off" style="width: 95%;"></td>');
+                        tr.append('<td style="text-align:center;" class="product_total"></td>');
+                        tr.append('<td style="text-align:center;"><button type="button" class="btn btn-danger text-white btn-xs itemAdd_del_btn">X</button></td>');
+
+                        // Append the new row to the table
+                        $('#POS-field table tbody').append(tr);
+
+                        // Update serial numbers for all rows
+                        updateSerialNumbers();
+
+                        // Clear the selection
+                        $(this).val('').trigger('change');
+
+
+                        // Add an event listener to the sales_qty input field in the new row
+                        tr.find('[name="sales_qty[]"]').on('input keypress keyup keydown', function () {
+                            calc();
+                        });
+
+                        // 
+                        tr.find('[name="item_price[]"]').on('input keypress keyup keydown', function () {
+                            calc();
+                        });
+
+                        // Add an event listener to the sales_qty input field in the new row
+                        tr.find('[name="item_w_dis[]"]').on('input keypress keyup keydown', function () {
+                            calc();
+                        });
+
+
+                        //
+                        $('#POS-field table tbody').on('input change blur', '.item_w_dis_input', function () {
+                            var value = $(this).val();
+                
+                            if (value.trim().length === 0) {
+                                $(this).val('0');
+                            }
+                            calc();
+                        }).on('focus', '.item_w_dis_input', function () {
+                            var value = $(this).val();
+                            if (value.trim() === '0') {
+                                $(this).val('');
+                            }
+                        });
+
+                        //
+                        $('#POS-field table tbody').on('input change blur', '.item_sales_price', function () {
+                            var value = $(this).val().trim();
+                
+                            if (value.length === 0 || value === '0') {
+                                $(this).val('0');
+                                $(this).css('background-color', 'red');
+                            } else {
+                                $(this).css('background-color', '#fff');
+                            }
+                
+                            calc();
+                        }).on('focus', '.item_sales_price', function () {
+                            var value = $(this).val().trim();
+                
+                            if (value === '0') {
+                                $(this).val('');
+                                $(this).css('background-color', 'red');
+                            }
+                        });
+
+                        // Find the input element
+                        var salesQtyInput = tr.find('input[name="sales_qty[]"]');
+
+                        // Add an event listener to handle the blur event (when the input loses focus)
+                        salesQtyInput.on('blur', function () {
+                            // Get the current value
+                            var value = $(this).val();
+
+                            // Check if the value is empty
+                            if (value === "") {
+                                // Set the value to 1
+                                $(this).val(1);
+                            }
+
+                            // Call the calc function to update any calculations
+                            calc();
+                        });
+
+                        // Add an event listener to the delete button
+                        $('#POS-field table tbody').on('click', '.itemAdd_del_btn', function () {
+                            var positemName = $(this).closest('tr').find('[name="positem_name[]"]').val();
+                            $(this).closest('tr').remove();
+                            calc();
+                            //if (confirm("Are you sure to remove " + positemName + " product from the list?")) {
+                            //$(this).closest('tr').remove();
+                            //calc();
+                            //}
+                        });
+
+                        calc();
+
+                        clearAndFocusInput();
+                    }
+                });
+
+            },
+        });
+
+        //<!-- ====================================================================== -->
+        const inputFieldPOSitem = document.getElementById('positem_name');
+
+        // Set focus to the input field
+        inputFieldPOSitem.focus();
+
+        // Function to update the serial numbers
+        function updateSerialNumbers() {
+            $('#POS-field table tbody tr').each(function (index) {
+                $(this).find('td:nth-child(2)').text(index + 1); // Update the serial number column
+            });
+        }
+
+        //=========== Show/Hide the Favorite List when the button is clicked =====================
+        // Function to adjust widths based on favorite list state
+        function adjustWidthsBasedOnFavListState() {
+            var favList = $('#id_myfavList');
+            if (favList.css('display') === 'block') {
+                updateWidths("23rem", "4rem", "3rem");
+            } else {
+                updateWidths("32rem", "6rem", "4rem");
+            }
+        }
+
+        // Function to update widths
+        function updateWidths(itemNameWidth, itemOtherNameWidth, itemQtyNameWidth) {
+            $('.itemName').css('width', itemNameWidth);
+            $('.itemOtherName').css('width', itemOtherNameWidth);
+            $('.itemQtyName').css('width', itemQtyNameWidth);
+        }
+
+        // Function to set visibility of elements based on stored state
+        function setVisibility() {
+            var favListDisplay = localStorage.getItem('favListDisplay');
+            var favBtnDisplay = localStorage.getItem('favBtnDisplay');
+
+            $('#id_myfavList').css('display', favListDisplay ? favListDisplay : 'none');
+            $('#id_myfavBtn').css('display', favBtnDisplay ? favBtnDisplay : 'block');
+
+            // Adjust widths after setting visibility
+            adjustWidthsBasedOnFavListState();
+        }
+
+        // Initial call to set visibility when the page loads
+        setVisibility();
+
+        // Show the Favorite List and hide the button when clicked
+        $('#id_myfavBtn').click(function () {
+            $('#id_myfavList').css('display', 'block');
+            $('#id_myfavBtn').css('display', 'none');
+
+            // Adjust widths
+            updateWidths("23rem", "4rem", "3rem");
+
+            // Store the state in localStorage
+            localStorage.setItem('favListDisplay', 'block');
+            localStorage.setItem('favBtnDisplay', 'none');
+        });
+
+        // Hide the Favorite List when the close button is clicked and show the button again
+        $('.btn-close').click(function () {
+            $('#id_myfavList').css('display', 'none');
+            $('#id_myfavBtn').css('display', 'block');
+
+            // Reset widths
+            updateWidths("32rem", "6rem", "4rem");
+
+            // Store the state in localStorage
+            localStorage.setItem('favListDisplay', 'none');
+            localStorage.setItem('favBtnDisplay', 'block');
+        });
+        //=========== Show/Hide the Favorite List when the button is clicked =====================
+    });
+    //<!--  -->
+
+
+    // Helper function to check if a date is within 6 months
+    function isWithin6Months(expDate) {
+        // Parse the item.item_exp_date to a Date object
+        var expDateObj = new Date(expDate);
+
+        // Calculate the date 6 months from now
+        var sixMonthsFromNow = new Date();
+        sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+
+        return expDateObj <= sixMonthsFromNow;
+    }
+
+    // calculation
+    function calc() {
+        var actual_amount = 0;
+        var total_amount = 0;
+        $('#POS-field table tbody tr').each(function () {
+
+            // qty change to individual total amt value change
+            item_price = $(this).find('[name="item_price[]"]').val()
+            sales_qty = $(this).find('[name="sales_qty[]"]').val()
+            item_w_dis = $(this).find('[name="item_w_dis[]"]').val()
+            sales_qty = sales_qty > 0 ? sales_qty : 0
+            total = parseFloat(item_price) * parseFloat(sales_qty)
+            g_total = parseFloat(total) - parseFloat(item_w_dis)
+            $(this).find('.product_total').text(parseFloat(g_total).toLocaleString('en-US'))
+
+
+            // actual amount
+            actual_amount += parseFloat(g_total)
+            $('#actual_amount').text(parseFloat(actual_amount).toFixed(0).toLocaleString('en-US'))
+            $('[name="actual_amount"]').val(parseFloat(actual_amount).toFixed(0))
+
+            // vat tax
+            var vat_value = parseFloat($('[name="total_vat"]').val()) || 0;
+            var total_vat_value = vat_value / 100;
+            var vat_tax_amt = actual_amount * total_vat_value;
+
+            // Round vat_tax_amt to avoid negative zero
+            vat_tax_amt = (vat_tax_amt === 0) ? 0 : parseFloat(vat_tax_amt.toFixed(0));
+            var vat_tax_amt_formatted = vat_tax_amt.toLocaleString('en-US');
+            var vat_tax_amt_no_commas = vat_tax_amt_formatted.replace(/,/g, ''); // Remove commas
+            $('#vat_amount').text(vat_tax_amt_no_commas);
+            $('[name="vat_amount"]').val(vat_tax_amt_no_commas);
+
+            // discount amt
+            disc = $('[name="discount_amt"]').val()
+            var disc_amt = parseFloat(disc)
+
+            $('#total_discount').text(parseFloat(disc_amt).toFixed(0).toLocaleString('en-US'))
+            $('[name="total_discount"]').val(parseFloat(disc_amt).toFixed(0))
+
+            // discount percentage
+            tot_disc_per_amt = disc_amt / parseFloat(actual_amount).toFixed(0)
+            var disc_per_amt = parseFloat((tot_disc_per_amt) * 100).toFixed(0);
+            $('#discount_perc').text(parseFloat(disc_per_amt).toFixed(0).toLocaleString('en-US'))
+            $('[name="discount_perc"]').val(parseFloat(disc_per_amt).toFixed(0))
+
+            //gross discount individual value
+            total_itemQty = $('[name="tot_count_serial"]').val();
+            var gross_dis_amt = isNaN(total_itemQty) ? 0 : (parseFloat(disc_amt).toFixed(0) / parseFloat(total_itemQty).toFixed(0));
+            $('[name="gross_dis[]"]').val(isNaN(gross_dis_amt) ? 0 : parseFloat(gross_dis_amt).toFixed(3));
+
+            //gross vat tax individual value
+            var gross_vat_tax_amt = isNaN(total_itemQty) ? 0 : (parseFloat(vat_tax_amt).toFixed(0) / parseFloat(total_itemQty).toFixed(0));
+            $('[name="gross_vat_tax[]"]').val(isNaN(gross_vat_tax_amt) ? 0 : parseFloat(gross_vat_tax_amt).toFixed(3));
+
+
+            // add carrying cost from buyer amount if is_buyer is true
+            var is_buyer = $('#id_buyer').val() === '1';
+            var cost_buyer_amt = parseFloat($('[name="rent_other_expense"]').val()) || 0;
+            var amt = ((parseFloat(vat_tax_amt) + parseFloat(actual_amount)) - parseFloat(disc_amt))
+
+            if (is_buyer) {
+                amt += parseFloat(cost_buyer_amt);
+            }
+
+            // total amount
+            $('#total_amount').text(parseFloat(amt).toFixed(0).toLocaleString('en-US'))
+            $('[name="total_amount"]').val(parseFloat(amt).toFixed(0))
+
+
+            // pay amt & receivable amt
+            var total_payment = $('[name="payment_amt"]').val()
+            $('#receivable_amt').text(parseFloat(total_payment).toFixed(0).toLocaleString('en-US'))
+            $('[name="receivable_amt"]').val(parseFloat(total_payment).toFixed(0))
+
+            //Given Amt & change amt
+            given = $('[name="given_amt"]').val()
+            var tot_given_amt = parseFloat(given) - total_payment
+            $('#change_amt').text(parseFloat(tot_given_amt).toFixed(0).toLocaleString('en-US'))
+            $('[name="change_amt"]').val(parseFloat(tot_given_amt).toFixed(0))
+
+            // due amount
+            var totamt = (vat_tax_amt + actual_amount) - disc_amt;
+
+            if (is_buyer) {
+                totamt += parseFloat(cost_buyer_amt);
+            }
+
+            var total_payment = parseFloat($('[name="payment_amt"]').val()) || 0;
+            var due_amt = totamt - total_payment;
+
+            // Round due_amt to avoid negative zero
+            due_amt = (due_amt === 0) ? 0 : parseFloat(due_amt.toFixed(0));
+            var due_amt_formatted = due_amt.toLocaleString('en-US');
+            var due_amt_no_commas = due_amt_formatted.replace(/,/g, ''); // Remove commas
+            $('#due_amount').text(due_amt_no_commas);
+            $('[name="due_amount"]').val(due_amt_no_commas);
+
+            //sales item qty sum
+            $(document).ready(function () {
+                var sum = 0;
+                $(".qty1").each(function () {
+                    sum += +$(this).val();
+                });
+                $(".sum_qty_total").val(sum);
+            });
+
+            // total item count
+            var count_tot_item = $('#mytbody').children('tr').length;
+            $('#tot_count_serial').text(parseFloat(count_tot_item).toLocaleString('en-US'))
+            $('[name="tot_count_serial"]').val(parseFloat(count_tot_item))
+        })
+    }
+
+    // auto input tax vat work
+    $(function () {
+        $('#carryin_cost').find('input[name="rent_other_expense"]').on('input keypress keyup keydown', function () {
+            calc()
+        })
+
+        $('#vatCal').find('input[name="total_vat"]').on('input keypress keyup keydown', function () {
+            calc()
+        })
+
+        $('#dis_input').find('input[name="discount_amt"]').on('input keypress keyup keydown', function () {
+            calc()
+        })
+
+        $('#payment_input').find('input[name="payment_amt"]').on('input keypress keyup keydown', function () {
+            calc()
+        })
+
+        $('#given_input').find('input[name="given_amt"]').on('input keypress keyup keydown', function () {
+            calc()
+        })
+
+        $('#mulInputQty').find('input[name="sales_qty"]').on('input keypress keyup keydown', function () {
+            calc()
+        })
+    })
+
+    // set defualt value
+    $('#discount_amt').on('input change blur', function () {
+        var value = $(this).val();
+        if (value.trim().length === 0) {
+            $(this).val('0');
+            calc();
+        }
+    }).on('focus', function () {
+        var value = $(this).val();
+        if (value.trim() === '0') {
+            $(this).val('');
+        }
+    });
+
+    $('#payment_amt').on('input change blur', function () {
+        var value = $(this).val();
+        if (value.trim().length === 0) {
+            $(this).val('0');
+            calc();
+        }
+    }).on('focus', function () {
+        var value = $(this).val();
+        if (value.trim() === '0') {
+            $(this).val('');
+        }
+    });
+
+    // store_name from local storage
+    $(document).ready(function () {
+        // Get the select element
+        var selectElement = document.getElementById('cash_point');
+
+        // Attach an event listener to the select element
+        selectElement.addEventListener('change', function (event) {
+            // Get the selected store_name
+            var selectedStoreName = event.target.options[event.target.selectedIndex].text;
+
+            // Store the selected store_name in local storage
+            localStorage.setItem('selectedStoreName', selectedStoreName);
+        });
+
+        // To retrieve the store_name from local storage
+        var storedStoreName = localStorage.getItem('selectedStoreName');
+        if (storedStoreName) {
+            // Set the value of the select element if there's a stored value
+            // Loop through options to find the matching store_name and set it as selected
+            for (var i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].text === storedStoreName) {
+                    selectElement.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    });
+
+    // add multiple input field add with value
+    $(function () {
+        //
+        $('#check_out').click(function () {
+            if ($('#POS-field table tbody tr').length <= 0) {
+                toastr.warning("Add atleast 1 product first!..")
+                return false;
+            }
+        })
+
+        // Prevent form submission on Enter key press
+        $('#pos-form').on('keydown', function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        // ajax submit
+        $('#pos-form').submit(function (e) {
+            e.preventDefault();
+
+            // Check if any item price is '0' and show an alert
+            var zeroValueInputs = $('.item_sales_price').filter(function () {
+                return $(this).val() === '0';
+            });
+
+            if (zeroValueInputs.length > 0) {
+                toastr.warning("Sales Price Zero '0' Not Allow. Please enter a valid value.");
+
+                // Change the background color of inputs with value '0'
+                zeroValueInputs.css('background-color', 'red');
+
+                return;
+            }
+
+            var org_id = $('#id_org').val();
+            var supplier_value = $('#id_supplier_id').val();
+            var coll_mode = $('#Collection_mode').val();
+            var creditBalance = parseFloat($('#credit_balance').val()) || 0; // Convert to float, default to 0 if not a valid number
+            var paymentAmt = parseFloat($('#payment_amt').val()) || 0; // Convert to float, default to 0 if not a valid number
+            var my_balance = creditBalance + paymentAmt;
+
+            if (coll_mode == 4) {
+                if (!supplier_value) {
+                    toastr.warning("B2b Clients Not Found. Please Select Client First.");
+                    return false;
+                }
+                if (my_balance > 0) {
+                    toastr.warning("Insufficient Balance!");
+                    return false;
+                }
+            }
+
+            // Start the main loader
+            lineloaderstart();
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save_pos_billing' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                //error: err => {
+                    //console.log(err);
+                    // Handle errors and stop the main loader
+                    //lineloaderstop();
+                //},
+                success: function (resp) {
+                    // Transactional process is successful
+                    //if (typeof resp == 'object' && resp.status == 'success') {
+                    if (resp.status == 'success') {
+                        // Add event listener for the checkout button not allow double click
+                        document.getElementById("check_out").addEventListener("click", handleCheckoutClick, true);
+                        // clear the form
+                        document.getElementById("pos-form").reset();
+                        var node = document.getElementById("mytbody");
+                        while (node.hasChildNodes()) {
+                            node.removeChild(node.lastChild);
+                        }
+
+                        // Show Receipt Modal
+                        // Include org_id in the URL
+                        var receiptUrl = "{% url 'receipt_modal' %}?id=" + resp.invoice_id + "&org_id=" + org_id;
+                        uni_modal("Receipt", receiptUrl);
+
+                        $('#uni_modal').on('hide.bs.modal', function () {
+                            // Convert possible string 'true'/'false' to boolean true/false
+                            if (resp.is_carrcost_notapp === 0 || resp.is_carrcost_notapp === false) {
+                                // Show the Delivery Chalan modal if is_carrcost_notapp is 0 or false
+                                var chalanUrl = "{% url 'chalan_modal' %}?id=" + resp.invoice_id + "&org_id=" + org_id;
+                                uni_modal("Delivery_Chalan", chalanUrl);
+
+                                // Ensure page reload after Delivery Chalan modal closes
+                                $('#uni_modal').on('hide.bs.modal', function () {
+                                    location.reload();
+                                });
+                            } else {
+                                // If Delivery Chalan modal is not supposed to open, reload the page after Receipt modal
+                                location.reload();
+                            }
+                        });
+
+                        toastr.success("Add Successful!..");
+                    } else if (resp.status == 'failed' && !!resp.msg) {
+                        toastr.error(resp.msg);
+                    } else {
+                        toastr.error("An error occurred", 'error');
+                        console.error(resp);
+                    }
+
+                    // Stop the main loader after the transactional process
+                    lineloaderstop();
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('.view-data').click(function (e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+            var org_id = $('#id_org').val();
+            var isNotAllow = $(this).attr('data-not-allow');
+
+            if (id) {
+                lineloaderstart();
+                // Include org_id in the URL
+                var receiptUrl = "{% url 'receipt_modal' %}?id=" + id + "&org_id=" + org_id;
+                uni_modal("Transaction's Receipt", receiptUrl);
+                lineloaderstop();
+
+                if (isNotAllow === 'false') { // Ensure it's a string comparison for "false"
+                    $('#uni_modal').on('hide.bs.modal', function () {
+                        lineloaderstart();
+                        var chalanUrl = "{% url 'chalan_modal' %}?id=" + id + "&org_id=" + org_id;
+                        uni_modal("Delivery_Chalan", chalanUrl);
+
+                        // Stop loader when the chalan modal is shown
+                        $('#uni_modal').on('shown.bs.modal', function () {
+                            lineloaderstop();
+                        });
+
+                        // Remove the event handler to avoid multiple bindings
+                        $('#uni_modal').off('hide.bs.modal');
+                    });
+                }
+            } else {
+                console.error("Data id is undefined");
+            }
+        });
+    });
+
+    // input field hide && show based on selection
+    $('#pay_mode').on('change', function () {
+        const selectedValue = $(this).val();
+        
+        // Show the #otherType element if selectedValue is between 2 and 8
+        if (selectedValue >= "2" && selectedValue <= "8") {
+            $("#otherType").show();
+        } else {
+            $("#otherType").hide();
+        }
+    });
+
+    // payment calc button
+    function calcFun() {
+        var calc_tot_bill = $('[name="total_amount"]').val()
+        $('#payment_amt').text(parseFloat(calc_tot_bill).toLocaleString('en-US'))
+        $('[name="payment_amt"]').val(parseFloat(calc_tot_bill))
+        calc()
+    }
+
+    // Double Click dine func
+    // Function to handle the primary operation when the button is clicked
+    function handleCheckoutOperation() {
+        console.log("Do the operation");
+    }
+
+    // Function to prevent multiple clicks within a specific time frame (e.g., 10 seconds)
+    function preventDoubleClick(event, element, lastClickElement, lastClickTime) {
+        const now = Date.now();
+        
+        if (element === lastClickElement && (now - lastClickTime) < 10000) {
+            // Same element and less than 10 seconds between clicks
+            console.log("Second click denied");
+            event.preventDefault();
+            event.stopPropagation();
+            toastr.info("Second click denied. Please wait...");
+            return false; // Return false to indicate the click is denied
+        }
+        
+        return true; // Click allowed
+    }
+
+    // Wrapper function to handle the click event
+    function handleCheckoutClick(event) {
+        if (preventDoubleClick(event, this, lastClickElement, lastClickTime)) {
+            lastClickElement = this;
+            lastClickTime = Date.now();
+            handleCheckoutOperation(); // Proceed with the operation if click is allowed
+        }
+    }
+
+    // Initialize the variables for click tracking
+    let lastClickElement = null;
+    let lastClickTime = Date.now();
+    // Double Click dine func end
+
+
+    // reset form and table items
+    function resetAndRemoveRows() {
+        // main loader
+        lineloaderstart();
+        // main loader
+        document.getElementById("pos-form").reset();
+        //
+        var node = document.getElementById("mytbody");
+        while (node.hasChildNodes()) {
+            node.removeChild(node.lastChild);
+        }
+        // Assuming you have an ID for the span element
+        var elementIds = ['actual_amount', 'vat_amount', 'total_discount', 'total_amount', 'receivable_amt', 'due_amount'];
+        // Reset the content of the span
+        elementIds.forEach(function (id) {
+            var element = document.getElementById(id);
+            if (element) {
+                element.innerHTML = '0.00'; // or assign a default value
+            }
+        });
+
+        // main loader
+        lineloaderstop();
+        // main loader
+    }
+
+    //loader 
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+        const loaderBody = document.querySelector(".loader-body");
+
+        setTimeout(() => {
+            loader.style.display = "none"; // Hide the loader
+            loaderBody.style.display = "none"; // Hide the loader-body
+        }, 1100); // Hide the loader after 0.75 seconds
+    });
+
+    //Total VAT (%) 0, (-), 1 to 100 value only entry restricted
+    const totalVatInput = document.getElementById('total_vat');
+
+    totalVatInput.addEventListener('input', function () {
+        let value = parseFloat(totalVatInput.value);
+
+        if (isNaN(value)) {
+            totalVatInput.value = '';
+        } else {
+            if (value < 1) {
+                totalVatInput.value = '1';
+            } else if (value > 100) {
+                totalVatInput.value = '100';
+            }
+        }
+    });
+
+    // Pay Amt restrict negative values in an input field
+    const paymentAmtInput = document.getElementById('payment_amt');
+
+    paymentAmtInput.addEventListener('input', function () {
+        let value = parseFloat(paymentAmtInput.value);
+
+        if (isNaN(value) || value < 0) {
+            paymentAmtInput.value = '0';
+        }
+    });
+
+    // not apply carring cost
+    $(document).ready(function () {
+        function toggleFields() {
+            var isDisabled = $('#id_notapp_carr_cost').is(':checked');
+
+            // Disable or enable fields based on checkbox status
+            $('#rent_other_expense').prop('disabled', isDisabled);
+            $('#id_drivers').prop('disabled', isDisabled);
+            $('#id_buyer').prop('disabled', isDisabled);
+            $('#id_seller').prop('disabled', isDisabled);
+        }
+
+        // Run the function on page load to apply the correct state
+        toggleFields();
+
+        // Listen for changes to the checkbox to toggle fields dynamically
+        $('#id_notapp_carr_cost').on('change', function () {
+            toggleFields();
+        });
+    });
+</script>
+{% endblock %}

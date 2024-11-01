@@ -12,12 +12,13 @@ from django.db import transaction
 from django.contrib import messages
 from item_setup.models import items
 from store_setup.models import store
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from organizations.models import branchslist, organizationlst
 from stock_list.stock_qty import get_available_qty
 from supplier_setup.models import suppliers
 from . models import without_GRN, without_GRNdtl
-from stock_list.models import stock_lists
+from stock_list.models import in_stock, stock_lists
 from item_pos.models import invoicedtl_list
 from opening_stock.models import opening_stockdtl
 from others_setup.models import item_type
@@ -67,24 +68,28 @@ def getWGRNListDetailsAPI(request):
     elif pol_option == 'false':
         filter_kwargs &= Q(is_approved=False)
 
-    # Add date range filter conditions
-    if po_start:
-        start_date = datetime.strptime(po_start, '%Y-%m-%d')
-        filter_kwargs &= Q(transaction_date__gte=start_date)
-    if po_end:
-        end_date = datetime.strptime(po_end, '%Y-%m-%d')
-        filter_kwargs &= Q(transaction_date__lte=end_date)
+    # Add date range filter conditions with validation
+    try:
+        if po_start:
+            start_date = datetime.strptime(po_start, '%Y-%m-%d')
+            filter_kwargs &= Q(transaction_date__gte=start_date)
+        if po_end:
+            end_date = datetime.strptime(po_end, '%Y-%m-%d')
+            filter_kwargs &= Q(transaction_date__lte=end_date)
+    except ValueError as e:
+        return JsonResponse({'error': f'Invalid date format: {e}'}, status=400)
 
+    # Query the data
     wo_grn_data = without_GRN.objects.filter(filter_kwargs)
 
+    # Prepare response data
     data = []
-
     for wo_grn_list in wo_grn_data:
         org_name = wo_grn_list.id_org.org_name if wo_grn_list.id_org else None
         branch_name = wo_grn_list.branch_id.branch_name if wo_grn_list.branch_id else None
         store_name = wo_grn_list.store_id.store_name if wo_grn_list.store_id else None
-        is_approved_by_first = wo_grn_list.is_approved_by.first_name if wo_grn_list.is_approved_by is not None else ""
-        is_approved_by_last = wo_grn_list.is_approved_by.last_name if wo_grn_list.is_approved_by is not None else ""
+        is_approved_by_first = wo_grn_list.is_approved_by.first_name if wo_grn_list.is_approved_by else ""
+        is_approved_by_last = wo_grn_list.is_approved_by.last_name if wo_grn_list.is_approved_by else ""
         data.append({
             'wo_grn_id': wo_grn_list.wo_grn_id,
             'wo_grn_no': wo_grn_list.wo_grn_no,
@@ -93,6 +98,8 @@ def getWGRNListDetailsAPI(request):
             'org_name': org_name,
             'branch_name': branch_name,
             'store_name': store_name,
+            'invoice_no': wo_grn_list.invoice_no,
+            'invoice_date': wo_grn_list.invoice_date,
             'is_approved': wo_grn_list.is_approved,
             'is_approved_by_first': is_approved_by_first,
             'is_approved_by_last': is_approved_by_last,
@@ -126,38 +133,41 @@ def recStockwithout_GRNAPI(request, id=0):
 @login_required()
 def get_recStckwithout_GRNAPI(request):
     selected_type_id = request.GET.get('selectedTypeId')
-    store_id = request.GET.get('store_id')  # Fetch the store_id from the request
     selected_id_org = request.GET.get('id_org')
     selected_supplier_id = request.GET.get('filter_suppliers')
+    query = request.GET.get('query', '')  # Fetch the query term
 
-    item_with_grandQty = []
+    # Base query with filters applied more efficiently
+    filters = {'is_active': True}
 
-    # Get a list of distinct item IDs from opening stock details with is_approved and specific store_id
-    op_stock_item_ids = opening_stockdtl.objects.filter(is_approved=True, store_id=store_id).values_list('item_id', flat=True).distinct()
+    if selected_type_id and selected_type_id != '1':
+        filters['type_id'] = selected_type_id
 
-    # Iterate through each distinct item ID
-    for item_id in op_stock_item_ids:
-        # Filter items related to each item_id from opening_stockdtl
-        item_data = items.objects.filter(item_id=item_id, is_active=True)
+    if selected_id_org:
+        filters['org_id'] = selected_id_org
 
-        # Apply filtering based on selected type ID if provided
-        if selected_type_id and selected_type_id != '1':
-            item_data = item_data.filter(type_id=selected_type_id)
-        
-        if selected_id_org:
-            item_data = item_data.filter(org_id=selected_id_org)
+    # Fetch the data using select_related and prefetch_related for optimization
+    item_data = items.objects.filter(**filters).select_related(
+        'org_id', 'type_id'
+    ).prefetch_related('item_supplierdtl__supplier_id')
 
-        if selected_supplier_id and selected_supplier_id != '1':
-            item_data = item_data.filter(item_supplierdtl__supplier_id=selected_supplier_id)
+    if selected_supplier_id and selected_supplier_id != '1':
+        item_data = item_data.filter(item_supplierdtl__supplier_id=selected_supplier_id)
 
-        # Get the most recent item for the selected type
-        item_data = item_data.all()
+    # Filter items based on the query (item_name contains query term)
+    if query:
+        item_data = item_data.filter(Q(item_name__icontains=query) | Q(item_no__icontains=query))
 
-        for item in item_data:
-            item_with_grandQty.append({
-                'item_id': item.item_id,
-                'item_name': item.item_name,
-            })
+    # Using values to avoid object instantiation
+    item_data = item_data.values('item_id', 'item_name')
+
+    # Paginate the results
+    paginator = Paginator(item_data, 200)  # 200 items per page
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # Prepare response
+    item_with_grandQty = list(page_obj)  # Convert page_obj to list
 
     return JsonResponse({'data': item_with_grandQty})
 
@@ -297,6 +307,14 @@ def receiveStockWogrnAPI(request):
     item_qtys = data.getlist('item_qty[]')
     item_prices = data.getlist('item_price[]')
     item_batchs = data.getlist('item_batchs[]')
+    item_exp_dates = data.getlist('item_exp_dates[]')
+    is_approved = data['is_approved']
+    
+    # Handle invoice_no and invoice_date with fallback to None
+    invoice_no = data.get('invoice_no') or None
+    invoice_date = data.get('invoice_date') or None
+    if invoice_date == '':
+        invoice_date = None  # Set empty string to None
 
     store_instance = store.objects.get(store_id=store_id)
     
@@ -309,7 +327,7 @@ def receiveStockWogrnAPI(request):
 
         # Check if an item with the same item_id exists in opening_stockdtl
         if without_GRNdtl.objects.filter(Q(item_id=item_instance) & Q(store_id=store_instance) & Q(item_batch__iexact=item_batch_value)).exists():
-            errmsg = f"This Item: '{item_instance.item_name}' is already exists in Invoice No: '{item_batch_value}' and Store: '{store_instance.store_name}' Please.. Change the 'Invoice No' ..."
+            errmsg = f"This Item: '{item_instance.item_name}' is already exists in this Batch No: '{item_batch_value}' and Store: '{store_instance.store_name}' Please.. Change the 'Batch No' ..."
             existing_items_err_msgs.append(errmsg)
 
     # Check if there are any existing items
@@ -341,7 +359,9 @@ def receiveStockWogrnAPI(request):
                         is_credit=is_credit,
                         store_id=store_instance,
                         transaction_date=data['transaction_date'],
-                        is_approved=data['is_approved'],
+                        invoice_no=invoice_no,
+                        invoice_date=invoice_date,
+                        is_approved=is_approved,
                         is_approved_by=user_instance,
                         approved_date=data['approved_date'],
                         remarks=data['remarks'],
@@ -350,13 +370,18 @@ def receiveStockWogrnAPI(request):
                     receiveGRNstock.save()
 
                     # receive without_GRNdtl instances for each item
-                    for item_id, item_price, qty, batch in zip(item_ids, item_prices, item_qtys, item_batchs):
+                    for item_id, item_price, qty, batch, exp_dates in zip(item_ids, item_prices, item_qtys, item_batchs, item_exp_dates):
                         item_instance = items.objects.get(item_id=item_id)
+
+                        # Handle null or empty expiration dates
+                        if exp_dates in [None, '']:
+                            exp_dates = None  # Set to None for empty values
 
                         receiveGRNstockDtl = without_GRNdtl(
                             unit_price=item_price,
                             wo_grn_qty=qty,
                             item_batch=batch,
+                            item_exp_date=exp_dates,
                             item_id=item_instance,
                             wo_grn_id=receiveGRNstock,
                             store_id=store_instance,
@@ -373,13 +398,31 @@ def receiveStockWogrnAPI(request):
                             wo_grndtl_id=receiveGRNstockDtl,
                             stock_qty=qty,
                             item_batch=batch,
+                            item_exp_date=exp_dates,
                             item_id=item_instance,
                             store_id=store_instance,
+                            recon_type=True, #recon_type=True is adding item in stock list
                             is_approved=receiveGRNstock.is_approved,
                             approved_date=receiveGRNstock.approved_date,
                             ss_creator=request.user
                         )
                         stock_data.save()
+
+                        # Check if item and store combination exists in in_stock
+                        approved_status = receiveGRNstock.is_approved
+                        
+                        if approved_status == '1':
+                            in_stock_obj, created = in_stock.objects.get_or_create(
+                                item_id=item_instance,
+                                store_id=store_instance,
+                                defaults={
+                                    'stock_qty': qty,
+                                }
+                            )
+                            if not created:
+                                # If the record exists, update the stock_qty
+                                in_stock_obj.stock_qty += float(qty)
+                                in_stock_obj.save()
 
                     resp['status'] = 'success'
                     return JsonResponse({'success': True, 'msg': 'Successful'})
@@ -409,7 +452,7 @@ def edit_receiveStockWogrnAPI(request):
     if wo_grn_id.isnumeric() and int(wo_grn_id) > 0:
         id_org = data.get("org")
         branch_id = data.get("branchs")
-        store_id =data.get("current_store")
+        store_id = data.get("current_store")
         supplier_id = data.get("supplier")
         is_approved_by_user = data.get('is_approved_by_user_id')
         is_credit = data.get('is_credit', False)
@@ -418,6 +461,14 @@ def edit_receiveStockWogrnAPI(request):
         item_ids = data.getlist('item_id[]')
         item_qtys = data.getlist('item_qty[]')
         item_batchs = data.getlist('item_batchs[]')
+        item_exp_dates = data.getlist('item_exp_dates[]')
+        is_approved = data.get('is_approved', False)
+        
+        # Handle invoice_no and invoice_date with fallback to None
+        invoice_no = data.get('invoice_no') or None
+        invoice_date = data.get('invoice_date') or None
+        if invoice_date == '':
+            invoice_date = None  # Set empty string to None
 
         try:
             # Check if the user exists
@@ -426,92 +477,118 @@ def edit_receiveStockWogrnAPI(request):
                 user_instance = User.objects.get(user_id=is_approved_by_user)
         except User.DoesNotExist:
             return JsonResponse({'errmsg': 'User with the provided ID does not exist.'}, status=400)
-        
-        store_instance = store.objects.get(store_id=store_id)
-        org_instance = organizationlst.objects.get(org_id=id_org)
-        branch_instance = branchslist.objects.get(branch_id=branch_id)
-        supplier_instance = suppliers.objects.get(supplier_id=supplier_id)
-        receiveGRNstock = without_GRN.objects.get(wo_grn_id=wo_grn_id)
 
-        for item_id, item_batch_value in zip(item_ids, item_batchs):
-            # Fetch the item associated with the item_id
-            item_value = items.objects.get(item_id=item_id, org_id=id_org)
+        try:
+            store_instance = store.objects.get(store_id=store_id)
+            org_instance = organizationlst.objects.get(org_id=id_org)
+            branch_instance = branchslist.objects.get(branch_id=branch_id)
+            supplier_instance = suppliers.objects.get(supplier_id=supplier_id)
+            receiveGRNstock = without_GRN.objects.get(wo_grn_id=wo_grn_id)
 
-            # Check if the same combination of item_id, store_id, and item_batch exists in without_GRNdtl for another wo_grn_id
-            existing_items = without_GRNdtl.objects.filter(
-                Q(item_id=item_value) & Q(store_id=store_instance) & Q(item_batch__iexact=item_batch_value)
-            ).exclude(wo_grn_id=receiveGRNstock)
+            for item_id, item_batch_value in zip(item_ids, item_batchs):
+                # Fetch the item associated with the item_id
+                item_value = items.objects.get(item_id=item_id, org_id=id_org)
 
-            if existing_items.exists():
-                errmsg = f"This Item: '{item_value.item_name}' is already exists in Invoice No: '{item_batch_value}' and Store: '{store_instance.store_name}' Plz Change the Invoice No..."
-                return JsonResponse({'success': False, 'errmsg': errmsg})
+                # Check if the same combination of item_id, store_id, and item_batch exists in without_GRNdtl for another wo_grn_id
+                existing_items = without_GRNdtl.objects.filter(
+                    Q(item_id=item_value) & Q(store_id=store_instance) & Q(item_batch__iexact=item_batch_value)
+                ).exclude(wo_grn_id=receiveGRNstock)
 
-    # If it's already approved
-    if receiveGRNstock.is_approved:
-        return JsonResponse({'success': False, 'errmsg': 'Already Approved!'})
+                if existing_items.exists():
+                    errmsg = f"This Item: '{item_value.item_name}' is already exists in this Batch No: '{item_batch_value}' and Store: '{store_instance.store_name}' Plz Change the Batch No..."
+                    return JsonResponse({'success': False, 'errmsg': errmsg})
 
-    try:
-        with transaction.atomic():
-            # Update the without_GRN instance
-            receiveGRNstock.store_id = store_instance
-            receiveGRNstock.id_org = org_instance
-            receiveGRNstock.branch_id = branch_instance
-            receiveGRNstock.supplier_id = supplier_instance
-            receiveGRNstock.transaction_date = data['transaction_date']
-            receiveGRNstock.is_approved = data['is_approved']
-            receiveGRNstock.is_approved_by = user_instance
-            receiveGRNstock.approved_date = data['approved_date']
-            receiveGRNstock.remarks = data['remarks']
-            receiveGRNstock.is_credit = is_credit
-            receiveGRNstock.is_cash = is_cash
-            receiveGRNstock.ss_modifier = request.user
-            receiveGRNstock.save()
+            # If it's already approved
+            if receiveGRNstock.is_approved:
+                return JsonResponse({'success': False, 'errmsg': 'Already Approved!'})
 
-            # Update or create without_GRNdtl instances for each item
-            for item_id, item_price, qty, batch in zip(item_ids, item_prices, item_qtys, item_batchs):
-                item_instance = items.objects.get(item_id=item_id)
+            try:
+                with transaction.atomic():
+                    # Update the without_GRN instance
+                    receiveGRNstock.store_id = store_instance
+                    receiveGRNstock.id_org = org_instance
+                    receiveGRNstock.branch_id = branch_instance
+                    receiveGRNstock.supplier_id = supplier_instance
+                    receiveGRNstock.transaction_date = data.get('transaction_date')
+                    receiveGRNstock.invoice_no = invoice_no
+                    receiveGRNstock.invoice_date = invoice_date
+                    receiveGRNstock.is_approved = is_approved
+                    receiveGRNstock.is_approved_by = user_instance
+                    receiveGRNstock.approved_date = data.get('approved_date')
+                    receiveGRNstock.remarks = data.get('remarks') or ''
+                    receiveGRNstock.is_credit = is_credit
+                    receiveGRNstock.is_cash = is_cash
+                    receiveGRNstock.ss_modifier = request.user
+                    receiveGRNstock.save()
 
-                receiveGRNstockDtl, created = without_GRNdtl.objects.update_or_create(
-                    wo_grn_id=receiveGRNstock,
-                    item_id=item_instance,
-                    defaults={
-                        'wo_grn_qty': qty,
-                        'item_batch': batch,
-                        'store_id': store_instance,
-                        'unit_price': item_price,
-                        'wo_grn_date': receiveGRNstock.transaction_date,
-                        'is_approved': receiveGRNstock.is_approved,
-                        'approved_date': receiveGRNstock.approved_date,
-                        'ss_modifier': request.user,
-                    }
-                )
+                    # Update or create without_GRNdtl instances for each item
+                    for item_id, item_price, qty, batch, exp_dates in zip(item_ids, item_prices, item_qtys, item_batchs, item_exp_dates):
+                        item_instance = items.objects.get(item_id=item_id)
 
-                # Save the without_GRNdtl instance
-                receiveGRNstockDtl.save()
+                        receiveGRNstockDtl, created = without_GRNdtl.objects.update_or_create(
+                            wo_grn_id=receiveGRNstock,
+                            item_id=item_instance,
+                            defaults={
+                                'wo_grn_qty': qty,
+                                'item_batch': batch,
+                                'item_exp_date': exp_dates or None,  # Handle empty string for item_exp_date
+                                'store_id': store_instance,
+                                'unit_price': item_price,
+                                'wo_grn_date': receiveGRNstock.transaction_date,
+                                'is_approved': receiveGRNstock.is_approved,
+                                'approved_date': receiveGRNstock.approved_date,
+                                'ss_modifier': request.user,
+                            }
+                        )
 
-                # Update or create stock_lists
-                stock_data, created = stock_lists.objects.update_or_create(
-                    wo_grn_id=receiveGRNstock,
-                    wo_grndtl_id=receiveGRNstockDtl,
-                    item_id=item_instance,
-                    defaults={
-                        'stock_qty': qty,
-                        'item_batch': batch,
-                        'store_id': store_instance,
-                        'is_approved': receiveGRNstock.is_approved,
-                        'approved_date': receiveGRNstock.approved_date,
-                        'ss_modifier': request.user
-                    }
-                )
+                        # Save the without_GRNdtl instance
+                        receiveGRNstockDtl.save()
 
-                # Save the stock_lists instance
-                stock_data.save()
+                        # Update or create stock_lists
+                        stock_data, created = stock_lists.objects.update_or_create(
+                            wo_grn_id=receiveGRNstock,
+                            wo_grndtl_id=receiveGRNstockDtl,
+                            item_id=item_instance,
+                            defaults={
+                                'stock_qty': qty,
+                                'item_batch': batch,
+                                'item_exp_date': exp_dates or None,  # Handle empty string for item_exp_date
+                                'store_id': store_instance,
+                                'recon_type' : True, #recon_type=True is adding item in stock list
+                                'is_approved': receiveGRNstock.is_approved,
+                                'approved_date': receiveGRNstock.approved_date,
+                                'ss_modifier': request.user
+                            }
+                        )
 
-            resp['success'] = True
-            return JsonResponse({'success': True, 'msg': 'Successful'})
-    except Exception as e:
-        print("Error:", str(e))
-        resp['errmsg'] = str(e)
+                        # Save the stock_lists instance
+                        stock_data.save()
+
+                        # Check if item and store combination exists in in_stock
+                        approved_status = receiveGRNstock.is_approved
+                        
+                        # Check if item and store combination exists in in_stock
+                        if approved_status == '1':
+                            in_stock_obj, created = in_stock.objects.get_or_create(
+                                item_id=item_instance,
+                                store_id=store_instance,
+                                defaults={
+                                    'stock_qty': qty,
+                                }
+                            )
+                            if not created:
+                                # If the record exists, update the stock_qty
+                                in_stock_obj.stock_qty += float(qty)
+                                in_stock_obj.save()
+
+
+                    resp['success'] = True
+                    return JsonResponse({'success': True, 'msg': 'Successful'})
+            except User.DoesNotExist:
+                return JsonResponse({'errmsg': 'Transjection not submit.'}, status=400)
+        except Exception as e:
+            print("Error:", str(e))
+            resp['errmsg'] = str(e)
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
 

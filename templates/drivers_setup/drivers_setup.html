@@ -73,7 +73,7 @@
                                             <label for="id_filter_org" class="col-auto col-form-label">
                                                 Org:
                                             </label>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-5">
                                                 <select id="id_filter_org" name="filter_org"
                                                     class="form-select store_Selectbox"
                                                     aria-label="Default select example">
@@ -82,19 +82,6 @@
                                                         {{org.org_name}}
                                                     </option>
                                                     {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!--  -->
-                                        <div class="row store_row col-sm-4" style="flex-grow: 2; display: flex; justify-content: right;">
-                                            <label for="id_filter_branch" class="col-auto col-form-label">
-                                                Branch:
-                                            </label>
-                                            <div class="col-sm-8">
-                                                <select id="id_filter_branch" name="filter_branch"
-                                                    class="form-select store_Selectbox"
-                                                    aria-label="Default select example">
-                                                    <!--  -->
                                                 </select>
                                             </div>
                                         </div>
@@ -171,13 +158,11 @@
             // Get filter values
             var is_active = $('input[name="active_inactive"]:checked').val();
             var org_id = $('#id_filter_org').val();
-            var branch_id = $('#id_filter_branch').val();
     
             // Create an object to hold the parameters
             var filterParams = {
                 'is_active': is_active,
                 'org_id': org_id,
-                'branch_id': branch_id,
             };
     
             // Make AJAX request to filter_users view
@@ -275,37 +260,6 @@
             modal_lg("edit driver setup", "{% url 'edit_drivers_setup' %}?driver_id=" + $(this).attr('data-id'));
             lineloaderstop();
         });
-    });
-
-    //
-    $(document).ready(function () {
-
-        $('#id_filter_org').change(function () {
-            OrgWiseUpdateFilterOptions();
-        });
-
-        OrgWiseUpdateFilterOptions();
-
-        function OrgWiseUpdateFilterOptions() {
-            var selectedOrgId = $('#id_filter_org').val();
-
-            // Branch option value
-            $.ajax({
-                url: '/get_branch_options/',
-                method: 'GET',
-                data: { org_id: selectedOrgId },
-                success: function (data) {
-                    $('#id_filter_branch').empty();
-                    $.each(data.branch_list, function (index, branch) {
-                        $('#id_filter_branch').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
-                    });
-                    $('#id_filter_branch').trigger('change');
-                },
-                error: function (error) {
-                    console.error('Error fetching branch options:', error);
-                }
-            });
-        }
     });
 
     $(document).ready(function () {

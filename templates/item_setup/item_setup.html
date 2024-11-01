@@ -9,784 +9,827 @@
 <!--========== CONTENTS start==========-->
 {% block body %}
 <main>
-    <section>
-        <div class="container-fluid">
-            <!-- Main Heading -->
-            <div class="row">
-                <div class="col col-md-4 col-md-6 dashboar-head">
-                    <div class="d-sm-flex align-items-center mb-2">
-                        <i class='bx bx-edit-alt text-success req-head-icon'></i>
-                        <h1 class="h3 text-success req-head">Item Setup</h1>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #455697;">
+                <!-- Main Heading -->
+                <div class="row"
+                    style="display: flex; justify-content: center; text-align: center; align-items: center;">
+                    <div class="col col-md-4 col-md-6 dashboar-head">
+                        <div class="d-sm-flex align-items-center mb-2" style="margin-left: 0.5rem;">
+                            <i class='bx bx-edit-alt text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Item Setup</h1>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- containt start -->
+            <section>
+                <div class="row row_item_setup">
+                    <div class="col-sm-4">
+                        <div class="card main-card">
+                            <div class="card-body card-body_item_setup">
+                                <div class="itemfilter_container">
+                                    <div class="filter_head">
+                                        <h2 class="text-warning">Filtering</h2>
+                                    </div>
+                                    <!--  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card main-card">
+                                                <div class="card-body card-body_item_setup"
+                                                    style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);"">
+                                                    <div class=" form-check form-check-inline inline_item">
+                                                    <input class="form-check-input radio2" type="radio" name="option"
+                                                        value="true" id="activeList">
+                                                    <label class="form-check-label" for="activeList">Active</label>
+                                                </div>
+                                                <div class="form-check form-check-inline inline_item">
+                                                    <input class="form-check-input radio3" type="radio" name="option"
+                                                        value="false" id="inactiveList">
+                                                    <label class="form-check-label" for="inactiveList">Inactive</label>
+                                                </div>
+                                                <div class="form-check form-check-inline inline_item">
+                                                    <input class="form-check-input radio1" type="radio" name="option"
+                                                        value="1" id="allList">
+                                                    <label class="form-check-label" for="allList">All</label>
+                                                </div>
+                                                <div class="form-check form-check-inline"
+                                                    style="position: relative; z-index: 1; margin-bottom: 6px;">
+                                                    <a onClick="navigateTo('/item_setup/')"
+                                                        class="btn btn-danger text-white btn-xs item_del_btn">
+                                                        Clear
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="container col-sm-12" style="margin-top: 1rem;">
+                                                <div class="row org-filterRow">
+                                                    <label for="id_org_filter"
+                                                        class="col-org_filter col-form-label font_size_filter">
+                                                        Org Name:
+                                                    </label>
+                                                    <div class="org_bran_selectbox">
+                                                        <select id="id_org_filter" name="org_filter"
+                                                            class="form-select item_inputbox"
+                                                            aria-label="Default select example">
+                                                            {% for org in org_list %}
+                                                            <option value="{{org.org_id}}">
+                                                                {{ org.org_name }}
+                                                            </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="container col-sm-12" style="margin-bottom: 1rem;">
+                                                <div class="row org-filterRow">
+                                                    <label for="id_manuf_filter"
+                                                        class="col-org_filter col-form-label font_size_filter">
+                                                        Manufac.:
+                                                    </label>
+                                                    <div class="org_bran_selectbox">
+                                                        <select id="id_manuf_filter" name="manuf_filter"
+                                                            class="form-select item_inputbox"
+                                                            aria-label="Default select example">
+                                                            <option value="1" selected>All Manufacturer</option>
+                                                            {% for suppl in supplier_list %}
+                                                            <option value="{{suppl.supplier_id}}">
+                                                                {{ suppl.supplier_name }}
+                                                            </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="card main-card">
+                        <div class="card-body card-body_item_setup">
+                            <div class="itemfilter_container">
+                                <div class="filter_head">
+                                    <h2 class="text-success">List of Items</h2>
+                                </div>
+                                <!--  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <!--  -->
+                                                <div class="item-table">
+                                                    <table id="listOfItem" class="table table-striped table-hover"
+                                                        style="width: 100%;">
+                                                        <thead class="text-center table-header_itemlist">
+                                                            <tr>
+                                                                <th style="text-align:center; width: 20%;">Item No</th>
+                                                                <th style="text-align:center; width: 65%;">Item Name
+                                                                </th>
+                                                                <th class="fixed-column"
+                                                                    style="text-align:center; width: 15%;">
+                                                                    Status</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th colspan="4"
+                                                                    style="text-align:center; background: #fff !important;">
+                                                                    <input type="search" id="searchInput"
+                                                                        class="form-control search_control item_inputbox"
+                                                                        style="margin-left: 4px; background:#fffab6;"
+                                                                        placeholder="Searching Item ..."
+                                                                        autocomplete="off">
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="filter_body" class="table-body-row"
+                                                            style="text-align:center; cursor: pointer;">
+                                                            <!-- load ajax value -->
+
+                                                        </tbody>
+                                                        <!-- loader start -->
+                                                        <section class="loader-section">
+                                                            <div class="loader-body">
+                                                                <div class="loader">
+                                                                    <div class="upper ball"></div>
+                                                                    <div class="right ball"></div>
+                                                                    <div class="lower ball"></div>
+                                                                    <div class="left ball"></div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                        <!-- loader end -->
+                                                    </table>
+
+                                                </div>
+                                                <nav aria-label="Page navigation example" style="margin-top: 8px;">
+                                                    <ul class="pagination pagination-sm justify-content-end">
+                                                        <div style="position: absolute; left: 10px;">
+                                                            <li class="page-item">
+                                                                <span style="font-size: 0.75rem; color: #4c6e48;">Page
+                                                                    <span id="currentPage">1</span> of <span
+                                                                        id="totalPages">1</span>
+                                                                </span>
+                                                            </li>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div style="display: flex; margin-right: 5px;">
+                                                            <li class="page-item" style="margin-right: 0.5rem;">
+                                                                <button id="firstPage" style="width: 3.2rem; border: 0;
+                                                                        font-size: 0.75rem;
+                                                                        padding: 3px 5px 3px 5px;
+                                                                        color: #fff;
+                                                                        border-radius: 5px;">
+                                                                    First
+                                                                </button>
+                                                            </li>
+                                                            <li class="page-item" style="margin-right: 0.5rem;">
+                                                                <button id="prevPage" style="width: 4.2rem; border: 0;
+                                                                        font-size: 0.75rem;
+                                                                        padding: 3px 5px 3px 5px;
+                                                                        color: #fff;
+                                                                        border-radius: 5px;">
+                                                                    Previous
+                                                                </button>
+                                                            </li>
+                                                            <li class="page-item" style="margin-right: 0.5rem;">
+                                                                <button id="nextPage" style="width: 3.2rem; border: 0;
+                                                                        font-size: 0.75rem;
+                                                                        padding: 3px 5px 3px 5px;
+                                                                        color: #fff;
+                                                                        border-radius: 5px;">
+                                                                    Next
+                                                                </button>
+                                                            </li>
+                                                            <li class="page-item">
+                                                                <button id="lastPage" style="width: 3.2rem; border: 0;
+                                                                        font-size: 0.75rem;
+                                                                        padding: 3px 5px 3px 5px;
+                                                                        color: #fff;
+                                                                        border-radius: 5px;">
+                                                                    Last
+                                                                </button>
+                                                            </li>
+                                                        </div>
+                                                    </ul>
+                                                </nav>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item set up main entry form -->
+                <div class="col-sm-8">
+                    <div class="card main-card">
+                        <div class="card-body card-body_item_setup">
+                            <form action="" method="" id="items_form">
+                                <input type="hidden" id="id_item_id" name="item_id" value="">
+                                <div class="itemsetup_container">
+                                    <div class="add_edit_head">
+                                        <h2 class="text-primary">Add/Update New Item Informations</h2>
+                                    </div>
+                                    <!--  -->
+                                    <div class="row row_item_setup">
+                                        <div class="col-sm-10">
+                                            <div class="card main-card">
+                                                <div class="card-body card-body_item_setup">
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-4">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_item_no">
+                                                                        <label for="id_item_no"
+                                                                            class="col-sm-6 col-form-label font_size_filter required">
+                                                                            Item No:
+                                                                        </label>
+
+                                                                        <div class="col-sm-6">
+                                                                            <input type="text" value=""
+                                                                                class="form-control item_inputbox"
+                                                                                id="id_item_no" name="item_no"
+                                                                                autocomplete="off" required>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-8">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_item_name">
+                                                                        <label for="id_item_name"
+                                                                            class="col-sm-3 col-form-label font_size_filter required">
+                                                                            Item Name:
+                                                                        </label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="text"
+                                                                                class="form-control item_inputbox"
+                                                                                id="id_item_name" name="item_name"
+                                                                                autocomplete="off" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <!-- 2nd row first -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-12">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_uom_name">
+                                                                        <label for="id_org"
+                                                                            class="col-sm-s1 col-form-label font_size_filter required">
+                                                                            Org Name:
+                                                                        </label>
+                                                                        <div class="col-sm-s10">
+                                                                            <!--  -->
+                                                                            <select id="id_org" name="org"
+                                                                                class="form-select item_inputbox"
+                                                                                aria-label="Default select example">
+                                                                                <!--  -->
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 2nd row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-4">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_item_type_no">
+                                                                        <label for="id_item_type_no"
+                                                                            class="col-sm-6 col-form-label font_size_filter required">
+                                                                            Item Type:
+                                                                        </label>
+                                                                        <div class="col-sm-6">
+
+                                                                            <input type="text" id="id_item_type_no"
+                                                                                name="item_type_no"
+                                                                                class="form-control item_inputbox"
+                                                                                readonly required>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-8">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row">
+                                                                        <!-- <label for="customer_name"
+                                                                            class="col-sm-3 col-form-label font_size_filter">Item
+                                                                            Name:</label> -->
+                                                                        <div class="col-sm-12 div_id_item_type_name">
+
+                                                                            <select id="id_item_type_name"
+                                                                                name="item_type_name"
+                                                                                onchange="myFunction(this);"
+                                                                                class="form-select item_inputbox"
+                                                                                required>
+                                                                                <!--  -->
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 3rd row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_sales_price">
+                                                                        <label for="id_sales_price"
+                                                                            class="col-sm-s3 col-form-label font_size_filter">
+                                                                            Sales Price:
+                                                                        </label>
+                                                                        <div class="col-sm-s8">
+                                                                            <input type="number" autocomplete="none"
+                                                                                class="form-control item_inputbox" step="0.01"
+                                                                                id="id_sales_price" name="sales_price">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div
+                                                                        class="row cash_point_row div_id_purchase_price">
+                                                                        <label for="id_purchase_price"
+                                                                            class="col-sm-4 col-form-label font_size_filter">
+                                                                            Purch. Price:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="number" autocomplete="none"
+                                                                                class="form-control item_inputbox"
+                                                                                id="id_purchase_price" step="0.01"
+                                                                                name="purchase_price">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 4th row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_uom_name"
+                                                                            class="col-sm-s3 col-form-label font_size_filter required">
+                                                                            UoM Name:
+                                                                        </label>
+                                                                        <div class="col-sm-s8">
+                                                                            <select id="id_uom_name" name="uom_name"
+                                                                                class="form-select item_inputbox"
+                                                                                aria-label="Default select example"
+                                                                                required>
+                                                                                <!--  -->
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row">
+                                                                        <label for="id_extended_stock"
+                                                                            title="Extended Stock"
+                                                                            class="col-sm-s3 col-form-label font_size_filter required">
+                                                                            Extended St.:
+                                                                        </label>
+                                                                        <div class="col-sm-s8">
+                                                                            <input type="number"
+                                                                                class="form-control item_inputbox"
+                                                                                value="0" id="id_extended_stock"
+                                                                                name="extended_stock"
+                                                                                autocomplete="off">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 5th row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-4">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div
+                                                                        class="row cash_point_row div_id_manufacturer_no">
+                                                                        <label for="id_manufacturer_no"
+                                                                            class="col-sm-6 col-form-label font_size_filter required">
+                                                                            Manufacturer:
+                                                                        </label>
+                                                                        <div class="col-sm-6">
+                                                                            <input type="text" id="id_manufacturer_no"
+                                                                                class="form-control item_inputbox"
+                                                                                name="manufacturer_no" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-8">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div
+                                                                        class="row cash_point_row div_id_manufacturer_name">
+                                                                        <!-- <label for="customer_name"
+                                                                            class="col-sm-3 col-form-label font_size_filter">Item
+                                                                            Name:</label> -->
+                                                                        <div class="col-sm-12">
+                                                                            <select id="id_manufacturer_name"
+                                                                                name="manufacturer_name"
+                                                                                onchange="manufacFunc(this);"
+                                                                                class="form-select item_inputbox"
+                                                                                aria-label="Default select example"
+                                                                                required>
+                                                                                <!--  -->
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 6th row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-4">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_category_no">
+                                                                        <label for="id_category_no"
+                                                                            class="col-sm-6 col-form-label font_size_filter">Category:</label>
+                                                                        <div class="col-sm-6">
+                                                                            <input type="text" id="id_category_no"
+                                                                                name="category_no"
+                                                                                class="form-control item_inputbox"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-8">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div
+                                                                        class="row cash_point_row div_id_category_name">
+                                                                        <!-- <label for="customer_name"
+                                                                            class="col-sm-3 col-form-label font_size_filter">Item
+                                                                            Name:</label> -->
+                                                                        <div class="col-sm-12">
+                                                                            <select id="id_category_name"
+                                                                                name="category_name"
+                                                                                onchange="categoryFun(this);"
+                                                                                class="form-select item_inputbox"
+                                                                                aria-label="Default select example">
+                                                                                <!--  -->
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 7th row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_box_qty">
+                                                                        <label for="id_box_qty"
+                                                                            class="col-sm-s3 col-form-label font_size_filter">
+                                                                            Box Qty:
+                                                                        </label>
+                                                                        <div class="col-sm-s8">
+                                                                            <input type="text" name="box_qty"
+                                                                                autocomplete="off"
+                                                                                class="form-control item_inputbox"
+                                                                                id="id_box_qty">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_re_order_qty">
+                                                                        <label for="id_re_order_qty"
+                                                                            class="col-sm-4 col-form-label font_size_filter">
+                                                                            Re-Order Qty:
+                                                                        </label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text" name="re_order_qty"
+                                                                                autocomplete="off" value="0"
+                                                                                class="form-control item_inputbox"
+                                                                                id="id_re_order_qty">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 8th row -->
+                                                    <div class="row row_item_setup">
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div
+                                                                        class="row cash_point_row div_id_discount_percentace">
+                                                                        <label for="id_discount_percentace"
+                                                                            class="col-sm-s3 col-form-label font_size_filter">Discount(%):</label>
+                                                                        <div class="col-sm-s8">
+                                                                            <input type="text"
+                                                                                name="discount_percentace"
+                                                                                class="form-control item_inputbox"
+                                                                                autocomplete="off"
+                                                                                id="id_discount_percentace">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="col-sm-6">
+                                                            <div class="card main-card">
+                                                                <div class="card-body item_setup_sub">
+                                                                    <div class="row cash_point_row div_id_discount_tk">
+                                                                        <label for="id_discount_tk"
+                                                                            class="col-sm-4 col-form-label font_size_filter">(TK):</label>
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text" name="discount_tk"
+                                                                                autocomplete="off"
+                                                                                class="form-control item_inputbox"
+                                                                                id="id_discount_tk">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="card main-card">
+                                                <div class="card-body card-body_item_setup">
+                                                    <div class="item_setupflag div_id_is_active"
+                                                        style="display: flex; justify-content: right;">
+                                                        <label class="form-check-label text-danger setupflag_label"
+                                                            for="id_is_active">
+                                                            Active?
+                                                        </label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="id_is_active" name="is_active" value="1">
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="item_setupflag div_id_is_foreign_flag"
+                                                        style="display: flex; justify-content: right;">
+                                                        <label class="form-check-label setupflag_label"
+                                                            for="id_is_foreign_flag">
+                                                            Foreign Flag:
+                                                        </label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="id_is_foreign_flag" name="is_foreign_flag" value="1">
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="item_setupflag div_id_is_discount_able"
+                                                        style="display: flex; justify-content: right;">
+                                                        <label class="form-check-label setupflag_label"
+                                                            for="id_is_discount_able">
+                                                            Discount able:
+                                                        </label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="id_is_discount_able" name="is_discount_able" value="1">
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="item_setupflag div_id_is_expireable"
+                                                        style="display: flex; justify-content: right;">
+                                                        <label class="form-check-label setupflag_label"
+                                                            for="id_is_expireable">
+                                                            Expireable:
+                                                        </label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="id_is_expireable" name="is_expireable" value="1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- supplier -->
+                                    <div class="col-sm-12">
+                                        <div class="card main-card">
+                                            <div class="card-body card-body_item_setup">
+                                                <!-- supplier add in item wise -->
+                                                <div class="supplier_container">
+                                                    <div class="supplier_head">
+                                                        <h2 class="text-info">Supplier Informations</h2>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="card-body card-body_item_setup">
+                                                        <div class="row row_item_setup supp-row-margin">
+                                                            <div class="col-sm-12">
+                                                                <div class="card main-card">
+                                                                    <!--  -->
+                                                                    <div class="col-sm-1" style="display: none;">
+                                                                        <input type="text" id="supp_no_id"
+                                                                            class="form-control item_inputbox supp_no_id"
+                                                                            readonly>
+                                                                        <input type="text" id="supp_names_id"
+                                                                            class="form-control item_inputbox supp_names_id"
+                                                                            readonly>
+                                                                        <input type="text" id="supp_id"
+                                                                            class="form-control item_inputbox supp_id"
+                                                                            readonly>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="card-body item_setup_sub">
+                                                                        <div class="row cash_point_row supp-row-margin">
+                                                                            <label for="supplr_name"
+                                                                                class="col-sm-1 col-form-label font_size_filter">
+                                                                                Supplier Name:
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <select id="supplr_name"
+                                                                                    class="form-select item_inputbox selectSupplier"
+                                                                                    aria-label="Default select example">
+                                                                                    <!--  -->
+
+                                                                                </select>
+                                                                            </div>
+                                                                            <button type="button"
+                                                                                class="btn btn-success text-white btn-xs supplier_btn"
+                                                                                id="addsupplier">Add</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <section>
+                                                        <div class="col-xl-12">
+                                                            <div class="table-body item_table_body">
+                                                                <table id="sup_table" class="table table-striped"
+                                                                    style="width: 98%; margin-left: 1%;">
+                                                                    <thead class="text-center table-header_itemlist">
+                                                                        <tr>
+                                                                            <th style="text-align:center; width: 10%;">
+                                                                                Supplier No
+                                                                            </th>
+                                                                            <th style="text-align:center; width: 25%;">
+                                                                                Supplier Name
+                                                                            </th>
+                                                                            <th style="text-align:center; width: 10%;">
+                                                                                Quotation Price
+                                                                            </th>
+                                                                            <th style="text-align:center; width: 10%;">
+                                                                                Sales Price
+                                                                            </th>
+                                                                            <th style="text-align:center; width: 6%;">
+                                                                                Active
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="sup_row" class="table-body-row"
+                                                                        style="text-align:center;">
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <noscript id="item-clone">
+                                                            <tr class="item-row"
+                                                                style="border-style: hidden!important;">
+                                                                <td style="text-align:center;">
+                                                                    <div class="col-sm-12 div_id_supplier_no">
+                                                                        <input type="text" value="" id="supplier_ids"
+                                                                            style="display: none;" name="supplier_ids[]"
+                                                                            class="form-control item_inputbox" readonly>
+                                                                        <input type="text" value="" id="supplier_nos"
+                                                                            name="supplier_nos[]"
+                                                                            class="form-control item_inputbox" readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center; display: none;"
+                                                                    class="inputbox_tdrow items_supplier_name">
+                                                                </td>
+                                                                <td style="text-align:center;" class="inputbox_tdrow">
+                                                                    <div class="col-sm-12 div_id_supplier_name">
+                                                                        <input type="text" value=""
+                                                                            class="form-control item_inputbox"
+                                                                            id="supplier_names" name="supplier_names[]"
+                                                                            readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="col-sm-12 div_id_quotation_price">
+                                                                        <input type="number"
+                                                                            class="form-control item_inputbox"
+                                                                            name="quotation_prices[]"
+                                                                            id="id_quotation_price"
+                                                                            style="text-align: center;"
+                                                                            autocomplete="off">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="col-sm-12 div_id_supp_sales_price">
+                                                                        <input type="number"
+                                                                            class="form-control item_inputbox"
+                                                                            name="supp_sales_prices[]"
+                                                                            id="id_supp_sales_price"
+                                                                            style="text-align: center;"
+                                                                            autocomplete="off">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="div_id_supplier_is_active">
+                                                                            <input
+                                                                                class="form-check-input item_checkbox"
+                                                                                type="checkbox"
+                                                                                id="id_supplier_is_active"
+                                                                                name="supplier_is_actives[]" value="1"
+                                                                                aria-label="..."
+                                                                                style="margin-left: 5px;" checked>
+                                                                            <button type="button"
+                                                                                class="btn btn-danger text-white btn-xs item_cross_btn deleteBtn">X</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </noscript>
+                                                    </section>
+                                                </div>
+                                                <!-- submit button -->
+                                                <div class="submit_button">
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        style="margin-right: 10px;" onclick="resetItemsForm();">
+                                                        Clear
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        onClick="navigateTo('/item_setup/')"
+                                                        style="margin-right: 10px;">
+                                                        Add New
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        Save & Update
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </section>
+        </section>
     </section>
     <!--  -->
-    <section>
-        <div class="row row_item_setup">
-            <div class="col-sm-4">
-                <div class="card main-card">
-                    <div class="card-body card-body_item_setup">
-                        <div class="itemfilter_container">
-                            <div class="filter_head">
-                                <h2 class="text-warning">Filtering</h2>
-                            </div>
-                            <!--  -->
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card main-card">
-                                        <div class="card-body card-body_item_setup"
-                                            style="display: flex; justify-content: center; border-bottom: 1px solid rgb(211, 211, 211);"">
-                                            <div class=" form-check form-check-inline inline_item">
-                                            <input class="form-check-input radio2" type="radio" name="option"
-                                                value="true" id="activeList">
-                                            <label class="form-check-label" for="activeList">Active</label>
-                                        </div>
-                                        <div class="form-check form-check-inline inline_item">
-                                            <input class="form-check-input radio3" type="radio" name="option"
-                                                value="false" id="inactiveList">
-                                            <label class="form-check-label" for="inactiveList">Inactive</label>
-                                        </div>
-                                        <div class="form-check form-check-inline inline_item">
-                                            <input class="form-check-input radio1" type="radio" name="option" value="1"
-                                                id="allList">
-                                            <label class="form-check-label" for="allList">All</label>
-                                        </div>
-                                        <div class="form-check form-check-inline"
-                                            style="position: relative; z-index: 1; margin-bottom: 6px;">
-                                            <a href="/item_setup" class="btn btn-danger text-white btn-xs item_del_btn">
-                                                Clear
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    <div class="container col-sm-12" style="margin-top: 1rem;">
-                                        <div class="row org-filterRow">
-                                            <label for="id_org_filter"
-                                                class="col-org_filter col-form-label font_size_filter">
-                                                Org Name:
-                                            </label>
-                                            <div class="org_bran_selectbox">
-                                                <select id="id_org_filter" name="org_filter"
-                                                    class="form-select item_inputbox"
-                                                    aria-label="Default select example">
-                                                    {% for org in org_list %}
-                                                    <option value="{{org.org_id}}">
-                                                        {{ org.org_name }}
-                                                    </option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    <div class="container col-sm-12" style="margin-bottom: 1rem;">
-                                        <div class="row org-filterRow">
-                                            <label for="id_manuf_filter"
-                                                class="col-org_filter col-form-label font_size_filter">
-                                                Manufac.:
-                                            </label>
-                                            <div class="org_bran_selectbox">
-                                                <select id="id_manuf_filter" name="manuf_filter"
-                                                    class="form-select item_inputbox"
-                                                    aria-label="Default select example">
-                                                    <option value="1" selected>All Manufacturer</option>
-                                                    {% for suppl in supplier_list %}
-                                                    <option value="{{suppl.supplier_id}}">
-                                                        {{ suppl.supplier_name }}
-                                                    </option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--  -->
-            <div class="card main-card">
-                <div class="card-body card-body_item_setup">
-                    <div class="itemfilter_container">
-                        <div class="filter_head">
-                            <h2 class="text-success">List of Items</h2>
-                        </div>
-                        <!--  -->
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card main-card">
-                                    <div class="card-body card-body_item_setup">
-                                        <!--  -->
-                                        <div class="item-table">
-                                            <table id="listOfItem" class="table table-striped table-hover"
-                                                style="width: 100%;">
-                                                <thead class="text-center table-header_itemlist">
-                                                    <tr>
-                                                        <th style="text-align:center; width: 20%;">Item No</th>
-                                                        <th style="text-align:center; width: 65%;">Item Name</th>
-                                                        <th class="fixed-column" style="text-align:center; width: 15%;">
-                                                            Status</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th colspan="4"
-                                                            style="text-align:center; background: #fff !important;">
-                                                            <input type="search" id="searchInput"
-                                                                class="form-control search_control item_inputbox"
-                                                                style="margin-left: 4px; background:#fffab6;"
-                                                                placeholder="Searching Item ..." autocomplete="off">
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="filter_body" class="table-body-row"
-                                                    style="text-align:center; cursor: pointer;">
-                                                    <!-- load ajax value -->
-
-                                                </tbody>
-                                                <!-- loader start -->
-                                                <section class="loader-section">
-                                                    <div class="loader-body">
-                                                        <div class="loader">
-                                                            <div class="upper ball"></div>
-                                                            <div class="right ball"></div>
-                                                            <div class="lower ball"></div>
-                                                            <div class="left ball"></div>
-                                                        </div>
-                                                    </div>
-                                                </section>
-                                                <!-- loader end -->
-                                            </table>
-
-                                        </div>
-                                        <nav aria-label="Page navigation example" style="margin-top: 8px;">
-                                            <ul class="pagination pagination-sm justify-content-end">
-                                                <div style="position: absolute; left: 10px;">
-                                                    <li class="page-item">
-                                                        <span style="font-size: 0.75rem; color: #4c6e48;">Page <span
-                                                                id="currentPage">1</span> of <span
-                                                                id="totalPages">1</span>
-                                                        </span>
-                                                    </li>
-                                                </div>
-                                                <!--  -->
-                                                <div style="display: flex; margin-right: 5px;">
-                                                    <li class="page-item" style="margin-right: 0.5rem;">
-                                                        <button id="firstPage" style="width: 3.2rem; border: 0;
-                                                                font-size: 0.75rem;
-                                                                padding: 3px 5px 3px 5px;
-                                                                color: #fff;
-                                                                border-radius: 5px;">
-                                                            First
-                                                        </button>
-                                                    </li>
-                                                    <li class="page-item" style="margin-right: 0.5rem;">
-                                                        <button id="prevPage" style="width: 4.2rem; border: 0;
-                                                                font-size: 0.75rem;
-                                                                padding: 3px 5px 3px 5px;
-                                                                color: #fff;
-                                                                border-radius: 5px;">
-                                                            Previous
-                                                        </button>
-                                                    </li>
-                                                    <li class="page-item" style="margin-right: 0.5rem;">
-                                                        <button id="nextPage" style="width: 3.2rem; border: 0;
-                                                                font-size: 0.75rem;
-                                                                padding: 3px 5px 3px 5px;
-                                                                color: #fff;
-                                                                border-radius: 5px;">
-                                                            Next
-                                                        </button>
-                                                    </li>
-                                                    <li class="page-item">
-                                                        <button id="lastPage" style="width: 3.2rem; border: 0;
-                                                                font-size: 0.75rem;
-                                                                padding: 3px 5px 3px 5px;
-                                                                color: #fff;
-                                                                border-radius: 5px;">
-                                                            Last
-                                                        </button>
-                                                    </li>
-                                                </div>
-                                            </ul>
-                                        </nav>
-                                        <!--  -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Item set up main entry form -->
-        <div class="col-sm-8">
-            <div class="card main-card">
-                <div class="card-body card-body_item_setup">
-                    <form action="" method="" id="items_form">
-                        <input type="hidden" id="id_item_id" name="item_id" value="">
-                        <div class="itemsetup_container">
-                            <div class="add_edit_head">
-                                <h2 class="text-primary">Add/Update New Item Informations</h2>
-                            </div>
-                            <!--  -->
-                            <div class="row row_item_setup">
-                                <div class="col-sm-10">
-                                    <div class="card main-card">
-                                        <div class="card-body card-body_item_setup">
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-4">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_item_no">
-                                                                <label for="id_item_no"
-                                                                    class="col-sm-6 col-form-label font_size_filter required">
-                                                                    Item No:
-                                                                </label>
-
-                                                                <div class="col-sm-6">
-                                                                    <input type="text" value=""
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_item_no" name="item_no"
-                                                                        autocomplete="off" required>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-8">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_item_name">
-                                                                <label for="id_item_name"
-                                                                    class="col-sm-3 col-form-label font_size_filter required">
-                                                                    Item Name:
-                                                                </label>
-                                                                <div class="col-sm-9">
-                                                                    <input type="text"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_item_name" name="item_name"
-                                                                        autocomplete="off" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--  -->
-                                            <!-- 2nd row first -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-12">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_uom_name">
-                                                                <label for="id_org"
-                                                                    class="col-sm-s1 col-form-label font_size_filter required">
-                                                                    Org Name:
-                                                                </label>
-                                                                <div class="col-sm-s10">
-                                                                    <!--  -->
-                                                                    <select id="id_org" name="org"
-                                                                        class="form-select item_inputbox"
-                                                                        aria-label="Default select example">
-                                                                        <!--  -->
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 2nd row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-4">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_item_type_no">
-                                                                <label for="id_item_type_no"
-                                                                    class="col-sm-6 col-form-label font_size_filter required">
-                                                                    Item Type:
-                                                                </label>
-                                                                <div class="col-sm-6">
-
-                                                                    <input type="text" id="id_item_type_no"
-                                                                        name="item_type_no"
-                                                                        class="form-control item_inputbox" readonly
-                                                                        required>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-8">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row">
-                                                                <!-- <label for="customer_name"
-                                                                    class="col-sm-3 col-form-label font_size_filter">Item
-                                                                    Name:</label> -->
-                                                                <div class="col-sm-12 div_id_item_type_name">
-
-                                                                    <select id="id_item_type_name" name="item_type_name"
-                                                                        onchange="myFunction(this);"
-                                                                        class="form-select item_inputbox" required>
-                                                                        <!--  -->
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 3rd row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_sales_price">
-                                                                <label for="id_sales_price"
-                                                                    class="col-sm-s3 col-form-label font_size_filter">
-                                                                    Sales Price:
-                                                                </label>
-                                                                <div class="col-sm-s8">
-                                                                    <input type="number" autocomplete="none"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_sales_price" name="sales_price">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_purchase_price">
-                                                                <label for="id_purchase_price"
-                                                                    class="col-sm-4 col-form-label font_size_filter">
-                                                                    Purch. Price:
-                                                                </label>
-                                                                <div class="col-sm-8">
-                                                                    <input type="number" autocomplete="none"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_purchase_price" name="purchase_price">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 4th row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row">
-                                                                <label for="id_uom_name"
-                                                                    class="col-sm-s3 col-form-label font_size_filter required">
-                                                                    UoM Name:
-                                                                </label>
-                                                                <div class="col-sm-s8">
-                                                                    <select id="id_uom_name" name="uom_name"
-                                                                        class="form-select item_inputbox"
-                                                                        aria-label="Default select example" required>
-                                                                        <!--  -->
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row">
-                                                                <label for="id_extended_stock" title="Extended Stock"
-                                                                    class="col-sm-s3 col-form-label font_size_filter required">
-                                                                    Extended St.:
-                                                                </label>
-                                                                <div class="col-sm-s8">
-                                                                    <input type="number"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_extended_stock" name="extended_stock"
-                                                                        autocomplete="off">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 5th row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-4">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_manufacturer_no">
-                                                                <label for="id_manufacturer_no"
-                                                                    class="col-sm-6 col-form-label font_size_filter required">
-                                                                    Manufacturer:
-                                                                </label>
-                                                                <div class="col-sm-6">
-                                                                    <input type="text" id="id_manufacturer_no"
-                                                                        class="form-control item_inputbox"
-                                                                        name="manufacturer_no" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-8">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_manufacturer_name">
-                                                                <!-- <label for="customer_name"
-                                                                    class="col-sm-3 col-form-label font_size_filter">Item
-                                                                    Name:</label> -->
-                                                                <div class="col-sm-12">
-                                                                    <select id="id_manufacturer_name"
-                                                                        name="manufacturer_name"
-                                                                        onchange="manufacFunc(this);"
-                                                                        class="form-select item_inputbox"
-                                                                        aria-label="Default select example" required>
-                                                                        <!--  -->
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 6th row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-4">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_category_no">
-                                                                <label for="id_category_no"
-                                                                    class="col-sm-6 col-form-label font_size_filter">Category:</label>
-                                                                <div class="col-sm-6">
-                                                                    <input type="text" id="id_category_no"
-                                                                        name="category_no"
-                                                                        class="form-control item_inputbox" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-8">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_category_name">
-                                                                <!-- <label for="customer_name"
-                                                                    class="col-sm-3 col-form-label font_size_filter">Item
-                                                                    Name:</label> -->
-                                                                <div class="col-sm-12">
-                                                                    <select id="id_category_name" name="category_name"
-                                                                        onchange="categoryFun(this);"
-                                                                        class="form-select item_inputbox"
-                                                                        aria-label="Default select example">
-                                                                        <!--  -->
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 7th row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_box_qty">
-                                                                <label for="id_box_qty"
-                                                                    class="col-sm-s3 col-form-label font_size_filter">
-                                                                    Box Qty:
-                                                                </label>
-                                                                <div class="col-sm-s8">
-                                                                    <input type="text" name="box_qty" autocomplete="off"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_box_qty">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_re_order_qty">
-                                                                <label for="id_re_order_qty"
-                                                                    class="col-sm-4 col-form-label font_size_filter">
-                                                                    Re-Order Qty:
-                                                                </label>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" name="re_order_qty"
-                                                                        autocomplete="off" value="0"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_re_order_qty">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- 8th row -->
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_discount_percentace">
-                                                                <label for="id_discount_percentace"
-                                                                    class="col-sm-s3 col-form-label font_size_filter">Discount(%):</label>
-                                                                <div class="col-sm-s8">
-                                                                    <input type="text" name="discount_percentace"
-                                                                        class="form-control item_inputbox"
-                                                                        autocomplete="off" id="id_discount_percentace">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--  -->
-                                                <div class="col-sm-6">
-                                                    <div class="card main-card">
-                                                        <div class="card-body item_setup_sub">
-                                                            <div class="row cash_point_row div_id_discount_tk">
-                                                                <label for="id_discount_tk"
-                                                                    class="col-sm-4 col-form-label font_size_filter">(TK):</label>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" name="discount_tk"
-                                                                        autocomplete="off"
-                                                                        class="form-control item_inputbox"
-                                                                        id="id_discount_tk">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1">
-                                    <div class="card main-card">
-                                        <div class="card-body card-body_item_setup">
-                                            <div class="item_setupflag div_id_is_active"
-                                                style="display: flex; justify-content: right;">
-                                                <label class="form-check-label text-danger setupflag_label"
-                                                    for="id_is_active">
-                                                    Active?
-                                                </label>
-                                                <input class="form-check-input" type="checkbox" id="id_is_active"
-                                                    name="is_active" value="1">
-                                            </div>
-                                            <!--  -->
-                                            <div class="item_setupflag div_id_is_foreign_flag"
-                                                style="display: flex; justify-content: right;">
-                                                <label class="form-check-label setupflag_label"
-                                                    for="id_is_foreign_flag">
-                                                    Foreign Flag:
-                                                </label>
-                                                <input class="form-check-input" type="checkbox" id="id_is_foreign_flag"
-                                                    name="is_foreign_flag" value="1">
-                                            </div>
-                                            <!--  -->
-                                            <div class="item_setupflag div_id_is_discount_able"
-                                                style="display: flex; justify-content: right;">
-                                                <label class="form-check-label setupflag_label"
-                                                    for="id_is_discount_able">
-                                                    Discount able:
-                                                </label>
-                                                <input class="form-check-input" type="checkbox" id="id_is_discount_able"
-                                                    name="is_discount_able" value="1">
-                                            </div>
-                                            <!--  -->
-                                            <div class="item_setupflag div_id_is_expireable"
-                                                style="display: flex; justify-content: right;">
-                                                <label class="form-check-label setupflag_label" for="id_is_expireable">
-                                                    Expireable:
-                                                </label>
-                                                <input class="form-check-input" type="checkbox" id="id_is_expireable"
-                                                    name="is_expireable" value="1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- supplier -->
-                            <div class="col-sm-12">
-                                <div class="card main-card">
-                                    <div class="card-body card-body_item_setup">
-                                        <!-- supplier add in item wise -->
-                                        <div class="supplier_container">
-                                            <div class="supplier_head">
-                                                <h2 class="text-info">Supplier Informations</h2>
-                                            </div>
-                                            <!--  -->
-                                            <div class="card-body card-body_item_setup">
-                                                <div class="row row_item_setup supp-row-margin">
-                                                    <div class="col-sm-12">
-                                                        <div class="card main-card">
-                                                            <!--  -->
-                                                            <div class="col-sm-1" style="display: none;">
-                                                                <input type="text" id="supp_no_id"
-                                                                    class="form-control item_inputbox supp_no_id"
-                                                                    readonly>
-                                                                <input type="text" id="supp_names_id"
-                                                                    class="form-control item_inputbox supp_names_id"
-                                                                    readonly>
-                                                                <input type="text" id="supp_id"
-                                                                    class="form-control item_inputbox supp_id" readonly>
-                                                            </div>
-                                                            <!--  -->
-                                                            <div class="card-body item_setup_sub">
-                                                                <div class="row cash_point_row supp-row-margin">
-                                                                    <label for="supplr_name"
-                                                                        class="col-sm-1 col-form-label font_size_filter">
-                                                                        Supplier Name:
-                                                                    </label>
-                                                                    <div class="col-sm-9">
-                                                                        <select id="supplr_name"
-                                                                            class="form-select item_inputbox selectSupplier"
-                                                                            aria-label="Default select example">
-                                                                            <!--  -->
-
-                                                                        </select>
-                                                                    </div>
-                                                                    <button type="button"
-                                                                        class="btn btn-success text-white btn-xs supplier_btn"
-                                                                        id="addsupplier">Add</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <section>
-                                                <div class="col-xl-12">
-                                                    <div class="table-body item_table_body">
-                                                        <table id="sup_table" class="table table-striped"
-                                                            style="width: 98%; margin-left: 1%;">
-                                                            <thead class="text-center table-header_itemlist">
-                                                                <tr>
-                                                                    <th style="text-align:center; width: 10%;">
-                                                                        Supplier No
-                                                                    </th>
-                                                                    <th style="text-align:center; width: 25%;">
-                                                                        Supplier Name
-                                                                    </th>
-                                                                    <th style="text-align:center; width: 10%;">
-                                                                        Quotation Price
-                                                                    </th>
-                                                                    <th style="text-align:center; width: 10%;">
-                                                                        Sales Price
-                                                                    </th>
-                                                                    <th style="text-align:center; width: 6%;">
-                                                                        Active
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="sup_row" class="table-body-row"
-                                                                style="text-align:center;">
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <noscript id="item-clone">
-                                                    <tr class="item-row" style="border-style: hidden!important;">
-                                                        <td style="text-align:center;">
-                                                            <div class="col-sm-12 div_id_supplier_no">
-                                                                <input type="text" value="" id="supplier_ids"
-                                                                    style="display: none;" name="supplier_ids[]"
-                                                                    class="form-control item_inputbox" readonly>
-                                                                <input type="text" value="" id="supplier_nos"
-                                                                    name="supplier_nos[]"
-                                                                    class="form-control item_inputbox" readonly>
-                                                            </div>
-                                                        </td>
-                                                        <td style="text-align:center; display: none;"
-                                                            class="inputbox_tdrow items_supplier_name">
-                                                        </td>
-                                                        <td style="text-align:center;" class="inputbox_tdrow">
-                                                            <div class="col-sm-12 div_id_supplier_name">
-                                                                <input type="text" value=""
-                                                                    class="form-control item_inputbox"
-                                                                    id="supplier_names" name="supplier_names[]"
-                                                                    readonly>
-                                                            </div>
-                                                        </td>
-                                                        <td style="text-align:center;">
-                                                            <div class="col-sm-12 div_id_quotation_price">
-                                                                <input type="number" class="form-control item_inputbox"
-                                                                    name="quotation_prices[]" id="id_quotation_price"
-                                                                    style="text-align: center;" autocomplete="off">
-                                                            </div>
-                                                        </td>
-                                                        <td style="text-align:center;">
-                                                            <div class="col-sm-12 div_id_supp_sales_price">
-                                                                <input type="number" class="form-control item_inputbox"
-                                                                    name="supp_sales_prices[]" id="id_supp_sales_price"
-                                                                    style="text-align: center;" autocomplete="off">
-                                                            </div>
-                                                        </td>
-                                                        <td style="text-align:center;">
-                                                            <div class="col-sm-12">
-                                                                <div class="div_id_supplier_is_active">
-                                                                    <input class="form-check-input item_checkbox"
-                                                                        type="checkbox" id="id_supplier_is_active"
-                                                                        name="supplier_is_actives[]" value="1"
-                                                                        aria-label="..." style="margin-left: 5px;"
-                                                                        checked>
-                                                                    <button type="button"
-                                                                        class="btn btn-danger text-white btn-xs item_cross_btn deleteBtn">X</button>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </noscript>
-                                            </section>
-                                        </div>
-                                        <!-- submit button -->
-                                        <div class="submit_button">
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                style="margin-right: 10px;" onclick="resetItemsForm();">
-                                                Clear
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onClick="location.href='/item_setup'" style="margin-right: 10px;">
-                                                Add New
-                                            </button>
-                                            <button type="submit" class="btn btn-success btn-sm">
-                                                Save & Update
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
 </main>
 
 <script>
@@ -1105,10 +1148,10 @@
     });
     //
 
-    $(document).ready(function () {
-        // Create a Set to store unique supplier names
-        var uniqueSupplierNames = new Set();
+    // Create a Set to store unique supplier names
+    var uniqueSupplierNames = new Set();
 
+    $(document).ready(function () {
         $('#addsupplier').click(function () {
             var supp_id = $('#supp_id').val();
             var supp_no_id = $('#supp_no_id').val();
@@ -1277,7 +1320,7 @@
             var option = localStorage.getItem('selectedOption') || 'true';
             var orgFilterItem = $('#id_org_filter').val();
             var manufacFilter = $('#id_manuf_filter').val();
-        
+
             // Check if orgFilterItem and manufacFilter have values
             if (orgFilterItem && manufacFilter) {
                 // Make Ajax request
@@ -1294,11 +1337,11 @@
                     success: function (data) {
                         // Update the table with filtered data
                         updateTable(data);
-        
+
                         // Update currentPage and totalPages based on the response
                         currentPage = data.current_page;
                         totalPages = data.total_pages;
-        
+
                         // Update pagination UI
                         updatePaginationUI();
                         hideLoader();
@@ -1444,6 +1487,9 @@
         $('#items_form')[0].reset();
         $('#sup_row').empty();
         $('#id_item_id').val('');
+
+        // Clear the unique supplier names set
+        uniqueSupplierNames.clear();
     }
 </script>
 

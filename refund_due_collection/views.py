@@ -3,7 +3,7 @@ import json
 from num2words import num2words
 from pickle import FALSE
 from datetime import datetime
-from django.db.models import Q, Sum, Count
+from django.db.models import Q, F, Sum, Count
 from django.db import transaction
 from django.db.models import Prefetch
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,6 +14,10 @@ from django.contrib import messages
 from django.forms.models import model_to_dict
 from item_pos.models import invoice_list, invoicedtl_list, payment_list, rent_others_exps
 from item_setup.models import items
+from stock_list.models import in_stock
+from store_setup.models import store
+from bank_statement.models import cash_on_hands
+from organizations.models import branchslist, organizationlst
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -35,7 +39,6 @@ def invoiceCancelDetailsAPI(request, inv_id):
 
         # Retrieve the related invoicedtl data based on inv_id
         invoicedtl_data = invoicedtl_list.objects.filter(inv_id=inv_id)
-        invoicedtl_count = invoicedtl_list.objects.filter(inv_id=inv_id).count()
 
         # Retrieve payments related to the invoice
         payments = payment_list.objects.filter(inv_id=invoice)
@@ -53,21 +56,23 @@ def invoiceCancelDetailsAPI(request, inv_id):
         grand_cancel_gross_dis = 0
         total_vat_tax = 0
         total_gross_dis = 0
-        tot_carrying = 0
+        total_seller_carrying = 0
+        total_buyer_carrying = 0
         
         for carrying in carrying_cost:
-            tot_carrying += carrying.other_exps_amt
+            if carrying.is_seller==True:
+                total_seller_carrying += carrying.other_exps_amt
+            if carrying.is_buyer==True:
+                total_buyer_carrying += carrying.other_exps_amt
 
         # Create a list of dictionaries containing invoicedtl data
         for item in invoicedtl_data:
-
             cancel_item_w_dis = (item.item_w_dis / item.qty) * item.is_cancel_qty
 
             total_bill = (item.sales_rate * item.qty) - item.item_w_dis
             cancel_bill = (item.sales_rate * item.is_cancel_qty) - cancel_item_w_dis
             cancel_vat = (item.gross_vat_tax / item.qty) * item.is_cancel_qty
             cancel_gross_dis = (item.gross_dis / item.qty) * item.is_cancel_qty
-            item_wise_ccost = (tot_carrying / invoicedtl_count)
 
             total_vat_tax += item.gross_vat_tax
             total_gross_dis += item.gross_dis
@@ -90,7 +95,8 @@ def invoiceCancelDetailsAPI(request, inv_id):
                 'cancel_bill': cancel_bill,
                 'cancel_vat': cancel_vat,
                 'cancel_gross_dis': cancel_gross_dis,
-                'item_wise_ccost': item_wise_ccost,
+                'total_seller_carrying': total_seller_carrying,
+                'total_buyer_carrying': total_buyer_carrying,
             })
 
             # Update the grand totals
@@ -102,21 +108,28 @@ def invoiceCancelDetailsAPI(request, inv_id):
         # Calculate payment sums
         collection_amt = payments.filter(collection_mode="1").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         due_collection_amt = payments.filter(collection_mode="2").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
+        adjust_collection_amt = payments.filter(collection_mode="4").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         refund_amt = payments.filter(collection_mode="3").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
 
         grand_vat_tax = total_vat_tax - grand_cancel_vat
         grand_discount = total_gross_dis - grand_cancel_gross_dis
 
-        grand_net_bill = (grand_total_bill + grand_vat_tax + tot_carrying) - (grand_cancel_bill + grand_discount)
+        grand_net_bill = (grand_total_bill + grand_vat_tax + total_buyer_carrying) - (grand_cancel_bill + grand_discount)
         grand_net_bill = round(grand_net_bill, 0)
 
-        grand_net_coll = (collection_amt + due_collection_amt) - refund_amt
+        grand_net_coll = (collection_amt + due_collection_amt + adjust_collection_amt) - refund_amt
         net_due_amt = grand_net_bill - grand_net_coll
         net_due_amt = round(net_due_amt, 0)
 
         # Create a context dictionary with the data
         invoice_items.append({
             'inv_id': invoice.inv_id,
+            'org_id': invoice.org_id.org_id if invoice.org_id else None,
+            'org_name': invoice.org_id.org_name if invoice.org_id else None,
+            'branch_id': invoice.branch_id.branch_id if invoice.branch_id else None,
+            'branch_name': invoice.branch_id.branch_name if invoice.branch_id else None,
+            'supplier_id': invoice.supplier_id.supplier_id if invoice.supplier_id else None,
+            'supplier_name': invoice.supplier_id.supplier_name if invoice.supplier_id else None,
             'invoice_date': invoice.invoice_date,
             'customer_name': invoice.customer_name,
             'gender': invoice.gender,
@@ -127,8 +140,8 @@ def invoiceCancelDetailsAPI(request, inv_id):
         payments_amt = [{
             'collection_amt_sum': collection_amt,
             'due_collection_amt_sum': due_collection_amt,
+            'adjust_collection_amt': adjust_collection_amt,
             'refund_amt_sum': refund_amt,
-            'carrying_cost': tot_carrying,
             'grand_net_bill': grand_net_bill,
             'grand_net_coll': grand_net_coll,
             'net_due_amt': net_due_amt,
@@ -166,12 +179,28 @@ def invoiceCancelAPI(request):
                 try:
                     # Retrieve the invoicedtl instance
                     invoicedtl_instance = get_object_or_404(invoicedtl_list, inv_id=inv_id_instance, invdtl_id=inv_dtl_id)
+                    store_instance = invoicedtl_instance.store_id
+                    item_instance = invoicedtl_instance.item_id
 
                     # Update the specific invoicedtl instance
                     invoicedtl_instance.is_cancel_qty = cancel_qty
                     invoicedtl_instance.cancel_reason = inv_cancel_reason
                     invoicedtl_instance.ss_modifier = request.user
                     invoicedtl_instance.save()
+
+                    # Update or create in_stock entry
+                    in_stock_obj, created = in_stock.objects.get_or_create(
+                        item_id=item_instance,
+                        store_id=store_instance,
+                        defaults={
+                            'stock_qty': cancel_qty,  # If new, set to the canceled quantity
+                        }
+                    )
+
+                    if not created:
+                        # If the in_stock entry exists, update the stock quantity by adding the canceled amount
+                        in_stock_obj.stock_qty += float(cancel_qty)
+                        in_stock_obj.save()
 
                 except Exception as update_error:
                     # Log any update errors or handle them as needed
@@ -196,7 +225,6 @@ def getInvoiceDataAPI(request, inv_id):
 
         # Retrieve the related invoicedtl data based on inv_id
         invoicedtl_data = invoicedtl_list.objects.filter(inv_id=inv_id)
-        invoicedtl_count = invoicedtl_list.objects.filter(inv_id=inv_id).count()
 
         # Retrieve payments related to the invoice
         payments = payment_list.objects.filter(inv_id=invoice)
@@ -214,10 +242,14 @@ def getInvoiceDataAPI(request, inv_id):
         grand_cancel_gross_dis = 0
         total_vat_tax = 0
         total_gross_dis = 0
-        tot_carrying = 0
+        total_seller_carrying = 0
+        total_buyer_carrying = 0
         
         for carrying in carrying_cost:
-            tot_carrying += carrying.other_exps_amt
+            if carrying.is_seller==True:
+                total_seller_carrying += carrying.other_exps_amt
+            if carrying.is_buyer==True:
+                total_buyer_carrying += carrying.other_exps_amt
 
         # Create a list of dictionaries containing invoicedtl data
         for item in invoicedtl_data:
@@ -227,7 +259,6 @@ def getInvoiceDataAPI(request, inv_id):
             cancel_bill = (item.sales_rate * item.is_cancel_qty) - cancel_item_w_dis
             cancel_vat = (item.gross_vat_tax / item.qty) * item.is_cancel_qty
             cancel_gross_dis = (item.gross_dis / item.qty) * item.is_cancel_qty
-            item_wise_ccost = (tot_carrying / invoicedtl_count)
 
             total_vat_tax += item.gross_vat_tax
             total_gross_dis += item.gross_dis
@@ -250,7 +281,8 @@ def getInvoiceDataAPI(request, inv_id):
                 'cancel_bill': cancel_bill,
                 'cancel_vat': cancel_vat,
                 'cancel_gross_dis': cancel_gross_dis,
-                'item_wise_ccost': item_wise_ccost,
+                'total_seller_carrying': total_seller_carrying,
+                'total_buyer_carrying': total_buyer_carrying,
             })
 
             # Update the grand totals
@@ -262,21 +294,28 @@ def getInvoiceDataAPI(request, inv_id):
         # Calculate payment sums
         collection_amt = payments.filter(collection_mode="1").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         due_collection_amt = payments.filter(collection_mode="2").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
+        adjust_collection_amt = payments.filter(collection_mode="4").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         refund_amt = payments.filter(collection_mode="3").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
 
         grand_vat_tax = total_vat_tax - grand_cancel_vat
         grand_discount = total_gross_dis - grand_cancel_gross_dis
 
-        grand_net_bill = (grand_total_bill + grand_vat_tax + tot_carrying) - (grand_cancel_bill + grand_discount)
+        grand_net_bill = (grand_total_bill + grand_vat_tax + total_buyer_carrying) - (grand_cancel_bill + grand_discount)
         grand_net_bill = round(grand_net_bill, 0)
 
-        grand_net_coll = (collection_amt + due_collection_amt) - refund_amt
+        grand_net_coll = (collection_amt + due_collection_amt + adjust_collection_amt) - refund_amt
         net_due_amt = grand_net_bill - grand_net_coll
         net_due_amt = round(net_due_amt, 0)
 
         # Create a context dictionary with the data
         invoice_items.append({
             'inv_id': invoice.inv_id,
+            'org_id': invoice.org_id.org_id if invoice.org_id else None,
+            'org_name': invoice.org_id.org_name if invoice.org_id else None,
+            'branch_id': invoice.branch_id.branch_id if invoice.branch_id else None,
+            'branch_name': invoice.branch_id.branch_name if invoice.branch_id else None,
+            'supplier_id': invoice.supplier_id.supplier_id if invoice.supplier_id else None,
+            'supplier_name': invoice.supplier_id.supplier_name if invoice.supplier_id else None,
             'invoice_date': invoice.invoice_date,
             'customer_name': invoice.customer_name,
             'gender': invoice.gender,
@@ -287,8 +326,8 @@ def getInvoiceDataAPI(request, inv_id):
         payments_amt = [{
             'collection_amt_sum': collection_amt,
             'due_collection_amt_sum': due_collection_amt,
+            'adjust_collection_amt': adjust_collection_amt,
             'refund_amt_sum': refund_amt,
-            'carrying_cost': tot_carrying,
             'grand_net_bill': grand_net_bill,
             'grand_net_coll': grand_net_coll,
             'net_due_amt': net_due_amt,
@@ -327,12 +366,29 @@ def updateInvoiceCancelAPI(request):
                 try:
                     # Retrieve the invoicedtl instance
                     invoicedtl_instance = get_object_or_404(invoicedtl_list, inv_id=inv_id_instance, invdtl_id=inv_dtl_id)
-
+                    store_instance = invoicedtl_instance.store_id
+                    item_instance = invoicedtl_instance.item_id
+                    
                     # Update the specific invoicedtl instance
                     invoicedtl_instance.is_cancel_qty = cancel_qty
                     invoicedtl_instance.cancel_reason = inv_cancel_reason
                     invoicedtl_instance.ss_modifier = request.user
                     invoicedtl_instance.save()
+
+                    # Update or create in_stock entry
+                    in_stock_obj, created = in_stock.objects.get_or_create(
+                        item_id=item_instance,
+                        store_id=store_instance,
+                        defaults={
+                            'stock_qty': cancel_qty,  # If new, set to the canceled quantity
+                        }
+                    )
+
+                    if not created:
+                        # If the in_stock entry exists, update the stock quantity by adding the canceled amount
+                        in_stock_obj.stock_qty += float(cancel_qty)
+                        in_stock_obj.save()
+
 
                 except Exception as update_error:
                     # Log any update errors or handle them as needed
@@ -375,10 +431,14 @@ def getDueRefundDataAPI(request, inv_id):
         grand_cancel_gross_dis = 0
         total_vat_tax = 0
         total_gross_dis = 0
-        tot_carrying = 0
+        total_seller_carrying = 0
+        total_buyer_carrying = 0
         
         for carrying in carrying_cost:
-            tot_carrying += carrying.other_exps_amt
+            if carrying.is_seller==True:
+                total_seller_carrying += carrying.other_exps_amt
+            if carrying.is_buyer==True:
+                total_buyer_carrying += carrying.other_exps_amt
 
         # Create a list of dictionaries containing invoicedtl data
         for item in invoicedtl_data:
@@ -388,7 +448,6 @@ def getDueRefundDataAPI(request, inv_id):
             cancel_bill = (item.sales_rate * item.is_cancel_qty) - cancel_item_w_dis
             cancel_vat = (item.gross_vat_tax / item.qty) * item.is_cancel_qty
             cancel_gross_dis = (item.gross_dis / item.qty) * item.is_cancel_qty
-            item_wise_ccost = (tot_carrying / invoicedtl_count)
 
             total_vat_tax += item.gross_vat_tax
             total_gross_dis += item.gross_dis
@@ -411,7 +470,8 @@ def getDueRefundDataAPI(request, inv_id):
                 'cancel_bill': cancel_bill,
                 'cancel_vat': cancel_vat,
                 'cancel_gross_dis': cancel_gross_dis,
-                'item_wise_ccost': item_wise_ccost,
+                'total_seller_carrying': total_seller_carrying,
+                'total_buyer_carrying': total_buyer_carrying,
             })
 
             # Update the grand totals
@@ -423,21 +483,28 @@ def getDueRefundDataAPI(request, inv_id):
         # Calculate payment sums
         collection_amt = payments.filter(collection_mode="1").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         due_collection_amt = payments.filter(collection_mode="2").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
+        adjust_collection_amt = payments.filter(collection_mode="4").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         refund_amt = payments.filter(collection_mode="3").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
 
         grand_vat_tax = total_vat_tax - grand_cancel_vat
         grand_discount = total_gross_dis - grand_cancel_gross_dis
 
-        grand_net_bill = (grand_total_bill + grand_vat_tax + tot_carrying) - (grand_cancel_bill + grand_discount)
+        grand_net_bill = (grand_total_bill + grand_vat_tax + total_buyer_carrying) - (grand_cancel_bill + grand_discount)
         grand_net_bill = round(grand_net_bill, 0)
 
-        grand_net_coll = (collection_amt + due_collection_amt) - refund_amt
+        grand_net_coll = (collection_amt + due_collection_amt + adjust_collection_amt) - refund_amt
         net_due_amt = grand_net_bill - grand_net_coll
         net_due_amt = round(net_due_amt, 0)
 
         # Create a context dictionary with the data
         invoice_items.append({
             'inv_id': invoice.inv_id,
+            'org_id': invoice.org_id.org_id if invoice.org_id else None,
+            'org_name': invoice.org_id.org_name if invoice.org_id else None,
+            'branch_id': invoice.branch_id.branch_id if invoice.branch_id else None,
+            'branch_name': invoice.branch_id.branch_name if invoice.branch_id else None,
+            'supplier_id': invoice.supplier_id.supplier_id if invoice.supplier_id else None,
+            'supplier_name': invoice.supplier_id.supplier_name if invoice.supplier_id else None,
             'invoice_date': invoice.invoice_date,
             'customer_name': invoice.customer_name,
             'gender': invoice.gender,
@@ -448,8 +515,8 @@ def getDueRefundDataAPI(request, inv_id):
         payments_amt = [{
             'collection_amt_sum': collection_amt,
             'due_collection_amt_sum': due_collection_amt,
+            'adjust_collection_amt': adjust_collection_amt,
             'refund_amt_sum': refund_amt,
-            'carrying_cost': tot_carrying,
             'grand_net_bill': grand_net_bill,
             'grand_net_coll': grand_net_coll,
             'net_due_amt': net_due_amt,
@@ -477,7 +544,6 @@ def getRefundAmountDataAPI(request, inv_id):
 
         # Retrieve the related invoicedtl data based on inv_id
         invoicedtl_data = invoicedtl_list.objects.filter(inv_id=inv_id)
-        invoicedtl_count = invoicedtl_list.objects.filter(inv_id=inv_id).count()
 
         # Retrieve payments related to the invoice
         payments = payment_list.objects.filter(inv_id=invoice)
@@ -495,10 +561,14 @@ def getRefundAmountDataAPI(request, inv_id):
         grand_cancel_gross_dis = 0
         total_vat_tax = 0
         total_gross_dis = 0
-        tot_carrying = 0
+        total_seller_carrying = 0
+        total_buyer_carrying = 0
         
         for carrying in carrying_cost:
-            tot_carrying += carrying.other_exps_amt
+            if carrying.is_seller==True:
+                total_seller_carrying += carrying.other_exps_amt
+            if carrying.is_buyer==True:
+                total_buyer_carrying += carrying.other_exps_amt
 
         # Create a list of dictionaries containing invoicedtl data
         for item in invoicedtl_data:
@@ -508,7 +578,6 @@ def getRefundAmountDataAPI(request, inv_id):
             cancel_bill = (item.sales_rate * item.is_cancel_qty) - cancel_item_w_dis
             cancel_vat = (item.gross_vat_tax / item.qty) * item.is_cancel_qty
             cancel_gross_dis = (item.gross_dis / item.qty) * item.is_cancel_qty
-            item_wise_ccost = (tot_carrying / invoicedtl_count)
 
             total_vat_tax += item.gross_vat_tax
             total_gross_dis += item.gross_dis
@@ -531,7 +600,8 @@ def getRefundAmountDataAPI(request, inv_id):
                 'cancel_bill': cancel_bill,
                 'cancel_vat': cancel_vat,
                 'cancel_gross_dis': cancel_gross_dis,
-                'item_wise_ccost': item_wise_ccost,
+                'total_seller_carrying': total_seller_carrying,
+                'total_buyer_carrying': total_buyer_carrying,
             })
 
             # Update the grand totals
@@ -543,15 +613,16 @@ def getRefundAmountDataAPI(request, inv_id):
         # Calculate payment sums
         collection_amt = payments.filter(collection_mode="1").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         due_collection_amt = payments.filter(collection_mode="2").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
+        adjust_collection_amt = payments.filter(collection_mode="4").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
         refund_amt = payments.filter(collection_mode="3").aggregate(pay_amt_sum=Sum('pay_amt'))['pay_amt_sum'] or 0
 
         grand_vat_tax = total_vat_tax - grand_cancel_vat
         grand_discount = total_gross_dis - grand_cancel_gross_dis
 
-        grand_net_bill = (grand_total_bill + grand_vat_tax) - (grand_cancel_bill + grand_discount)
+        grand_net_bill = (grand_total_bill + grand_vat_tax + total_buyer_carrying) - (grand_cancel_bill + grand_discount)
         grand_net_bill = round(grand_net_bill, 0)
 
-        grand_net_coll = (collection_amt + due_collection_amt - tot_carrying) - refund_amt
+        grand_net_coll = (collection_amt + due_collection_amt + adjust_collection_amt) - refund_amt
         net_due_amt = grand_net_bill - grand_net_coll
         net_due_amt = round(net_due_amt, 0)
 
@@ -560,6 +631,12 @@ def getRefundAmountDataAPI(request, inv_id):
         # Create a context dictionary with the data
         invoice_items.append({
             'inv_id': invoice.inv_id,
+            'org_id': invoice.org_id.org_id if invoice.org_id else None,
+            'org_name': invoice.org_id.org_name if invoice.org_id else None,
+            'branch_id': invoice.branch_id.branch_id if invoice.branch_id else None,
+            'branch_name': invoice.branch_id.branch_name if invoice.branch_id else None,
+            'supplier_id': invoice.supplier_id.supplier_id if invoice.supplier_id else None,
+            'supplier_name': invoice.supplier_id.supplier_name if invoice.supplier_id else None,
             'invoice_date': invoice.invoice_date,
             'customer_name': invoice.customer_name,
             'gender': invoice.gender,
@@ -570,8 +647,8 @@ def getRefundAmountDataAPI(request, inv_id):
         payments_amt = [{
             'collection_amt_sum': collection_amt,
             'due_collection_amt_sum': due_collection_amt,
+            'adjust_collection_amt': adjust_collection_amt,
             'refund_amt_sum': refund_amt,
-            'carrying_cost': tot_carrying,
             'grand_net_bill': grand_net_bill,
             'grand_net_coll': grand_net_coll,
             'net_due_amt': net_due_amt,
@@ -597,16 +674,23 @@ def saveDueCollectionAmountAPI(request):
     data = request.POST
 
     inv_id = data.get('dueRef_searchID')
+    org_id = data.get('org_id_due')
+    branch_id = data.get('branch_id_due')
     due_amt = int(data.get('total_due_amount'))
-    payment_amt = int(data.get('pay_Collection_mode'))
+    payment_amt = int(data.get('total_payment_amt'))
+    collection_mode = int(data.get('pay_Collection_mode'))
 
     try:
         if due_amt > 0:
-            if payment_amt == 3:
-                return JsonResponse({'success': False, 'errmsg': 'Please Select Collection Mode "Due Collection" ...'})
+            if collection_mode == 3:
+                return JsonResponse({'success': False, 'errmsg': 'This Invoice refund not found. Need to Due Collection.'})
         elif due_amt < 0:
-            if payment_amt == 2:
-                return JsonResponse({'success': False, 'errmsg': 'Please Select Collection Mode "Refund" ...'})
+            if collection_mode == 2:
+                return JsonResponse({'success': False, 'errmsg': 'This Invoice Needs to be refunded. Please Refund This Invoice.'})
+        elif due_amt < 0:
+            if collection_mode == 4:
+                return JsonResponse({'success': False, 'errmsg': 'This Invoice Needs to be refunded. Please Refund This Invoice.'})
+            
         elif due_amt == 0:
             return JsonResponse({'success': False, 'errmsg': 'This Invoice Has No Due ...'})
 
@@ -617,12 +701,15 @@ def saveDueCollectionAmountAPI(request):
             given_amt = data['given_amt'] if data['given_amt'].strip() else 0
             change_amt = data['change_amt'] if data['change_amt'].strip() else 0
 
+            org_instance = organizationlst.objects.get(org_id=org_id)
+            branch_instance = branchslist.objects.get(branch_id=branch_id)
+
             # Create and save the payment record
             due_ref_payment = payment_list(
                 inv_id=invoice,
                 pay_mode=data['pay_mode'],
                 collection_mode=data['pay_Collection_mode'],
-                pay_amt=data['total_payment_amt'],
+                pay_amt=payment_amt,
                 given_amt=given_amt,
                 change_amt=change_amt,
                 card_info=data['card_info'],
@@ -633,8 +720,22 @@ def saveDueCollectionAmountAPI(request):
                 ss_creator=request.user,
                 ss_modifier=request.user,
             )
-
             due_ref_payment.save()
+
+            if due_amt > 0 and collection_mode == 2:
+                cashOnHands, created = cash_on_hands.objects.get_or_create(
+                    org_id=org_instance,
+                    branch_id=branch_instance,
+                    defaults={
+                        'on_hand_cash': 0,  # Initialize to 0 if a new record is created
+                    }
+                )
+
+                # Update the on_hand_cash by adding due_amt
+                cashOnHands.on_hand_cash = F('on_hand_cash') + payment_amt
+                cashOnHands.save()
+                # Refresh from the database to get the updated value of on_hand_cash
+                cashOnHands.refresh_from_db()
 
             resp['status'] = 'success'
             resp['invoice_id'] = invoice.inv_id
@@ -653,17 +754,20 @@ def saveRefundAmountAPI(request):
     data = request.POST
 
     inv_id = data.get('refAmt_searchID')
-    due_amt = int(data.get('total_due_amount_ref'))
-    payment_amt = int(data.get('pay_Collection_mode_ref'))
+    org_id = data.get('org_id')
+    branch_id = data.get('branch_id')
+    refund_amt = int(data.get('total_due_amount_ref'))
+    payment_amt = int(data.get('total_payment_amt_ref'))
+    collection_mode = int(data.get('pay_Collection_mode_ref'))
 
     try:
-        if due_amt > 0:
-            if payment_amt == 3:
-                return JsonResponse({'success': False, 'errmsg': 'Please Select Collection Mode "Due Collection" ...'})
-        elif due_amt < 0:
-            if payment_amt == 2:
+        if refund_amt > 0:
+            if collection_mode == 3:
+                return JsonResponse({'success': False, 'errmsg': 'This Invoice refund not found. Need to Due Collection.'})
+        elif refund_amt < 0:
+            if collection_mode == 2:
                 return JsonResponse({'success': False, 'errmsg': 'Please Select Collection Mode "Refund" ...'})
-        elif due_amt == 0:
+        elif refund_amt == 0:
             return JsonResponse({'success': False, 'errmsg': 'This Invoice Has No Due ...'})
 
         with transaction.atomic():
@@ -673,12 +777,15 @@ def saveRefundAmountAPI(request):
             given_amt = data['given_amt_ref'] if data['given_amt_ref'].strip() else 0
             change_amt = data['change_amt_ref'] if data['change_amt_ref'].strip() else 0
 
+            org_instance = organizationlst.objects.get(org_id=org_id)
+            branch_instance = branchslist.objects.get(branch_id=branch_id)
+
             # Create and save the payment record
             due_ref_payment = payment_list(
                 inv_id=invoice,
                 pay_mode=data['pay_mode_ref'],
                 collection_mode=data['pay_Collection_mode_ref'],
-                pay_amt=data['total_payment_amt_ref'],
+                pay_amt=payment_amt,
                 given_amt=given_amt,
                 change_amt=change_amt,
                 card_info=data['card_info_ref'],
@@ -689,8 +796,22 @@ def saveRefundAmountAPI(request):
                 ss_creator=request.user,
                 ss_modifier=request.user,
             )
-
             due_ref_payment.save()
+
+            if refund_amt < 0 and collection_mode == 3:
+                cashOnHands, created = cash_on_hands.objects.get_or_create(
+                    org_id=org_instance,
+                    branch_id=branch_instance,
+                    defaults={
+                        'on_hand_cash': 0,  # Initialize to 0 if a new record is created
+                    }
+                )
+
+                # Update the on_hand_cash by subs payment_amt
+                cashOnHands.on_hand_cash = F('on_hand_cash') - payment_amt
+                cashOnHands.save()
+                # Refresh from the database to get the updated value of on_hand_cash
+                cashOnHands.refresh_from_db()
 
             resp['status'] = 'success'
             resp['invoice_id'] = invoice.inv_id

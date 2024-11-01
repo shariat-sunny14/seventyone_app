@@ -28,7 +28,7 @@
                             <i class='bx bx-border-right text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Purchase Order Item Receive Details</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/purchase_order_receive_list'">
+                        <div class="add-moduleBtn" onClick="navigateTo('/purchase_order_receive_list/')">
                             <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn"
                                 style="font-weight: bolder; background: #01a3d4; box-shadow: 4px 2px 5px 2px #43507e;">
                                 PO Receive List
@@ -380,26 +380,19 @@
                                                                     <tr style="border-style: hidden!important;">
                                                                         <th style="text-align:center; width: 3%;">Sl</th>
                                                                         <th style="text-align:center; width: 6%;">Item No</th>
-                                                                        <th style="text-align:center; width: 15%;">Item Name
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 10%;">Type</th>
-                                                                        <th style="text-align:center; width: 10%;">UoM</th>
-                                                                        <th style="text-align:center; width: 6%;">Stock Qty
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Order Qty
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Recd. Qty
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Recd. Bonus
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Pen. Qty
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Rec. Qty
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Bonus Qty
-                                                                        </th>
-                                                                        <th style="text-align:center; width: 6%;">Unit Price
-                                                                        </th>
+                                                                        <th style="text-align:center; width: 13%;">Item Name</th>
+                                                                        <th style="text-align:center; width: 6%;">Type</th>
+                                                                        <th style="text-align:center; width: 6%;">UoM</th>
+                                                                        <th style="text-align:center; width: 5%;">Stock Qty</th>
+                                                                        <th style="text-align:center; width: 5%;">Order Qty</th>
+                                                                        <th style="text-align:center; width: 5%;">R. Qty</th>
+                                                                        <th style="text-align:center; width: 5%;">R. Bonus</th>
+                                                                        <th style="text-align:center; width: 5%;">Pen. Qty</th>
+                                                                        <th style="text-align:center; width: 5%;">Rec. Qty</th>
+                                                                        <th style="text-align:center; width: 5%;">Bonus Qty</th>
+                                                                        <th style="text-align:center; width: 8%;">Batch No</th>
+                                                                        <th style="text-align:center; width: 8%;">Expiry Date</th>
+                                                                        <th style="text-align:center; width: 6%;">Unit Price</th>
                                                                         <th style="text-align:center; width: 6%;">Tot. Amt</th>
                                                                         <th style="text-align:center; width: 3%;">
                                                                             <input type="checkbox" class="inputbox_tdrow is_rec_checkbox" id="all_rec_check" name="all_rec_check">
@@ -457,6 +450,14 @@
                                                                         <td style="text-align:center;">
                                                                             <input type="number" value="0" class="rec_bonusQty"
                                                                                 id="bonus_qty" name="bonus_qty[]" autocomplete="off" disabled>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="inputbox_rowwise item_disabled" id="item_batchs" value="{{ dtl.item_batch }}"
+                                                                                name="item_batchs[]" autocomplete="off">
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="form-control inputbox_rowwise item_disabled datepicker" value="{{ dtl.item_exp_date }}"
+                                                                                name="item_exp_dates[]" autocomplete="off">
                                                                         </td>
                                                                         <td style="text-align:center;">
                                                                             <input type="number" value="{{ dtl.ops_dtls.unit_price }}" class="inputbox_tdrow"
@@ -1090,7 +1091,7 @@
                         toastr.success(resp.msg);
                         setTimeout(function () { 
                             location.reload();
-                            window.location.href = "{% url 'purchase_order_receive_list' %}";
+                            navigateTo("{% url 'purchase_order_receive_list' %}");
                         }, 300);
                     } else {
                         toastr.error(resp.errmsg);

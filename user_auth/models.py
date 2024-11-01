@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
@@ -42,3 +44,37 @@ class User(AbstractUser):
 
     def __str__(self):
         return str(self.user_id)
+    
+
+# system shut down
+class SystemShutdown(models.Model):
+    sys_id = models.BigAutoField(primary_key=True)
+    sys_shut_down_date = models.DateField(default=timezone.now, editable=False)
+    sys_down_time_validity = models.DateTimeField()
+    is_sys_shut_down = models.BooleanField(default=False)
+    ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2sys_shutd', on_delete=models.DO_NOTHING, editable=False)
+    ss_created_on = models.DateTimeField(auto_now_add=True)
+    ss_created_session = models.BigIntegerField(null=True, blank=True, editable=False)
+    ss_modifier = models.ForeignKey(User, null=True, blank=True, related_name='ss_modifier2sys_shutd', on_delete=models.DO_NOTHING)
+    ss_modified_on = models.DateTimeField(auto_now=True)
+    ss_modified_session = models.BigIntegerField(null=True, blank=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:  # Only modify IDs if it's a new record
+            # Fetch the latest record for incrementing IDs and sessions
+            last_record = SystemShutdown.objects.order_by('-sys_id').first()
+
+            if last_record:
+                self.sys_id = last_record.sys_id + 1
+                self.ss_created_session = (last_record.ss_created_session or 2234567000000) + 1
+                self.ss_modified_session = (last_record.ss_modified_session or 1234673500000) + 1
+            else:
+                # Initialize with default values if no previous record exists
+                self.sys_id = 334455560000
+                self.ss_created_session = 2234567000000
+                self.ss_modified_session = 1234673500000
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"System Shutdown ID: {self.sys_id}"

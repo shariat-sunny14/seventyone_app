@@ -10,11 +10,8 @@
 .container-sm,
 .container-xl,
 .container-xxl {
-    width: 100%;
-    padding-right: 0rem;
-    padding-left: 0rem;
-    margin-right: auto;
-    margin-left: auto;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
 }
 
 .dashboar-head {
@@ -90,11 +87,11 @@ h6 {
 }
 
 .table-striped tbody tr:nth-child(odd) {
-    background-color: #ffffff!important;
+    background-color: #ffffff !important;
 }
 
 .table-striped tbody tr:nth-child(even) {
-    background-color: #f0f0f0!important;
+    background-color: #f0f0f0 !important;
 }
 
 .receipt-table {
@@ -390,12 +387,16 @@ tr {
     font-size: 0.75rem;
 }
 
-.date-range {
+/* .date-range {
     display: flex;
-    width: 66%;
-    justify-content: right;
+    width: 100%;
+    justify-content: space-between;
     margin-right: 28px;
-}
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+} */
 
 .row>* {
     padding-right: calc(var(--bs-gutter-x) * .0);

@@ -18,7 +18,7 @@
                 border-right: none;
                 border-top-left-radius: 0.3rem;
                 border-top-right-radius: 0.3rem;
-                background: #455697;">
+                background: #639745d8;">
                 <!-- Main Heading -->
                 <div class="row">
                     <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
@@ -26,9 +26,9 @@
                             <i class='bx bxl-trello text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Edit/Update Good Receive Note Without (GRN)</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/stock_receive_without_grn_list'">
-                            <button id="addmodulesetup" class="btn btn-info text-white btn-xs moduleBtn"
-                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e;">
+                        <div class="add-moduleBtn" onClick="navigateTo('/stock_receive_without_grn_list/')">
+                            <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn"
+                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #639745d8; border: 1px solid #fff;">
                                 Without GRN List
                             </button>
                         </div>
@@ -198,16 +198,17 @@
                                                                             <div class="col-sm-4">
                                                                                 <div class="card main-card">
                                                                                     <div class="card-body item_setup_sub">
-                                                                                        <div class="row cash_point_row">
-                                                                                            <label for="id_remarks"
-                                                                                                class="col-sm-1 col_sm_one col-form-label font_size_filter">
-                                                                                                Remarks:
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_invoice_no"
+                                                                                                class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Invoice No:
                                                                                             </label>
-                                                                                            <div class="col-sm-11 col_sm_eleven">
-                                                                                                <textarea type="text"
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="number" id="id_invoice_no" value="{{ wogrn_Data.invoice_no }}"
                                                                                                     class="form-control item_inputbox"
-                                                                                                    id="id_remarks" name="remarks"
-                                                                                                    style="height: 28px; margin-bottom: 5px;">{{ wogrn_Data.remarks }}</textarea>
+                                                                                                    name="invoice_no" autocomplete="off" required>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -264,18 +265,23 @@
                                                                             <div class="col-sm-4">
                                                                                 <div class="card main-card">
                                                                                     <div class="card-body item_setup_sub">
-                                                                                        <div class="row cash_point_row">
-                                                                                            <label for="id_credit_balance"
-                                                                                                class="col-sm-3 col_sm_3 text-danger col-form-label font_size_filter">
-                                                                                                Credit Balance:
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_invoice_date"
+                                                                                                class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Invoice Date:
                                                                                             </label>
-                                                                                            <div class="col-sm-8 col-sm_expected">
-                                                                                                <span id="id_credit_balance" class="form-control item_inputbox text-success credit_balance">0.00</span>
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="text" id="id_invoice_date" value="{{ wogrn_Data.invoice_date|date:'Y-m-d' }}"
+                                                                                                    class="form-control item_inputbox datepicker"
+                                                                                                    name="invoice_date" autocomplete="off" required>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <!--  -->
                                                                         </div>
                                                                         <!-- 4th row -->
                                                                         <div class="row row_item_setup">
@@ -283,10 +289,8 @@
                                                                             <div class="col-sm-4">
                                                                                 <div class="card main-card">
                                                                                     <div class="card-body item_setup_sub">
-                                                                                        <div
-                                                                                            class="row cash_point_row div_id_is_approved_by">
-                                                                                            <label for="id_is_approved_by"
-                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                        <div class="row cash_point_row div_id_is_approved_by">
+                                                                                            <label for="id_is_approved_by" class="col-sm-4 col_sm_menual col-form-label font_size_filter">
                                                                                                 Approved By :
                                                                                             </label>
                                                                                             {% if user.is_authenticated %}
@@ -302,8 +306,7 @@
                                                                                                 <input type="hidden" id="is_approved_by_user" value="{{ user.user_id }}">
                                                                                             </div>
                                                                                             {% endif %}
-                                                                                            <input type="hidden" id="id_is_approved" name="is_approved" value="0"
-                                                                                                class="form-check-input checkbox_manual">
+                                                                                            <input type="hidden" id="id_is_approved" name="is_approved" value="0" class="form-check-input checkbox_manual">
                                                                                             <!--  -->
                                                                                             <div class="col-sm-mody">
                                                                                                 <input type="text"
@@ -329,11 +332,8 @@
                                                                                             </label>
                                                                                             <div
                                                                                                 class="col-sm-8 col-sm-9_manual">
-                                                                                                <input type="date"
-                                                                                                    id="id_approved_date"
-                                                                                                    name="approved_date"
-                                                                                                    class="form-control item_inputbox"
-                                                                                                    readonly>
+                                                                                                <input type="date" id="id_approved_date" value="{{wogrn_Data.approved_date}}"
+                                                                                                    name="approved_date" class="form-control item_inputbox" readonly>
                                                                                             </div>
                                                                                             <!--  -->
                                                                                         </div>
@@ -341,6 +341,42 @@
                                                                                 </div>
                                                                             </div>
                                                                             <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_credit_balance"
+                                                                                                class="col-sm-3 col_sm_3 text-danger col-form-label font_size_filter">
+                                                                                                Credit Balance:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm_expected">
+                                                                                                <span id="id_credit_balance" class="form-control item_inputbox text-success credit_balance">0.00</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- last row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_remarks"
+                                                                                                class="col-sm-1 col-sm-remarks col-form-label font_size_filter">
+                                                                                                Remarks:
+                                                                                            </label>
+                                                                                            <div class="col-sm-11 col-sm-remarks-txt">
+                                                                                                <textarea type="text"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    id="id_remarks" name="remarks"
+                                                                                                    style="height: 28px; margin-bottom: 5px;">{{ wogrn_Data.remarks }}</textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -350,8 +386,43 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- purchage submission button -->
+                                        <section class="pur-submissionBtn">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card" style="background: #ededed;">
+                                                        <div class="card-body card-body_item_setup">
+                                                            <div class="row row_item_setup">
+                                                                <!-- submit button -->
+                                                                <div class="submit_button">
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-success btn-sm" type="submit"
+                                                                        id="approve_stock">
+                                                                        Approve
+                                                                    </button>
+                                                                    <!--  -->
+                                                                    <!-- <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-info btn-sm text-white"
+                                                                        id="id_proposal-report" type="button">
+                                                                        Proposal Report
+                                                                    </button> -->
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-warning btn-sm text-white" id="id_update"
+                                                                        type="submit">
+                                                                        Update
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <!-- purchage submission button end -->
                                         <!-- main entry form -->
-                                        <div class="row row_item_setup">
+                                        <div class="row row_item_setup" style="margin-bottom: 0.6rem;">
                                             <div class="col-sm-12">
                                                 <div class="card main-card">
                                                     <div class="card-body card-body_item_setup">
@@ -399,7 +470,7 @@
                                                                                 </div>
                                                                                 <fieldset>
                                                                                     <!-- searching item list for adding -->
-                                                                                    <input type="text" id="items_name" placeholder="Search..." class="form-control item_inputbox" autocomplete="off" style="background: #fffab6;">
+                                                                                    <input type="search" id="items_name" placeholder="Search..." class="form-control item_inputbox" autocomplete="off" style="background: #fffab6;">
                                                                                 </fieldset>
                                                                             </div>
                                                                             <!--  -->
@@ -456,13 +527,12 @@
                                         <!--  -->
                                         <!-- table body -->
                                         <section>
-                                            <div class="table_border">
+                                            <div class="table_border" style="border: 1px solid #639745a9;">
                                                 <div class="col-xl-12">
                                                     <div class="table-body item_table_body">
                                                         <div class="d-flex w-100" id="WOGRN-Field">
-                                                            <table class="table table-striped"
-                                                                style="width: 100%; text-align:center;">
-                                                                <thead class="text-center table-header_itemlist">
+                                                            <table class="table table-striped" style="width: 100%; text-align:center;">
+                                                                <thead class="text-center table-header_itemlist" style="background: #639745a9;">
                                                                     <tr style="border-style: hidden!important;">
                                                                         <th style="text-align:center; width: 3%;">Sl</th>
                                                                         <th style="text-align:center;">Item No</th>
@@ -472,7 +542,8 @@
                                                                         <th style="text-align:center; width: 8%;">Stock Qty</th>
                                                                         <th style="text-align:center; width: 8%;">Price</th>
                                                                         <th style="text-align:center;">Rec. Qty</th>
-                                                                        <th style="text-align:center; width: 18%;">Invoice No</th>
+                                                                        <th style="text-align:center; width: 10%;">Batch No</th>
+                                                                        <th style="text-align:center; width: 10%;">Expiry Date</th>
                                                                         <th style="text-align:center; width: 8%;">Tot. Amt.</th>
                                                                         <th style="text-align:center; width: 3%;">
                                                                             opt.
@@ -493,8 +564,7 @@
                                                                             <input type="hidden" value="{{ dtl.wogrn_dtls.item_id.item_name }}" class="inputbox_tdrow" id="items_name"
                                                                                 name="items_name[]" readonly>
                                                                         </td>
-                                                                        <td style="position: relative; margin-top: 2.5px; text-align: left;"
-                                                                            class="inputbox_tdrow items_name_id">
+                                                                        <td style="position: relative; margin-top: 2.5px; text-align: left;" class="inputbox_tdrow items_name_id">
                                                                             {{ dtl.wogrn_dtls.item_id.item_name }}
                                                                         </td>
                                                                         <td style="text-align:center;">
@@ -519,7 +589,11 @@
                                                                         </td>
                                                                         <td style="text-align:center;">
                                                                             <input type="text" class="inputbox_rowwise item_disabled" id="item_batchs" value="{{ dtl.wogrn_dtls.item_batch }}"
-                                                                                name="item_batchs[]" required autocomplete="off">
+                                                                                name="item_batchs[]" autocomplete="off" required>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="form-control inputbox_rowwise item_disabled datepicker" value="{{ dtl.wogrn_dtls.item_exp_date }}"
+                                                                                name="item_exp_dates[]" autocomplete="off">
                                                                         </td>
                                                                         <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
                                                                         <td style="text-align:center;">
@@ -585,6 +659,10 @@
                                                         <input type="text" class="inputbox_rowwise" id="item_batchs"
                                                             name="item_batchs[]" required autocomplete="off">
                                                     </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="text" class="form-control inputbox_rowwise item_disabled datepicker"
+                                                            name="item_exp_dates[]" autocomplete="off">
+                                                    </td>
                                                     <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
                                                     <td style="text-align:center;">
                                                         <button type="button"
@@ -593,40 +671,7 @@
                                                 </tr>
                                             </noscript>
                                         </section>
-                                        <!-- purchage submission button -->
-                                        <section class="pur-submissionBtn">
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-12">
-                                                    <div class="card main-card">
-                                                        <div class="card-body card-body_item_setup">
-                                                            <div class="row row_item_setup">
-                                                                <!-- submit button -->
-                                                                <div class="submit_button">
-                                                                    <!--  -->
-                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
-                                                                        class="btn btn-success btn-sm" type="submit"
-                                                                        id="approve_stock">
-                                                                        Approve
-                                                                    </button>
-                                                                    <!--  -->
-                                                                    <!-- <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
-                                                                        class="btn btn-info btn-sm text-white"
-                                                                        id="id_proposal-report" type="button">
-                                                                        Proposal Report
-                                                                    </button> -->
-                                                                    <!--  -->
-                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
-                                                                        class="btn btn-warning btn-sm text-white" id="id_update"
-                                                                        type="submit">
-                                                                        Update
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
+                                        <!--  -->
                                     </form>
                                 </div>
                             </div>
@@ -871,7 +916,6 @@
         $('#items_name').typeahead({
             source: function(query, result) {
                 var selected_type_id = $('#items_type').val(); // Get the selected type_id here
-                var selected_store_id = $('#id_current_store').val(); // Get the selected store_id here
                 var selected_id_org = $('#id_org').val();
                 var selected_supplier_id = $('#id_filter_suppliers').val();
     
@@ -880,7 +924,6 @@
                     data: {
                         query: query,
                         selectedTypeId: selected_type_id,
-                        store_id: selected_store_id, // Include the selected store_id in the request
                         id_org: selected_id_org,
                         filter_suppliers: selected_supplier_id,
                     },
@@ -920,10 +963,13 @@
                         $('#stock_qty').val(selectedItemDetails[0].grandQty);
                     }
                 });
-    
                 // Return the selected item name to fill the input field
                 return item.name;
-            }
+            },
+            items: 150, // Specify the number of items to display
+            displayText: function (item) {
+                return item.name; // Adjust this if you want to customize the display text
+            },
         });
     });
     //<!--  -->
@@ -1156,6 +1202,7 @@
                 });
             }
             Calculate();
+            resetFunction();
         });
         //
         $('#id_update').click(function () {
@@ -1195,7 +1242,7 @@
                         //location.reload()
                         setTimeout(function () { 
                             location.reload()
-                            window.location.href = "{% url 'stock_receive_without_grn_list' %}";
+                            navigateTo("{% url 'stock_receive_without_grn_list' %}");
                         }, 300);
                     } else {
                         toastr.error(resp.errmsg);
@@ -1211,28 +1258,26 @@
         var wo_grndtl_id = $(this).data('wo-grndtl_id');
         var buttonElement = $(this);
 
-        
-            // Send an AJAX request to delete the wo_grndtl_id
-            $.ajax({
-                type: 'DELETE',
-                url: `/delete_wo_grndtl_value/${wo_grndtl_id}/`,  // Include the wo_grndtl_id in the URL
-                headers: {
-                    "X-CSRFToken": '{{ csrf_token }}'
-                },
-                success: function (resp) {
-                    if (success = resp.msg) {
-                        toastr.success(resp.msg)
-                        //location.reload()
-                        buttonElement.closest('tr').remove();
-                    } else {
-                        toastr.error(resp.errmsg);
-                    }
-                },
-                error: function(xhr, errmsg, err) {
-                    alert('Error occurred while deleting: ' + err);
+        // Send an AJAX request to delete the wo_grndtl_id
+        $.ajax({
+            type: 'DELETE',
+            url: `/delete_wo_grndtl_value/${wo_grndtl_id}/`,  // Include the wo_grndtl_id in the URL
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            success: function (resp) {
+                if (success = resp.msg) {
+                    toastr.success(resp.msg)
+                    //location.reload()
+                    buttonElement.closest('tr').remove();
+                } else {
+                    toastr.error(resp.errmsg);
                 }
-            });
-
+            },
+            error: function(xhr, errmsg, err) {
+                alert('Error occurred while deleting: ' + err);
+            }
+        });
     });
 
     $(document).ready(function () {
@@ -1241,13 +1286,27 @@
     
             $(element).attr("id", inputId); // Set a unique ID for the input
     
-            $("#" + inputId).datepicker({ // Initialize datepicker for the specific input
+            $("#" + inputId).datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeYear: true,
                 changeMonth: true
             });
+    
+            // Force the correct format after the input is populated
+            $(element).val(function(i, val) {
+                var date = new Date(val);
+                // Check if the date is valid
+                if (!isNaN(date.getTime())) {
+                    return $.datepicker.formatDate('yy-mm-dd', date);
+                }
+                return ""; // Return empty string if the date is invalid
+            });
         });
     });
+
+    function resetFunction() {
+        $('#id_item_qty').val('');
+    }
 </script>
 
 {% endblock %}

@@ -1,0 +1,344 @@
+{% load static %}
+<section>
+    <div class="col-sm-12">
+        <div class="card main-card">
+            <div class="card-body card-body_item_setup">
+                <div class="itemsetup_container">
+                    <form action="" method="" id="DepMainBranch-form" enctype="multipart/form-data">
+                        <div class="bank_state_head">
+                            <h2 class="text-primary">Add New Deposit at Main Branch Info</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row row_item_setup">
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_deposits_amt" class="col-dep-amt col-form-label font_size_filter required">
+                                                                Deposits Amt.:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" class="form-control item_inputbox"
+                                                                    id="id_deposits_amt" name="deposits_amt" autocomplete="off" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_deposits_date" class="col-dep-amt col-form-label font_size_filter required">
+                                                                Deposits Date:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" class="form-control statement_date datepicker"
+                                                                    id="id_deposits_date" name="deposits_date" autocomplete="off" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_typesdeposits" class="col-dep-amt col-form-label font_size_filter required">
+                                                                Types of Deposits:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <select id="id_typesdeposits" name="types_deposits" class="form-select Selectionbox" aria-label="Default select example" required>
+                                                                    <option value="Deposit at Main Branch">Deposit at Main Branch</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_pay_methord" class="col-dep-amt col-form-label font_size_filter required">
+                                                                Pay Methord:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <select id="id_pay_methord" name="pay_methord" class="form-select Selectionbox" aria-label="Default select example" required>
+                                                                    <option value="Cash">Cash</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <!--  -->
+                                                            <label for="id_org" class="col-sm-org col-form-label font_size_filter required">
+                                                                Organizations:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <select id="id_org" name="org_id"
+                                                                    class="form-select Selectionbox"
+                                                                    aria-label="Default select example" required>
+                                                                    {% for org in org_list %}
+                                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                                        {{org.org_name}}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <!--  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <!--  -->
+                                                            <label for="id_sub_branch" class="col-sm-org col-form-label font_size_filter required">
+                                                                Dep. From Sub Br.:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <select id="id_sub_branch" name="sub_branch"
+                                                                    class="form-select Selectionbox"
+                                                                    aria-label="Default select example" required>
+                                                                    <!--  -->
+                                                                    {% for subbranch in sub_branch_data %}
+                                                                        <option value="{{subbranch.branch_id}}">{{ subbranch.branch_name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <!--  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <!--  -->
+                                            <div class="col-sm-6">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <!--  -->
+                                                            <label for="id_main_branch" class="col-sm-org col-form-label font_size_filter required">
+                                                                Dep. To Main Br.:
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <select id="id_main_branch" name="main_branch"
+                                                                    class="form-select Selectionbox"
+                                                                    aria-label="Default select example" required>
+                                                                    <!--  -->
+                                                                    {% for mainbranch in main_branch_data %}
+                                                                        <option value="{{mainbranch.branch_id}}">{{ mainbranch.branch_name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <!--  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12" style="margin-top: 6px;">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_deposit_reason" class="col-sm-orgName col-form-label font_size_filter">
+                                                                Deposit Reason:
+                                                            </label>
+                                                            <div class="col-orgNameInput">
+                                                                <textarea type="text" class="form-control item_inputbox" style="margin-top: -4px; height: 8rem;"
+                                                                id="id_deposit_reason" name="deposit_reason" autocomplete="off"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                        </div>
+
+                        <!-- submit button -->
+                        <div class="submit_button">
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" style="margin-right: 10px;">
+                                Close
+                            </button>
+                            <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                style="margin-right: 10px;">
+                                Deposit at Main Branch
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        // Get the current date
+        var currentDate = new Date();
+
+        // Initialize the datepicker with the current date as the default date
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            defaultDate: currentDate // Set the current date as the default
+        });
+
+        // Set the value of the input field to the current date
+        $("#id_deposits_date").datepicker("setDate", currentDate);
+    });
+
+    // image load in the page
+    function displaySelectedLogo(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+    
+                img.onload = function () {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+    
+                    var maxWidth = 300;
+                    var maxHeight = 300;
+    
+                    var width = img.width;
+                    var height = img.height;
+    
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        } else {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+    
+                        canvas.width = width;
+                        canvas.height = height;
+    
+                        ctx.drawImage(img, 0, 0, width, height);
+    
+                        // Create or select the element with ID 'selected_logo'
+                        var selectedLogo = document.getElementById('selected_logo');
+                        if (!selectedLogo) {
+                            selectedLogo = new Image();
+                            selectedLogo.id = 'selected_logo';
+                            document.body.appendChild(selectedLogo); // Append the image to the body or any other appropriate container
+                        }
+    
+                        // Set the image source to the resized image
+                        selectedLogo.src = canvas.toDataURL('image/jpeg');
+    
+                        // Check if image size exceeds 300x300 after resizing
+                        if (width > maxWidth || height > maxHeight) {
+                            toastr.warning('Image size should be within 300x300 pixels.');
+                        }
+                    } else {
+                        // If the image is within the size limit, set the image source directly
+                        var selectedLogo = document.getElementById('selected_logo');
+                        if (selectedLogo) {
+                            selectedLogo.src = img.src;
+                        }
+                    }
+                };
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    $(function () {
+        $('#DepMainBranch-form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save_deposit_main_branch' %}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg);
+                        // clear form and img
+                        clearFormAndImage();
+                        location.reload();
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            });
+        });
+    });
+
+    // clear form and img
+    function clearFormAndImage() {
+        $('#DepMainBranch-form')[0].reset();
+    }
+</script>

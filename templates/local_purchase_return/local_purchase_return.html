@@ -1,0 +1,1300 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'purchase_order/css/purchase_order.css' %}">
+<!--========== from js file ==========-->
+<script src="{% static 'purchase_order/js/purchase_order.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<!-- loader start -->
+<div class="loader"></div>
+<!-- loader end -->
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #459789;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bxs-chevrons-right text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Local Purchase Return (LP Return) Details</h1>
+                        </div>
+                        <div class="add-moduleBtn" onClick="navigateTo('/local_purchase_return_list/')">
+                            <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn"
+                                style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #459789; border-radius: 0.7rem; border: 1.5px solid #fff; font-size: 0.8rem;"">
+                                LP Return List
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section>
+                <div class="row row_item_setup">
+                    <!-- Opening Stock main entry form -->
+                    <div class="col-sm-12">
+                        <div class="card main-card">
+                            <div class="card-body card-body_item_setup">
+                                <div class="itemsetup_container">
+                                    <form id="LPR-form" action="" method="POST">
+                                        <input type="hidden" name="lp_id" value="{% if ops_Data.pk %}{{ops_Data.pk}}{% endif %}">
+                                        <!-- accordion header -->
+                                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-headingOne">
+                                                    <button class="accordion-button accordion_btn_body" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#OpeningstockOne"
+                                                        aria-expanded="false" aria-controls="flush-collapseOne">
+                                                        Edit/Update Local Purchase (LP) Information
+                                                    </button>
+                                                </h2>
+                                                <div id="OpeningstockOne" class="accordion-collapse collapse show"
+                                                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                                    <div class="accordion-body">
+                                                        <!-- head body -->
+                                                        <div class="row row_item_setup">
+                                                            <div class="col-sm-12">
+                                                                <div class="card main-card">
+                                                                    <div class="card-body card-body_item_setup">
+                                                                        <!-- 1st row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_lp_no"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                LP No:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <input type="text" value="{{ops_Data.lp_no}}"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    id="id_lp_no" name="lp_no"
+                                                                                                    readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_transaction_date"
+                                                                                                class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Date:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="date" id="id_transaction_date"
+                                                                                                    class="form-control item_inputbox" value="{{ ops_Data.transaction_date|date:'Y-m-d' }}"
+                                                                                                    name="transaction_date" readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_order_type" class="col-sm-3 col_sm_3 col-form-label font_size_filter">
+                                                                                                Order Type:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm_expected" style="margin-top: 4px; display: flex;">
+                                                                                                <!--  -->
+                                                                                                <div class="form-check form-check-inline"
+                                                                                                    style="width: 30%;">
+                                                                                                    <label class="form-check-label"
+                                                                                                        for="id_is_credit" style="font-size: 11.5px;">Credit</label>
+                                                                                                    <!--  -->
+                                                                                                    <input style="cursor: pointer;" class="form-check-input"
+                                                                                                        type="radio" name="is_credit" id="id_is_credit" value="1" 
+                                                                                                        {% if ops_Data.is_credit == 1 %}checked{% endif %} disabled>
+                                                                                                </div>
+                                                                                                <!--  -->
+                                                                                                <div class="form-check form-check-inline"
+                                                                                                    style="width: 30%;">
+                                                                                                    <label class="form-check-label" for="id_is_cash"
+                                                                                                        style="font-size: 11.5px;">Cash</label>
+                                                                                                    <!--  -->
+                                                                                                    <input style="cursor: pointer;" class="form-check-input"
+                                                                                                    type="radio" name="is_cash" id="id_is_cash" value="1"
+                                                                                                    {% if ops_Data.is_cash == 1 %}checked{% endif %} disabled>
+                                                                                                </div>
+                                                                                                <!--  -->
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- 2nd row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_current_store"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Current Store:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <select id="id_current_store" name="current_store" class="form-select item_inputbox">
+                                                                                                    <option value="{{ ops_Data.store_id }}" selected>{{ ops_Data.store_id.store_name }}</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--   -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_org" class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Organization:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <select id="id_org" name="org" class="form-select item_inputbox">
+                                                                                                    <option value="{{ ops_Data.id_org }}" selected>{{ ops_Data.id_org.org_name }}</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_invoice_no"
+                                                                                                class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Invoice No:
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="text" id="id_invoice_no" value="{{lp_Data.invoice_no}}"
+                                                                                                    class="form-control item_inputbox" name="invoice_no" autocomplete="off" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- 3rd row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="register_customer"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Reg. Clients:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <input type="search" id="register_customer" class="form-control item_inputbox"
+                                                                                                    autocomplete="off" placeholder="Search by CN / Name / Phone No" readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_branchs" class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Branchs:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <select id="id_branchs" name="branchs" class="form-select item_inputbox">
+                                                                                                    <option value="{{ ops_Data.branch_id }}" selected>{{ ops_Data.branch_id.branch_name }}</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--   -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_invoice_date"
+                                                                                                class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Invoice Date:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="text" id="id_invoice_date"
+                                                                                                    class="form-control item_inputbox datepicker" name="invoice_date" autocomplete="off" required readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                        </div>
+                                                                        <!-- 3rd second -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_clients_name"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Clients Name:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <input type="number" id="id_reg_id" name="reg_id" value="{{ops_Data.reg_id.reg_id}}" hidden>
+                                                                                                <input type="text" id="id_clients_name" value="{{ops_Data.cus_clients_name}}" class="form-control item_inputbox" name="clients_name" autocomplete="off" required readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_cus_mobile_number"
+                                                                                                class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Mobile:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="number" id="id_cus_mobile_number" value="{{ops_Data.cus_mobile_number}}" class="form-control item_inputbox" name="cus_mobile_number" autocomplete="off" required readonly>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--   -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_cus_gender" class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Gender:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <!--  -->
+                                                                                                <select id="id_cus_gender" name="cus_gender" class="form-select item_inputbox" disabled>
+                                                                                                    <!--  -->
+                                                                                                    <option value="" selected disabled>Choose Gender</option>
+                                                                                                    <option value="Male" {% if ops_Data.cus_gender == 'Male' %}selected{% endif %}>Male</option>
+                                                                                                    <option value="Female" {% if ops_Data.cus_gender == 'Female' %}selected{% endif %}>Female</option>
+                                                                                                    <option value="Others" {% if ops_Data.cus_gender == 'Others' %}selected{% endif %}>Others</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                        </div>
+                                                                        <!-- 3rd third -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <!--  -->
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_cus_emrg_person"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Emrg Person:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <input type="text" id="id_cus_emrg_person" value="{{ops_Data.cus_emrg_person}}" class="form-control item_inputbox" name="cus_emrg_person" autocomplete="off" readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_cus_emrg_mobile"
+                                                                                                class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Emrg Mobile:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="number" id="id_cus_emrg_mobile" value="{{ops_Data.cus_emrg_mobile}}" class="form-control item_inputbox" name="cus_emrg_mobile" autocomplete="off" readonly>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--   -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_cus_address" class="col-sm-3 col_sm_menual col-form-label font_size_filter">
+                                                                                                Address:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm-9_manual">
+                                                                                                <!--  -->
+                                                                                                <textarea id="id_cus_address" name="cus_address" class="form-control item_inputbox" style="height: 1.6rem;" disabled>{{ops_Data.cus_address}}</textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                        </div>
+                                                                        <!-- 4th row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <!-- approve by -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_is_returned_by"
+                                                                                                class="col-sm-4 col_sm_menual col-form-label font_size_filter">
+                                                                                                Return By :
+                                                                                            </label>
+                                                                                            {% if user.is_authenticated %}
+                                                                                            <div class="col-sm-1">
+                                                                                                <input type="checkbox"
+                                                                                                    id="id_returned_name"
+                                                                                                    name="is_returned_by_name"
+                                                                                                    class="form-check-input checkbox_manual"
+                                                                                                    onClick="is_returned_func();"
+                                                                                                    value="{% if ops_Data.is_returned_by %} {{ ops_Data.is_returned_by.first_name }} {{ ops_Data.is_returned_by.last_name }}{% else %}{{ user.first_name }} {{ user.last_name }}{% endif %}"
+                                                                                                    {% if ops_Data.is_returned_by %}disabled{% endif %} 
+                                                                                                    {% if ops_Data.is_returned_by %}checked{% endif %}>
+
+                                                                                                <input type="hidden" id="returned_by_user" value="{{ user.user_id }}">
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            <!-- id="id_returned_name" wise id_is_returned checkbox value show -->
+                                                                                            <input type="hidden" id="id_is_returned" name="is_returned" value="0"
+                                                                                                class="form-check-input checkbox_manual">
+                                                                                            <!--  -->
+                                                                                            <div class="col-sm-mody">
+                                                                                                <!-- id="id_returned_name" checkbox value wise received_by_name value show -->
+                                                                                                <input type="text" class="form-control item_inputbox" id="id_is_returned_by" readonly>
+                                                                                                <!-- id="returned_by_user" value wise name="is_returned_by" value show -->
+                                                                                                <input type="hidden" class="form-control item_inputbox" id="id_user_id_by" name="is_returned_by" readonly>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- remarks -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div
+                                                                                            class="row cash_point_row">
+                                                                                            <label for="id_returned_date"
+                                                                                                class="col-sm-2 col_sm_menual col-form-label font_size_filter">
+                                                                                                Return Date :
+                                                                                            </label>
+                                                                                            <div
+                                                                                                class="col-sm-8 col-sm-9_manual">
+                                                                                                <input type="date"
+                                                                                                    id="id_returned_date"
+                                                                                                    name="returned_date"
+                                                                                                    class="form-control item_inputbox"
+                                                                                                    readonly>
+                                                                                            </div>
+                                                                                            <!--  -->
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--  -->
+                                                                            <div class="col-sm-4">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_credit_balance"
+                                                                                                class="col-sm-3 text-danger col-form-label font_size_filter">
+                                                                                                Balance:
+                                                                                            </label>
+                                                                                            <div class="col-sm-8 col-sm_expected">
+                                                                                                <span id="id_credit_balance" class="form-control item_inputbox text-success credit_balance">0.00</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- last row -->
+                                                                        <div class="row row_item_setup">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="card main-card">
+                                                                                    <div class="card-body item_setup_sub">
+                                                                                        <div class="row cash_point_row">
+                                                                                            <label for="id_returned_remarks"
+                                                                                                class="col-sm-1 col-sm-remarks col-form-label font_size_filter">
+                                                                                                Remarks:
+                                                                                            </label>
+                                                                                            <div class="col-sm-11 col-sm-remarks-txt">
+                                                                                                <textarea type="text" class="form-control item_inputbox"
+                                                                                                    id="id_returned_remarks" name="returned_remarks" style="height: 28px; margin-bottom: 5px;"></textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+
+                                        <!--  -->
+                                        <!-- table body -->
+                                        <input type="hidden" id="returned_date_ind" class="from-control" name="returned_date_ind" hidden>
+                                        <section style="margin-top: 1rem;">
+                                            <div class="table_border">
+                                                <div class="col-xl-12">
+                                                    <div class="table-body item_table_body">
+                                                        <div class="d-flex w-100" id="LPR_TB">
+                                                            <table class="table" style="width: 100%; text-align:center;">
+                                                                <thead class="text-center table-header_itemlist">
+                                                                    <tr style="border-style: hidden!important;">
+                                                                        <th style="text-align:center; width: 3%;">Sl</th>
+                                                                        <th style="text-align:center; width: 6%;">Item No</th>
+                                                                        <th style="text-align:center; width: 18%;">Item Name</th>
+                                                                        <th style="text-align:center; width: 6%;">UoM</th>
+                                                                        <th style="text-align:center; width: 6%;">S.Qty</th>
+                                                                        <th style="text-align:center; width: 6%;">R.Qty</th>
+                                                                        <th style="text-align:center; width: 6%;">Retd. Qty</th>
+                                                                        <th style="text-align:center; width: 6%;">Is Can.</th>
+                                                                        <th style="text-align:center; width: 6%;">Ret. Qty</th>
+                                                                        <th style="text-align:center; width: 8%;">Batch No</th>
+                                                                        <th style="text-align:center; width: 8%;">If Cancel</th>
+                                                                        <th style="text-align:center; width: 6%;">U.Price</th>
+                                                                        <th style="text-align:center; width: 6%;">Dis Per (%)</th>
+                                                                        <th style="text-align:center; width: 6%;">Tot. Amt</th>
+                                                                        <th style="text-align:center; width: 4%;">
+                                                                            <input type="checkbox" class="inputbox_tdrow is_rec_checkbox" id="all_rec_check" name="all_rec_check">
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="PORDTLTB">
+                                                                    {% for dtl in item_with_opsDtls %}
+                                                                    <tr style="border-style: hidden!important;">
+                                                                        <td class="serial-number inputbox_tdrow" style="text-align:center;">
+                                                                            {{ forloop.counter }}
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" value="{{ dtl.ops_dtls.item_id.item_no }}" class="inputbox_tdrow" id="item_no"
+                                                                                name="item_no[]" readonly>
+                                                                            <input type="hidden" value="{{ dtl.ops_dtls.item_id.item_id }}" class="inputbox_tdrow" id="item_id"
+                                                                                name="item_id[]" readonly>
+                                                                        </td>
+                                                                        <td style="position: relative; margin-top: 2.5px; text-align: left;"
+                                                                            class="inputbox_tdrow items_name_id">
+                                                                            {{ dtl.ops_dtls.item_id.item_name }}
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" value="{{ dtl.ops_dtls.item_id.item_uom_id.item_uom_name }}" class="inputbox_tdrow" id="uom_name"
+                                                                                name="uom_name[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="{{ dtl.grandQty|floatformat:'0' }}" class="inputbox_tdrow" id="stock_qty"
+                                                                                name="stock_qty[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="{% if dtl.totalPoRecQty %}{{ dtl.totalPoRecQty }}{% else %}0{% endif %}" class="inputbox_tdrow"
+                                                                                id="received_qty" name="received_qty[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="{% if dtl.totalPoReturnQty %}{{ dtl.totalPoReturnQty }}{% else %}0{% endif %}" class="inputbox_tdrow"
+                                                                                id="returned_qty" name="returned_qty[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="{% if dtl.totalIsCanceledQty %}{{ dtl.totalIsCanceledQty }}{% else %}0{% endif %}" class="inputbox_tdrow"
+                                                                                id="is_canceled_qty" name="is_canceled_qty[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="0" class="rec_bonusQty"
+                                                                                id="return_qty" name="return_qty[]" required autocomplete="off" disabled>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="inputbox_rowwise item_disabled" id="item_batchs" value="{{ dtl.ops_dtls.item_batch }}"
+                                                                                name="item_batchs[]" autocomplete="off">
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="0" class="rec_bonusQty"
+                                                                                id="is_cancel_qty" name="is_cancel_qty[]" required autocomplete="off" disabled>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="{{ dtl.ops_dtls.unit_price }}" class="inputbox_tdrow"
+                                                                                id="unit_prices" name="unit_prices[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="number" value="{{ dtl.ops_dtls.dis_percentage }}" class="inputbox_tdrow"
+                                                                                id="dis_percentage" name="dis_percentage[]" readonly>
+                                                                        </td>
+                                                                        <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="checkbox" value="1" class="inputbox_tdrow is_rec_checkbox" id="is_returned_ind" name="is_returned_ind[]">
+                                                                        </td>
+                                                                    </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </section>
+                                        <!-- purchage payment history -->
+                                        <section class="pur-payment-his">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_item_setup">
+                                                            <div class="row row_item_setup">
+                                                                <!-- 1st row -->
+                                                                <div class="col-sm-4">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="row cash_point_row">
+                                                                                <label for="dis_percentance"
+                                                                                    class="col-sm-4 col_sm_disPer col-form-label font_size_filter">
+                                                                                    Discount Percentance:
+                                                                                </label>
+                                                                                <div class="col-sm-6" id="id_disCalc">
+                                                                                    <input type="number" id="dis_percentance"
+                                                                                        style="text-align: right; padding: 0.175rem 1rem 0.175rem 0.75rem;"
+                                                                                        class="form-control item_inputbox" value="{{ ops_Data.dis_percentance }}"
+                                                                                        name="dis_percentance" autocomplete="off" readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--   -->
+                                                                <div class="col-sm-4">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="row cash_point_row">
+                                                                                <label for="total_disamt"
+                                                                                    class="col-sm-1 col_sm_totDis col-form-label font_size_filter">
+                                                                                    Total Discount:
+                                                                                </label>
+                                                                                <div class="col-sm-8">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control payHis_inputbox"
+                                                                                        name="total_disamt" value="0">
+                                                                                    <span
+                                                                                        class="form-control payHis_inputbox total-discountAmt"
+                                                                                        id="total_disamt">0.00</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-4">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="row cash_point_row div_id_ops_id">
+                                                                                <label for="grand_totalamt"
+                                                                                    class="col-sm-3 col_sm_3 col-form-label font_size_filter">
+                                                                                    Total Amount:
+                                                                                </label>
+                                                                                <div class="col-sm-8 col-sm_expected">
+                                                                                    <input type="hidden"
+                                                                                        class="form-control payHis_inputbox"
+                                                                                        name="grand_totalamt" value="0">
+                                                                                    <span
+                                                                                        class="form-control payHis_inputbox total-discountAmt"
+                                                                                        id="grand_totalamt">0.00</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- 2nd row -->
+                                                                <div class="sec-row" style="display:flex; margin-top: 0.5rem;">
+                                                                    <div class="col-sm-4">
+                                                                        <div class="card main-card">
+                                                                            <div class="card-body item_setup_sub">
+                                                                                <div class="row cash_point_row">
+                                                                                    <label for="vat_percentance"
+                                                                                        class="col-sm-4 col_sm_disPer col-form-label font_size_filter">
+                                                                                        VAT Percentance:
+                                                                                    </label>
+                                                                                    <div class="col-sm-6" id="id_vatCalc">
+                                                                                        <input type="number" id="vat_percentance"
+                                                                                            style="text-align: right; padding: 0.175rem 1rem 0.175rem 0.75rem;"
+                                                                                            class="form-control item_inputbox" value="{{ ops_Data.vat_percentance }}"
+                                                                                            name="vat_percentance" autocomplete="off" readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--   -->
+                                                                    <div class="col-sm-4">
+                                                                        <div class="card main-card">
+                                                                            <div class="card-body item_setup_sub">
+                                                                                <div class="row cash_point_row">
+                                                                                    <label for="total_vatamt"
+                                                                                        class="col-sm-1 col_sm_totDis col-form-label font_size_filter">
+                                                                                        Total VAT:
+                                                                                    </label>
+                                                                                    <div class="col-sm-8">
+                                                                                        <input type="hidden"
+                                                                                            id="id_expected_date"
+                                                                                            class="form-control payHis_inputbox"
+                                                                                            name="total_vatamt" value="0">
+                                                                                        <span
+                                                                                            class="form-control payHis_inputbox total-discountAmt"
+                                                                                            id="total_vatamt">0.00</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--  -->
+                                                                    <div class="col-sm-4">
+                                                                        <div class="card main-card">
+                                                                            <div class="card-body item_setup_sub">
+                                                                                <div class="row cash_point_row">
+                                                                                    <label for="total_grand_amt"
+                                                                                        class="col-sm-3 col_sm_3 col-form-label font_size_filter">
+                                                                                        Grand Total:
+                                                                                    </label>
+                                                                                    <div class="col-sm-8 col-sm_expected">
+                                                                                        <input type="hidden"
+                                                                                            class="form-control payHis_inputbox"
+                                                                                            name="total_grand_amt">
+                                                                                        <span
+                                                                                            class="form-control payHis_inputbox total-discountAmt"
+                                                                                            id="total_grand_amt">0.00</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <!-- purchage submission button -->
+                                        <section class="pur-submissionBtn">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_item_setup">
+                                                            <div class="row row_item_setup">
+                                                                <!-- submit button -->
+                                                                <div class="submit_button">
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-success btn-sm" type="submit"
+                                                                        id="approve_po">
+                                                                        Approve
+                                                                    </button>
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-primary btn-sm text-white" id="id_receive"
+                                                                        type="submit">
+                                                                        Return
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        var regisID = $('#id_reg_id').val();
+        var orgID = $('#id_org').val();
+
+        function fetchAndDisplayClientsTrns(regisID, orgID) {
+            if (regisID && orgID) {
+                $.ajax({
+                    url: "{% url 'get_clients_trans_summary_report' %}",
+                    type: 'GET',
+                    data: {
+                        reg_id: regisID,
+                        org_id: orgID
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var total_OP_DebitAmt = 0;
+                        var total_OP_CreditAmt = 0;
+                        var total_trns_DebitAmt = 0;
+                        var total_trns_CreditAmt = 0;
+                        var balance = 0;
+        
+                        if (Array.isArray(response.combined_data)) {
+                            response.combined_data.forEach(function (transaction) {
+                                total_OP_DebitAmt += parseFloat(transaction.op_debit_amt || 0);
+                                total_OP_CreditAmt += parseFloat(transaction.op_credit_amt || 0);
+                                total_trns_DebitAmt += parseFloat(transaction.trns_debit_amt || 0);
+                                total_trns_CreditAmt += parseFloat(transaction.trns_credit_amt || 0);
+                            });
+        
+                            balance = (total_OP_DebitAmt + total_trns_DebitAmt) - (total_OP_CreditAmt + total_trns_CreditAmt);
+                            
+                            $('#id_credit_balance').text(balance.toFixed(2));
+                        } else {
+                            $('#id_credit_balance').text('0.00');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching transactions:', status, error);
+                    }
+                });
+            } else {
+                console.warn('Required IDs are missing.');
+            }
+        }
+
+        if (regisID && orgID) {
+            fetchAndDisplayClientsTrns(regisID, orgID);
+        }
+    });
+    //
+    $(document).ready(function () {
+        // Properly initialize the datepicker
+        $("#id_invoice_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            onSelect: function (selectedDate) {
+                console.log("Selected date:", selectedDate);
+            }
+        });
+    
+        // Ensure the datepicker is ready before setting today's date
+        $("#id_invoice_date").datepicker("setDate", new Date());
+    
+        // Handle manual date changes safely
+        $("#id_invoice_date").on("change", function () {
+            let dateVal = $(this).val();
+            try {
+                // Re-apply the datepicker to avoid conflicts
+                $(this).datepicker("setDate", dateVal);
+                console.log("Manual change detected:", dateVal);
+            } catch (e) {
+                console.error("Error setting date:", e);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $(".datepicker").each(function (index, element) {
+            var inputId = "expiry_date_" + (index + 1); // Unique ID based on the index
+    
+            $(element).attr("id", inputId); // Set a unique ID for the input
+    
+            $("#" + inputId).datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeYear: true,
+                changeMonth: true
+            });
+    
+            // Force the correct format after the input is populated
+            $(element).val(function(i, val) {
+                var date = new Date(val);
+                // Check if the date is valid
+                if (!isNaN(date.getTime())) {
+                    return $.datepicker.formatDate('yy-mm-dd', date);
+                }
+                return ""; // Return empty string if the date is invalid
+            });
+        });
+    });
+
+    //
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('input[name="return_qty[]"]').forEach(function(input) {
+            input.addEventListener('input', function() {
+                // Use a regular expression to check for non-numeric characters
+                if (!/^\d*$/.test(input.value)) {
+                    input.value = input.value.replace(/[^0-9]/g, '');
+                }
+    
+                // Ensure the value is not negative (additional safety)
+                var value = parseInt(input.value, 10);
+                if (isNaN(value) || value < 0) {
+                    input.value = 0;
+                }
+    
+                // Limit the input length to 5 characters
+                if (input.value.length > 4) {
+                    input.value = input.value.slice(0, 4);
+                }
+            });
+        });
+    });
+
+
+    // set defualt value
+    $('[name="return_qty[]"]').on('input change blur', function () {
+        var value = $(this).val();
+        if (value.trim().length === 0) {
+            $(this).val('0');
+        }
+    }).on('focus', function () {
+        var value = $(this).val();
+        if (value.trim() === '0') {
+            $(this).val('');
+        }
+    });
+
+    $('[name="is_cancel_qty[]"]').on('input change blur', function () {
+        var value = $(this).val();
+        if (value.trim().length === 0) {
+            $(this).val('0');
+        }
+    }).on('focus', function () {
+        var value = $(this).val();
+        if (value.trim() === '0') {
+            $(this).val('');
+        }
+    });
+    // set defualt value end
+    
+    $(document).ready(function () {
+        const getTwoDigits = (value) => value < 10 ? `0${value}` : value;
+
+        const formatDate = (date) => {
+            const day = getTwoDigits(date.getDate());
+            const month = getTwoDigits(date.getMonth() + 1); // add 1 since getMonth returns 0-11 for the months
+            const year = date.getFullYear();
+
+            return `${year}-${month}-${day}`;
+        }
+
+        const formatTime = (date) => {
+            const hours = getTwoDigits(date.getHours());
+            const mins = getTwoDigits(date.getMinutes());
+
+            return `${hours}:${mins}`;
+        }
+
+        const date = new Date();
+        document.getElementById('returned_date_ind').value = formatDate(date);
+        //=====================================================================
+
+        // Event listener for the "id_returned_name" checkbox
+        $('#id_returned_name').change(function () {
+            // Get the checked status of the "id_returned_name" checkbox
+            var isChecked = $(this).prop('checked');
+            
+            // Set the checked status of the "all_rec_check" checkbox
+            $('#all_rec_check').prop('checked', isChecked);
+            
+            // Trigger the change event on the "all_rec_check" checkbox
+            $('#all_rec_check').change();
+        });
+        
+        // Event listener for the "all_rec_check" checkbox
+        $('#all_rec_check').change(function () {
+            // Get the checked status of the "all_rec_check" checkbox
+            var isChecked = $(this).prop('checked');
+            
+            // Enable or disable other checkboxes with class "is_rec_checkbox"
+            $('.is_rec_checkbox').prop('checked', isChecked);
+            
+            // Enable or disable return_qty[] inputs based on the "all_rec_check" checkbox status
+            var $receiveQtyInputs = $('[name="return_qty[]"]');
+            var $isCancelQtysInputs = $('[name="is_cancel_qty[]"]');
+
+            
+            
+            if (isChecked) {
+                $receiveQtyInputs.prop('disabled', false).addClass('disabled-input');
+                $isCancelQtysInputs.prop('disabled', false).addClass('disabled-input');
+            } else {
+                $receiveQtyInputs.prop('disabled', true).removeClass('disabled-input');
+                $isCancelQtysInputs.prop('disabled', true).removeClass('disabled-input');
+            }
+        });
+        
+        // Event listener for individual checkboxes with class "is_rec_checkbox"
+        $('#LPR_TB').on('change', '.is_rec_checkbox', function () {
+            // Find the closest row (tr) of the clicked checkbox
+            var $row = $(this).closest('tr');
+            
+            // Find the return_qty[] inputs within the row
+            var $receiveQtyInput = $row.find('[name="return_qty[]"]');
+            var $isCancelQtysInput = $('[name="is_cancel_qty[]"]');
+            
+            // Enable or disable the inputs based on the checkbox status
+            if ($(this).is(':checked')) {
+                $receiveQtyInput.prop('disabled', false).addClass('disabled-input');
+                $isCancelQtysInput.prop('disabled', false).addClass('disabled-input');
+            } else {
+                $receiveQtyInput.prop('disabled', true).removeClass('disabled-input');
+                $isCancelQtysInput.prop('disabled', true).removeClass('disabled-input');
+            }
+        });
+    });
+
+    //============================================= approved by ckeckbox wise button hide show =============================================
+    //<!-- Checkbox check to value show -->
+    function is_returned_func() {
+        var approvedNameCheckbox = document.getElementById("id_returned_name");
+        var isApprovedInput = document.getElementById("id_is_returned");
+        var receivedDateInput = document.getElementById("id_returned_date");
+        var receiveButton = document.getElementById("id_receive");
+        var approveButton = document.getElementById("approve_po");
+        var isApprovedByInput = document.getElementById("id_is_returned_by"); // Declare and initialize this variable
+        var isUserID = document.getElementById("id_user_id_by");
+
+        // Find the parent <tbody> element
+        var PORDTLTB = document.getElementById("PORDTLTB");
+
+        // Find elements within the <tbody>
+        var IteQtyInputs = PORDTLTB.getElementsByClassName("item_disabled");
+        var IteBatchInputs = PORDTLTB.getElementsByClassName("item_disabled");
+        var IteExpDateInputs = PORDTLTB.getElementsByClassName("item_disabled");
+        var ItemDeleteButtons = PORDTLTB.getElementsByClassName("itemAdd_del_btn");
+
+        if (approvedNameCheckbox.checked) {
+            var authUserId = $('#returned_by_user').val();
+            isApprovedInput.value = "1";
+            isUserID.value = authUserId;
+            var currentDate = new Date();
+
+            // Adjust the date to your local time zone
+            var offset = currentDate.getTimezoneOffset();
+            currentDate = new Date(currentDate.getTime() - offset * 60 * 1000);
+
+            receivedDateInput.value = currentDate.toISOString().split('T')[0];
+
+            // Handle checkboxes and set the value of "Approved By" input
+            var checkboxes = document.getElementsByName('is_returned_by_name');
+            var checkboxesChecked = [];
+
+            // Loop over the checkboxes
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checkboxesChecked.push(checkboxes[i].value);
+                }
+            }
+            isApprovedByInput.value = checkboxesChecked.join(', ');
+
+            // Change the input fields to readonly
+            for (var i = 0; i < IteQtyInputs.length; i++) {
+                IteQtyInputs[i].readOnly = true;
+                IteBatchInputs[i].readOnly = true;
+                IteExpDateInputs[i].readOnly = true;
+            }
+
+            for (var i = 0; i < ItemDeleteButtons.length; i++) {
+                ItemDeleteButtons[i].disabled = true; // Disable delete buttons
+            }
+
+            receiveButton.disabled = true;
+            approveButton.disabled = false;
+        } else {
+            isApprovedInput.value = "0";
+            isUserID.value = "";
+            isApprovedByInput.value = "";
+            receivedDateInput.value = "";
+
+            // Change the input fields back to editable
+            for (var i = 0; i < IteQtyInputs.length; i++) {
+                IteQtyInputs[i].readOnly = false;
+                IteBatchInputs[i].readOnly = false;
+                IteExpDateInputs[i].readOnly = false;
+            }
+
+            for (var i = 0; i < ItemDeleteButtons.length; i++) {
+                ItemDeleteButtons[i].disabled = false; // Enable delete buttons
+            }
+
+            receiveButton.disabled = false;
+            approveButton.disabled = true;
+        }
+    }
+
+    // Add an event listener to the "id_returned_name" checkbox
+    document.getElementById("id_returned_name").addEventListener("change", is_returned_func);
+
+    // Initially toggle the button state
+    is_returned_func();
+    //<!--  -->
+    //============================================= approved by ckeckbox wise button hide show =============================================
+
+    // is_Credit && is_Cash click to change
+    document.getElementById('id_is_cash').addEventListener('change', function () {
+        document.getElementById('id_is_credit').checked = !this.checked;
+    });
+
+    document.getElementById('id_is_credit').addEventListener('change', function () {
+        document.getElementById('id_is_cash').checked = !this.checked;
+    });
+    //<!--  -->
+
+    const getTwoDigits = (value) => value < 10 ? `0${value}` : value;
+
+    const formatDate = (date) => {
+        const day = getTwoDigits(date.getDate());
+        const month = getTwoDigits(date.getMonth() + 1); // add 1 since getMonth returns 0-11 for the months
+        const year = date.getFullYear();
+
+        return `${year}-${month}-${day}`;
+    }
+
+    const formatTime = (date) => {
+        const hours = getTwoDigits(date.getHours());
+        const mins = getTwoDigits(date.getMinutes());
+
+        return `${hours}:${mins}`;
+    }
+
+    const date = new Date();
+    //<!--  -->
+
+    // (%) 0, (-), 1 to 100 value only entry restricted
+    function handleInput(inputElement) {
+        let value = parseFloat(inputElement.value);
+
+        if (isNaN(value)) {
+            inputElement.value = ''; // Set input to empty string if value is not a number
+        } else {
+            // Cap the value between 1 and 100
+            value = Math.max(1, Math.min(value, 100));
+            inputElement.value = value.toString();
+        }
+    }
+
+    const totalDisInput = document.getElementById('dis_percentance');
+    const totalVatInput = document.getElementById('vat_percentance');
+
+    // Add event listeners to both input elements
+    totalDisInput.addEventListener('input', function () {
+        handleInput(totalDisInput);
+    });
+
+    totalVatInput.addEventListener('input', function () {
+        handleInput(totalVatInput);
+    });
+
+    function Calculate() {
+        var grand_totalAmount = 0;
+        $('#LPR_TB table tbody tr').each(function () {
+            var orderQty = parseFloat($(this).find('[name="order_qty[]"]').val()) || 0;
+            var unitPrice = parseFloat($(this).find('[name="unit_prices[]"]').val()) || 0;
+            var receivedQty = parseFloat($(this).find('[name="received_qty[]"]').val()) || 0;
+            var returnedQty = parseFloat($(this).find('[name="returned_qty[]"]').val()) || 0;
+            var return_Qty = parseFloat($(this).find('[name="return_qty[]"]').val()) || 0;
+            var is_canceled_Qty = parseFloat($(this).find('[name="is_canceled_qty[]"]').val()) || 0;
+            var is_cancel_Qty = parseFloat($(this).find('[name="is_cancel_qty[]"]').val()) || 0;
+    
+            var totalAmount = (return_Qty || is_cancel_Qty) ? (return_Qty - is_cancel_Qty) * unitPrice : 0;
+
+            var pendingQty = receivedQty - (returnedQty - is_canceled_Qty);
+
+            var is_cancel_max = returnedQty - is_canceled_Qty;
+
+            // Get the discount percentage for the current row
+            var dis_percent = parseFloat($(this).find('[name="dis_percentage[]"]').val()) || 0;
+            var total_dis_percent = dis_percent / 100;
+            var total_dis_amt = totalAmount * total_dis_percent;
+
+            // Calculate the total amount after discount for the current row
+            var row_totalAmount = totalAmount - total_dis_amt;
+    
+            if (isNaN(row_totalAmount)) {
+                row_totalAmount = 0;
+            }
+    
+            // Set max value for return_qty based on pendingQty
+            $(this).find('[name="return_qty[]"]').attr('max', pendingQty);
+            $(this).find('[name="is_cancel_qty[]"]').attr('max', is_cancel_max);
+    
+            $(this).find('.total_amt').text(row_totalAmount.toLocaleString('en-US'));
+    
+            // total amount
+            grand_totalAmount += parseFloat(row_totalAmount);
+        });
+    
+        $('#grand_totalamt').text(parseFloat(grand_totalAmount).toFixed(2).toLocaleString('en-US'));
+        $('[name="grand_totalamt"]').val(parseFloat(grand_totalAmount).toFixed(2));
+    
+        // Calculate discount, VAT, and total grand amount
+        CalculateDiscountAndVAT(grand_totalAmount);
+    }
+    
+    function CalculateDiscountAndVAT(grand_totalAmount) {
+        // discount percentance
+        var dis_perce = parseFloat($('[name="dis_percentance"]').val()) || 0;
+        var total_dis_perce = dis_perce / 100;
+        var dis_amt = grand_totalAmount * total_dis_perce;
+    
+        // Round discount percentance to avoid negative zero
+        dis_amt = (dis_amt === 0) ? 0 : parseFloat(dis_amt.toFixed(2));
+        var dis_amt_formatted = dis_amt.toLocaleString('en-US');
+        var dis_amt_no_commas = dis_amt_formatted.replace(/,/g, ''); // Remove commas
+        $('#total_disamt').text(dis_amt_no_commas);
+        $('[name="total_disamt"]').val(dis_amt_no_commas);
+    
+        // vat percentance
+        var vat_perce = parseFloat($('[name="vat_percentance"]').val()) || 0;
+        var total_vat_perce = vat_perce / 100;
+        var vat_amt = grand_totalAmount * total_vat_perce;
+    
+        // Round vat percentance to avoid negative zero
+        vat_amt = (vat_amt === 0) ? 0 : parseFloat(vat_amt.toFixed(2));
+        var vat_amt_formatted = vat_amt.toLocaleString('en-US');
+        var vat_amt_no_commas = vat_amt_formatted.replace(/,/g, ''); // Remove commas
+        $('#total_vatamt').text(vat_amt_no_commas);
+        $('[name="total_vatamt"]').val(vat_amt_no_commas);
+    
+        // grand total amount
+        var total_grand_Amount = ((parseFloat(grand_totalAmount) + parseFloat(vat_amt)) - parseFloat(dis_amt));
+        $('#total_grand_amt').text(parseFloat(total_grand_Amount).toFixed(2).toLocaleString('en-US'));
+        $('[name="total_grand_amt"]').val(parseFloat(total_grand_Amount).toFixed(2));
+    }
+    
+    // This event listener ensures that the return_qty input does not exceed the max value (pendingQty)
+    $(document).on('input', '[name="return_qty[]"]', function() {
+        var maxVal = parseFloat($(this).attr('max'));
+        var currentVal = parseFloat($(this).val());
+    
+        if (currentVal > maxVal) {
+            $(this).val(maxVal); // Set value to maxVal if currentVal exceeds it
+        }
+    });
+
+    $(document).on('input', '[name="is_cancel_qty[]"]', function() {
+        var maxVal = parseFloat($(this).attr('max'));
+        var currentVal = parseFloat($(this).val());
+    
+        if (currentVal > maxVal) {
+            $(this).val(maxVal); // Set value to maxVal if currentVal exceeds it
+        }
+    });
+
+    // Call Calculate() when the page loads
+    $(document).ready(function () {
+        Calculate();
+    });
+
+    $('#LPR_TB').on('input keypress keyup keydown', 'input[name="return_qty[]"]', function () {
+        Calculate();
+    });
+
+    $('#LPR_TB').on('input keypress keyup keydown', 'input[name="is_cancel_qty[]"]', function () {
+        Calculate();
+    });
+
+    $(function () {
+        $('#id_disCalc').find('input[name="dis_percentance"]').on('input keypress keyup keydown', function () {
+            Calculate();
+        })
+
+        $('#id_vatCalc').find('input[name="vat_percentance"]').on('input keypress keyup keydown', function () {
+            Calculate();
+        })
+    })
+
+    $(function () {
+        $('#LPR-form').submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                url: "{% url 'save_local_purchase_returned_service' %}",
+                data: new FormData(form[0]),
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function (resp) {
+                    if (resp.msg) {
+                        toastr.success(resp.msg);
+                        setTimeout(function () {
+                            window.location.href = "{% url 'local_purchase_return_list' %}";
+                        }, 300);
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                },
+                error: function (xhr) {
+                    toastr.error(`Error: ${xhr.responseJSON ? xhr.responseJSON.errmsg : xhr.statusText}`);
+                }
+            });
+        });
+    });
+
+    //<!-- loader scrpt-->
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+
+        loader.classList.add("loader-hidden");
+
+        loader.addEventListener("transitionend", () => {
+            // document.body.removeChild("loader");
+        });
+    });
+</script>
+
+{% endblock %}

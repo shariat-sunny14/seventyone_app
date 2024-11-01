@@ -1,0 +1,622 @@
+{% load static %}
+<section>
+    <div class="col-sm-12">
+        <div class="card main-card">
+            <div class="card-body card-body_item_setup">
+                <div class="itemsetup_container">
+                    <form action="" method="" id="updatebank" enctype="multipart/form-data">
+                        <input type="hidden" name="bank_id" value="{% if bank_data.pk %}{{bank_data.pk}}{% endif %}">
+                        <div class="add_edit_head">
+                            <h2 class="text-primary">Edit/Update Banks Information</h2>
+                        </div>
+                        <!--  -->
+                        <div class="row row_item_setup">
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-8">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_bank_no"
+                                                                class="col-sm-3 col-form-label font_size_filter required">
+                                                                Bank No:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control item_inputbox"
+                                                                    value="{% if bank_data.bank_no %}{{bank_data.bank_no}}{% endif %}"
+                                                                    id="id_bank_no" name="bank_no" autocomplete="off"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="col-sm-active">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="item_setupflag" style="display: flex; justify-content: right;">
+                                                            <label class="form-check-label text-danger setupflag_label"
+                                                                for="id_is_active">
+                                                                Active?
+                                                            </label>
+                                                            {% if bank_data.is_active == 1 %}
+                                                            <input type="checkbox" class="form-check-input checkboxinput" value="1"
+                                                                name="is_active" id="id_is_active" checked="checked">
+                                                            {% else %}
+                                                            <input type="checkbox" class="form-check-input checkboxinput" value="1"
+                                                                name="is_active" id="id_is_active">
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_bank_name"
+                                                                class="col-sm-orgName col-form-label font_size_filter required">
+                                                                Bank Name:
+                                                            </label>
+                                                            <div class="col-orgNameInput">
+                                                                <input type="text" class="form-control item_inputbox"
+                                                                    value="{% if bank_data.bank_name %}{{bank_data.bank_name}}{% endif %}"
+                                                                    id="id_bank_name" name="bank_name" autocomplete="off"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-7">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <label for="id_account_no"
+                                                                class="col-sm-accl col-form-label font_size_filter required">
+                                                                Account No:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="number" class="form-control item_inputbox"
+                                                                    value="{% if bank_data.account_no %}{{bank_data.account_no}}{% endif %}"
+                                                                    id="id_account_no" name="account_no" autocomplete="off"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                            <div class="col-sm-5">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <!--  -->
+                                                            <label for="id_bank_branch_name" class="col-sm-bbranch col-form-label font_size_filter required">
+                                                                Bank Branch:
+                                                            </label>
+                                                            <div class="col-sm-bankBranch">
+                                                                <select id="id_bank_branch_name" name="bank_branch_name"
+                                                                    class="form-select Selectionbox"
+                                                                    aria-label="Default select example" required>
+                                                                    <!--  -->
+                                                                    <option value="" selected disabled>Choose Bank Branch ...</option>
+                                                                    {% for bbranch in bankBranch %}
+                                                                    <option value="{{bbranch.lookup_id}}" {% if bank_data and bank_data.bank_branch_id == bbranch.lookup_id %}selected{% endif %}>
+                                                                        {{ bbranch.name }}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <!--  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_org_setup">
+                                        <div class="row row_item_setup">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body item_setup_sub">
+                                                        <div class="row cash_point_row">
+                                                            <!--  -->
+                                                            <label for="id_org" class="col-sm-orgName col-form-label font_size_filter required">
+                                                                Org:
+                                                            </label>
+                                                            <div class="col-sm-bname">
+                                                                <select id="id_org" name="org_id" class="form-select Selectionbox" aria-label="Default select example" required>
+                                                                    <option value="" selected disabled>Choose Organization ...</option>
+                                                                    {% for org in org_list %}
+                                                                        <option value="{{ org.org_id }}" {% if bank_data and bank_data.org_id_id == org.org_id %}selected{% endif %}>
+                                                                            {{ org.org_name }}
+                                                                        </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <!--  -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-sm-12">
+                                <div class="card main-card">
+                                    <div class="card-body card-body_item_setup">
+                                        <div class="itemsetup_container">
+                                            <div class="others_info_head">
+                                                <h2 class="text-info">Others Information</h2>
+                                            </div>
+                                            <!--  -->
+                                            <div class="row row_item_setup">
+                                                <!--  -->
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_org_setup">
+                                                            <div class="row row_item_setup">
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div
+                                                                                class="row cash_point_row div_id_country">
+                                                                                <label for="id_country"
+                                                                                    class="col-sm-3modify col-form-label font_size_filter">
+                                                                                    Country:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <select id="id_country" name="country" class="form-select item_inputbox" aria-label="Default select example">
+                                                                                        <option value="" selected disabled>Choose Country ... </option>
+                                                                                        {% for count in countries %}
+                                                                                            <option value="{{ count.lookup_id }}" {% if bank_data and bank_data.country_id == count.lookup_id %}selected{% endif %}>
+                                                                                                {{ count.name }}
+                                                                                            </option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="item_setupflag div_id_division"
+                                                                                style="display: flex; justify-content: right;">
+                                                                                <label for="id_division"
+                                                                                    class="col-sm-3 col-form-label font_size_filter">
+                                                                                    Division:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <select id="id_division"
+                                                                                        name="division"
+                                                                                        class="form-select item_inputbox"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" selected disabled>Choose Division ... </option>
+                                                                                        {% for divis in divisions %}
+                                                                                        <option value="{{divis.lookup_id}}" {% if bank_data and bank_data.division_id == divis.lookup_id %}selected{% endif %}>
+                                                                                            {{ divis.name }}
+                                                                                        </option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_org_setup">
+                                                            <div class="row row_item_setup">
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div
+                                                                                class="row cash_point_row div_id_district">
+                                                                                <label for="id_district"
+                                                                                    class="col-sm-3modify col-form-label font_size_filter">
+                                                                                    District:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <select id="id_district"
+                                                                                        name="district"
+                                                                                        class="form-select item_inputbox"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" selected disabled>Choose District ... </option>
+                                                                                        {% for dist in districts %}
+                                                                                        <option value="{{dist.lookup_id}}" {% if bank_data and bank_data.district_id == dist.lookup_id %}selected{% endif %}>
+                                                                                            {{ dist.name }}
+                                                                                        </option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="item_setupflag div_id_upazila"
+                                                                                style="display: flex; justify-content: right;">
+                                                                                <label for="id_upazila"
+                                                                                    class="col-sm-3 col-form-label font_size_filter">
+                                                                                    Upazila:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <select id="id_upazila"
+                                                                                        name="upazila"
+                                                                                        class="form-select item_inputbox"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" selected disabled>Choose Upazila ... </option>
+                                                                                        {% for upazila in upazilas %}
+                                                                                        <option value="{{upazila.lookup_id}}" {% if bank_data and bank_data.upazila_id == upazila.lookup_id %}selected{% endif %}>
+                                                                                            {{ upazila.name }}
+                                                                                        </option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_org_setup">
+                                                            <div class="row row_item_setup">
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div
+                                                                                class="row cash_point_row div_id_email">
+                                                                                <label for="id_email"
+                                                                                    class="col-sm-3modify col-form-label font_size_filter">
+                                                                                    Email:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input type="email" class="form-control item_inputbox"
+                                                                                        value="{% if bank_data.email %}{{bank_data.email}}{% endif %}"
+                                                                                        id="id_email" name="email"
+                                                                                        autocomplete="off">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="item_setupflag div_id_fax"
+                                                                                style="display: flex; justify-content: right;">
+                                                                                <label for="id_fax"
+                                                                                    class="col-sm-3 col-form-label font_size_filter">
+                                                                                    Fax:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input type="number" class="form-control item_inputbox"
+                                                                                        value="{% if bank_data.fax %}{{bank_data.fax}}{% endif %}"
+                                                                                        id="id_fax" name="fax" autocomplete="off">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_org_setup">
+                                                            <div class="row row_item_setup">
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div
+                                                                                class="row cash_point_row div_id_website">
+                                                                                <label for="id_website"
+                                                                                    class="col-sm-3modify col-form-label font_size_filter">
+                                                                                    Website:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input type="text" class="form-control item_inputbox"
+                                                                                        value="{% if bank_data.website %}{{bank_data.website}}{% endif %}"
+                                                                                        id="id_website" name="website" autocomplete="off">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="item_setupflag div_id_hotline"
+                                                                                style="display: flex; justify-content: right;">
+                                                                                <label for="id_hotline"
+                                                                                    class="col-sm-3 col-form-label font_size_filter">
+                                                                                    Hotline:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input type="number" class="form-control item_inputbox"
+                                                                                        value="{% if bank_data.hotline %}{{bank_data.hotline}}{% endif %}"
+                                                                                        id="id_hotline" name="hotline" autocomplete="off">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_org_setup">
+                                                            <div class="row row_item_setup">
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div
+                                                                                class="row cash_point_row div_id_phone">
+                                                                                <label for="id_phone"
+                                                                                    class="col-sm-3modify col-form-label font_size_filter required">
+                                                                                    Phone:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input type="number" class="form-control item_inputbox"
+                                                                                        value="{% if bank_data.phone %}{{bank_data.phone}}{% endif %}"
+                                                                                        id="id_phone" name="phone" autocomplete="off" required>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div class="item_setupflag"
+                                                                                style="display: flex; justify-content: right;">
+                                                                                <label for="id_logo"
+                                                                                    class="col-sm-3 col-form-label font_size_filter">
+                                                                                    Picture:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <!-- logo -->
+                                                                                    <div class="profile-container px-4">
+                                                                                        <div class="row gx-5 user-profile">
+                                                                                            <div class="col user-profile-img">
+                                                                                                <div class="user-img">
+                                                                                                    <div class="profile-pic">
+                                                                                                        <div id="display_image">
+                                                                                                            <img class="img-viewer" id="selected_logo" src="{% if bank_data.bank_picture %}{{ bank_data.bank_picture.url }}{% else %}{% static 'images/profile_img/user.png' %}{% endif %}">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-row field-profile_img profile-icon">
+                                                                                                        <div>
+                                                                                                            <label for="id_bank_picture">
+                                                                                                                <i class="bx bxs-camera profile-upload-icon"></i>
+                                                                                                            </label>
+                                                                                                            <input type="file" name="bank_picture" accept="image/*"
+                                                                                                                id="id_bank_picture" style="display:none;"
+                                                                                                                onchange="displaySelectedLogo(this);">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- logo -->
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-12" style="margin-bottom: 0.5rem;">
+                                                    <div class="card main-card">
+                                                        <div class="card-body card-body_org_setup">
+                                                            <div class="row row_item_setup">
+                                                                <div class="col-sm-6">
+                                                                    <div class="card main-card">
+                                                                        <div class="card-body item_setup_sub">
+                                                                            <div
+                                                                                class="row cash_point_row div_id_address">
+                                                                                <label for="id_address"
+                                                                                    class="col-sm-3modify col-form-label font_size_filter">
+                                                                                    Address:
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea type="text"
+                                                                                        class="form-control item_inputbox"
+                                                                                        id="id_address" name="address"
+                                                                                        autocomplete="off">{{bank_data.address}}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- submit button -->
+                        <div class="submit_button">
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" style="margin-right: 10px;">
+                                Close
+                            </button>
+                            <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                style="margin-right: 10px;">
+                                Save & Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // image load in the page
+    function displaySelectedLogo(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+    
+                img.onload = function () {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+    
+                    var maxWidth = 300;
+                    var maxHeight = 300;
+    
+                    var width = img.width;
+                    var height = img.height;
+    
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        } else {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+    
+                        canvas.width = width;
+                        canvas.height = height;
+    
+                        ctx.drawImage(img, 0, 0, width, height);
+    
+                        // Create or select the element with ID 'selected_logo'
+                        var selectedLogo = document.getElementById('selected_logo');
+                        if (!selectedLogo) {
+                            selectedLogo = new Image();
+                            selectedLogo.id = 'selected_logo';
+                            document.body.appendChild(selectedLogo); // Append the image to the body or any other appropriate container
+                        }
+    
+                        // Set the image source to the resized image
+                        selectedLogo.src = canvas.toDataURL('image/jpeg');
+    
+                        // Check if image size exceeds 300x300 after resizing
+                        if (width > maxWidth || height > maxHeight) {
+                            toastr.warning('Image size should be within 300x300 pixels.');
+                        }
+                    } else {
+                        // If the image is within the size limit, set the image source directly
+                        var selectedLogo = document.getElementById('selected_logo');
+                        if (selectedLogo) {
+                            selectedLogo.src = img.src;
+                        }
+                    }
+                };
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    $(function () {
+        $('#updatebank').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'add_update_banks' %}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg);
+                        // clear form and img
+                        clearFormAndImage();
+                        location.reload();
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            });
+        });
+    });
+
+    // clear form and img
+    function clearFormAndImage() {
+        $('#updatebank')[0].reset();
+        
+        // Set the source of the image with ID 'selected_logo' to the default image path
+        $('#selected_logo').attr('src', '{% static "images/profile_img/user.png" %}');
+    }
+</script>

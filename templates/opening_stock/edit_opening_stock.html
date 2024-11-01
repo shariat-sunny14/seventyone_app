@@ -20,7 +20,7 @@
                 border-right: none;
                 border-top-left-radius: 0.3rem;
                 border-top-right-radius: 0.3rem;
-                background: #455697;">
+                background: #459793e0;">
                 <!-- Main Heading -->
                 <div class="row">
                     <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
@@ -28,9 +28,9 @@
                             <i class='bx bx-folder-open text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Edit/Update Opening Stock</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/opening_stock'">
+                        <div class="add-moduleBtn" onClick="navigateTo('/opening_stock/')">
                             <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn"
-                                style="font-weight: bolder; background: #239bc1; box-shadow: 4px 2px 5px 2px #43507e;">
+                                style="font-weight: bolder; background: #239bc1; box-shadow: 4px 2px 5px 2px #459793e0;">
                                 Opening Stock List
                             </button>
                         </div>
@@ -285,6 +285,35 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- opening stock submission -->
+                                        <section class="submissionBtn-body">
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card" style="background: #ededed;">
+                                                        <div class="card-body card-body_item_setup">
+                                                            <div class="row row_item_setup">
+                                                                <!-- submit button -->
+                                                                <div class="submit_button">
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-success btn-sm" type="submit"
+                                                                        id="approve_po">
+                                                                        Approve
+                                                                    </button>
+                                                                    <!--  -->
+                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
+                                                                        class="btn btn-primary btn-sm text-white" id="id_update"
+                                                                        type="submit">
+                                                                        Update
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <!-- opening stock submission end -->
                                         <!-- main entry form -->
                                         <div class="row row_item_setup" style="margin-top: 0.5rem; margin-bottom: 0.7rem; box-shadow: 0px 0.1rem 0.2rem 0px #e6edef;">
                                             <div class="col-sm-12">
@@ -403,7 +432,8 @@
                                                                         <th style="text-align:center; width: 8%;">Stock Qty</th>
                                                                         <th style="text-align:center;">Price</th>
                                                                         <th style="text-align:center;">OPS. Qty</th>
-                                                                        <th style="text-align:center; width: 10%;">Invoice No</th>
+                                                                        <th style="text-align:center; width: 10%;">Batch No</th>
+                                                                        <th style="text-align:center; width: 10%;">Expiry Date</th>
                                                                         <th style="text-align:center; width: 8%;">Tot. Amt.</th>
                                                                         <th style="text-align:center; width: 3%;">
                                                                             opt.
@@ -450,7 +480,11 @@
                                                                         </td>
                                                                         <td style="text-align:center;">
                                                                             <input type="text" class="inputbox_rowwise item_disabled" id="item_batchs" value="{{ dtl.ops_dtls.item_batch }}"
-                                                                                name="item_batchs[]" required autocomplete="off">
+                                                                                name="item_batchs[]" autocomplete="off">
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="form-control inputbox_rowwise item_disabled datepicker" value="{{ dtl.ops_dtls.item_exp_date }}"
+                                                                                name="item_exp_dates[]" autocomplete="off">
                                                                         </td>
                                                                         <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
                                                                         <td style="text-align:center;">
@@ -515,7 +549,11 @@
                                                     </td>
                                                     <td style="text-align:center;">
                                                         <input type="text" class="inputbox_rowwise" id="item_batchs"
-                                                            name="item_batchs[]" required autocomplete="off">
+                                                            name="item_batchs[]" autocomplete="off">
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <input type="text" class="form-control inputbox_rowwise item_disabled datepicker"
+                                                            name="item_exp_dates[]" autocomplete="off">
                                                     </td>
                                                     <td style="text-align:center; font-size: 0.75rem;" class="total_amt"></td>
                                                     <td style="text-align:center;">
@@ -525,34 +563,7 @@
                                                 </tr>
                                             </noscript>
                                         </section>
-                                        <!-- opening stock submission -->
-                                        <section class="submissionBtn-body">
-                                            <div class="row row_item_setup">
-                                                <div class="col-sm-12">
-                                                    <div class="card main-card">
-                                                        <div class="card-body card-body_item_setup">
-                                                            <div class="row row_item_setup">
-                                                                <!-- submit button -->
-                                                                <div class="submit_button">
-                                                                    <!--  -->
-                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
-                                                                        class="btn btn-success btn-sm" type="submit"
-                                                                        id="approve_po">
-                                                                        Approve
-                                                                    </button>
-                                                                    <!--  -->
-                                                                    <button style="margin-right: 10px; padding: 0.09rem 0.6rem;"
-                                                                        class="btn btn-primary btn-sm text-white" id="id_update"
-                                                                        type="submit">
-                                                                        Update
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
+                                        <!--  -->
                                     </form>
                                 </div>
                             </div>
@@ -711,9 +722,16 @@
         $('#items_name').typeahead({
             source: function(query, result) {
                 var selected_type_id = $('#items_type').val(); // Get the selected type_id here
+                var selected_id_org = $('#id_org').val();
+                var selected_supplier_id = $('#id_filter_suppliers').val();
                 $.ajax({
                     url: '/get_opening_stock_list/',
-                    data: { query: query, selectedTypeId: selected_type_id }, // Pass selectedTypeId
+                    data: {
+                        query: query,
+                        selectedTypeId: selected_type_id,
+                        id_org: selected_id_org,
+                        filter_suppliers: selected_supplier_id,
+                    },
                     dataType: "json",
                     type: "GET",
                     success: function(data) {
@@ -979,6 +997,7 @@
                             });
 
                             Calculate();
+                            resetFunction();
                         } else {
                             toastr.error(data.msg);
                         }
@@ -1026,7 +1045,7 @@
                         toastr.success(resp.msg);
                         setTimeout(function () { 
                             location.reload();
-                            window.location.href = "{% url 'opening_stock' %}";
+                            navigateTo("{% url 'opening_stock' %}");
                         }, 300);
                     } else {
                         toastr.error(resp.errmsg);
@@ -1072,13 +1091,27 @@
     
             $(element).attr("id", inputId); // Set a unique ID for the input
     
-            $("#" + inputId).datepicker({ // Initialize datepicker for the specific input
+            $("#" + inputId).datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeYear: true,
                 changeMonth: true
             });
+    
+            // Force the correct format after the input is populated
+            $(element).val(function(i, val) {
+                var date = new Date(val);
+                // Check if the date is valid
+                if (!isNaN(date.getTime())) {
+                    return $.datepicker.formatDate('yy-mm-dd', date);
+                }
+                return ""; // Return empty string if the date is invalid
+            });
         });
     });
+
+    function resetFunction() {
+        $('#id_item_qty').val('');
+    }
 </script>
 
 {% endblock %}

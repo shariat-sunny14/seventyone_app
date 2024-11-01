@@ -26,7 +26,7 @@
                             <i class='bx bx-border-outer text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Purchase Order List</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/add_purchase_order'">
+                        <div class="add-moduleBtn" onClick="navigateTo('/add_purchase_order/')">
                             <button id="addmodulesetup" class="btn btn-primary text-white btn-xs moduleBtn"
                                 style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e;">
                                 Generate PO
@@ -446,7 +446,7 @@
             } else {
                 var poId = $(this).attr('data-id');
                 var updatePurchaseOrderUrl = "{% url 'update_purchase_order' 0 %}".replace('0', poId);
-                window.location.href = updatePurchaseOrderUrl;
+                navigateTo(updatePurchaseOrderUrl);
             }
         });
 

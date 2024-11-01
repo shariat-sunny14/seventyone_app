@@ -471,6 +471,31 @@ table.dataTable tbody td {
     align-items: center;
 }
 
+.bank_state_head {
+    position: relative;
+    display: flex;
+    margin-top: -17px;
+    margin-left: 25px;
+    margin-bottom: 1rem;
+    width: 40%;
+    height: 33px;
+    background: #fff;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.bank_state_head h2 {
+    position: absolute;
+    display: flex;
+    font-size: 14px;
+    color: rgb(126, 126, 126);
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
 .others_info_head {
     position: relative;
     display: flex;
@@ -581,6 +606,13 @@ table.dataTable tbody td {
 }
 
 @media (min-width: 576px) {
+    .col-sm-accl {
+            flex: 0 0 auto;
+            width: 25%;
+    }
+}
+
+@media (min-width: 576px) {
     .col-sm-org {
         flex: 0 0 auto;
         width: 25%;
@@ -593,6 +625,35 @@ table.dataTable tbody td {
         width: 78%;
     }
 }
+
+@media (min-width: 576px) {
+    .col-sm-active {
+            flex: 0 0 auto;
+            width: 32.8%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-bname {
+            flex: 0 0 auto;
+            width: 85%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-bbranch {
+            flex: 0 0 auto;
+            width: 35%;
+    }
+}
+
+@media (min-width: 576px) {
+    .col-sm-bankBranch {
+        flex: 0 0 auto;
+        width: 65%;
+    }
+}
+
 
 @media (min-width: 576px) {
     .col-sm-bran {

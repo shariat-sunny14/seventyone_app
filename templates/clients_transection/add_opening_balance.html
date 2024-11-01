@@ -1,0 +1,738 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'credit_management/css/credit_management.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #458097;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bx-door-open text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Add New Opening Balance</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <form action="" method="" id="regis_form">
+                <input type="number" id="id_reg_id" name="reg_id" value="" hidden>
+                <section>
+                    <div class="card po_card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 1rem; background: whitesmoke;">
+                        <div class="card-body">
+                            <div class="report-filter">
+                                <!-- Date Range Filter -->
+                                <div class="date-range">
+                                    <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                        <div class="date_range-element" style="display:flex">
+                                            <!--  -->
+                                            <div class="row store_row col-sm-6"
+                                                style="flex-grow: 1; display: flex; justify-content: left;">
+                                                <label for="id_filter_org" class="col-auto col-form-label">
+                                                    Organization:
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <select id="id_filter_org" name="filter_org" class="form-select store_Selectbox"
+                                                        aria-label="Default select example">
+                                                        {% for org in org_list %}
+                                                        <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                            {{org.org_name}}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--  -->
+                <section>
+                    <div class="row row_item_setup">
+                        <div class="col-sm-5">
+                            <!-- List of Clients -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemfilter_container">
+                                        <div class="filter_head">
+                                            <h2 class="text-success">List of Registrations</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body card-body_item_setup">
+                                                        <!--  -->
+                                                        <div class="regis_TB">
+                                                            <table id="" class="table table-striped table-hover"
+                                                                style="width: 100%;">
+                                                                <thead class="text-center table-header_itemlist">
+                                                                    <tr>
+                                                                        <th style="text-align:center; width: 25%;">C/N</th>
+                                                                        <th style="text-align:center; width: 50%;">Name</th>
+                                                                        <th style="text-align:center; width: 25%;">Phone No</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th colspan="3"
+                                                                            style="text-align:center; background: #fff !important;">
+                                                                            <input type="search" id="regis_search"
+                                                                                class="form-control search_control item_inputbox"
+                                                                                style="margin-left: 4px; background:#fffab6;"
+                                                                                placeholder="Searching ..." autocomplete="off">
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody id="regis_Tbody" class="table-body-row" style="text-align:center; cursor: pointer;">
+                                                                    <!--  -->
+
+                                                                </tbody>
+                                                                <!-- loader start -->
+                                                                <section class="loader-section">
+                                                                    <div class="loader-body">
+                                                                        <div class="loader">
+                                                                            <div class="upper ball"></div>
+                                                                            <div class="right ball"></div>
+                                                                            <div class="lower ball"></div>
+                                                                            <div class="left ball"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                                <!-- loader end -->
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- List of Clients -->
+
+                        <!--  -->
+                        <div class="col-sm-7">
+                            <!-- Clients Information -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-primary">Clients Information</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div id="trans_client_info" id="supplier_info">
+                                            <!-- 1st row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_customer_no"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">C/N:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="text" value="" class="form-control item_inputbox"
+                                                                        id="id_customer_no" name="customer_no" required autocomplete="off" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_mobile_number"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Mobile:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="number" class="form-control item_inputbox"
+                                                                        id="id_mobile_number" name="mobile_number" autocomplete="off" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 2nd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_name"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">
+                                                                    Name:
+                                                                </label>
+                                                                <div class="col-sm-s10">
+                                                                    <input type="text" value="" class="form-control item_inputbox"
+                                                                        id="id_name" name="name" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 3rd row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_gender"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Gender:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="text" value="" class="form-control item_inputbox"
+                                                                        id="id_gender" name="gender" required autocomplete="off" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_marital_status"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Marital Status:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control item_inputbox"
+                                                                        id="id_marital_status" name="marital_status" autocomplete="off" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 4th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_blood_group"
+                                                                    class="col-sm-s3 col-form-label font_size_filter">Blood Group:</label>
+                                                                <div class="col-sm-s8">
+                                                                    <input type="text" value="" class="form-control item_inputbox"
+                                                                        id="id_blood_group" name="blood_group" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_dateofbirth"
+                                                                    class="col-sm-4 col-form-label font_size_filter">Date of Birth:</label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" value="" class="form-control item_inputbox"
+                                                                        id="id_dateofbirth" name="dateofbirth" autocomplete="off"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 5th row -->
+                                            <div class="row row_item_setup">
+                                                <div class="col-sm-12">
+                                                    <div class="card main-card">
+                                                        <div class="card-body item_setup_sub">
+                                                            <div class="row cash_point_row">
+                                                                <label for="id_address"
+                                                                    class="col-sm-s1 col-form-label font_size_filter">Address:</label>
+                                                                <div class="col-sm-s10">
+                                                                    <textarea class="form-control item_inputbox" id="id_address"
+                                                                        name="address" value=""
+                                                                        style="height: 28px; margin-bottom: 5px;" autocomplete="off"
+                                                                        readonly></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Credit Payments -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-info">OP Balance Info</h2>
+                                        </div>
+                                        <!--  -->
+                                        <!-- 1st row -->
+                                        <div class="row row_item_setup">
+                                            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-content: center; align-items: center;">
+                                                <div class="col-sm-12" style="display: flex;">
+                                                    <div class="col-sm-8">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_op_amount"
+                                                                        class="col-sm-3 col-form-label font_size_filter">
+                                                                        Op Amount:
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="number" class="form-control reset_input item_inputbox"
+                                                                            style="text-align: right; padding-right: 1rem; background: #fffab6;"
+                                                                            id="id_op_amount" name="op_amount" autocomplete="off" placeholder="Enter Your Opening Amt." required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-4" style="margin-top: 3px;">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <!--  -->
+                                                                    <div class="form-check form-check-inline" style="width: 36%;">
+                                                                        <label class="form-check-label" for="id_is_debited"
+                                                                            style="font-size: 11.5px;">Is Debited</label>
+                                                                        <input class="form-check-input" type="radio" name="is_debited" id="id_is_debited"
+                                                                            value="1" checked>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline" style="width: 40%;">
+                                                                        <label class="form-check-label" for="id_is_credited"
+                                                                            style="font-size: 11.5px;">Is Credited</label>
+                                                                        <input class="form-check-input" type="radio" name="is_credited" id="id_is_credited"
+                                                                            value="1">
+                                                                    </div>
+                                                                    <!--  -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12" style="display: flex;">
+                                                    <div class="col-sm-12">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <div class="row cash_point_row">
+                                                                    <label for="id_descriptions" class="col-sm-2 col-form-label font_size_filter">
+                                                                        Descriptions:
+                                                                    </label>
+                                                                    <div class="col-sm-10">
+                                                                        <textarea type="number" class="form-control reset_input item_inputbox" style="padding-right: 1rem;"
+                                                                            id="id_descriptions" name="descriptions" autocomplete="off" placeholder="Descriptions here ..." required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12" style="margin-top: 2rem; margin-bottom: 1rem; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center; align-content: center;">
+                                                    <div class="col-sm-2">
+                                                        <div class="card main-card">
+                                                            <div class="card-body item_setup_sub">
+                                                                <!-- submit button -->
+                                                                <div class="submit_button">
+                                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                                        style="margin-right: 10px;" onclick="$('.reset_input').val('');">
+                                                                        Clear
+                                                                    </button>
+                                                                    <button type="submit" value="submit" class="btn btn-success btn-sm"
+                                                                        style="margin-right: 10px;">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- History of opening balance -->
+                            <div class="card main-card">
+                                <div class="card-body card-body_item_setup">
+                                    <div class="itemsetup_container" style="padding: 0.5rem;">
+                                        <div class="add_edit_head">
+                                            <h2 class="text-warning">History of Op Balance</h2>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card main-card">
+                                                    <div class="card-body card-body_item_setup">
+                                                        <!--  -->
+                                                        <div class="ophb_TB">
+                                                            <table id="" class="table table-striped table-hover"
+                                                                style="width: 100%;">
+                                                                <thead class="text-center table-header_itemlist">
+                                                                    <tr>
+                                                                        <th style="text-align:center;">Op ID</th>
+                                                                        <th style="text-align:center;">Created Date</th>
+                                                                        <th style="text-align:center;">Is Debited</th>
+                                                                        <th style="text-align:center;">Is Credited</th>
+                                                                        <th style="text-align:center; width: 30%;">Descriptions</th>
+                                                                        <th style="text-align:center;">Opening Amount</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody id="ophb_Tbody" class="table-body-row" style="text-align:center; cursor: pointer;">
+                                                                    <!--  -->
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </section>
+    </section>
+</main>
+<script>
+    // id_is_debited, id_is_credited click to change
+    function toggleCheck(primaryId, secondaryId) {
+        document.getElementById(primaryId).addEventListener('change', function () {
+            document.getElementById(secondaryId).checked = false;
+        });
+
+        document.getElementById(secondaryId).addEventListener('change', function () {
+            document.getElementById(primaryId).checked = false;
+        });
+    }
+
+    toggleCheck('id_is_credited', 'id_is_debited');
+
+    //==============================================================================
+    $(document).ready(function () {
+        // Function to fetch clients list
+        function fetchRegistrationList() {
+            var orgFilter = $('#id_filter_org').val();
+            var searchQuery = $('#regis_search').val();
+
+            // Show the loader
+            $('.loader-section').show();
+
+            // Make the AJAX request
+            $.ajax({
+                url: "{% url 'get_registration_list' %}",
+                type: 'GET',
+                data: {
+                    'org_filter': orgFilter,
+                    'search_query': searchQuery
+                },
+                dataType: 'json',
+                success: function (response) {
+                    // Hide the loader
+                    $('.loader-section').hide();
+
+                    // Clear the existing table body
+                    $('#regis_Tbody').empty();
+
+                    // Populate the table body with the new data
+                    response.data.forEach(function (regis) {
+                        var row = $('<tr>').attr("data-reg_id", regis.reg_id).append(
+                            $('<td>').text(regis.customer_no),
+                            $('<td>').css("text-align", "left").text(regis.full_name),
+                                $('<td>').css("text-align", "center").text(regis.mobile_number),
+                        ).addClass("regis-row");
+                        $('#regis_Tbody').append(row);
+                    });
+
+                    // Highlight selected row if applicable
+                    highlightSelectedRowOnInit();
+
+                    // Call handleClientRowSelection after adding rows
+                    handleClientRowSelection();
+                    loadOpeningBalances();
+
+                    // Check if there is a selected supplier ID in local storage and populate details
+                    var selectedRegId = localStorage.getItem("selectedRegId");
+                    if (selectedRegId) {
+                        populateRegistrationDetails(selectedRegId);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Hide the loader
+                    $('.loader-section').hide();
+                    console.error('Error fetching clients list:', status, error);
+                }
+            });
+        }
+
+        // Bind fetchRegistrationList function to input events
+        $('#id_filter_org, #regis_search').on('change keyup', fetchRegistrationList);
+
+        // Bind an event handler to the change event of #id_filter_org
+        $('#id_filter_org').on('change', function () {
+            // Remove the "selected-row" class from all elements with the class ".regis-row"
+            $('.regis-row').removeClass('selected-row');
+
+            // Clear the supplier details
+            reg_populateTable({});
+            loadOpeningBalances();
+
+            // Clear the selected supplier ID from local storage
+            localStorage.removeItem("selectedRegId");
+
+            // Check if there is a selected supplier ID in local storage and populate details
+            var selectedRegId = localStorage.getItem("selectedRegId");
+            if (selectedRegId) {
+                populateRegistrationDetails(selectedRegId);
+            }
+        });
+
+        // Initial fetch
+        fetchRegistrationList();
+
+
+        $(function () {
+            $('#regis_form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    url: "{% url 'save_opbalance_transaction' %}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (success = resp.msg) {
+                            toastr.success(resp.msg);
+                            $('.loader-section').show();
+                            $('#regis_form')[0].reset();
+                            // Hide loader
+                            setTimeout(function () {
+                                $('.loader-section').hide();
+                            }, 1100);
+                            loadOpeningBalances();
+                            // Check if there is a selected supplier ID in local storage and populate details
+                            var selectedRegId = localStorage.getItem("selectedRegId");
+                            if (selectedRegId) {
+                                populateRegistrationDetails(selectedRegId);
+                            }
+                        } else {
+                            toastr.error(resp.errmsg);
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    // Function to handle row selection
+    function handleClientRowSelection() {
+        // Attach click event listener to all client rows
+        $(document).on("click", ".regis-row", function () {
+            var clickedRegId = $(this).data("reg_id"); // Get the supplier ID from the clicked row
+
+            // Remove highlighting from other rows
+            $(".regis-row").removeClass("selected-row");
+
+            // Highlight the selected row
+            $(this).addClass("selected-row");
+
+            // Save the selected supplier ID to local storage
+            localStorage.setItem("selectedRegId", clickedRegId);
+
+            // Call the function to populate the table with supplier details
+            populateRegistrationDetails(clickedRegId);
+            loadOpeningBalances();
+        });
+    }
+
+    // Function to populate the table with supplier details
+    function populateRegistrationDetails(regisId) {
+        if (regisId) {
+            $.ajax({
+                type: "GET",
+                url: "/select_registration_list/" + regisId + "/",
+                dataType: "json",
+                success: function (data) {
+                    reg_populateTable(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", error);
+                    //toastr.warning("Failed to fetch Supplier details");
+                }
+            });
+        }
+    }
+
+    // Function to populate the table with regis details
+    function reg_populateTable(data) {
+        // Clear existing regis details
+        $('#id_reg_id').val("");
+        $('#id_customer_no').val("");
+        $('#id_mobile_number').val("");
+        $('#id_name').val("");
+        $('#id_address').val("");
+        $('#id_gender').val("");
+        $('#id_marital_status').val("");
+        $('#id_blood_group').val("");
+        $('#id_dateofbirth').val("");
+
+        // Populate with new data if available
+        if (data.hasOwnProperty('regis_Dtls') && data.regis_Dtls.length > 0) {
+            var regis = data.regis_Dtls[0]; // Assuming only one regis detail is returned
+            $('#id_reg_id').val(regis.reg_id);
+            $('#id_customer_no').val(regis.customer_no);
+            $('#id_mobile_number').val(regis.mobile_number);
+            $('#id_name').val(regis.full_name);
+            $('#id_address').val(regis.address);
+            $('#id_gender').val(regis.gender);
+            $('#id_marital_status').val(regis.marital_status);
+            $('#id_blood_group').val(regis.blood_group);
+            $('#id_dateofbirth').val(regis.dateofbirth);
+        }
+    }
+
+    // Function to highlight selected row on initialization
+    function highlightSelectedRowOnInit() {
+        var selectedRegId = localStorage.getItem("selectedRegId");
+        if (selectedRegId) {
+            $(".regis-row").each(function () {
+                if ($(this).data("reg_id").toString() === selectedRegId) {
+                    $(this).addClass("selected-row");
+                    return false; // Break the loop once the match is found
+                }
+            });
+        }
+    }
+
+    function loadOpeningBalances() {
+        // Get the organization and registration IDs from the input fields
+        var orgID = $('#id_filter_org').val();
+        var regID = localStorage.getItem("selectedRegId");
+
+        $.ajax({
+            url: "{% url 'get_opening_balances_amount' %}", // Use the URL defined in urls.py
+            type: "GET",
+            data: {
+                org_id: orgID,
+                reg_id: regID
+            },
+            dataType: "json",
+            success: function(data) {
+                var tbody = $('#ophb_Tbody');
+                tbody.empty(); // Clear existing rows
+    
+                // Loop through the data and append rows to the table body
+                $.each(data, function(index, item) {
+                    var isDebited = item.is_debited ? 'Yes' : 'No';
+                    var isCredited = item.is_credited ? 'Yes' : 'No';
+    
+                    var debitedColor = item.is_debited ? 'green' : 'red';
+                    var creditedColor = item.is_credited ? 'green' : 'red';
+    
+                    tbody.append(
+                        `<tr>
+                            <td>${item.opb_id}</td>
+                            <td>${item.opb_date}</td>
+                            <td style="font-weight: bold; color: ${debitedColor}">${isDebited}</td>
+                            <td style="font-weight: bold; color: ${creditedColor}">${isCredited}</td>
+                            <td style="text-align: left;">${item.descriptions}</td>
+                            <td>${item.opb_amount}</td>
+                        </tr>`
+                    );
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching opening balances:", error);
+            }
+        });
+    }
+    //=================================================================================
+
+    //==========================================
+    //loader 
+    const loader = document.querySelector(".loader");
+    const loaderBody = document.querySelector(".loader-body");
+
+    // Function to show the loader
+    function showTypeLoader() {
+        loader.style.display = "block";
+        loaderBody.style.display = "block";
+        loader.style.left = "50%"; // Set left position to center
+        loader.style.top = "50%"; // Set top position to center
+    }
+
+    // Function to hide the loader
+    function hideTypeLoader() {
+        loader.style.display = "none";
+        loaderBody.style.display = "none";
+    }
+
+    // Function to check and show loader based on local storage
+    function checkAndTypeShowLoader() {
+        const loaderVisible = localStorage.getItem("loaderVisible");
+        if (loaderVisible === "true") {
+            showTypeLoader();
+        }
+    }
+
+    // Event listener for radio button change
+    document.querySelectorAll('input[name="typeoption"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            showTypeLoader(); // Show loader when radio button changes
+            // Add logic to handle the radio button change if needed
+            setTimeout(() => {
+                hideTypeLoader(); // Hide loader after a delay (you can adjust this)
+            }, 1100); // Example: hide loader after 2 seconds
+        });
+    });
+
+    // Check and show loader on page load
+    checkAndTypeShowLoader();
+
+    window.addEventListener("load", () => {
+        // Adjust the delay in milliseconds (e.g., 2000 for 2 seconds)
+        setTimeout(() => {
+            hideTypeLoader();
+        }, 1100);
+    });
+    //loader
+    //==========================================
+</script>
+{% endblock %}

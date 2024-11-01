@@ -4,6 +4,8 @@ from django.utils import timezone
 from pytz import timezone as tz
 from organizations.models import branchslist, organizationlst
 from drivers_setup.models import drivers_list
+from registrations.models import in_registrations
+from others_setup.models import item_uom
 from supplier_setup.models import suppliers
 from store_setup.models import store
 from item_setup.models import items
@@ -22,21 +24,31 @@ class invoice_list(models.Model):
     is_non_register = models.BooleanField(default=False)
     is_register = models.BooleanField(default=False)
     is_cancel = models.BooleanField(default=False)
+    is_carrcost_notapp = models.BooleanField(default=False)
+    is_update = models.BooleanField(default=False)
+    is_modified_item = models.BooleanField(default=False)
     org_id = models.ForeignKey(organizationlst, null=True, blank=True, related_name='org_id2invoice', on_delete=models.DO_NOTHING)
     branch_id = models.ForeignKey(branchslist, null=True, blank=True, related_name='branch_id2invoice', on_delete=models.DO_NOTHING)
     cash_point = models.ForeignKey(store, null=True, blank=True, related_name='store_id2invoice', on_delete=models.DO_NOTHING, editable=False)
     # b2b client refferance id
     supplier_id = models.ForeignKey(suppliers, null=True, blank=True, related_name='supplier_id2invoice', on_delete=models.DO_NOTHING, editable=False)
+    # registrations refferance id
+    reg_id = models.ForeignKey(in_registrations, null=True, blank=True, related_name='reg_id2invoice', on_delete=models.DO_NOTHING, editable=False)
     driver_id = models.ForeignKey(drivers_list, null=True, blank=True, related_name='driver_id2invoice', on_delete=models.DO_NOTHING, editable=False)
+    driver_name = models.CharField(max_length=100, null=True, blank=True)
+    driver_mobile = models.CharField(max_length=20, null=True, blank=True)
     customer_name = models.CharField(max_length=100, null=True, blank=True)
     gender = models.CharField(max_length=20, null=True, blank=True)
     mobile_number = models.CharField(max_length=50, null=True, blank=True)
     house_no = models.CharField(max_length=50, null=True, blank=True)
+    floor_no = models.CharField(max_length=50, null=True, blank=True)
     road_no = models.CharField(max_length=50, null=True, blank=True)
     sector_no = models.CharField(max_length=50, null=True, blank=True)
     area = models.CharField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=150, null=True, blank=True)
-    referral_person = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=250, null=True, blank=True)
+    remarks = models.CharField(max_length=250, null=True, blank=True)
+    emergency_person = models.CharField(max_length=150, null=True, blank=True)
+    emergency_phone = models.CharField(max_length=20, null=True, blank=True)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2invoice', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(editable=False, null=True, blank=True)
     ss_created_session = models.BigIntegerField(null=True, blank=True, default=1266000000000, editable=False)
@@ -73,13 +85,15 @@ class invoicedtl_list(models.Model):
     item_id = models.ForeignKey(items, null=True, blank=True, related_name='item_id2invoicedtl', on_delete=models.DO_NOTHING, editable=False)
     store_id = models.ForeignKey(store, null=True, blank=True, related_name='store_id2invoicedtl', on_delete=models.DO_NOTHING, editable=False)
     stock_id = models.ForeignKey(stock_lists, null=True, blank=True, related_name='stock_id2invoicedtl', on_delete=models.DO_NOTHING, editable=False)
-    qty = models.BigIntegerField(default=0, blank=True)
+    item_name = models.CharField(max_length=200, blank=True, null=True)
+    qty = models.FloatField(default=0, blank=True)
+    item_uom_id = models.ForeignKey(item_uom, null=True, blank=True, related_name='item_uom_id2invoicedtl', on_delete=models.DO_NOTHING, editable=False)
     sales_rate = models.FloatField(default=0, blank=True)
     item_w_dis = models.FloatField(default=0, blank=True)
     gross_dis = models.FloatField(default=0, blank=True)
     gross_vat_tax = models.FloatField(default=0, blank=True)
     is_cancel = models.BooleanField(default=False)
-    is_cancel_qty = models.BigIntegerField(default=0, blank=True)
+    is_cancel_qty = models.FloatField(default=0, blank=True)
     cancel_reason = models.CharField(max_length=200, default='', blank=True)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2invoicedtl', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(editable=False, null=True, blank=True)
@@ -164,6 +178,7 @@ class rent_others_exps(models.Model):
     is_seller = models.BooleanField(default=False)
     is_buyer = models.BooleanField(default=False)
     other_exps_amt = models.FloatField(default=0, blank=True)
+    is_canceled = models.BooleanField(default=False)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2other_exps', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(editable=False, null=True, blank=True)
     ss_created_session = models.BigIntegerField(null=True, blank=True, default=1575000000000, editable=False)
@@ -191,3 +206,23 @@ class rent_others_exps(models.Model):
 
     def __str__(self):
         return str(self.other_exps_id)
+
+
+class item_fav_list(models.Model):
+    fav_id = models.BigAutoField(primary_key=True, default=129120000000, editable=False)
+    item_id = models.ForeignKey(items, null=True, blank=True, related_name='item_id2item_fav_list', on_delete=models.DO_NOTHING, editable=False)
+    user_id = models.ForeignKey(User, null=True, blank=True, related_name='user_id2item_fav_list', on_delete=models.DO_NOTHING)
+
+
+    def __str__(self):
+        return str(self.fav_id)
+    
+    def save(self, *args, **kwargs):
+        
+        fav_data = item_fav_list.objects.all()
+
+        if fav_data.exists() and self._state.adding:
+            last_orderdtl = fav_data.latest('fav_id')
+            self.fav_id = int(last_orderdtl.fav_id) + 1
+            
+        super().save(*args, **kwargs)

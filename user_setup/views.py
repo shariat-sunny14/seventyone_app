@@ -659,6 +659,7 @@ def getStoreAccessOrgDataAPI(request):
 # click org_id wise show store value
 @login_required()
 def getOrgIdWiseStoreValueAPI(request, org_id):
+    user_id = request.GET.get('user_id')  # Retrieve user_id from the request parameters
     org_store_list = []
     branch_store_list = []
     select_store_access_data = {}
@@ -690,9 +691,14 @@ def getOrgIdWiseStoreValueAPI(request, org_id):
                     'branch_storeDtl': list(store_list)
                 }
                 branch_store_list.append(branch_store_detail)
-                
 
-            storeacc_data = store_access.objects.filter(org_id=org_id).values('store_id', 'org_id', 'is_default')
+            # Filter store access data by org_id and user_id (if provided)
+            storeacc_data = store_access.objects.filter(org_id=org_id)
+            if user_id:
+                storeacc_data = storeacc_data.filter(user_id=user_id)
+                
+            storeacc_data = storeacc_data.values('store_id', 'org_id', 'user_id', 'is_default')
+            
             # Serialize queryset to a list of dictionaries
             storeacc_data_serialized = list(storeacc_data)
             select_store_access_data['storeacc_data'] = storeacc_data_serialized

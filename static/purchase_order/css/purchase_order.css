@@ -549,6 +549,19 @@ table.dataTable tbody td {
     padding: 0.175rem 0.5rem;
 }
 
+.loadBtn {
+    display: flex;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.3rem 1rem;
+    margin: 5px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
 .printIcon {
     margin-top: 2px;
     line-height: 1.1;
@@ -1029,4 +1042,66 @@ option:hover {
 .selected-row {
     background-color: rgb(5, 87, 141) !important;
     color: #ffffff !important;
+}
+
+
+/* ==============================  open purchase order list modal  ===================================== */
+.add-moduleBtn {
+    position: absolute;
+    width: 10%;
+    float: right;
+    right: 2rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.moduleBtn {
+    position: absolute;
+    display: flex;
+    width: 10rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1;
+    padding: 0.475rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 1rem;
+}
+
+.add_edit_head {
+    position: relative;
+    display: flex;
+    margin-top: -17px;
+    margin-left: 25px;
+    margin-bottom: 1rem;
+    width: 33%;
+    height: 33px;
+    background: #fff;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.add_edit_head h2 {
+    position: absolute;
+    display: flex;
+    font-size: 14px;
+    color: rgb(126, 126, 126);
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.modalCloseBtn {
+    right: -16px;
+    position: absolute;
+    top: -3rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
 }

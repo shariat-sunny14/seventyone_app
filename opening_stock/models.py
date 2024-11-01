@@ -26,7 +26,6 @@ class opening_stock(models.Model):
     ss_modified_on = models.DateTimeField(auto_now=True)
     ss_modified_session = models.BigIntegerField(null=True, blank=True, default=112950000000, editable=False)
 
-
     def save(self, *args, **kwargs):
         if self._state.adding:
             if self.id_org_id and self.branch_id_id:
@@ -40,14 +39,22 @@ class opening_stock(models.Model):
 
                     # Set the op_no to "OP" followed by current date and a unique number
                     current_date = datetime.now().strftime("%Y%m%d")
-                    latest_op_no = opening_stock.objects.filter(id_org=self.id_org_id, branch_id=self.branch_id_id, op_no__startswith=f"OP{current_date}").aggregate(Max('op_no'))['op_no__max']
+                    latest_op_no = opening_stock.objects.filter(
+                        id_org=self.id_org_id, 
+                        branch_id=self.branch_id_id, 
+                        op_no__startswith=f"OP{current_date}"
+                    ).aggregate(Max('op_no'))['op_no__max']
+
                     if latest_op_no is not None:
-                        latest_po_number = int(latest_op_no[9:]) + 1
-                        op_no_str = str(latest_po_number).zfill(4)
+                        # Extract the last 4 digits of the op_no and increment
+                        latest_number = int(latest_op_no[-4:]) + 1
+                        op_no_str = str(latest_number).zfill(4)
                     else:
                         op_no_str = '0001'
+
                     self.op_no = f"OP{current_date}{op_no_str}"
 
+                    # Update session fields
                     user_session = opening_stock.objects.latest('ss_created_session')
                     modifier_session = opening_stock.objects.latest('ss_modified_session')
 
@@ -63,8 +70,6 @@ class opening_stock(models.Model):
         return str(self.op_st_id)
 
     
-    
-
 class opening_stockdtl(models.Model):
     op_stdtl_id = models.BigAutoField(primary_key=True, default=12400000000, editable=False)
     op_st_id = models.ForeignKey(opening_stock, null=True, blank=True, related_name='opening_stock_id', on_delete=models.DO_NOTHING, editable=False)
@@ -73,9 +78,10 @@ class opening_stockdtl(models.Model):
     item_id = models.ForeignKey(items, null=True, blank=True, related_name='item_id2opening_stockdtl', on_delete=models.DO_NOTHING, editable=False)
     is_approved = models.BooleanField(default=False)
     approved_date = models.CharField(max_length=50, null=True, blank=True)
-    op_item_qty = models.CharField(max_length=150, null=True, blank=True)
-    unit_price = models.IntegerField(null=True, blank=True)
+    op_item_qty = models.FloatField(max_length=150, null=True, blank=True)
+    unit_price = models.FloatField(null=True, blank=True)
     item_batch = models.CharField(max_length=150, null=True, blank=True)
+    item_exp_date = models.DateField(null=True, blank=True)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2opening_stockdtl', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
     ss_created_session = models.BigIntegerField(null=True, blank=True, default=1291000000000, editable=False)

@@ -440,7 +440,7 @@
             } else {
                 var poId = $(this).attr('data-id');
                 var updatePurchaseOrderUrl = "{% url 'po_receive_details_list' 0 %}".replace('0', poId);
-                window.location.href = updatePurchaseOrderUrl;
+                navigateTo(updatePurchaseOrderUrl);
             }
         });
 

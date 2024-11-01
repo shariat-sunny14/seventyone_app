@@ -23,6 +23,8 @@ class without_GRN(models.Model):
     is_approved = models.BooleanField(default=False)
     is_approved_by = models.ForeignKey(User, null=True, blank=True, related_name='user_id2wo_grn', on_delete=models.DO_NOTHING)
     approved_date = models.CharField(max_length=50, null=True, blank=True)
+    invoice_no = models.CharField(max_length=50, null=True, blank=True)
+    invoice_date = models.DateField(null=True, blank=True)
     remarks = models.TextField(max_length=300, default="", blank=True)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2wo_grn', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
@@ -45,14 +47,22 @@ class without_GRN(models.Model):
 
                     # Set the wo_grn_no to "WOG" followed by current date and a unique number
                     current_date = datetime.now().strftime("%Y%m%d")
-                    latest_wo_grn_no = without_GRN.objects.filter(id_org=self.id_org_id, branch_id=self.branch_id_id, wo_grn_no__startswith=f"OP{current_date}").aggregate(Max('wo_grn_no'))['wo_grn_no__max']
+                    latest_wo_grn_no = without_GRN.objects.filter(
+                        id_org=self.id_org_id, 
+                        branch_id=self.branch_id_id, 
+                        wo_grn_no__startswith=f"WOG{current_date}"
+                    ).aggregate(Max('wo_grn_no'))['wo_grn_no__max']
+
                     if latest_wo_grn_no is not None:
-                        latest_po_number = int(latest_wo_grn_no[9:]) + 1
-                        wo_grn_no_str = str(latest_po_number).zfill(4)
+                        # Extract the last 4 digits of the wo_grn_no and increment
+                        latest_number = int(latest_wo_grn_no[-4:]) + 1
+                        wo_grn_no_str = str(latest_number).zfill(4)
                     else:
-                        wo_grn_no_str = '01'
+                        wo_grn_no_str = '0001'
+
                     self.wo_grn_no = f"WOG{current_date}{wo_grn_no_str}"
 
+                    # Update session fields
                     user_session = without_GRN.objects.latest('ss_created_session')
                     modifier_session = without_GRN.objects.latest('ss_modified_session')
 
@@ -78,9 +88,10 @@ class without_GRNdtl(models.Model):
     item_id = models.ForeignKey(items, null=True, blank=True, related_name='item_id2wo_grnDtl', on_delete=models.DO_NOTHING, editable=False)
     is_approved = models.BooleanField(default=False)
     approved_date = models.CharField(max_length=50, null=True, blank=True)
-    wo_grn_qty = models.IntegerField(null=True, blank=True)
-    unit_price = models.IntegerField(null=True, blank=True)
+    wo_grn_qty = models.FloatField(null=True, blank=True)
+    unit_price = models.FloatField(null=True, blank=True)
     item_batch = models.CharField(max_length=150, null=True, blank=True)
+    item_exp_date = models.DateField(null=True, blank=True)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2wo_grnDtl', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
     ss_created_session = models.BigIntegerField(null=True, blank=True, default=1291000000000, editable=False)

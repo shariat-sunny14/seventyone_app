@@ -56,6 +56,20 @@ urlpatterns = [
     path('', include('credit_management.urls')),
     path('', include('b2b_clients_management.urls')),
     path('', include('drivers_setup.urls')),
+    path('', include('post_order_update.urls')),
+    path('', include('stock_reconciliation.urls')),
+    path('', include('bank_setup.urls')),
+    path('', include('bank_statement.urls')),
+    path('', include('registrations.urls')),
+    path('', include('bill_templates.urls')),
+    path('', include('select_bill_receipt.urls')),
+    path('', include('store_transfers.urls')),
+    path('', include('deliver_chalan.urls')),
+    path('', include('clients_transection.urls')),
+    path('', include('local_purchase.urls')),
+    path('', include('local_purchase_return.urls')),
+    path('', include('manual_return_receive.urls')),
+    path('', include('item_barcode.urls')),
 ]
 
 # Add a catch-all URL pattern for "page not found" errors
@@ -63,6 +77,6 @@ urlpatterns += [
     re_path(r'^.*/$', page_notfound, name='page_notfound'),
 ]
 
-# Serve media files during development
+# Serve media files only if DEBUG is True
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

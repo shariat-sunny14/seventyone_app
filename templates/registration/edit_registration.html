@@ -1,0 +1,668 @@
+{% load static %}
+<div class="col-sm-12">
+    <div class="card main-card">
+        <div class="card-body card-body_item_setup">
+            <div class="itemsetup_container">
+                <form id="editcust_form" enctype="multipart/form-data">
+                    <input type="hidden" id="id_reg_id" name="reg_id" value="{% if reg_data.pk %}{{reg_data.pk}}{% endif %}">
+                    <div class="add_edit_head">
+                        <h2 class="text-primary">Update Customers Info</h2>
+                    </div>
+                    <div class="modal_closer">
+                        <button type="button" class="btn bg-danger text-white closerBtn"
+                            data-bs-dismiss="modal">X</button>
+                    </div>
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="card add_user_card">
+                                <div class="card-body">
+                                    <div class="user_add_body">
+                                        <div class="sub_body_one">
+                                            <div class="row add_user_row">
+                                                <!--  -->
+                                                <div class="mb-3">
+                                                    <label for="full_name" class="form-label label-margin required">
+                                                        Org Name
+                                                    </label>
+                                                    <select class="form-select regSelect-field" id="id_org_id" name="org_id" required>
+                                                        <option value="" selected disabled>Choose Marital Status</option>
+                                                        {% if reg_data and reg_data.org_id.org_id %}
+                                                            {% for org in org_list %}
+                                                                <option value="{{ org.org_id }}" {% if reg_data.org_id.org_id == org.org_id %} selected {% endif %}>
+                                                                    {{ org.org_name }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% for org in org_list %}
+                                                                <option value="{{ org.org_id }}">
+                                                                    {{ org.org_name }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
+                                                <!--  -->
+                                                <div class="mb-3">
+                                                    <label for="full_name" class="form-label label-margin required">
+                                                        Full Name
+                                                    </label>
+                                                    <input type="text" class="form-control regInput-field" value="{% if reg_data.full_name %}{{reg_data.full_name}}{% endif %}"
+                                                        id="full_name" name="full_name" autocomplete="off" required>
+                                                </div>
+                                                <!--  -->
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <label class="form-label label-margin required">
+                                                        Gender
+                                                    </label>
+                                                    <div class="mb-3 inline-RadioBody">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="gender" id="maleRadio" value="Male"
+                                                                {% if reg_data.gender == 'Male' %}checked{% endif %} required>
+                                                            <label class="form-check-label" for="maleRadio">
+                                                                Male
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="gender" id="femaleRadio"
+                                                                value="Female" {% if reg_data.gender == 'Female' %}checked{% endif %} required>
+                                                            <label class="form-check-label" for="femaleRadio">
+                                                                Female
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="gender" id="othersRadio"
+                                                                value="Others" {% if reg_data.gender == 'Others' %}checked{% endif %} required>
+                                                            <label class="form-check-label" for="othersRadio">
+                                                                Others
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Marital Status -->
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3">
+                                                        <label for="marital_status"
+                                                            class="form-label label-margin required">
+                                                            Marital Status
+                                                        </label>
+                                                        <select class="form-select regSelect-field" id="marital_status" name="marital_status" required>
+                                                            <option selected disabled>Choose Marital Status</option>
+                                                            <option value="Single" {% if reg_data.marital_status == 'Single' %}selected{% endif %}>Single</option>
+                                                            <option value="Maried" {% if reg_data.marital_status == 'Maried' %}selected{% endif %}>Maried</option>
+                                                            <option value="Unmaried" {% if reg_data.marital_status == 'Unmaried' %}selected{% endif %}>Unmaried</option>
+                                                            <option value="Others" {% if reg_data.marital_status == 'Others' %}selected{% endif %}>Others</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <!--  -->
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3">
+                                                        <label for="mobile_number"
+                                                            class="form-label label-margin required">
+                                                            Mobile Number
+                                                        </label>
+                                                        <input type="number" class="form-control regInput-field" value="{% if reg_data.mobile_number %}{{reg_data.mobile_number}}{% endif %}"
+                                                            id="mobile_number" name="mobile_number" autocomplete="off" required>
+                                                    </div>
+                                                </div>
+                                                <!-- Date of Birth/Age -->
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3">
+                                                        <label for="dateofbirthage"
+                                                            class="form-label label-margin required">
+                                                            Date of Birth/Age
+                                                        </label>
+                                                        <div class="dateofbirth-age">
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control datepicker" id="dateofbirthage" name="dateofbirth" 
+                                                                value="{% if reg_data.dateofbirth %}{{ reg_data.dateofbirth|date:'Y-m-d' }}{% endif %}"
+                                                                style="font-size: 0.76rem; border-color: #92baeb;" autocomplete="off" required>
+                                                            </div>
+                                                            <div class="col-sm-1"
+                                                                style="display: flex; justify-content: center; text-align: center; align-items: center;">
+                                                                /
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control regInput-field"
+                                                                    id="age" placeholder="Age" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Blood Group -->
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3">
+                                                        <label for="blood_group"
+                                                            class="form-label label-margin required">
+                                                            Blood Group
+                                                        </label>
+                                                        <select class="form-select regSelect-field" id="blood_group" name="blood_group" required>
+                                                            <option selected disabled>Choose Blood Group</option>
+                                                            <option value="O+" {% if reg_data.blood_group == 'O+' %}selected{% endif %}>O+</option>
+                                                            <option value="O-" {% if reg_data.blood_group == 'O-' %}selected{% endif %}>O-</option>
+                                                            <option value="A+" {% if reg_data.blood_group == 'A+' %}selected{% endif %}>A+</option>
+                                                            <option value="A-" {% if reg_data.blood_group == 'A-' %}selected{% endif %}>A-</option>
+                                                            <option value="B+" {% if reg_data.blood_group == 'B+' %}selected{% endif %}>B+</option>
+                                                            <option value="B-" {% if reg_data.blood_group == 'B-' %}selected{% endif %}>B-</option>
+                                                            <option value="AB+" {% if reg_data.blood_group == 'AB+' %}selected{% endif %}>AB+</option>
+                                                            <option value="AB-" {% if reg_data.blood_group == 'AB-' %}selected{% endif %}>AB-</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <!-- Patient Type -->
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3">
+                                                        <label for="patient_type"
+                                                            class="form-label label-margin required">
+                                                            Patient Type
+                                                        </label>
+                                                        <select class="form-select regSelect-field" id="patient_type" name="patient_type" required>
+                                                            <option selected disabled>Choose Patient Type</option>
+                                                            <option value="General Customers" {% if reg_data.patient_type == 'General Customers' %}selected{% endif %}>General Customers</option>
+                                                            <option value="Corporate Customers" {% if reg_data.patient_type == 'Corporate Customers' %}selected{% endif %}>Corporate Customers</option>
+                                                            <option value="VIP Customers" {% if reg_data.patient_type == 'VIP Customers' %}selected{% endif %}>VIP Customers</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="col-sm-5">
+                            <div class="card add_user_card_other" style="border-left: 1px solid rgba(0, 0, 0, .125);">
+                                <div class="card-body">
+                                    <!-- image -->
+                                    <div class="profile-container px-4">
+                                        <div class="row gx-5 user-profile">
+                                            <div class="col user-profile-img">
+                                                <div class="user-img">
+                                                    <div class="profile-pic">
+                                                        <div id="display_image">
+                                                            {% if reg_data.customer_img %}
+                                                                <img class="img-viewer" id="selected_image" src="{{ reg_data.customer_img.url }}">
+                                                            {% else %}
+                                                                <img class="img-viewer" id="selected_image" src="{% static 'images/profile_img/user.png' %}">
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row field-profile_img profile-icon">
+                                                        <div>
+                                                            <label for="id_customer_img">
+                                                                <i class="bx bxs-camera profile-upload-icon"></i>
+                                                            </label>
+                                                            <input type="file" name="customer_img" accept="image/*"
+                                                                id="id_customer_img" style="display:none;"
+                                                                onchange="displaySelectedImage(this);">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- image end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col-sm-12 reg-accordionRow">
+                        <!-- C/O Information -->
+                        <div class="col-sm-6">
+                            <div class="accordion reg-accordionFirst" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#CO-Information" aria-expanded="false"
+                                            aria-controls="CO-Information">
+                                            C/O Information
+                                        </button>
+                                    </h2>
+                                    <div id="CO-Information" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="card otherInfo_card">
+                                                <div class="card-body">
+                                                    <div class="user_add_body">
+                                                        <div class="sub_body_one">
+                                                            <div class="row add_user_row">
+                                                                <!--  -->
+                                                                <div class="mb-3">
+                                                                    <label for="co_name"
+                                                                        class="form-label label-margin">
+                                                                        C/O Name
+                                                                    </label>
+                                                                    <input type="text" id="co_name" name="co_name" value="{% if reg_data.co_name %}{{ reg_data.co_name }}{% endif %}"
+                                                                        class="form-control regInput-field" autocomplete="off">
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="co_relationship"
+                                                                            class="form-label label-margin">
+                                                                            Relationship
+                                                                        </label>
+                                                                        <input type="text" class="form-control regInput-field" value="{% if reg_data.co_relationship %}{{ reg_data.co_relationship }}{% endif %}"
+                                                                        id="co_relationship" name="co_relationship" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="co_mobile_number"
+                                                                            class="form-label label-margin">
+                                                                            Mobile Number
+                                                                        </label>
+                                                                        <input type="number" value="{% if reg_data.co_mobile_number %}{{ reg_data.co_mobile_number }}{% endif %}"
+                                                                            class="form-control regInput-field"
+                                                                            id="co_mobile_number" name="co_mobile_number" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Contact Information -->
+                        <div class="col-sm-6">
+                            <div class="accordion reg-accordionSecond" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#Contact-Information" aria-expanded="false"
+                                            aria-controls="Contact-Information">
+                                            Contact Information
+                                        </button>
+                                    </h2>
+                                    <div id="Contact-Information" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="card otherInfo_card">
+                                                <div class="card-body">
+                                                    <div class="user_add_body">
+                                                        <div class="sub_body_one">
+                                                            <div class="row add_user_row">
+                                                                <!--  -->
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="division" class="form-label label-margin">Division</label>
+                                                                        <select class="form-select regSelect-field" id="division" name="division">
+                                                                            <option disabled>Choose Division</option>
+                                                                            {% for divis in divisions %}
+                                                                                <option value="{{ divis.lookup_id }}" {% if reg_data and reg_data.division|stringformat:"s" == divis.lookup_id|stringformat:"s" %}selected{% endif %}>
+                                                                                    {{ divis.name }}
+                                                                                </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="district" class="form-label label-margin">District</label>
+                                                                        <select class="form-select regSelect-field" id="district" name="district">
+                                                                            <option disabled>Choose District</option>
+                                                                            {% for dist in districts %}
+                                                                                <option value="{{ dist.lookup_id }}" {% if reg_data and reg_data.district|stringformat:"s" == dist.lookup_id|stringformat:"s" %}selected{% endif %}>
+                                                                                    {{ dist.name }}
+                                                                                </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="thana_upazila" class="form-label label-margin">Thana/Upazila</label>
+                                                                        <select class="form-select regSelect-field" id="thana_upazila" name="thana_upazila">
+                                                                            <option disabled>Choose Thana/Upazila</option>
+                                                                            {% for upazila in upazilas %}
+                                                                                <option value="{{ upazila.lookup_id }}" {% if reg_data and reg_data.thana_upazila|stringformat:"s" == upazila.lookup_id|stringformat:"s" %}selected{% endif %}>
+                                                                                    {{ upazila.name }}
+                                                                                </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="address"
+                                                                            class="form-label label-margin">
+                                                                            Address
+                                                                        </label>
+                                                                        <textarea type="text" class="form-control regInput-field" style="height: 30.5px;"
+                                                                            id="address" name="address" autocomplete="off">{% if reg_data.address %}{{ reg_data.address }}{% endif %}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                    <div class="col-sm-12 reg-accordionRowSecond">
+                        <!-- Others Information -->
+                        <div class="col-sm-6">
+                            <div class="accordion reg-accordionFirst" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#Others-Information" aria-expanded="false"
+                                            aria-controls="Others-Information">
+                                            Others Information
+                                        </button>
+                                    </h2>
+                                    <div id="Others-Information" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="card otherInfo_card">
+                                                <div class="card-body">
+                                                    <div class="user_add_body">
+                                                        <div class="sub_body_one">
+                                                            <div class="row add_user_row">
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="occupation"
+                                                                            class="form-label label-margin">
+                                                                            Occupation
+                                                                        </label>
+                                                                        <input type="text" value="{% if reg_data.occupation %}{{ reg_data.occupation }}{% endif %}"
+                                                                            class="form-control regInput-field" id="occupation" name="occupation" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="religion"
+                                                                            class="form-label label-margin">
+                                                                            Religion
+                                                                        </label>
+                                                                        <select class="form-select regSelect-field"
+                                                                            id="religion" name="religion">
+                                                                            <option selected disabled>Choose Religion</option>
+                                                                            <option value="Islam" {% if reg_data.religion == 'Islam' %}selected{% endif %}>Islam</option>
+                                                                            <option value="Sritian" {% if reg_data.religion == 'Sritian' %}selected{% endif %}>Sritian</option>
+                                                                            <option value="Hindu" {% if reg_data.religion == 'Hindu' %}selected{% endif %}>Hindu</option>
+                                                                            <option value="Boddo" {% if reg_data.religion == 'Boddo' %}selected{% endif %}>Boddo</option>
+                                                                            <option value="Others" {% if reg_data.religion == 'Others' %}selected{% endif %}>Others</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="nationality"
+                                                                            class="form-label label-margin">
+                                                                            Nationality
+                                                                        </label>
+                                                                        <input type="text" value="{% if reg_data.nationality %}{{ reg_data.nationality }}{% endif %}"
+                                                                            class="form-control regInput-field" id="nationality" name="nationality" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="email"
+                                                                            class="form-label label-margin">
+                                                                            Email
+                                                                        </label>
+                                                                        <input type="email" value="{% if reg_data.email %}{{ reg_data.email }}{% endif %}"
+                                                                            class="form-control regInput-field" id="email" name="email" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="identity_mark"
+                                                                            class="form-label label-margin">
+                                                                            Identity Mark
+                                                                        </label>
+                                                                        <input type="text" value="{% if reg_data.identity_mark %}{{ reg_data.identity_mark }}{% endif %}"
+                                                                            class="form-control regInput-field" id="identity_mark" name="identity_mark" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="father_name"
+                                                                            class="form-label label-margin">
+                                                                            Father Name
+                                                                        </label>
+                                                                        <input type="text" value="{% if reg_data.father_name %}{{ reg_data.father_name }}{% endif %}"
+                                                                            class="form-control regInput-field" id="father_name" name="father_name" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="mother_name"
+                                                                            class="form-label label-margin">
+                                                                            Mother Name
+                                                                        </label>
+                                                                        <input type="text" value="{% if reg_data.mother_name %}{{ reg_data.mother_name }}{% endif %}"
+                                                                            class="form-control regInput-field" id="mother_name" name="mother_name" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Emergency Contact -->
+                        <div class="col-sm-6">
+                            <div class="accordion reg-accordionSecond" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#Emergency-Contact" aria-expanded="false"
+                                            aria-controls="Emergency-Contact">
+                                            Emergency Contact
+                                        </button>
+                                    </h2>
+                                    <div id="Emergency-Contact" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="card otherInfo_card">
+                                                <div class="card-body">
+                                                    <div class="user_add_body">
+                                                        <div class="sub_body_one">
+                                                            <div class="row add_user_row">
+                                                                <!--  -->
+                                                                <!--  -->
+                                                                <div class="mb-3">
+                                                                    <label for="emergency_con_name"
+                                                                        class="form-label label-margin">
+                                                                        Name
+                                                                    </label>
+                                                                    <input type="text" value="{% if reg_data.emergency_con_name %}{{ reg_data.emergency_con_name }}{% endif %}"
+                                                                        class="form-control regInput-field" id="emergency_con_name" name="emergency_con_name" autocomplete="off">
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="emergency_con_mobile"
+                                                                            class="form-label label-margin">
+                                                                            Mobile Number
+                                                                        </label>
+                                                                        <input type="number" value="{% if reg_data.emergency_con_mobile %}{{ reg_data.emergency_con_mobile }}{% endif %}"
+                                                                            class="form-control regInput-field" id="emergency_con_mobile" name="emergency_con_mobile" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <div class="col-sm-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="emergency_con_rel"
+                                                                            class="form-label label-margin">
+                                                                            Relationship
+                                                                        </label>
+                                                                        <select class="form-select regSelect-field"
+                                                                            id="emergency_con_rel" name="emergency_con_rel">
+                                                                            <option selected disabled>Choose Relationship</option>
+                                                                            <option value="Self" {% if reg_data.emergency_con_rel == 'Self' %}selected{% endif %}>Self</option>
+                                                                            <option value="Father" {% if reg_data.emergency_con_rel == 'Father' %}selected{% endif %}>Father</option>
+                                                                            <option value="Mother" {% if reg_data.emergency_con_rel == 'Mother' %}selected{% endif %}>Mother</option>
+                                                                            <option value="Brother" {% if reg_data.emergency_con_rel == 'Brother' %}selected{% endif %}>Brother</option>
+                                                                            <option value="Sister" {% if reg_data.emergency_con_rel == 'Sister' %}selected{% endif %}>Sister</option>
+                                                                            <option value="Spouse" {% if reg_data.emergency_con_rel == 'Spouse' %}selected{% endif %}>Spouse</option>
+                                                                            <option value="Children" {% if reg_data.emergency_con_rel == 'Children' %}selected{% endif %}>Children</option>
+                                                                            <option value="Uncle" {% if reg_data.emergency_con_rel == 'Uncle' %}selected{% endif %}>Uncle</option>
+                                                                            <option value="Grand Father" {% if reg_data.emergency_con_rel == 'Grand Father' %}selected{% endif %}>Grand Father</option>
+                                                                            <option value="Grand Mother" {% if reg_data.emergency_con_rel == 'Grand Mother' %}selected{% endif %}>Grand Mother</option>
+                                                                            <option value="Manager" {% if reg_data.emergency_con_rel == 'Manager' %}selected{% endif %}>Manager</option>
+                                                                            <option value="Colleague" {% if reg_data.emergency_con_rel == 'Colleague' %}selected{% endif %}>Colleague</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                                <!--  -->
+                                                                <div class="col-sm-12">
+                                                                    <div class="mb-3">
+                                                                        <label for="emergency_con_address"
+                                                                            class="form-label label-margin">
+                                                                            Address
+                                                                        </label>
+                                                                        <textarea type="text" class="form-control regInput-field" id="emergency_con_address" name="emergency_con_address" 
+                                                                        style="height: 5.7rem;" autocomplete="off">{% if reg_data.emergency_con_address %}{{ reg_data.emergency_con_address }}{% endif %}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <!--  -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="usersetup_modal-footer"
+                        style="display: flex; justify-content: right; align-items: center; text-align: center; margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="font-size: 0.85rem; padding: 0.3rem 1rem; margin-right: 1rem;">
+                            Close
+                        </button>
+                        <button id="addUserBtn" name="submit" type="submit" class="btn btn-success"
+                            style="font-size: 0.85rem; padding: 0.3rem 1rem; margin-right: 1rem;">
+                            Update Customers
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#editcust_form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save_update_customer_registrations' %}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    if (success = resp.msg) {
+                        toastr.success(resp.msg);
+                        location.reload();
+                    } else {
+                        toastr.error(resp.errmsg);
+                    }
+                }
+            });
+        });
+    });
+
+
+    // Date picker
+    $(document).ready(function () {
+        // Initialize the datepicker
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "1900:2100", // Optional: Limit the year range for the date picker
+            onSelect: onDateOfBirthChange // Trigger age calculation on date selection
+        });
+    
+        // Trigger age calculation if date of birth is pre-filled
+        const dobInputElement = document.querySelector('#dateofbirthage');
+        if (dobInputElement && dobInputElement.value) {
+            onDateOfBirthChange(); // Call the function to calculate age
+        }
+    
+        // Function to handle the date of birth change event
+        function onDateOfBirthChange() {
+            const dobInputElement = document.querySelector('#dateofbirthage');
+            const ageInputElement = document.querySelector('#age');
+    
+            if (dobInputElement && ageInputElement) {
+                const selectedDate = new Date(dobInputElement.value);
+                const currentDate = new Date();
+    
+                if (isNaN(selectedDate.getTime())) {
+                    ageInputElement.value = ''; // Clear age if the date is invalid
+                    return;
+                }
+    
+                let ageYears = currentDate.getFullYear() - selectedDate.getFullYear();
+                let ageMonths = currentDate.getMonth() - selectedDate.getMonth();
+                let ageDays = currentDate.getDate() - selectedDate.getDate();
+    
+                // Adjust for negative days
+                if (ageDays < 0) {
+                    const lastDayOfPrevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+                    ageDays += lastDayOfPrevMonth;
+                    ageMonths--;
+                }
+    
+                // Adjust for negative months
+                if (ageMonths < 0) {
+                    ageYears--;
+                    ageMonths += 12;
+                }
+    
+                ageInputElement.value = `${ageYears} Y, ${ageMonths} M, ${ageDays} D`;
+            }
+        }
+    
+        // Add event listener for manual date input
+        document.getElementById('dateofbirthage').addEventListener('input', onDateOfBirthChange);
+    });
+</script>

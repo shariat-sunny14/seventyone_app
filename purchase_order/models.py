@@ -60,14 +60,22 @@ class purchase_order_list(models.Model):
 
                     # Set the po_no to "R" followed by current date and a unique number
                     current_date = datetime.now().strftime("%Y%m%d")
-                    latest_po_no = purchase_order_list.objects.filter(id_org=self.id_org_id, branch_id=self.branch_id_id, po_no__startswith=f"R{current_date}").aggregate(Max('po_no'))['po_no__max']
+                    latest_po_no = purchase_order_list.objects.filter(
+                        id_org=self.id_org_id, 
+                        branch_id=self.branch_id_id, 
+                        po_no__startswith=f"R{current_date}"
+                    ).aggregate(Max('po_no'))['po_no__max']
+
                     if latest_po_no is not None:
-                        latest_po_number = int(latest_po_no[9:]) + 1
-                        po_no_str = str(latest_po_number).zfill(4)
+                        # Extract the last 4 digits of the po_no and increment
+                        latest_number = int(latest_po_no[-4:]) + 1
+                        po_no_str = str(latest_number).zfill(4)
                     else:
                         po_no_str = '0001'
+
                     self.po_no = f"R{current_date}{po_no_str}"
 
+                    # Update session fields
                     user_session = purchase_order_list.objects.latest('ss_created_session')
                     modifier_session = purchase_order_list.objects.latest('ss_modified_session')
 
@@ -78,6 +86,7 @@ class purchase_order_list(models.Model):
                     pass
 
         super().save(*args, **kwargs)
+        
 
     def __str__(self):
         return str(self.po_id)
@@ -92,8 +101,8 @@ class purchase_orderdtls(models.Model):
     item_id = models.ForeignKey(items, null=True, blank=True, related_name='item_id2podtls', on_delete=models.DO_NOTHING, editable=False)
     is_approved = models.BooleanField(default=False)
     approved_date = models.CharField(max_length=50, null=True, blank=True)
-    order_qty = models.IntegerField(null=True, blank=True)
-    unit_price = models.IntegerField(null=True, blank=True)
+    order_qty = models.FloatField(null=True, blank=True)
+    unit_price = models.FloatField(null=True, blank=True)
     ss_creator = models.ForeignKey(User, null=True, blank=True, related_name='ss_creator2podtls', on_delete=models.DO_NOTHING, editable=False)
     ss_created_on = models.DateTimeField(auto_now_add=True)
     ss_created_session = models.BigIntegerField(null=True, blank=True, default=3291000000000, editable=False)

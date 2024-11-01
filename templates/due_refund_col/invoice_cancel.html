@@ -20,9 +20,8 @@
                                 <!--  -->
                                 <div class="col-md-7" style="display: flex; justify-content: right;">
                                     <!--  -->
-                                    <button type="button" onClick="location.href='/item_pos_billing'"
-                                        class="btn bg-warning bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
-                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem;">
+                                    <button type="button" onClick="navigateTo('/item_pos_billing/')" class="btn bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
+                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem; border: 1.5px solid #fff;">
                                         Billing
                                     </button>
                                 </div>
@@ -36,6 +35,9 @@
             <!--  -->
             <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
                 <form action="" id="invCancel-form">
+                    <input type="hidden" id="id_org_id_can" name="org_id_can" value="0">
+                    <input type="hidden" id="id_branch_id_can" name="branch_id_can" value="0">
+                    <input type="hidden" id="id_supplier_id_can" name="supplier_id_can" value="0">
                     <section>
                         <div class="card main_pos_card">
                             <div class="row cash_point_row">
@@ -89,7 +91,7 @@
                                                         <div class="card-body pos_card_body">
                                                             <div class="row cash_point_row">
                                                                 <!--  -->
-                                                                <div class="invoice_status">
+                                                                <div class="invoice_status" style="margin-top: 17px;">
                                                                     <h2 class="can_invoice_status"></h2>
                                                                 </div>
                                                             </div>
@@ -176,12 +178,22 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="id_totat_carrying_cost" class="col-sm-2 col-form-label">Carrying Cost:</label>
+                                            <label for="id_carrying_cost_seller_can" class="col-sm-2 col-form-label">Carrying Cost Seller:</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
-                                                    name="totat_carrying_cost">
+                                                    name="carrying_cost_seller_can">
                                                 <span class="form-control paymentDtl pos_inputbox"
-                                                    id="id_totat_carrying_cost">0.00</span>
+                                                    id="id_carrying_cost_seller_can">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_buyer_can" class="col-sm-2 col-form-label">Carrying Cost Buyer:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="carrying_cost_buyer_can">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_carrying_cost_buyer_can">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -202,6 +214,16 @@
                                                     name="due_collection-can">
                                                 <span class="form-control paymentDtl pos_inputbox"
                                                     id="due_collection-can">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_adjust_amount_bill_can" class="col-sm-2 col-form-label">Adjust Amount:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="adjust_amount_bill_can">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_adjust_amount_bill_can">0.00</span>
                                             </div>
                                         </div>
                                     </div>
@@ -243,15 +265,6 @@
                                             </div>
                                         </div>
                                         <!--  -->
-                                        <div class="row cash_point_row">
-                                            <label for="refund_amt-can" class="col-sm-2 col-form-label">Refund Amt.:</label>
-                                            <div class="col-sm-8">
-                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
-                                                    name="refund_amt-can">
-                                                <span class="form-control paymentDtl pos_inputbox"
-                                                    id="refund_amt-can">0.00</span>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -292,11 +305,11 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="id_carrying_cost_buyer" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
+                                            <label for="id_carrying_cost_overall_can" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox"
-                                                    value="0" name="carrying_cost_buyer">
-                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_buyer">0.00</span>
+                                                    value="0" name="carrying_cost_overall_can">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_overall_can">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -310,12 +323,32 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
+                                            <label for="id_grand_adjust_overall_can" class="col-sm-2 col-form-label">Total Adjust Amt:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="grand_adjust_overall_can">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_grand_adjust_overall_can">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
                                             <label for="total_pay_amt-can" class="col-sm-2 col-form-label">Total Pay Amt:</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
                                                     name="total_pay_amt-can">
                                                 <span class="form-control paymentDtl pos_inputbox"
                                                     id="total_pay_amt-can">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="refund_amt-can" class="col-sm-2 col-form-label">Refund Amt.:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="refund_amt-can">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="refund_amt-can">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -341,7 +374,7 @@
                                     <tr style="border-style: hidden!important;">
                                         <td style="text-align:right; width: 100%;">
                                             <button type="button" style="text-align:center; width: 20%;" id="resetButton"
-                                                onClick="location.href='/due_refund_cancel_services'"
+                                                onClick="navigateTo('/due_refund_cancel_services/')"
                                                 class="btn btn-danger col-sm-4 text-white btn-xs item_payment_btn">
                                                 Clear
                                             </button>
@@ -406,12 +439,21 @@
 
                 var invoiceData = "Invoice Date: " + invoice.invoice_date + "\n";
                 invoiceData += "Invoice ID: " + invoice.inv_id + "\n";
+                invoiceData += "Org Name: " + invoice.org_name + "\n";
+                invoiceData += "Branch Name: " + invoice.branch_name + "\n";
+                invoiceData += "Clients Name: " + invoice.supplier_name + "\n";
                 invoiceData += "Customer Name: " + invoice.customer_name + "\n";
                 invoiceData += "Gender: " + invoice.gender + "\n";
                 invoiceData += "Mobile Number: " + invoice.mobile_number;
 
-                $(".invDetails").val(invoiceData);
+                var orgData = invoice.org_id;
+                var branchData = invoice.branch_id;
+                var supplierData = invoice.supplier_id;
 
+                $("#id_org_id_can").val(orgData);
+                $("#id_branch_id_can").val(branchData);
+                $("#id_supplier_id_can").val(supplierData);
+                $(".invDetails").val(invoiceData);
                 
                 console.log("invoice:", invoice);
             }
@@ -422,16 +464,16 @@
                 
                 collection_amt = collections.collection_amt_sum
                 due_collection_amt = collections.due_collection_amt_sum
+                adjust_collection_amt = collections.adjust_collection_amt
                 refund_amt = collections.refund_amt_sum
-                grand_pay_amount = collection_amt + due_collection_amt - refund_amt
+                grand_pay_amount = (collection_amt + due_collection_amt)
                 grand_net_due_amt = collections.net_due_amt
-                totat_carrying_cost_amt = collections.carrying_cost
 
-                $('input[name="carrying_cost_buyer"]').val(totat_carrying_cost_amt);
-                $('#id_carrying_cost_buyer').text(totat_carrying_cost_amt.toFixed(0));
+                $('input[name="adjust_amount_bill_can"]').val(adjust_collection_amt);
+                $('#id_adjust_amount_bill_can').text(adjust_collection_amt.toFixed(0));
 
-                $('input[name="totat_carrying_cost"]').val(totat_carrying_cost_amt);
-                $('#id_totat_carrying_cost').text(totat_carrying_cost_amt.toFixed(0));
+                $('input[name="grand_adjust_overall_can"]').val(adjust_collection_amt);
+                $('#id_grand_adjust_overall_can').text(adjust_collection_amt.toFixed(0));
 
                 $('input[name="ins_collection-can"]').val(collection_amt);
                 $('#ins_collection-can').text(collection_amt.toFixed(0));
@@ -466,8 +508,13 @@
             for (var i = 0; i < data.invoicedtl_data.length; i++) {
                 var item = data.invoicedtl_data[i];
 
-                var cancel_item_w_dis = ((item.item_w_dis / item.qty) * item.canncelled_qty)
-                var totalAmount = (((item.sales_rate * item.qty) - item.item_w_dis) - ((item.sales_rate * item.canncelled_qty) - cancel_item_w_dis)).toFixed(0);
+                var sales_rate = parseFloat(item.sales_rate.toFixed(2))
+                var qty = parseFloat(item.qty.toFixed(2))
+                var item_w_dis = parseFloat(item.item_w_dis.toFixed(2)) 
+                var canncelled_qty = parseFloat(item.canncelled_qty.toFixed(2))
+
+                var cancel_item_w_dis = ((item_w_dis / qty) * canncelled_qty)
+                var totalAmount = (((sales_rate * qty) - item_w_dis) - ((sales_rate * canncelled_qty) + cancel_item_w_dis)).toFixed(0);
 
                 // Now you can use 'item' and 'invoice' as needed
                 console.log("Item:", item);
@@ -480,6 +527,8 @@
                 var cancel_vat = item.cancel_vat
                 var cancel_gross_dis = item.cancel_gross_dis
                 var item_wise_ccost = item.item_wise_ccost
+                var total_buyer_carrying = item.total_buyer_carrying
+                var total_seller_carrying = item.total_seller_carrying
 
                 grand_total_bill += parseFloat(total_bills);
                 grand_vat_tax += parseFloat(total_vat_tax);
@@ -487,7 +536,8 @@
                 total_cancel_bill += parseFloat(cancel_bill);
                 total_cancel_vat += parseFloat(cancel_vat);
                 total_cancel_gross_dis += parseFloat(cancel_gross_dis);
-                total_item_wise_ccost += parseFloat(item_wise_ccost);
+                total_buyer_carrying = parseFloat(total_buyer_carrying);
+                total_seller_carrying = parseFloat(total_seller_carrying);
 
                 grand_bill = grand_total_bill - total_cancel_bill
 
@@ -495,7 +545,16 @@
 
                 grand_net_disc = grand_discount - total_cancel_gross_dis
 
-                net_grand_bill = grand_bill + grand_net_vat_tax + total_item_wise_ccost - grand_net_disc
+                net_grand_bill = grand_bill + grand_net_vat_tax + total_buyer_carrying - grand_net_disc
+
+                $('input[name="carrying_cost_seller_can"]').val(total_seller_carrying);
+                $('#id_carrying_cost_seller_can').text(total_seller_carrying.toFixed(0));
+
+                $('input[name="carrying_cost_buyer_can"]').val(total_buyer_carrying);
+                $('#id_carrying_cost_buyer_can').text(total_buyer_carrying.toFixed(0));
+
+                $('input[name="carrying_cost_overall_can"]').val(total_buyer_carrying);
+                $('#id_carrying_cost_overall_can').text(total_buyer_carrying.toFixed(0));
 
                 $('input[name="total_bill-can"]').val(grand_total_bill);
                 $('#total_bill-can').text(grand_total_bill.toFixed(0));

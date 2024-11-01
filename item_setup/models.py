@@ -19,7 +19,7 @@ class items(models.Model):
     supplier_id = models.ForeignKey(suppliers, null=True, blank=True, related_name='supplier_id2items', on_delete=models.DO_NOTHING, editable=False)
     category_id = models.ForeignKey(item_category, null=True, blank=True, related_name='item_category2items', on_delete=models.DO_NOTHING, editable=False)
     box_qty = models.CharField(max_length=100, null=True, blank=True)
-    re_order_qty = models.CharField(max_length=100, null=True, blank=True)
+    re_order_qty = models.IntegerField(null=True, blank=True)
     discount_percentace = models.CharField(max_length=100, null=True, blank=True)
     discount_tk = models.CharField(max_length=100, null=True, blank=True)
     extended_stock = models.IntegerField(null=True, blank=True, default=0)

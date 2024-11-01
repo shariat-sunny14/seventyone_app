@@ -127,7 +127,9 @@
                                         <h1>Oops!</h1>
                                         <h2>404 - The Page can't be found</h2>
                                     </div>
-                                    <a href="/accounts/profile/">Go to Home</a>
+                                    <div onClick="navigateTo('/accounts/profile/')">
+                                        <a href="#">Go to Home</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -136,6 +138,86 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuLinks = document.querySelectorAll(".nav__link");
+            const menuLinkMenus = document.querySelectorAll(".nav__link__menu");
+
+            window.setActiveLink = function () {
+                const currentPath = window.location.pathname;
+                menuLinks.forEach(link => {
+                    const parentDropdown = link.closest('.nav__dropdown');
+                    if (parentDropdown) {
+                        const parentMenu = parentDropdown.querySelector('.nav__link__menu');
+                        if (link.getAttribute("href") === currentPath) {
+                            link.classList.add("active");
+                            if (parentMenu) {
+                                parentMenu.classList.add("active");
+                            }
+                        } else {
+                            link.classList.remove("active");
+                        }
+                    }
+                });
+
+                // Update nav__link__menu active state
+                menuLinkMenus.forEach(menu => {
+                    const hasActiveLink = menu.nextElementSibling.querySelector('.nav__link.active') !== null;
+                    if (!hasActiveLink) {
+                        menu.classList.remove("active");
+                    }
+                });
+            }
+
+            // Initial call to set the active link based on the current URL
+            setActiveLink();
+
+            // Event listener for clicks on menu links
+            menuLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    // Remove active class from all links
+                    menuLinks.forEach(link => link.classList.remove("active"));
+                    menuLinkMenus.forEach(menu => menu.classList.remove("active"));
+
+                    // Add active class to the clicked link
+                    link.classList.add("active");
+                    const parentDropdown = link.closest('.nav__dropdown');
+                    if (parentDropdown) {
+                        const parentMenu = parentDropdown.querySelector('.nav__link__menu');
+                        if (parentMenu) {
+                            parentMenu.classList.add("active");
+                        }
+                    }
+
+                    // Store the active link's href in localStorage
+                    localStorage.setItem("activeLink", link.getAttribute("href"));
+                });
+            });
+
+            // Check and set the active link based on localStorage on page load
+            const activeLink = localStorage.getItem("activeLink");
+            if (activeLink && activeLink !== window.location.pathname) {
+                // Update the URL without reloading the page
+                window.history.pushState(null, null, activeLink);
+            }
+
+            // Set the active link based on the current URL or localStorage
+            setActiveLink();
+
+            // Listen for URL changes and set the active link accordingly
+            window.addEventListener("popstate", setActiveLink);
+
+            // Listen for manual URL changes (such as typing in the URL bar)
+            window.addEventListener("load", setActiveLink);
+        });
+
+        function navigateTo(url) {
+            localStorage.setItem("activeLink", url);
+            window.history.pushState(null, null, url);
+            setActiveLink(); // Update active link before changing location
+            location.href = url;
+        }
+    </script>
 </body>
 
 </html>

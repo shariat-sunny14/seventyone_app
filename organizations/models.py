@@ -68,6 +68,8 @@ class branchslist(models.Model):
     branch_logo = models.ImageField(upload_to='branch_logos', max_length=255, null=True, blank=True)
     address = models.CharField(max_length=500, null=True, blank=True)
     description = models.CharField(max_length=500, null=True, blank=True)
+    is_main_branch = models.BooleanField(default=False)
+    is_sub_branch = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     ss_creator = models.ForeignKey(
         User, null=True, blank=True, related_name='ss_creator2branchs', on_delete=models.DO_NOTHING, editable=False)

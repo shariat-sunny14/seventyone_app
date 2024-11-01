@@ -1,0 +1,257 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'bill_receipt/css/bill_receipt.css' %}">
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main style="margin-left: 8px;">
+    <section>
+        <div class="container-fluid">
+            <!-- Main Heading -->
+            <div class="row">
+                <div class="col col-md-4 col-md-6 dashboar-head">
+                    <div class="d-sm-flex align-items-center mb-2">
+                        <div class="col-sm-12" style="display:flex;">
+                            <i class='bx bx-copy-alt text-success req-head-icon'></i>
+                            <h1 class="h3 text-success req-head">Select Bill Templates</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <!--  -->
+    <section>
+        <div class="col-sm-12" style="display:flex; margin-top: 0.5rem;">
+            <div class="col-sm-12">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <form id="btemp_form">
+                                <input type="hidden" id="id_org_filter" name="org_filter" value="">
+                                <div class="add_edit_head">
+                                    <h2 class="text-primary">Bill Receipt Information</h2>
+                                </div>
+                                <!--  -->
+                                <div class="col-sm-12">
+                                    <div class="card main-card">
+                                        <div class="card-body card-body_store" style="border-bottom: 1px solid rgb(211, 211, 211);">
+                                            <div class="item_setupflag" style="display: flex;">
+                                                <!--  -->
+                                                <div class="col-sm-12" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
+                                                    <div class="container col-sm-6" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                                        <div class="row org-filterRow">
+                                                            <label for="id_org" class="col-sm-2 col-form-label font_size_filter">
+                                                                Org Name:
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <select id="id_org" name="org" class="form-select item_inputbox" aria-label="Default select example">
+                                                                    <!--  -->
+                                                                    {% for org in org_list %}
+                                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                                        {{org.org_name}}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="container col-sm-6"
+                                                        style="margin-top: 1rem; margin-bottom: 1rem;">
+                                                        <div class="row org-filterRow">
+                                                            <label for="bill_template" class="col-sm-3 col-form-label font_size_filter">
+                                                                Bill Templates:
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <select id="bill_template" name="bill_template" class="form-select item_inputbox" aria-label="Default select example">
+                                                                    <!--  -->
+                                                                    <option value="" selected disabled>Choose Bill Templates</option>
+                                                                    <option value="item_pos">Stock Resticted Templates</option>
+                                                                    <option value="item_pos_stock_free">Stock Free Templates</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                    <div class="col-sm-12" style="display: flex; margin-top: 3rem; margin-bottom: 1rem; margin-right: 1rem; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
+                                                        <div class="col-sm-4">
+                                                            <div class="submit_button">
+                                                                <button type="submit" class="btn btn-success btn-sm">
+                                                                    Save & Update
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                </div>
+                                                <!--  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+    </section>
+    <section>
+        <div class="col-sm-12" style="display:flex; margin-top: 0.5rem;">
+            <div class="col-sm-12">
+                <div class="card main-card">
+                    <div class="card-body card-body_item_setup">
+                        <div class="itemsetup_container">
+                            <div class="add_edit_head">
+                                <h2 class="text-success">Org wise Bill Templates Info</h2>
+                            </div>
+                            <!--  -->
+                            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                                <div class="module-table">
+                                    <table id="btemp_table" class="table table-striped table-hover" style="width: 100%; border: 1px solid #6aa2a8;">
+                                        <thead class="text-center table-header_itemlist" style="font-size: 0.8rem;">
+                                            <tr>
+                                                <th style="text-align:center;">ID</th>
+                                                <th style="text-align:center;">Organizations</th>
+                                                <th style="text-align:center;">Creator</th>
+                                                <th style="text-align:center; width: 30%;">Bill Templates Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="btempTB" style="text-align:center; font-size: 0.85rem;">
+                                            <!-- Rows will be inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        // Add event listener to the organization filter dropdown
+        $('#id_org').change(function () {
+            filterReceipts();
+        });
+    
+        // Initial call to populate the table with all data
+        filterReceipts();
+    
+        function filterReceipts() {
+            // Get the selected organization ID
+            var org_id = $('#id_org').val();
+            
+            // Check if org_id is valid
+            if (org_id) {
+                // Make AJAX request to fetch receipt data
+                $.ajax({
+                    url: '/get_bill_temp_options/',  // Updated URL to match the API endpoint
+                    type: 'GET',
+                    data: {'org_filter': org_id},  // Use correct parameter name
+                    dataType: 'json',
+                    success: function (data) {
+                        // Update the table with the filtered data
+                        updateTable(data);
+                    },
+                    error: function (error) {
+                        console.error('Error fetching receipt data:', error);
+                    }
+                });
+            }
+        }
+    
+        function updateTable(data) {
+            // Clear existing table rows
+            $('#btempTB').empty();
+        
+            // Append filtered data to the table
+            $.each(data, function (index, btemp) {
+                // Determine the display text based on bill temp name
+                var templateNameDisplay;
+                switch (btemp.btemp_name) {
+                    case 'item_pos':
+                        templateNameDisplay = 'Stock Resticted Templates';
+                        break;
+                    case 'item_pos_stock_free':
+                        templateNameDisplay = 'Stock Free Templates';
+                        break;
+                    default:
+                        templateNameDisplay = 'Unknown Bill Template'; // Fallback for unexpected values
+                }
+        
+                // Construct the HTML for the row
+                var row = '<tr style="height: 3rem;">' +
+                    '<td>' + btemp.btemp_id + '</td>' +
+                    '<td>' + btemp.org_name + '</td>' +
+                    '<td>' + btemp.ss_creator + '</td>' +
+                    '<td>' + templateNameDisplay + '</td>' +
+                    '</tr>';
+        
+                // Append the constructed row to the table
+                $('#btempTB').append(row);
+            });
+        }
+    });
+
+    //
+    $(document).ready(function() {
+        // Retrieve and log the value of the hidden input field
+        var storedOrgId = $('#id_org').val();
+
+        if (storedOrgId) {
+            $('#id_org_filter').val(storedOrgId);
+        } else {
+            console.log('Hidden input field is empty.'); // Debugging line
+        }
+
+        // Update the hidden input field when the dropdown value changes
+        $('#id_org').change(function() {
+            var selectedOrgId = $(this).val();
+            $('#id_org_filter').val(selectedOrgId);
+        });
+    });
+
+    // ajax submission
+    $(document).ready(function () {
+        // Attach the submit handler to the form
+        $("#btemp_form").submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+    
+            // Get the form data
+            var formData = $(this).serialize();
+    
+            // Make AJAX request
+            $.ajax({
+                url: "{% url 'save_bill_template' %}",
+                data: formData,
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }, // Include the CSRF token
+                method: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.msg);
+                        location.reload(true); // Optionally reload page on success
+                    } else {
+                        toastr.warning("Save failed. Error: " + response.errmsg);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX request failed. Status: " + status + ", Error: " + error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -23,7 +23,7 @@
                 border-right: none;
                 border-top-left-radius: 0.3rem;
                 border-top-right-radius: 0.3rem;
-                background: #455697;">
+                background: #979645;">
                     <!-- Main Heading -->
                     <div class="row">
                         <div class="col col-md-4 col-md-6 dashboar-head">
@@ -48,14 +48,9 @@
                                                     Store Name:
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <select id="id_store_name" name="store_name"
-                                                        class="form-select store_Selectbox"
-                                                        aria-label="Default select example" required>
-                                                        {% for store in store_data %}
-                                                        <option id="{{store.store_id}}" value="{{store.store_id}}">
-                                                            {{store.store_name}}
-                                                        </option>
-                                                        {% endfor %}
+                                                    <select id="id_store_name" name="store_name" class="form-select store_Selectbox" aria-label="Default select example" required>
+                                                        <!--  -->
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -106,8 +101,8 @@
                                         </th>
                                     </tr> -->
                                     <div class="stockListTB">
-                                        <table id="stockTB" class="table table-striped" style="width: 100%; border: 1px solid #3da9b8;">
-                                            <thead class="text-center table-header">
+                                        <table id="stockTB" class="table table-striped" style="width: 100%; border: 1px solid #979645ab;">
+                                            <thead class="text-center table-header" style="background: #979645ab;">
                                                 <tr style="border-style: hidden!important;">
                                                     <th style="text-align:center; width: 5%;">SL</th>
                                                     <th style="text-align:center; width: 10%;">Item No</th>
@@ -133,129 +128,167 @@
                 </section>
                 <!--  -->
             </section>
-            <script>
-                $(document).ready(function () {
-                    startLoader();
-                    // Function to fetch and populate table data based on selected store_id and search_query
-                    const fetchTableData = function (selectedStoreId) {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/get_item_wise_stock/',
-                            data: {
-                                store_id: selectedStoreId
-                            },
-                            success: function (response) {
-                                // Destroy the existing DataTable instance
-                                $('#stockTB').DataTable().destroy();
-                
-                                updateStockTable(response);
-                
-                                // Re-initialize DataTable after updating the table data
-                                $('#stockTB').DataTable({
-                                    "ordering": false,
-                                });
-                                endLoader();
-                            },
-                            error: function (error) {
-                                console.error('Error fetching data:', error);
-                            }
-                        });
-                    };
-                
-                    // Function to update the stock table with retrieved data
-                    function updateStockTable(response) {
-                        if (response && response.data) {
-                            const stockData = response.data;
-                            stockData.sort((a, b) => a.total_stockQty - b.total_stockQty);
-                            // Clear existing table body
-                            $('#stockTB tbody').empty();
-                            // Populate table rows with new data
-                            stockData.forEach(function (data, index) {
-                                $('#stockTB tbody').append(`
-                                    <tr style="height: 2.4rem;">
-                                        <td style="text-align:center;">${index + 1}</td>
-                                        <td style="text-align:center;">${data.item_no}</td>
-                                        <td style="text-align:left;">${data.item_name}</td>
-                                        <td style="text-align:center;">${data.item_type_name}</td>
-                                        <td style="text-align:center;">${data.item_uom}</td>
-                                        <td style="text-align:left;">${data.item_Supplier}</td>
-                                        <td style="text-align:center;">${data.item_p_price}</td>
-                                        <td style="text-align:center;">${data.item_s_price}</td>
-                                        <td style="text-align:center;">${data.total_stockQty}</td>
-                                    </tr>
-                                `);
-                            });
-                        } else {
-                            // Clear table if no data
-                            $('#stockTB tbody').empty();
-                        }
-                    }
-                
-                    // Event listener for search item input
-                    $('#id_search_item').on('input', function () {
-                        const searchQuery = $(this).val().trim();
-                        const selectedStoreId = $('#id_store_name').val();
-                        fetchTableData(selectedStoreId, searchQuery);
-                    });
-                
-                    // Event listener for store name select change
-                    $('#id_store_name').change(function () {
-                        const selectedStoreId = $(this).val();
-                        const searchQuery = $('#id_search_item').val().trim();
-                        fetchTableData(selectedStoreId, searchQuery);
-                    });
-                
-                    // Initial request on document ready
-                    const defaultStoreId = $('#id_store_name').val();
-                    fetchTableData(defaultStoreId, '');
-                });
-
-                // loader start
-                function startLoader() {
-                    const loader = document.querySelector(".loader");
-                    loader.classList.remove("loader-hidden");
-                }
-                
-                function endLoader() {
-                    const loader = document.querySelector(".loader");
-                    loader.classList.remove("loader-hidden");
-                    setTimeout(() => {
-                        loader.classList.add("loader-hidden");
-                    }, 500);
-                }
-                //loader end
-
-                $(document).ready(function() {
-                    // Function to update the data-id attribute of the stock report button
-                    function updateStockReportButton() {
-                        const selectedStoreId = $('#id_store_name').val();
-                        $('#stockReportPDF').attr('data-id', selectedStoreId);
-                    }
-                
-                    // Event listener for store name select change
-                    $('#id_store_name').change(function() {
-                        updateStockReportButton();
-                    });
-                
-                    // Initial setting of the data-id attribute on document ready
-                    updateStockReportButton();
-                
-                    // Event listener for stock report button click
-                    $(document).on('click', '.stock_report', function(e) {
-                        const stockId = $(this).data('id');
-                        var orgId = $('#id_filter_org').val();
-                
-                        // Ensure stockId is defined before using it in the URL
-                        if (stockId) {
-                            const stockReportUrl = "{% url 'item_wise_stock_report' store_id=0 %}".replace('0', stockId) + "?org_id=" + orgId;
-                            window.open(stockReportUrl, '_blank');
-                        } else {
-                            console.error('Stock ID is undefined');
-                        }
-                    });
-                });
-            </script>
         </main>
     </section>
 </main>
+<script>
+    $(document).ready(function () {
+        // Fetch stores and populate the dropdown
+        $.ajax({
+            url: "{% url 'get_user_stores' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.stores) {
+                    var select = $('#id_store_name');
+                    select.empty();
+                    select.append('<option value="1" id="1">All Store</option>');
+                    $.each(response.stores, function (index, store) {
+                        select.append($('<option>', {
+                            value: store.store_id,
+                            id: store.store_id,
+                            text: store.store_name
+                        }));
+                    });
+    
+                    // Trigger the change event after populating the dropdown
+                    $('#id_store_name').trigger('change');
+                    startLoader();  // Add the startLoader() function here
+                } else {
+                    console.error('Error fetching user stores');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    
+        // Update the data-id attribute of the PDF button
+        function updateStockReportButton() {
+            const selectedStoreId = $('#id_store_name').val();
+            $('#stockReportPDF').attr('data-id', selectedStoreId);
+        }
+    
+        // Trigger update when the store select is changed
+        $('#id_store_name').change(function () {
+            updateStockReportButton();
+            startLoader();  // Add startLoader when the select dropdown is manually changed
+        });
+    
+        // Initial setting of the data-id attribute on page load
+        updateStockReportButton();
+    
+        // Event listener for stock report button click
+        $(document).on('click', '.stock_report', function (e) {
+            e.preventDefault(); // Prevent the default action
+            updateStockReportButton(); // Ensure the button's data-id is updated before generating the report
+            const stockId = $('#stockReportPDF').attr('data-id'); // Get the updated data-id attribute
+            var orgId = $('#id_filter_org').val();
+    
+            // Ensure stockId is defined before using it in the URL
+            if (stockId) {
+                const stockReportUrl = "{% url 'item_wise_stock_report' store_id=0 %}".replace('0', stockId) + "?org_id=" + orgId;
+                window.open(stockReportUrl, '_blank');
+            } else {
+                console.error('Stock ID is undefined');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Function to fetch and populate table data based on selected store_id and search_query
+        const fetchTableData = function (selectedStoreId) {
+            if (selectedStoreId) {  // Check if store_id is not empty
+                $.ajax({
+                    type: 'GET',
+                    url: '/get_item_wise_stock/',
+                    data: {
+                        store_id: selectedStoreId
+                    },
+                    success: function (response) {
+                        // Destroy the existing DataTable instance
+                        $('#stockTB').DataTable().destroy();
+    
+                        updateStockTable(response);
+    
+                        // Re-initialize DataTable after updating the table data
+                        $('#stockTB').DataTable({
+                            "ordering": false,
+                        });
+                        endLoader();
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            } else {
+                console.error('Store ID is missing or invalid.');
+            }
+        };
+    
+        // Function to update the stock table with retrieved data
+        function updateStockTable(response) {
+            if (response && response.data) {
+                const stockData = response.data;
+                stockData.sort((a, b) => a.total_stockQty - b.total_stockQty);
+                // Clear existing table body
+                $('#stockTB tbody').empty();
+                // Populate table rows with new data
+                stockData.forEach(function (data, index) {
+                    $('#stockTB tbody').append(`
+                        <tr style="height: 2.4rem;">
+                            <td style="text-align:center;">${index + 1}</td>
+                            <td style="text-align:center;">${data.item_no}</td>
+                            <td style="text-align:left;">${data.item_name}</td>
+                            <td style="text-align:center;">${data.item_type_name}</td>
+                            <td style="text-align:center;">${data.item_uom}</td>
+                            <td style="text-align:left;">${data.item_Supplier}</td>
+                            <td style="text-align:center;">${data.item_p_price}</td>
+                            <td style="text-align:center;">${data.item_s_price}</td>
+                            <td style="text-align:center;">${data.total_stockQty}</td>
+                        </tr>
+                    `);
+                });
+            } else {
+                // Clear table if no data
+                $('#stockTB tbody').empty();
+            }
+        }
+    
+        // Event listener for search item input
+        //$('#id_search_item').on('input', function () {
+        //    const searchQuery = $(this).val().trim();
+        //    const selectedStoreId = $('#id_store_name').val();
+        //    fetchTableData(selectedStoreId, searchQuery);
+        //});
+    
+        // Event listener for store name select change
+        $('#id_store_name').change(function () {
+            const selectedStoreId = $(this).val();
+            //const searchQuery = $('#id_search_item').val();
+            fetchTableData(selectedStoreId);
+        });
+    
+        // Initial request on document ready
+        const defaultStoreId = $('#id_store_name').val();
+        if (defaultStoreId) {
+            fetchTableData(defaultStoreId, '');
+        }
+    });
+
+    // loader start
+    function startLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+    
+    function endLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+        setTimeout(() => {
+            loader.classList.add("loader-hidden");
+        }, 500);
+    }
+    //loader end
+</script>
 {% endblock %}

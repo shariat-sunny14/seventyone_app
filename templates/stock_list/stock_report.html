@@ -392,35 +392,19 @@
                                     </thead>
                                     <tbody id="GRNtbody_dtl">
                                         {% for item in data %}
-                                        <tr style="font-size: 0.8rem;">
-                                            <td style="text-align:center;">
-                                                {{ forloop.counter }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.item_no }}
-                                            </td>
-                                            <td style="text-align: left;">
-                                                {{ item.item_name }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.item_type_name }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.item_uom }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.item_Supplier }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.item_p_price }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.item_s_price }}
-                                            </td>
-                                            <td style="text-align:center;">
-                                                {{ item.total_stockQty }}
-                                            </td>
-                                        </tr>
+                                            <tr style="font-size: 0.8rem;">
+                                                <td style="text-align:center;">{{ forloop.counter }}</td>
+                                                <td style="text-align:center;">{{ item.item_no }}</td>
+                                                <td style="text-align: left;">{{ item.item_name }}</td>
+                                                <td style="text-align:center;">{{ item.item_type_name }}</td>
+                                                <td style="text-align:center;">{{ item.item_uom }}</td>
+                                                <td style="text-align:center;">{{ item.item_Supplier }}</td>
+                                                <td style="text-align:center;">{{ item.item_p_price }}</td>
+                                                <td style="text-align:center;">{{ item.item_s_price }}</td>
+                                                <td style="text-align:center;">{{ item.total_stockQty }}</td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr><td colspan="9" style="text-align:center;">No items available</td></tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -449,7 +433,7 @@
 <script>
     //
     function printReceipt() {
-        const footerText = 'Shariat Sunny';
+        const footerText = 'TBOX, Contact: +8801309-994317,';
         const now = new Date();
         const formattedDateTime = now.toLocaleString();
 
@@ -483,7 +467,7 @@
 
 <!-- <script>
 
-    const footerText = 'Software By: Shariat Sunny';
+    const footerText = 'Software By: TBOX, Contact: +8801309-994317,';
     const footerWidth = maxHeaderWidth;
     const footerHeight = 4;
     const footerY = doc.internal.pageSize.height - footerHeight;

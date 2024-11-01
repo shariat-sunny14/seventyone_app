@@ -167,7 +167,6 @@ h6 {
     }
 }
 
-
 /* item setup card-body */
 .row_item_setup {
     --bs-gutter-x: 0.1rem;
@@ -714,11 +713,16 @@ textarea.form-control {
 }
 
 .item_add_clear_btn {
-    margin-top: 2.8px;
-    padding: 0.09rem 0.6rem;
+    display: flex;
+    margin-top: -1px;
+    padding: 0.3rem 0.6rem;
     font-size: 0.8rem;
     font-weight: bold;
     margin-left: -0.5rem;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 /*  */
@@ -897,14 +901,14 @@ option:hover {
 /* filtering end */
 
 .submissionBtn-body {
-    margin-top: 0.5rem;
     width: 99.5%;
-    margin-left: 2px;
+    margin-left: 3px;
     padding: 2px;
-    border: 1px solid #71bac4;
+    /* border: 1px solid #71bac4; */
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    /* background: #99b3b4; */
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3);
+    background: #ededed;
+    /* box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3); */
 }
 
 .selected-row {

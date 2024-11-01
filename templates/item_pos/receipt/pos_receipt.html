@@ -1,0 +1,385 @@
+{% load humanize %}
+{% load static %}
+<style>
+    .sub-title2 {
+        margin-top: -8px;
+    }
+
+    .sub-title3 {
+        margin-top: -8px;
+    }
+
+    tbody,
+    td,
+    tfoot,
+    th,
+    thead,
+    tr {
+        border-color: #b7b7b7;
+        border-style: dashed;
+        border-width: 0;
+    }
+</style>
+<div class="container-fluid">
+    <div id="pos_outprint" class="pos_receipt-body">
+        <section>
+            <table class="table" style="width: 100%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                <tr>
+                    <center>
+                        <label class="com-name">
+                            <!-- Company Name Here -->
+                        </label>
+                    </center>
+                    <center class="sub-title1">
+                        <small>
+                            <span class="com-address">
+                                <span class="com-address-title">Address: </span>
+                                <span class="com-address-name"></span>
+                            </span>
+                        </small>
+                    </center>
+                    <center class="sub-title3">
+                        <small>
+                            <span class="com-hotline">
+                                <span class="com-hotline-title">Hotline: </span>
+                                <span class="com-hotline-name"></span>
+                                <span class="com-fax-title">Fax: </span>
+                                <span class="com-fax-name"></span>
+                            </span>
+                        </small>
+                    </center>
+                </tr>
+                <tr>
+
+                </tr>
+            </table>
+            <!-- <div class="lh-1"></div> -->
+            <!-- <hr> -->
+            <div class="lh-1">
+                <div class="pos-info-body">
+                    <div class="row col-sm-12 pos-info-header">
+                        <div class="row col-sm-12">
+                            <div class="row col-sm-12" style="margin-top: 10px; margin-left: 2.5rem; padding: 3px;">
+                                <input type="hidden" value="" name="duePaidStatus">
+                                <span class="pos_paid-due-status" id="duePaidStatus"></span>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="row col-sm-12">
+                            <div class="row col-sm-12" style="margin-top: -34px; margin-left: 0.5rem; padding: 3px;">
+                                <span class="posBarcodeImg" style="padding: 3px;"><img name="barcode" jsbarcode-value="{{transaction.inv_id}}"></span>
+                                <span style="padding: 3px 3px 3px 12px;">Invoice : {{ transaction.inv_id }}</span>
+                                <span style="padding: 3px 3px 3px 12px;">Date : {{ transaction.invoice_date }}</span>
+                                <span style="padding: 3px 3px 3px 12px;">Customer : {{ transaction.customer_name }}</span>
+                                <span style="padding: 3px 3px 3px 12px;">Mobile : {{ transaction.mobile_number }}</span>
+                                <span style="padding: 3px 3px 3px 12px;">Address : {{ transaction.address }}</span>
+                            </div>
+                        </div>
+                        <!--  -->
+                        <div class="row col-sm-12">
+                            <div class="row col-sm-12" style="margin-left: 2.5rem; padding: 3px; margin-bottom: 10px;">
+                                <span class="pos_paid-due-status">Customer Copy</span>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <table class="table receipt-table" style="width: 100%; margin-left: 0.3rem; margin-right: 0.3rem;" id="receipt-items">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align:center; font-size: 11px;">Sl</th>
+                        <th scope="col" style="text-align:center; font-size: 11px;">Name</th>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 10%;">Rate</th>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 5%;">Qty</th>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 8%;">Dis.</th>
+                        <th scope="col" style="text-align:center; font-size: 11px; width: 12%;">Total</th>
+                    </tr>
+                </thead>
+                <tbody style="border-bottom: hidden!important; font-size: 11px;">
+                    {% for item in salesItems %}
+                    <tr>
+                        <td style="text-align: center;">&nbsp;</td>
+                        <td style="text-align: left;">{{item.item_id.item_name}}</td>
+                        <td style="text-align: center;">{{item.sales_rate}}</td>
+                        <td style="text-align: center;">{{item.qty_cancelQty}}</td>
+                        <td style="text-align: center;">{{item.item_wise_disc|floatformat:"3"}}</td>
+                        <td style="text-align: center;">{{ item.total_amount|floatformat:"0" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <!--  -->
+        <section>
+            <div class="lh-1">
+                <div style="display:flex;">
+                    <!-- payment table -->
+                    <div style="border-top: 1px solid #c5c1c1; width: 100%;">
+                        <table class="table payment-table"
+                            style="width: 100%; margin-bottom: 0.2rem!important; margin-top: 0.2rem!important;">
+                            <tbody>
+
+                                <tr style="border-style: hidden!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Total Amt. :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{ grand_total|floatformat:"1" }}
+                                    </td>
+                                </tr>
+                                <tr style="border-style: hidden!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Discount Amt. (-):
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{ grand_gross_dis }}
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Total VAT amt (+):
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{ grand_gross_vat_tax }}
+                                    </td>
+                                </tr>
+                                <!--  -->
+                                <tr style="border-style: hidden!important; border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Carrying Cost Seller :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{total_cost_seller_amt|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <tr style="border-style: hidden!important; border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Carrying Cost Buyer :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{total_cost_buyer_amt|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <!--  -->
+                                <tr>
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Net Total Amt. :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{ net_total_amt }}
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Paid Amt. :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{ total_collection_amt|floatformat:1 }}
+                                    </td>
+                                </tr>
+                                <tr style="border-style: hidden!important; border-bottom: 1px solid #c5c1c1!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Refund Amt. :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{refund_amt_sum|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Net Paid Amt. :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        {{total_net_collection|floatformat:1}}
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid #c5c1c1!important; border-bottom: hidden!important;">
+                                    <td style="text-align:right; width: 80%; font-size: 11px; font-weight: bold;">
+                                        Due Amt. :
+                                    </td>
+                                    <td style="text-align: right; width: 20%; font-size: 11px; font-weight: bold;">
+                                        <input type="hidden" id="duePaidVal" name="duePaidVal"
+                                            value="{{ net_due_amt }}">
+                                        {{ net_due_amt }}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-sm-12" style="margin-left: 0.5rem; padding: 3px; font-size: 11px;">
+                <span style="padding: 3px;">Remarks : {{ paymt.remarks }}</span>
+                <span style="padding: 3px;">In Word : {{ numbers_as_words }} Tk. only</span>
+                <span style="padding: 3px;">Note :</span>
+                <span style="padding: 3px;">১. রসিদ দেখে ঔষধ এবং বিল বুঝে নিন।</span>
+                <span style="padding: 3px;">২. এই রসিদের ২৪ ঘন্টার পরে ঔষধ ফেরত নেওয়া হয় না।</span>
+                <span style="padding: 3px;">৩. রসিদ ছাড়া ঔষধ ফেরত নেওয়া হয় না।</span>
+                <span style="padding: 3px;">৪. বিক্রিত ঔষধ ফেরতযোগ্য নয়, শুধুমাত্র ত্রুটিপূর্ণ ঔষধ ফেরত নেওয়া হবে।</span>
+                <span style="padding: 3px;">৫. ঔষধের সঠিকতা নিশ্চিত করে সংগ্রহ করুন। একবার ক্রয়ের পর কোনো পরিবর্তন করা যাবে না।</span>
+                <span style="padding: 3px;">৬. রসিদটি যত্ন সহকারে সংরক্ষণ করুন, ঔষধ ফেরতের জন্য এটি প্রয়োজন।</span>
+                <span style="padding: 3px;">৭. ঔষধ ফেরত নেওয়ার ক্ষেত্রে মূল প্যাকেট অক্ষত থাকতে হবে।</span>
+                <span style="padding: 3px;">৮. ক্রয়ের তারিখ থেকে ৭ দিনের মধ্যে ত্রুটিপূর্ণ ঔষধ ফেরত দেওয়া যাবে।</span>
+                <span style="padding: 3px;">৯. রসিদটি আপনার পরবর্তী ক্রয়ের সময় ডিসকাউন্টের জন্য ব্যবহার করা যেতে পারে।</span>
+                <span style="padding: 3px; text-align: center; margin-top: 0.5rem; margin-bottom: 0.5rem;">ধন্যবাদ, আবার আসবেন</span>
+            </div>
+        </section>
+    </div>
+    <!--  -->
+    <hr>
+    <div class="clear-fix py-3"></div>
+    <!--  -->
+    <div class="d-flex w-100 justify-content-end">
+        <button class="btn btn-light bg-gradient border rounded-0 btn-sm me-1" type="button" id="pos_receipt_print">
+            <i class='bx bxs-printer'></i>
+            Print
+        </button>
+        <button class="btn btn-secondary bg-gradient border rounded-0 btn-sm" type="button" data-bs-dismiss="modal">
+            <i class='bx bx-window-close'></i>
+            Close
+        </button>
+    </div>
+    <!--  -->
+</div>
+<script>
+    //<!--  -->
+    $(document).ready(function () {
+        let companyInfo;
+    
+        // Make Ajax request to get user information
+        $.ajax({
+            type: 'GET',
+            url: '/get_user_org_informations/',
+            success: function (response) {
+                // Store the companyInfo data
+                companyInfo = response;
+    
+                // Now that you have the data, update the HTML
+                updateCompanyInfoUI();
+            },
+            error: function (error) {
+                console.error('Error fetching user information:', error);
+            }
+        });
+    
+        // Function to update the HTML with companyInfo
+        function updateCompanyInfoUI() {
+            // Check if companyInfo is defined
+            if (companyInfo) {
+                // Update the HTML content
+                $('.com-name').text(companyInfo.org_name);
+                $('.com-address-name').text(companyInfo.address);
+                $('.email-address-name').text(companyInfo.email);
+                $('.website-name').text(companyInfo.website);
+                $('.com-hotline-name').text(`${companyInfo.phone}, ${companyInfo.hotline}`);
+                $('.com-fax-name').text(companyInfo.fax);
+    
+                // Display the organization logo
+                if (companyInfo.org_logo) {
+                    $('.com-receipt-logo').attr('src', companyInfo.org_logo);
+                }
+            } else {
+                // Handle the case where companyInfo is not available
+                console.error('Company information is not available.');
+            }
+        }
+    
+        $('#pos_receipt_print').click(function () {
+            var head = $('head').clone();
+            var p = $('#pos_outprint').clone();
+            var el = $("<div>");
+    
+            // Append necessary styles to the head
+            head.append('<style>body{background-color:unset !important;}</style>');
+            head.append('<style>.footer { position: relative; bottom: 0px; text-align: left; width: 100%; }</style>');
+            head.append('<style>.pos_receipt-body { position: relative; }</style>'); // Make sure to use relative position
+    
+            const footerText = 'TBOX, Contact: +8801309-994317,';
+            const now = new Date();
+            const formattedDateTime = now.toLocaleString();
+    
+            var footerContent =
+                `<div class="footer chalanFooter">
+                    <span class="software-woner-title">Software By: </span>
+                    <span class="software-woner-name">${footerText}</span>
+                    <span class="printed-on-title">- Printed on: </span>
+                    <span class="printed-on-date">${formattedDateTime}</span>
+                </div>`;
+    
+            el.append(head);
+            el.append('<div class="pos_receipt-body">' + p.html() + '</div>'); // Append the main content
+            el.append(footerContent); // Append the footer
+    
+            var nw = window.open('', '_blank', "width=800,height=800,left=300,top=200");
+            nw.document.write('<html>' + el.html() + '</html>'); // Write the complete HTML structure
+            nw.document.close();
+    
+            // Set up the afterprint function to close the window after printing
+            nw.onafterprint = function () {
+                nw.close();
+            };
+    
+            // Trigger the print function after a short delay to ensure the content loads properly
+            setTimeout(() => {
+                nw.print();
+            }, 300);
+        });
+    });
+
+    // Function to generate barcode images
+    function generateBarcodeImages() {
+        var elements = document.querySelectorAll(".posBarcodeImg img");
+        for (var i = 0; i < elements.length; i++) {
+            var img = elements[i];
+            var id = "barcode" + i; // Generate unique ID for each barcode
+            img.id = id;
+            var value = img.getAttribute("jsbarcode-value");
+            JsBarcode("#" + id, value, {
+                format: "CODE128",
+                lineColor: "#000000",
+                width: 1,
+                height: 28,
+                displayValue: false,
+                fontSize: 10,
+                fontOptions: "lighter",
+            });
+        }
+    }
+
+    // Function to clear barcode images
+    function clearBarcodeImages() {
+        var elements = document.querySelectorAll(".posBarcodeImg img");
+        for (var i = 0; i < elements.length; i++) {
+            var img = elements[i];
+            var id = img.id;
+            JsBarcode("#" + id, ""); // Clear the barcode by setting an empty string
+        }
+    }
+
+    // Call generateBarcodeImages() to generate barcode images and clearBarcodeImages() to clear them.
+    generateBarcodeImages();
+
+    // To clear the barcode images when needed:
+    // clearBarcodeImages();
+
+    // Due Paid Status
+
+    $(function () {
+        var due_amt = $('#duePaidVal').val()
+        if ((due_amt) > 0) {
+            due_value = "Due Bill";
+        } else if ((due_amt) < 0) {
+            due_value = "Need Refund";
+        } else {
+            due_value = "Paid Bill";
+        }
+        $('#duePaidStatus').text(due_value).toLocaleString('en-US')
+        $('[name="duePaidStatus"]').val(due_value)
+        //console.log("Due Value:" + due_amt)
+    });
+</script>
+
+<!--  -->

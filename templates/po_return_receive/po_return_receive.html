@@ -28,7 +28,7 @@
                             <i class='bx bxs-chevrons-left text-white req-head-icon'></i>
                             <h1 class="h3 text-white req-head">Purchase Order Return Received Details</h1>
                         </div>
-                        <div class="add-moduleBtn" onClick="location.href='/po_return_receive_list'">
+                        <div class="add-moduleBtn" onClick="navigateTo('/po_return_receive_list/')">
                             <button id="addmodulesetup" class="btn text-white btn-xs moduleBtn"
                                 style="font-weight: bolder; background: #02a3d4; box-shadow: 4px 2px 5px 2px #43507e;">
                                 PO Return Rec. List
@@ -379,18 +379,20 @@
                                                                 <thead class="text-center table-header_itemlist">
                                                                     <tr style="border-style: hidden!important;">
                                                                         <th style="text-align:center; width: 3%;">Sl</th>
-                                                                        <th style="text-align:center; width: 7%;">Item No</th>
-                                                                        <th style="text-align:center; width: 18%;">Item Name</th>
-                                                                        <th style="text-align:center; width: 7%;">Type</th>
-                                                                        <th style="text-align:center; width: 7%;">UoM</th>
-                                                                        <th style="text-align:center; width: 7%;">Stock Qty</th>
-                                                                        <th style="text-align:center; width: 7%;">Order Qty</th>
-                                                                        <th style="text-align:center; width: 7%;">Recd. Qty</th>
-                                                                        <th style="text-align:center; width: 7%;">Retned. Qty</th>
+                                                                        <th style="text-align:center; width: 5%;">Item No</th>
+                                                                        <th style="text-align:center; width: 12%;">Item Name</th>
+                                                                        <th style="text-align:center; width: 6%;">Type</th>
+                                                                        <th style="text-align:center; width: 6%;">UoM</th>
+                                                                        <th style="text-align:center; width: 6%;">Stock Qty</th>
+                                                                        <th style="text-align:center; width: 6%;">Order Qty</th>
+                                                                        <th style="text-align:center; width: 6%;">Recd. Qty</th>
+                                                                        <th style="text-align:center; width: 6%;">Retned. Qty</th>
                                                                         <th style="text-align:center; width: 7%;">R. Recd. Qty</th>
                                                                         <th style="text-align:center; width: 7%;">R. Rec. Qty</th>
+                                                                        <th style="text-align:center; width: 7%;">Batch No</th>
+                                                                        <th style="text-align:center; width: 8%;">Expiry Date</th>
                                                                         <th style="text-align:center; width: 7%;">Unit Price</th>
-                                                                        <th style="text-align:center; width: 7%;">Tot. Amt</th>
+                                                                        <th style="text-align:center; width: 6%;">Tot. Amt</th>
                                                                         <th style="text-align:center; width: 3%;">
                                                                             <input type="checkbox" class="inputbox_tdrow is_rec_checkbox" id="all_rec_check" name="all_rec_check">
                                                                         </th>
@@ -443,6 +445,14 @@
                                                                         <td style="text-align:center;">
                                                                             <input type="number" value="0" class="rec_bonusQty"
                                                                                 id="retn_rec_qty" name="retn_rec_qty[]" required autocomplete="off" disabled>
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="inputbox_rowwise item_disabled" id="item_batchs" value="{{ dtl.ops_dtls.item_batch }}"
+                                                                                name="item_batchs[]" autocomplete="off">
+                                                                        </td>
+                                                                        <td style="text-align:center;">
+                                                                            <input type="text" class="form-control inputbox_rowwise item_disabled datepicker" value="{{ dtl.ops_dtls.item_exp_date }}"
+                                                                                name="item_exp_dates[]" autocomplete="off">
                                                                         </td>
                                                                         <td style="text-align:center;">
                                                                             <input type="number" value="{{ dtl.unit_price }}" class="inputbox_tdrow"
@@ -641,6 +651,30 @@
     
 </main>
 <script>
+
+    $(document).ready(function () {
+        $(".datepicker").each(function (index, element) {
+            var inputId = "expiry_date_" + (index + 1); // Unique ID based on the index
+    
+            $(element).attr("id", inputId); // Set a unique ID for the input
+    
+            $("#" + inputId).datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeYear: true,
+                changeMonth: true
+            });
+    
+            // Force the correct format after the input is populated
+            $(element).val(function(i, val) {
+                var date = new Date(val);
+                // Check if the date is valid
+                if (!isNaN(date.getTime())) {
+                    return $.datepicker.formatDate('yy-mm-dd', date);
+                }
+                return ""; // Return empty string if the date is invalid
+            });
+        });
+    });
 
     $(document).ready(function () {
 
@@ -1061,7 +1095,7 @@
                         toastr.success(resp.msg);
                         setTimeout(function () { 
                             location.reload();
-                            window.location.href = "{% url 'po_return_receive_list' %}";
+                            navigateTo("{% url 'po_return_receive_list' %}");
                         }, 300);
                     } else {
                         toastr.error(resp.errmsg);

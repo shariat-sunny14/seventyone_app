@@ -157,10 +157,10 @@
                 <div class="display-flex col-sm-12">
                     <div class="col-sm-4">
                         <div class="card" id="showfullscreen_stock"
-                            style="height: 22rem; margin-right: 1.5rem; margin-left: 0.6rem;">
+                            style="height: 25rem; margin-right: 1.5rem; margin-left: 0.6rem;">
                             <div class="card-body">
                                 <div style="display: flex;">
-                                    <h5 class="card-title title-font text-success">Total Store Wise Stock Qty</h5>
+                                    <h5 class="card-title title-font text-success">Store Wise Items Stock Qty</h5>
                                     <div class="fullexitBtn">
                                         <i id="fullscreenIconDstock" class='bx bx-fullscreen'
                                             style="cursor: pointer;"></i>
@@ -172,20 +172,27 @@
                                 <div>
                                     <hr class="w-100 hr-body">
                                 </div>
+                                <div style="display: flex;">
+                                    <select id="id_store_name" name="store_name" class="form-select store_Selectbox"
+                                        aria-label="Default select example">
+                                        <!--  -->
+
+                                    </select>
+                                </div>
                                 <!-- body -->
-                                <div style="display: flex; width: 100%; margin: auto; justify-content: center;">
+                                <div style="display: flex; margin-top: 10px !important; width: 100%; margin: auto; justify-content: center;">
                                     <canvas class="store_stock_pie" id="stockChart"></canvas>
                                 </div>
                                 <p class="tx-12 card-footer-size"
                                     style="margin-top: 1.5rem; border-top: 1px solid #dee2e6;">
-                                    Over All Store Wise Total Stock Qty Status</p>
+                                    Over All Store Wise Items Stock Qty Status</p>
                             </div>
                         </div>
                     </div>
                     <!--  -->
                     <div class="col-sm-4">
                         <div class="card" id="showfullscreenDsales"
-                            style="height: 22rem; margin-right: 1.5rem; margin-left: 0.6rem;">
+                            style="height: 25rem; margin-right: 1.5rem; margin-left: 0.6rem;">
                             <div class="card-body">
                                 <div style="display: flex;">
                                     <h5 class="card-title title-font text-success">Invoice Wise Details Sales</h5>
@@ -213,7 +220,7 @@
                     </div>
                     <!--  -->
                     <div class="col-sm-4">
-                        <div class="card" id="showfullscreenItemWise" style="height: 22rem; margin-left: 0.6rem;">
+                        <div class="card" id="showfullscreenItemWise" style="height: 25rem; margin-left: 0.6rem;">
                             <div class="card-body">
                                 <div style="display: flex;">
                                     <h5 class="card-title title-font text-success">Item Wise Top Sales</h5>
@@ -255,6 +262,35 @@
     <!--  -->
 </main>
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "{% url 'get_user_stores' %}",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.stores) {
+                    var select = $('#id_store_name');
+                    select.empty();
+                    $.each(response.stores, function (index, store) {
+                        select.append($('<option>', {
+                            value: store.store_id,
+                            id: store.store_id,
+                            text: store.store_name
+                        }));
+                    });
+
+                    // After populating user stores, trigger the change event for cash_point
+                    $('#id_store_name').trigger('change');
+                } else {
+                    console.error('Error fetching user stores');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
     //<!-- Total Store Wise Stock Qty -->
     document.getElementById('fullscreenIconDstock').addEventListener('click', function () {
         const elem = document.getElementById('showfullscreen_stock');
@@ -439,41 +475,63 @@
         for (var i = 0; i < 15; i++) {
             colors.push(generateRandomColor(0.7));
         }
-
-        $.ajax({
-            url: '{% url "get_store_wise_stock_qty" %}',
-            dataType: 'json',
-            success: function (data) {
-                var ctx = document.getElementById('stockChart').getContext('2d');
-                var stockChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: 'Stock Qty.',
-                            data: data.sizes,
-                            backgroundColor: colors,
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false
+    
+        var stockChart;
+    
+        function updateChart(storeId) {
+            $.ajax({
+                url: '{% url "get_store_wise_stock_qty" %}',
+                data: { store_id: storeId },  // Send selected store_id
+                dataType: 'json',
+                success: function (data) {
+                    if (stockChart) {
+                        // Update existing chart
+                        stockChart.data.labels = data.labels;
+                        stockChart.data.datasets[0].data = data.sizes;
+                        stockChart.update();
+                    } else {
+                        // Create new chart
+                        var ctx = document.getElementById('stockChart').getContext('2d');
+                        stockChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: data.labels,
+                                datasets: [{
+                                    label: 'Stock Qty.',
+                                    data: data.sizes,
+                                    backgroundColor: colors,
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                elements: {
+                                    arc: {
+                                        borderWidth: 0,
+                                        shadowOffsetX: -2,
+                                        shadowOffsetY: 2,
+                                        shadowBlur: 4,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                    }
+                                }
                             }
-                        },
-                        elements: {
-                            arc: {
-                                borderWidth: 0, // Remove border
-                                shadowOffsetX: -2, // Adjust shadow offset for a 3D-like effect
-                                shadowOffsetY: 2,
-                                shadowBlur: 4, // Blur the shadow
-                                shadowColor: 'rgba(0, 0, 0, 0.5)', // Shadow color
-                            }
-                        }
+                        });
                     }
-                });
-            }
+                }
+            });
+        }
+    
+        // Event listener for store selection change
+        $('#id_store_name').on('change', function () {
+            var storeId = $(this).val();
+            updateChart(storeId);  // Update chart based on selected store
         });
+    
+        // Optionally, load initial chart with default/all store data
+        updateChart('');  // Fetch all store data initially
     });
     //<!--  -->
     $(document).ready(function () {

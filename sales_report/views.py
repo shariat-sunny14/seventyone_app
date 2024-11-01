@@ -65,7 +65,7 @@ def getSalesReportManagerAPI(request):
         invoices = invoice_list.objects.filter(invoice_date__range=(from_date, to_date), org_id=org_id, branch_id=branch_id).all()
         invoice_details = invoicedtl_list.objects.all()
         payments = payment_list.objects.all()
-        carrying_cost_buyer = rent_others_exps.objects.filter(is_buyer=True).all()
+        carrying_cost_buyer = rent_others_exps.objects.filter(is_buyer=True, org_id=org_id, branch_id=branch_id).all()
 
         for invoice in invoices:
             details = invoice_details.filter(inv_id=invoice).all()
@@ -223,7 +223,7 @@ def getDueReportManagerAPI(request):
         invoices = invoice_list.objects.filter(invoice_date__range=(due_from, due_to), org_id=org_id, branch_id=branch_id).all()
         invoice_details = invoicedtl_list.objects.all()
         payment_details = payment_list.objects.all()
-        carrying_cost_buyer = rent_others_exps.objects.filter(is_buyer=True).all()
+        carrying_cost_buyer = rent_others_exps.objects.filter(is_buyer=True, org_id=org_id, branch_id=branch_id).all()
 
         for invoice in invoices:
             details = invoice_details.filter(inv_id=invoice).all()

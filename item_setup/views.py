@@ -275,6 +275,7 @@ def item_addAPI(request):
             item_data.is_discount_able = data.get('is_discount_able', 0)
             item_data.is_expireable = data.get('is_expireable', 0)
             item_data.extended_stock = extended_stock if extended_stock else None
+            item_data.ss_creator=request.user
             item_data.ss_modifier = request.user
             item_data.save()
 
@@ -337,8 +338,8 @@ def getItemListAPI(request, item_id):
             'item_uom_name': item_list.item_uom_id.item_uom_name,
             'manufacturer_no': item_list.supplier_id.supplier_no,
             'manufacturer_name': item_list.supplier_id.supplier_id,
-            'category_no': item_list.category_id.category_no,
-            'category_name': item_list.category_id.category_id,
+            'category_no': item_list.category_id.category_no if item_list.category_id else None,
+            'category_name': item_list.category_id.category_id if item_list.category_id else None,
             'box_qty': item_list.box_qty,
             're_order_qty': item_list.re_order_qty,
             'discount_percentace': item_list.discount_percentace,

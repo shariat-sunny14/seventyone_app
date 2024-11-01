@@ -20,9 +20,8 @@
                                 <!--  -->
                                 <div class="col-md-7" style="display: flex; justify-content: right;">
                                     <!--  -->
-                                    <button type="button" onClick="location.href='/item_pos_billing'"
-                                        class="btn bg-warning bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
-                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem;">
+                                    <button type="button" onClick="navigateTo('/item_pos_billing/')" class="btn bg-gradient col-ms-3 text-white btn-xs POSlink_btn"
+                                        style="margin-right: 1rem; font-weight: bolder; box-shadow: 4px 2px 5px 2px #43507e; border-radius: 1rem; border: 1.5px solid #fff;">
                                         Billing
                                     </button>
                                 </div>
@@ -34,6 +33,9 @@
             <!--  -->
             <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
                 <form action="" id="due_ref_form">
+                    <input type="hidden" id="id_org_id_due" name="org_id_due" value="0">
+                    <input type="hidden" id="id_branch_id_due" name="branch_id_due" value="0">
+                    <input type="hidden" id="id_supplier_id_due" name="supplier_id_due" value="0">
                     <section>
                         <div class="card main_pos_card">
                             <div class="row cash_point_row">
@@ -51,9 +53,7 @@
                                                                 </label>
                                                                 <div class="col-sm-7-mody">
                                                                     <input type="number" value="" name="dueRef_searchID" id="dueRef_searchID"
-                                                                        class="form-control text-center pos_inputbox"
-                                                                        placeholder="Searching by Invoice ID" autocomplete="off"
-                                                                        required>
+                                                                        class="form-control text-center pos_inputbox" placeholder="Searching by Invoice ID" autocomplete="off" required>
                                                                 </div>
                                                                 <!--  -->
                                                                 <div class="col-sm-3">
@@ -75,7 +75,7 @@
                                                                     Customer Info.
                                                                 </label>
                                                                 <div class="col-sm-9-mody">
-                                                                    <textarea style="height: 62px; color: #037c83;" type="text" class="form-control due_ref_invDetails pos_inputbox" readonly></textarea>
+                                                                    <textarea style="height: 62px; color: #037c83;" type="text" id="due_ref_invDetails" class="form-control pos_inputbox" readonly></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -89,6 +89,17 @@
                                                                 <!--  -->
                                                                 <div class="invoice_status">
                                                                     <h2 class="due_ref_invoice_statusDtl"></h2>
+                                                                </div>
+                                                                <!-- Credit Balance -->
+                                                                <div class="row cash_point_row" id="id_sales_type" style="display: flex; margin-top: 0.6rem; margin-bottom: 0.5rem; flex-direction: row; align-content: center; justify-content: space-between;">
+                                                                    <label for="referral_person" class="col-sm-2 text-danger col-form-label" style="font-weight: bolder;">
+                                                                        Credit Bal. :
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <!--  -->
+                                                                        <input type="number" id="credit_balance" name="credit_balance" value="" class="form-control pos_inputbox" style="display: none;">
+                                                                        <span id="id_credit_balance" class="form-control item_inputbox text-success credit_balance">0.00</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -172,12 +183,22 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="id_carrying_cost_due_amt" class="col-sm-2 col-form-label">Carrying Cost:</label>
+                                            <label for="id_carrying_cost_seller" class="col-sm-2 col-form-label">Carrying Cost Seller:</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
-                                                    name="carrying_cost_due_amt">
+                                                    name="carrying_cost_seller">
                                                 <span class="form-control paymentDtl pos_inputbox"
-                                                    id="id_carrying_cost_due_amt">0.00</span>
+                                                    id="id_carrying_cost_seller">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_carrying_cost_buyer_bill" class="col-sm-2 col-form-label">Carrying Cost Buyer:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="carrying_cost_buyer_bill">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_carrying_cost_buyer_bill">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -198,6 +219,16 @@
                                                     name="total_due_collection">
                                                 <span class="form-control paymentDtl pos_inputbox"
                                                     id="total_due_collection">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_adjust_amount" class="col-sm-2 col-form-label">Adjust Amount:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="adjust_amount">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_adjust_amount">0.00</span>
                                             </div>
                                         </div>
                                     </div>
@@ -239,15 +270,6 @@
                                             </div>
                                         </div>
                                         <!--  -->
-                                        <div class="row cash_point_row">
-                                            <label for="total_refund_amt" class="col-sm-2 col-form-label">Refund Amt.:</label>
-                                            <div class="col-sm-8">
-                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
-                                                    name="total_refund_amt">
-                                                <span class="form-control paymentDtl pos_inputbox"
-                                                    id="total_refund_amt">0.00</span>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -288,20 +310,30 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="id_carrying_cost_due_col" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
+                                            <label for="id_carrying_cost_buyer_overall" class="col-sm-2  col-form-label">Carrying Cost (+):</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox"
-                                                    value="0" name="carrying_cost_due_col">
-                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_due_col">0.00</span>
+                                                    value="0" name="carrying_cost_buyer_overall">
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_carrying_cost_buyer_overall">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
-                                            <label for="grand_total_net_bill" class="col-sm-2  col-form-label">Grand Net Bill:</label>
+                                            <label for="id_grand_total_net_bill" class="col-sm-2  col-form-label">Grand Net Bill:</label>
                                             <div class="col-sm-8">
                                                 <input type="hidden" class="form-control paymentDtl pos_inputbox"
                                                     value="0" name="grand_total_net_bill">
-                                                <span class="form-control paymentDtl pos_inputbox" id="grand_total_net_bill">0.00</span>
+                                                <span class="form-control paymentDtl pos_inputbox" id="id_grand_total_net_bill">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
+                                            <label for="id_grand_adjust_amt" class="col-sm-2 col-form-label">Total Adjust Amt:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="grand_adjust_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="id_grand_adjust_amt">0.00</span>
                                             </div>
                                         </div>
                                         <!--  -->
@@ -316,6 +348,16 @@
                                         </div>
                                         <!--  -->
                                         <div class="row cash_point_row">
+                                            <label for="total_refund_amt" class="col-sm-2 col-form-label">Refund Amt.:</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" class="form-control paymentDtl pos_inputbox" value="0"
+                                                    name="total_refund_amt">
+                                                <span class="form-control paymentDtl pos_inputbox"
+                                                    id="total_refund_amt">0.00</span>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row cash_point_row">
                                             <label for="total_due_amount" class="col-sm-2 text-danger col-form-label">
                                                 Due Amount:
                                             </label>
@@ -325,6 +367,7 @@
                                                 <span class="form-control paymentDtl pos_inputbox text-danger" id="total_due_amount">0.00</span>
                                             </div>
                                         </div>
+                                        <!--  -->
                                     </div>
                                 </div>
                             </div>
@@ -393,7 +436,8 @@
                                                                     <div class="col-sm-12" style="width: 95%; margin-left: 15px;">
                                                                         <select id="pay_Collection_mode" name="pay_Collection_mode"
                                                                             class="form-select pos_inputbox"
-                                                                            aria-label="Default select example">
+                                                                            aria-label="Default select example" required>
+                                                                            <option value="" selected disabled>Choose Collection Mode</option>
                                                                             <option value="2" id="dueOption">Due Collection</option>
                                                                             <option value="4" id="adjustOption_due">Adjust Credit</option>
                                                                         </select>
@@ -490,7 +534,7 @@
                                     <tr style="border-style: hidden!important;">
                                         <td style="text-align:right; width: 100%;">
                                             <button type="button" style="text-align:center; width: 20%;" id="resetButton"
-                                                onClick="location.href='/due_refund_cancel_services'"
+                                                onClick="navigateTo('/due_refund_cancel_services/')"
                                                 class="btn btn-danger col-sm-4 text-white btn-xs item_payment_btn">
                                                 Clear
                                             </button>
@@ -545,7 +589,7 @@
             var refund_amt = 0;
             var grand_pay_amount = 0;
             var grand_net_due_amt = 0;
-            var total_item_wise_ccost = 0;
+            var total_buyer_carrying = 0;
 
             // invoice history
             for (var i = 0; i < data.invoice_items.length; i++) {
@@ -553,12 +597,24 @@
 
                 var invoiceData = "Invoice Date: " + invoice.invoice_date + "\n";
                 invoiceData += "Invoice ID: " + invoice.inv_id + "\n";
+                invoiceData += "Org Name: " + invoice.org_name + "\n";
+                invoiceData += "Branch Name: " + invoice.branch_name + "\n";
+                invoiceData += "Clients Name: " + invoice.supplier_name + "\n";
                 invoiceData += "Customer Name: " + invoice.customer_name + "\n";
                 invoiceData += "Gender: " + invoice.gender + "\n";
                 invoiceData += "Mobile Number: " + invoice.mobile_number;
 
-                $(".due_ref_invDetails").val(invoiceData);
+                var orgData = invoice.org_id;
+                var branchData = invoice.branch_id;
+                var supplierData = invoice.supplier_id;
 
+                $("#id_org_id_due").val(orgData);
+                $("#id_branch_id_due").val(branchData);
+                $("#id_supplier_id_due").val(supplierData);
+                $("#due_ref_invDetails").val(invoiceData);
+
+                // Fetch and display credit transactions after populating the table
+                fetchAndDisplayCreditTransactions(supplierData, branchData);
                 
                 console.log("invoice:", invoice);
             }
@@ -569,16 +625,10 @@
                 
                 collection_amt = collections.collection_amt_sum
                 due_collection_amt = collections.due_collection_amt_sum
+                adjust_collection_amt = collections.adjust_collection_amt
                 refund_amt = collections.refund_amt_sum
-                grand_pay_amount = collection_amt + due_collection_amt - refund_amt
+                grand_pay_amount = (collection_amt + due_collection_amt)
                 grand_net_due_amt = collections.net_due_amt
-                totat_carrying_cost_amt = collections.carrying_cost
-
-                $('input[name="carrying_cost_due_col"]').val(totat_carrying_cost_amt);
-                $('#id_carrying_cost_due_col').text(totat_carrying_cost_amt.toFixed(0));
-
-                $('input[name="carrying_cost_due_amt"]').val(totat_carrying_cost_amt);
-                $('#id_carrying_cost_due_amt').text(totat_carrying_cost_amt.toFixed(0));
 
                 $('input[name="ins_coll_amt"]').val(collection_amt);
                 $('#ins_coll_amt').text(collection_amt.toFixed(0));
@@ -588,6 +638,12 @@
 
                 $('input[name="total_refund_amt"]').val(refund_amt);
                 $('#total_refund_amt').text(refund_amt.toFixed(0));
+
+                $('input[name="adjust_amount"]').val(adjust_collection_amt);
+                $('#id_adjust_amount').text(adjust_collection_amt.toFixed(0));
+
+                $('input[name="grand_adjust_amt"]').val(adjust_collection_amt);
+                $('#id_grand_adjust_amt').text(adjust_collection_amt.toFixed(0));
 
                 $('input[name="grand_total_pay_amt"]').val(grand_pay_amount);
                 $('#grand_total_pay_amt').text(grand_pay_amount.toFixed(0));
@@ -626,7 +682,8 @@
                 var cancel_bill = item.cancel_bill
                 var cancel_vat = item.cancel_vat
                 var cancel_gross_dis = item.cancel_gross_dis
-                var item_wise_ccost = item.item_wise_ccost
+                var total_buyer_carrying = item.total_buyer_carrying
+                var total_seller_carrying = item.total_seller_carrying
 
                 grand_total_bill += parseFloat(total_bills);
                 grand_vat_tax += parseFloat(total_vat_tax);
@@ -634,7 +691,8 @@
                 total_cancel_bill += parseFloat(cancel_bill);
                 total_cancel_vat += parseFloat(cancel_vat);
                 total_cancel_gross_dis += parseFloat(cancel_gross_dis);
-                total_item_wise_ccost += parseFloat(item_wise_ccost);
+                total_buyer_carrying = parseFloat(total_buyer_carrying);
+                total_seller_carrying = parseFloat(total_seller_carrying);
 
                 grand_bill = grand_total_bill - total_cancel_bill
 
@@ -642,7 +700,16 @@
 
                 grand_net_disc = grand_discount - total_cancel_gross_dis
 
-                net_grand_bill = grand_bill + grand_net_vat_tax + total_item_wise_ccost - grand_net_disc
+                net_grand_bill = grand_bill + grand_net_vat_tax + total_buyer_carrying - grand_net_disc
+
+                $('input[name="carrying_cost_buyer_bill"]').val(total_buyer_carrying);
+                $('#id_carrying_cost_buyer_bill').text(total_buyer_carrying.toFixed(0));
+
+                $('input[name="carrying_cost_buyer_overall"]').val(total_buyer_carrying);
+                $('#id_carrying_cost_buyer_overall').text(total_buyer_carrying.toFixed(0));
+                
+                $('input[name="carrying_cost_seller"]').val(total_seller_carrying);
+                $('#id_carrying_cost_seller').text(total_seller_carrying.toFixed(0));
 
                 $('input[name="total_bill"]').val(grand_total_bill);
                 $('#total_bill').text(grand_total_bill.toFixed(0));
@@ -672,7 +739,7 @@
                 $('#total_net_discount').text(grand_net_disc.toFixed(3));
 
                 $('input[name="grand_total_net_bill"]').val(net_grand_bill);
-                $('#grand_total_net_bill').text(net_grand_bill.toFixed(0));
+                $('#id_grand_total_net_bill').text(net_grand_bill.toFixed(0));
 
 
                 var row = $("<tr style='border-style: hidden!important;'>");
@@ -715,8 +782,24 @@
         $(function () {
             $('#due_ref_form').submit(function (e) {
                 e.preventDefault();
-                var invoiceID = $("#dueRef_searchID").val();
                 var form = $(this);
+                var invoiceID = $("#dueRef_searchID").val();
+                var org_id = $('#id_org_id_due').val();
+                var coll_mode = $('#pay_Collection_mode').val();
+                var supplier_value = $('#id_supplier_id').val();
+                var my_balance = $('#credit_balance').val();
+
+                if (coll_mode == 4) {
+                    if (!supplier_value) {
+                        toastr.info("This invoice is not client-based, you cannot adjust the bill, please select mode Due Collection.");
+                        return false;
+                    }
+                    if (my_balance > 0) {
+                        toastr.warning("Insufficient Balance!");
+                        return false;
+                    }
+                }
+
                 $.ajax({
                     headers: {
                         "X-CSRFToken": '{{csrf_token}}'
@@ -733,7 +816,8 @@
                         if (resp.success) {
                             toastr.success(resp.msg);
                             
-                            uni_modal("Receipt", "{% url 'receipt_modal' %}?id=" + invoiceID)
+                            var receiptUrl = "{% url 'receipt_modal' %}?id=" + invoiceID + "&org_id=" + org_id;
+                            modal_lg("Receipt", receiptUrl)
                             
                             // Trigger the click event on the dueRef_searchBtn button
                             $("#dueRef_searchBtn").click();
@@ -744,6 +828,55 @@
                 });
             });
         });
+
+        function fetchAndDisplayCreditTransactions(supplierId, branchId) {
+            // Check if supplier_id is null or empty
+            if (!supplierId) {
+                // Set the credit balance fields to null or an empty string
+                $('#id_credit_balance').text("0.00");
+                $('#credit_balance').val("0.00");
+                return; // Exit the function early
+            }
+        
+            if (branchId) {
+                $.ajax({
+                    url: "{% url 'get_credit_transactions' %}",
+                    type: 'GET',
+                    data: {
+                        'supplier_id': supplierId,
+                        'branch_id': branchId,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var totalDebitAmt = 0;
+                        var totalCreditAmt = 0;
+        
+                        // Populate the table body with the new data
+                        response.forEach(function (transaction, index) {
+                            // Add debit payment to totalDebitAmt
+                            if (!isNaN(transaction.debit_payment)) {
+                                totalDebitAmt += parseFloat(transaction.debit_payment);
+                            }
+        
+                            // Add credit payment to totalCreditAmt
+                            if (!isNaN(transaction.credit_payment)) {
+                                totalCreditAmt += parseFloat(transaction.credit_payment);
+                            }
+                        });
+        
+                        // Calculate the balance
+                        var balance = totalDebitAmt - totalCreditAmt;
+        
+                        // Update the credit balance fields
+                        $('#id_credit_balance').text(balance.toFixed(0));
+                        $('#credit_balance').val(balance.toFixed(0));
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching credit transactions:', status, error);
+                    }
+                });
+            }
+        }
     });
 
     // input field hide && show based on selection
@@ -779,17 +912,17 @@
     });
 
     function collectionMode() {
-        var due_ref_amount = parseFloat($('[name="total_due_amount"]').val());
+        //var due_ref_amount = parseFloat($('[name="total_due_amount"]').val());
 
-        var collectionModeSelect = $('#pay_Collection_mode');
+        //var collectionModeSelect = $('#pay_Collection_mode');
 
-        if (due_ref_amount < 0) {
-            $('#refundOption').prop('selected', true);
-        } else {
-            $('#dueOption').prop('selected', true);
-        }
+        //if (due_ref_amount < 0) {
+        //    $('#refundOption').prop('selected', true);
+        //} else {
+        //    $('#dueOption').prop('selected', true);
+        //}
 
-        collectionModeSelect.trigger('change');
+        //collectionModeSelect.trigger('change');
 
         //<!-- max value -->
         var total_pay_max_value = parseFloat($('[name="total_due_amount"]').val());

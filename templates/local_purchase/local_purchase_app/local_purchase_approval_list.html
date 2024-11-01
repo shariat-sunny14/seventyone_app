@@ -1,0 +1,471 @@
+{% extends 'base_form/main_base/main_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_link %}
+<!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'G_R_N_style/css/G_R_N_with_without.css' %}">
+<!--========== from js file ==========-->
+<script src="{% static 'G_R_N_style/js/G_R_N_with_without.js' %}"></script>
+{% endblock %}
+<!--========== CONTENTS start==========-->
+{% block body %}
+<main>
+    <section class="container-fluid" style="margin-top: 0.5rem; margin-bottom:0.5rem;">
+        <section style="border: 1px solid rgba(0, 0, 0, .125); border-top: none; border-radius: 0.3rem;">
+            <div style="border: 1px solid rgba(0, 0, 0, .125);
+                margin-bottom: 0.5rem;
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+                background: #7a9745;">
+                <!-- Main Heading -->
+                <div class="row">
+                    <div class="col col-md-4 col-md-6 dashboar-head" style="display:flex; align-items: center;">
+                        <div class="d-sm-flex align-items-center mb-2" style="height: 1.5rem; width: 100%; margin-left: 1rem;">
+                            <i class='bx bx-archive text-white req-head-icon'></i>
+                            <h1 class="h3 text-white req-head">Local Purchase (LP) Approval List</h1>
+                        </div>
+                        <div style="width: 12%; display: flex; flex-direction: row; flex-wrap: wrap; align-content: center; align-items: center; justify-content: space-evenly;">
+                            <div style="width: 10%; float: right; display: flex; justify-content: center; text-align: center; align-items: center; flex-direction: row; flex-wrap: nowrap;">
+                                <button type="button" onClick="navigateTo('/item_pos_billing/')" class="btn bg-gradient col-ms-3 text-white btn-xs item_payment_btn"
+                                    style="font-weight: bolder; box-shadow: 4px 2px 5px 2px #7a9745; border-radius: 0.7rem; border: 1.5px solid #fff; font-size: 0.8rem; padding: 0.275rem 1.5rem;">
+                                    Billing
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <section>
+                <div class="card grnwo_card" style="margin-left: 0.5rem; margin-right: 0.5rem; margin-bottom: 1rem; background: whitesmoke;">
+                    <div class="card-body">
+                        <div class="report-filter">
+                            <!-- Date Range Filter -->
+                            <div class="date-range">
+                                <div class="row date_range-body" style="display:flex; font-size: 0.8rem;">
+                                    <div class="date_range-element" style="display:flex">
+                                        <div class="row g-3 align-items-center col-sm-3" style="flex-grow: 0;">
+                                            <div class="col-auto">
+                                                <!-- all active inactive status -->
+                                                <section>
+                                                    <div class="active-filter">
+                                                        <!--  -->
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="pol_option" id="id_unapproved"
+                                                                value="false" checked>
+                                                            <label class="form-check-label" for="id_unapproved">Unapproved</label>
+                                                        </div>
+                                                        <!--  -->
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="pol_option" id="id_approved"
+                                                                value="true">
+                                                            <label class="form-check-label" for="id_approved">Approved</label>
+                                                        </div>
+                                                        <!--  -->
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="display: flex; justify-content: right;">
+                                            <label for="op_start" class="col-auto col-form-label">
+                                                From :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="op_start"
+                                                    name="op_start" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="row store_row col-sm-2" style="display: flex; justify-content: right;">
+                                            <label for="op_end" class="col-auto col-form-label">
+                                                To :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control item_inputbox datepicker" id="op_end"
+                                                    name="op_end" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <div class="row store_row col-sm-2" style="flex-grow: 1; display: flex; justify-content: right;">
+                                            <label for="id_filter_org" class="col-auto col-form-label">
+                                                Org:
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="id_filter_org" name="filter_org"
+                                                    class="form-select store_Selectbox"
+                                                    aria-label="Default select example">
+                                                    {% for org in org_list %}
+                                                    <option id="{{org.org_id}}" value="{{org.org_id}}">
+                                                        {{org.org_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--  -->
+            <section style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                <div class="module-table">
+                    <table id="LP_table" class="table table-striped table-hover" style="width: 100%; border: 1px solid #a1bd6f;">
+                        <thead class="text-center table-header_itemlist" style="background: #a1bd6f;">
+                            <tr>
+                                <th style="text-align:center; width: 5%;">
+                                    Sl
+                                </th>
+                                <th style="text-align:center; width: 8%;">
+                                    LP ID
+                                </th>
+                                <th style="text-align:center; width: 12%;">
+                                    Clients
+                                </th>
+                                <th style="text-align:center; width: 8%;">
+                                    Phone
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    Store Name
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    Branch
+                                </th>
+                                <th style="text-align:center; width: 7%;">
+                                    Invoice No
+                                </th>
+                                <th style="text-align:center; width: 7%;">
+                                    Create Date
+                                </th>
+                                <th style="text-align:center; width: 8%;">
+                                    Invoice Date
+                                </th>
+                                <th style="text-align:center; width: 10%;">
+                                    Approved by
+                                </th>
+                                <th style="text-align:center; width: 7%;">
+                                    Status
+                                </th>
+                                <th style="text-align:center; width: 12%;">
+                                    Option
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="lpapp_TB" style="text-align:center; font-size: 0.8rem">
+                            <!--  -->
+                            
+                        </tbody>
+
+                        <!-- loader start -->
+                        <div class="loader"></div>
+                        <!-- loader end -->
+                    </table>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<!-- present date show scriptStart  -->
+<script>
+    $(document).ready(function () {
+        // Load initial data based on the initially checked radio button
+        loadPoData();
+        handlePORowSelection();
+
+        // Add event listeners to radio buttons
+        $('input[name="pol_option"]').change(() => {
+            // Save the selected option to local storage
+            localStorage.setItem('lpappOption', $('input[name="pol_option"]:checked').val());
+        
+            // Load items
+            loadPOlist();
+        });
+
+        $('#id_filter_org').change(() => {
+            // Save the selected organization filter value to local storage
+            orgFilterValue = $('#id_filter_org').val();
+            // Load items
+            loadPOlist();
+        });
+
+        // Add event listener to op_start input
+        $('#op_start').change(() => {
+            // Update poStartValue when the value changes
+            poStartValue = $('#op_start').val();
+            // Load items
+            loadPOlist();
+        });
+
+        // Add event listener to op_end input
+        $('#op_end').change(() => {
+            // Update poEndValue when the value changes
+            poEndValue = $('#op_end').val();
+            // Load items
+            loadPOlist();
+        });
+
+        function loadPoData() {
+            // Retrieve the selected option from local storage
+            var poinitialOption = localStorage.getItem('lpappOption') || 'false';
+
+            // Check the corresponding radio button
+            $('input[name="pol_option"][value="' + poinitialOption + '"]').prop('checked', true);
+
+            // Load items
+            loadPOlist();
+        }
+
+        function loadPOlist() {
+            var pol_option = localStorage.getItem('lpappOption') || 'false';
+            var orgFilterValue = $('#id_filter_org').val();
+            var poStartValue = $('#op_start').val(); // Get the value of po_start input
+            var poEndValue = $('#op_end').val();     // Get the value of po_end input
+
+            startLoader();
+            $.ajax({
+                type: 'GET',
+                url: '/get_local_purchase_list/',
+                data: {
+                    'pol_option': pol_option,
+                    'filter_org': orgFilterValue,
+                    'op_start': poStartValue, // Include po_start value in the data object
+                    'op_end': poEndValue      // Include po_end value in the data object
+                },
+                success: function (data) {
+                    // Destroy the existing DataTable instance
+                    $('#LP_table').DataTable().destroy();
+        
+                    // Update the table with filtered data
+                    updateLPAPPTable(data);
+        
+                    // Re-initialize DataTable after updating the table data
+                    $('#LP_table').DataTable({
+                        "ordering": false,
+                    });
+
+                    highlightSelectedRowOnInit();
+
+                    endLoader();
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ajax Error:', xhr.responseText);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateLPAPPTable(data) {
+            var tableBody = $('#lpapp_TB');
+            tableBody.empty();
+        
+            if (data.data && data.data.length === 0) {
+                $('#noDataFoundRow').show();
+            } else {
+                $('#noDataFoundRow').hide();
+        
+                if (data.data) {
+                    $.each(data.data, function (index, lpDtls) {
+                        var statusText = lpDtls.is_approved ? 'Approved' : 'Unapproved';
+                        var statusClass = lpDtls.is_approved ? 'approved' : 'unapprove';
+        
+                        var rowHtml = `<tr class="lpapp-row" data-id="${lpDtls.lp_id}">
+                                            <td style="text-align:center;">${index + 1}</td>
+                                            <td style="text-align:center;">${lpDtls.lp_no}</td>
+                                            <td style="text-align:left;">${lpDtls.clients_name}</td>
+                                            <td style="text-align:center;">${lpDtls.mobile_number}</td>
+                                            <td style="text-align:left;">${lpDtls.store_name}</td>
+                                            <td style="text-align:left;">${lpDtls.branch_name}</td>
+                                            <td style="text-align:left;">${lpDtls.invoice_no}</td>
+                                            <td style="text-align:center;">${lpDtls.invoice_date}</td>
+                                            <td style="text-align:center;">${lpDtls.approved_date}</td>
+                                            <td style="text-align:center;">${lpDtls.is_approved_by_first} ${lpDtls.is_approved_by_last}</td>
+                                            <td style="text-align:center; font-weight: bolder; color: ${statusClass === 'approved' ? '#27d127' : '#ff5959'};">${statusText}</td>
+                                            <td style="text-align:center;">
+                                                <button type="button" class="btn btn-warning printBtn table-row-btn btn-xs text-white update-lpapp" style="cursor: pointer; margin-left: 0.25rem; margin-right: 0.25rem;" data-is_approve="${lpDtls.is_approved}" data-id="${lpDtls.lp_id}">
+                                                    <i class='bx bx-edit printIcon text-white'></i>
+                                                </button>
+                                                <button type="button" class="btn btn-info printBtn table-row-btn btn-xs text-white lp_report" style="cursor: pointer; margin-left: 0.25rem; margin-right: 0.25rem;" data-id="${lpDtls.lp_id}" data-is_approve="${lpDtls.is_approved}">
+                                                    <i class='bx bx-printer printIcon text-white'></i>
+                                                </button>
+                                            </td>
+                                        </tr>`;
+                        
+                        tableBody.append(rowHtml);
+                    });
+                }
+            }
+        }
+    });
+    //
+    function handlePORowSelection() {
+        // Attach click event listener to all rows
+        $(document).on("click", ".lpapp-row", function () {
+            var clickedLpappId = $(this).data("id");
+            
+            // Remove highlighting from other rows
+            $(".lpapp-row").removeClass("selected-row");
+            
+            // Highlight the selected row
+            $(this).addClass("selected-row");
+
+            // Save the selected WOGRN ID to local storage
+            localStorage.setItem("selectedlpappID", clickedLpappId);
+        });
+    }
+
+    function highlightSelectedRowOnInit() {
+        var selectedlpappID = localStorage.getItem("selectedlpappID");
+        if (selectedlpappID) {
+            $(".lpapp-row").each(function() {
+                if ($(this).data("id").toString() === selectedlpappID) {
+                    $(this).addClass("selected-row");
+                    return false; // Break the loop once the match is found
+                }
+            });
+        }
+    }
+
+    //
+    $(function () {
+        $(document).on('click', '.update-lpapp', function (e) {
+            e.preventDefault(); // Prevent the default action of the click event
+            var isApproved = $(this).attr('data-is_approve');
+
+            if (isApproved === 'true') {
+                toastr.warning("Local Purchase is Approved.. Edit Option Not Available ... Please Print Report!..");
+            } else {
+                var wogrnId = $(this).attr('data-id');
+                var updateLPUrl = "{% url 'approval_local_purchase' 0 %}".replace('0', wogrnId);
+                navigateTo(updateLPUrl);
+            }
+        });
+
+        //
+        $(document).on('click', '.lp_report', function (e) {
+            e.preventDefault(); // Prevent the default action of the click event
+            var isApproved = $(this).attr('data-is_approve');
+            
+            if (isApproved === 'true') {
+                var wogrnId = $(this).attr('data-id');
+                var LpReportUrl = "{% url 'local_purchase_report' 0 %}".replace('0', wogrnId);
+                window.open(LpReportUrl, '_blank'); // Open the URL in a new tab
+            } else {
+                toastr.warning("Local Purchase is Not Approved.. Please Approve First !..");
+            }
+        });
+    });
+    
+    //
+    window.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        var today = new Date();
+    
+        // Set the end date to today
+        var endYear = today.getFullYear();
+        var endMonth = (today.getMonth() + 1).toString().padStart(2, '0'); // Month starts from 0
+        var endDate = today.getDate().toString().padStart(2, '0');
+        document.getElementById('op_end').value = endYear + '-' + endMonth + '-' + endDate;
+    
+        // Calculate six months ago
+        var sixMonthsAgo = new Date(today);
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    
+        // Handle the edge case where the day might not be available in the previous month (like 31st in a month ending with 30 days)
+        // This will automatically adjust to the last day of the previous month
+        if (sixMonthsAgo.getDate() != today.getDate()) {
+            sixMonthsAgo.setDate(0); // Sets the day to the last day of the previous month
+        }
+    
+        // Set the start date to six months ago
+        var startYear = sixMonthsAgo.getFullYear();
+        var startMonth = (sixMonthsAgo.getMonth() + 1).toString().padStart(2, '0'); // Month starts from 0
+        var startDate = sixMonthsAgo.getDate().toString().padStart(2, '0');
+        document.getElementById('op_start').value = startYear + '-' + startMonth + '-' + startDate;
+    });
+
+    // get branch option org wise
+    $(document).ready(function () {
+        // Initial population of branch options based on the selected organization
+        updateBranchOptionsfilter();
+
+        // Event listener for the change event on #id_filter_org
+        $('#id_filter_org').change(function () {
+            updateBranchOptionsfilter();
+        });
+
+        function updateBranchOptionsfilter() {
+            // Get the selected organization ID
+            var selectedFilterOrgId = $('#id_filter_org').val();
+
+            // Make an AJAX request to get branch options based on the selected organization
+            $.ajax({
+                url: '/get_branch_options/',
+                method: 'GET',
+                data: { org_id: selectedFilterOrgId },
+                success: function (data) {
+                    // Clear existing options
+                    $('#id_filter_branch').empty();
+
+                    // Add fetched branch options
+                    $.each(data.branch_list, function (index, branch) {
+                        $('#id_filter_branch').append('<option value="' + branch.branch_id + '">' + branch.branch_name + '</option>');
+                    });
+
+                    // Trigger change event for #id_filter_branch to automatically update its value
+                    $('#id_filter_branch').trigger('change');
+                },
+                error: function (error) {
+                    console.error('Error fetching branch options:', error);
+                }
+            });
+        }
+    });
+
+    //
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+
+        loader.classList.add("loader-hidden");
+
+        loader.addEventListener("transitionend", () => {
+            // document.body.removeChild("loader");
+        });
+    });
+
+    //<!-- status change true = Approved & false = Unapprove -->
+    elements = document.getElementsByClassName("status_appr_unapp");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].innerText === "True") {
+            elements[i].innerHTML = "Approved";
+            elements[i].classList.add("approved");
+        }
+        if (elements[i].innerText === "False") {
+            elements[i].innerHTML = "Unapprove";
+            elements[i].classList.add("unapprove");
+        }
+    }
+    //<!-- status change true = Approved & false = Unapprove -->
+
+    // loader start
+    function startLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+    
+    function endLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+        setTimeout(() => {
+            loader.classList.add("loader-hidden");
+        }, 500);
+    }
+    //loader end
+</script>
+
+{% endblock %}
